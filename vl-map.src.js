@@ -3,7 +3,7 @@ import { VlElement } from '/node_modules/vl-ui-core/vl-core.js';
 (() => {
     loadScript('VlMap-openlayers.js', '/node_modules/vl-mapactions/lib/openlayers/dist/ol.js');
     loadScript('VlMap-openlayers.js', '/node_modules/proj4/dist/proj4.js');
-    loadScriptSynchronous('VlMap-mapactions.js', '/node_modules/vl-mapactions/dist/mapactions-min.js', () => {
+    loadScriptSynchronous('VlMap-mapactions.js', '/node_modules/vl-mapactions/dist/mapactions.js', () => {
         customElements.define('vl-map', VlMap);
     });
   
