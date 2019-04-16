@@ -1,12 +1,15 @@
-#map:after {
-  position: absolute;
-  display: block;
-  box-shadow: 3px 0px 5px 0px rgba(0, 0, 0, 0.3);
-  content: '';
-  z-index: 5;
-  left: -5px;
-  top: 0;
-  bottom: 0;
-  width: 5px; }
+#map {
+  width: 100%;
+  height: var(--vo-kaart-map-height, 500px); }
+  #map .ol-overlaycontainer-stopevent > .ol-zoom {
+    border-radius: 0px; }
+  #map .ol-overlaycontainer-stopevent > .ol-overviewmap {
+    border-radius: 0px; }
+  #map .ol-overlaycontainer-stopevent > .ol-scale-line {
+    border-radius: 0px;
+    background-color: white; }
+  #map .ol-overlaycontainer-stopevent > .ol-scale-line .ol-scale-line-inner {
+    border-color: black;
+    color: black; }
 
 /*# sourceMappingURL=style.css.map */

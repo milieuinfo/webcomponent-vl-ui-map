@@ -6,6 +6,7 @@ import { VlElement } from '/node_modules/vl-ui-core/vl-core.js';
     loadScriptSynchronous('VlMap-mapactions.js', '/node_modules/vl-mapactions/dist/mapactions.js', () => {
         customElements.define('vl-map', VlMap);
         customElements.define('vl-map-layer', VlMapLayer);
+        customElements.define('vl-map-layer-grb-gray', VlMapLayerGRBGray);
     });
   
     function loadScript(id, src, async, defer, onload) {
@@ -36,10 +37,18 @@ export class VlMap extends VlElement(HTMLElement) {
     constructor() {
         super(`
             <style>
+                @import '/node_modules/vl-mapactions/lib/openlayers/css/ol.css';
+                @import '/node_modules/vl-mapactions/dist/mapactions.css';
                 @import '../style.css';
 
                 :host {
                     display: block;
+                    position: relative;
+                }
+
+                #map {
+                    width: 100%;
+                    height: var(--vo-kaart-map-height, 500px);
                 }
             </style>
 
@@ -74,23 +83,23 @@ export class VlMap extends VlElement(HTMLElement) {
     }
 
     connectedCallback() {
-        if (window.ol) {
-            this.__initializeCoordinateSystem();
-    
-            this._map = new acd.ol.CustomMap({
-                actions: [],
-                disableEscapeKey: this.disableEscapeKey,
-                customLayers: {
-                    baseLayerGroup: this.__createLayerGroup('Basis lagen', []),
-                    overviewMapLayers: [],
-                    overlayGroup: this.__createLayerGroup('Lagen', [])
-                },
-                projection: this._projection,
-                target: this._mapElement
-            });
-            
+        this.__initializeCoordinateSystem();
+
+        this._map = new acd.ol.CustomMap({
+            actions: [],
+            disableEscapeKey: this.disableEscapeKey,
+            customLayers: {
+                baseLayerGroup: this.__createLayerGroup('Basis lagen', []),
+                overviewMapLayers: [],
+                overlayGroup: this.__createLayerGroup('Lagen', [])
+            },
+            projection: this._projection,
+            target: this._mapElement
+        });
+        
+        setTimeout(() => {
             this._map.initializeView();
-        }
+        });
     }
 
     __initializeCoordinateSystem() {
@@ -171,14 +180,14 @@ export class VlMapLayer extends VlElement(HTMLElement) {
     _createVectorSource() {
         var self = this;
         return new ol.source.Vector({
-                format: new ol.format.GeoJSON({
-                    defaultDataProjection: self._projection
-                }),
-                url: function(extent) {
-                  return self.url;
-                },
-                strategy: ol.loadingstrategy.bbox
-              });
+            format: new ol.format.GeoJSON({
+                defaultDataProjection: self._projection
+            }),
+            url: function(extent) {
+                return self.url;
+            },
+            strategy: ol.loadingstrategy.bbox
+        });
     }
     
     _createBaseLayer() {
@@ -193,15 +202,31 @@ export class VlMapLayer extends VlElement(HTMLElement) {
                 return new ol.layer.Vector({ 
                     source: this._vectorSource,
                     style: new ol.style.Style({
-                            stroke: new ol.style.Stroke({
-                                    color: 'rgba(0, 0, 0, 1.0)',
-                                    width: 1
-                            }),
-                            fill: new ol.style.Fill({
-                                color: 'rgba(255, 0, 0, 1.0)'
-                            })
+                        stroke: new ol.style.Stroke({
+                            color: 'rgba(0, 0, 0, 1.0)',
+                            width: 1
+                        }),
+                        fill: new ol.style.Fill({
+                            color: 'rgba(255, 0, 0, 1.0)'
+                        })
                      })
                 });
         }
+    }
+}
+
+/**
+ * VlMapLayerGRBGray
+ * @class
+ * @classdesc De kaart layer component voor GRB grijstinten. <a href="demo/vl-map.html">Demo</a>.
+ * 
+ * @extends VlElement
+ */
+export class VlMapLayerGRBGray extends VlMapLayer {
+    constructor() {
+        super();
+        this.url = 'https://tile.informatievlaanderen.be/ws/raadpleegdiensten/wmts';
+        this.layer = 'grb_bsk_grijs';
+        this.title = 'GRB basis laag grijs';
     }
 }

@@ -2,21 +2,17 @@
 	<head>
 		<title>vl-map voorbeeld</title>
     </head>
-
+    
     <script type="module" src="../vl-map.src.js"></script>
     <script type="module" src="demo.js"></script>
-
-    <style>
-        vl-map {
-            height: 400px;
-        }
-    </style>
-
-	<body>
+    
+    <link rel="stylesheet" type="text/css" href="demo.css">
+    
+    <body>
         <h1>vl-ui-map demo</h1>
 
         <div>
-            <h2>Kaart</h2>
+            <h2>Kaart met GRB grijstinent kaartlaag</h2>
             <pre>
                 <code class="line-numbers language-markup">
                     &lt;vl-map&gt;&lt;/vl-map&gt;
@@ -24,7 +20,7 @@
             </pre>
             <div class="demo">
                 <vl-map>
-                    <vl-map-layer></vl-map-layer>
+                    <vl-map-layer-grb-gray></vl-map-layer-grb-gray>
                 </vl-map>
             </div>
         </div>
