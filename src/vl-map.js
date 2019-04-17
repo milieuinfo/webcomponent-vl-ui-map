@@ -8,6 +8,13 @@ import { VlElement } from "/node_modules/vl-ui-core/vl-core.js";
  * @extends VlElement
  */
 export class VlMap extends VlElement(HTMLElement) {
+    static __createLayerGroup(title, layers) {
+        return new ol.layer.Group({
+            title: title,
+            layers: layers
+        });
+    }
+
     constructor() {
         super(`
             <style>
@@ -24,6 +31,11 @@ export class VlMap extends VlElement(HTMLElement) {
                     width: 100%;
                     height: var(--vo-kaart-map-height, 500px);
                 }
+
+                .ol-overviewmap-map {
+                    width: 100px;
+                    height: 100px;
+                }
             </style>
 
             <div id="map"></div>
@@ -32,6 +44,10 @@ export class VlMap extends VlElement(HTMLElement) {
 
     get map() {
         return this._map;
+    }
+
+    get disableEscapeKey() {
+        return this.getAttribute('disable-escape-key') != undefined;
     }
 
     get _geoJSON() {
@@ -63,27 +79,18 @@ export class VlMap extends VlElement(HTMLElement) {
             actions: [],
             disableEscapeKey: this.disableEscapeKey,
             customLayers: {
-                baseLayerGroup: this.__createLayerGroup('Basis lagen', []),
+                baseLayerGroup: VlMap.__createLayerGroup('Basis lagen', []),
                 overviewMapLayers: [],
-                overlayGroup: this.__createLayerGroup('Lagen', [])
+                overlayGroup: VlMap.__createLayerGroup('Lagen', [])
             },
             projection: this._projection,
             target: this._mapElement
         });
 
-        setTimeout(() => {
-            this._map.initializeView();
-        });
+        this._map.initializeView();
     }
 
     __initializeCoordinateSystem() {
         proj4.defs('EPSG:31370', '+proj=lcc +lat_1=51.16666723333333 +lat_2=49.8333339 +lat_0=90 +lon_0=4.367486666666666 +x_0=150000.013 +y_0=5400088.438 +ellps=intl +towgs84=-106.869,52.2978,-103.724,0.3366,-0.457,1.8422,-1.2747 +units=m +no_defs');
-    }
-
-    __createLayerGroup(title, layers) {
-        return new ol.layer.Group({
-            title: title,
-            layers: layers
-        });
     }
 }

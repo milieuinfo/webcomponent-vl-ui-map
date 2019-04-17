@@ -1,4 +1,4 @@
-import {VlMapLayer} from "./vl-map-layer";
+import { VlMapLayer } from "./vl-map-layer.js";
 
 /**
  * VlMapLayerGRB
