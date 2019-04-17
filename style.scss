@@ -1,15 +1,18 @@
+@import '/node_modules/vl-mapactions/lib/openlayers/css/ol.css';
+@import '/node_modules/vl-mapactions/dist/mapactions.css';
+
 #map {
     .ol-overlaycontainer-stopevent {
         > .ol-zoom {
-            border-radius: 0px;
+            border-radius: 0;
         }
 
         > .ol-overviewmap {
-            border-radius: 0px;
+            border-radius: 0;
         }
 
         > .ol-scale-line {
-            border-radius: 0px;
+            border-radius: 0;
             background-color: white;
         }
 
@@ -23,7 +26,7 @@
         }
 
         > .ol-control {
-            margin-top: 0px;
+            margin-top: 0;
         }
 
         > .ol-zoomslider {
@@ -33,18 +36,38 @@
     }
 }
 
+<<<<<<< HEAD
+=======
+#search {
+    position: absolute;
+    left: 50px;
+    width: 50%;
+    min-width: 200px;
+    top: .5em;
+    z-index: 9999;
+}
+
+.actions {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    margin: 5px;
+}
+
+>>>>>>> f76dbb20ddd0f74dd2c062c24bd5ca07bfaaed0a
 .ol-zoom {
-    border-radius: 0px;
+    border-radius: 0;
 }
 
 .ol-overviewmap {
-    border-radius: 0px;
+    border-radius: 0;
     width: 100px;
     height: 100px;
 }
 
 .ol-scale-line {
-    border-radius: 0px;
+    border-radius: 0;
     background-color: white;
 }
 
