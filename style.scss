@@ -1,57 +1,37 @@
 @import '/node_modules/vl-mapactions/lib/openlayers/css/ol.css';
 @import '/node_modules/vl-mapactions/dist/mapactions.css';
 
-#map {
-    .ol-overlaycontainer-stopevent {
-        > .ol-zoom {
-            border-radius: 0;
-        }
+.ol-overlaycontainer-stopevent {
+    > .ol-zoom {
+        border-radius: 0;
+    }
 
-        > .ol-overviewmap {
-            border-radius: 0;
-        }
+    > .ol-overviewmap {
+        border-radius: 0;
+        width: 100px;
+        height: 100px;
+    }
 
-        > .ol-scale-line {
-            border-radius: 0;
-            background-color: white;
-        }
+    > .ol-scale-line {
+        border-radius: 0;
+        background-color: white;
 
-        > .ol-scale-line .ol-scale-line-inner {
+        .ol-scale-line-inner {
             border-color: black;
             color: black;
         }
-
-        > div {
-            left: 8px;
-        }
-
-        > .ol-control {
-            margin-top: 0;
-        }
-
-        > .ol-zoomslider {
-            top: 31px;
-            left: 9px;
-        }
     }
-}
 
-.ol-zoom {
-    border-radius: 0;
-}
+    > div {
+        left: 8px;
+    }
 
-.ol-overviewmap {
-    border-radius: 0;
-    width: 100px;
-    height: 100px;
-}
+    > .ol-control {
+        margin-top: 0;
+    }
 
-.ol-scale-line {
-    border-radius: 0;
-    background-color: white;
-}
-
-.ol-scale-line .ol-scale-line-inner {
-    border-color: black;
-    color: black;
+    > .ol-zoomslider {
+        top: 31px;
+        left: 9px;
+    }
 }
