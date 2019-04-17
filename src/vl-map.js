@@ -10,13 +10,6 @@ import { VlElement } from "/node_modules/vl-ui-core/vl-core.js";
  * @property {boolean} disable-escape-key - Attribuut wordt gebruikt om ervoor te zorgen dat de escape toets niet gebruikt kan worden.
  */
 export class VlMap extends VlElement(HTMLElement) {
-    static __createLayerGroup(title, layers) {
-        return new ol.layer.Group({
-            title: title,
-            layers: layers
-        });
-    }
-
     constructor() {
         super(`
             <style>
@@ -86,15 +79,22 @@ export class VlMap extends VlElement(HTMLElement) {
             actions: [],
             disableEscapeKey: this.disableEscapeKey,
             customLayers: {
-                baseLayerGroup: VlMap.__createLayerGroup('Basis lagen', []),
+                baseLayerGroup: this.__createLayerGroup('Basis lagen', []),
                 overviewMapLayers: [],
-                overlayGroup: VlMap.__createLayerGroup('Lagen', [])
+                overlayGroup: this.__createLayerGroup('Lagen', [])
             },
             projection: this._projection,
             target: this._mapElement
         });
 
         this._map.initializeView();
+    }
+
+    __createLayerGroup(title, layers) {
+        return new ol.layer.Group({
+            title: title,
+            layers: layers
+        });
     }
 
     __initializeCoordinateSystem() {

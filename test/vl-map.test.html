@@ -7,6 +7,8 @@
   <script src="../../web-component-tester/browser.js"></script>
 
   <script src="ol-util.js"></script>
+
+  <script type="module" src="../vl-map.src.js"></script>
 </head>
 
 <body>
@@ -22,9 +24,7 @@
     </template>
   </test-fixture>
 
-  <script type="module">
-    import { VlMap } from '../vl-map.src.js';
-
+  <script>
     suite('<vl-map>', () => {
       const sandbox = sinon.sandbox.create();
       const should = chai.should();
@@ -55,7 +55,9 @@
         const dummyLayerGroup1 = OpenLayersUtil.createDummyLayerGroup('dummy_layer_group_1');
         const dummyLayerGroup2 = OpenLayersUtil.createDummyLayerGroup('dummy_layer_group_2');
         
-        sandbox.stub(VlMap, '__createLayerGroup').withArgs('Basis lagen', []).returns(dummyLayerGroup1).withArgs('Lagen', []).returns(dummyLayerGroup2);
+        const stub = sandbox.stub(ol.layer, 'Group');
+        stub.onCall(0).returns(dummyLayerGroup1);
+        stub.onCall(1).returns(dummyLayerGroup2);
         
         const element = fixture('vl-map-fixture');
 
@@ -108,7 +110,7 @@
         const layer1 = OpenLayersUtil.createDummyLayer('layer 1');
         const layer2 = OpenLayersUtil.createDummyLayer('layer 2');
         const layers = [layer1, layer2];
-        const layerGroup = VlMap.__createLayerGroup(title, layers);
+        const layerGroup = element.__createLayerGroup(title, layers);
         const properties = layerGroup.getProperties();
         const layerGroupLayers = layerGroup.getLayers().getArray();
         assert.isTrue(layerGroup instanceof ol.layer.Group);
