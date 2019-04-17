@@ -24,7 +24,7 @@ export class VlMap extends VlElement(HTMLElement) {
 
                 #map {
                     width: 100%;
-                    height: var(--vo-kaart-map-height, 500px);
+                    height: var(--vl-map-height, 500px);
                 }
 
                 .ol-overviewmap-map {
