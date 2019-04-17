@@ -6,12 +6,22 @@ import { VlElement } from "/node_modules/vl-ui-core/vl-core.js";
  * @classdesc De kaart layer component. <a href="demo/vl-map.html">Demo</a>.
  *
  * @extends VlElement
+ * 
+ * @property {(wmts | wfs )} type - Attribuut wordt gebruikt om aan te geven wat het type is van de kaartlaag.
+ * @property {string} url - Attribuut geeft aan via welke URL gebruikt wordt om de kaartlaag op te halen.
+ * @property {string} layer - Attribuut geeft aan wat de kaartlaag identifier is.
+ * @property {string} title - Attribuut bepaalt de titel van de kaartlaag.
  */
 export class VlMapLayer extends VlElement(HTMLElement) {
     connectedCallback() {
         this._map.addBaseLayerAndOverlayMapLayer(this._createBaseLayer(), this._createBaseLayer());
     }
 
+    /**
+     * Geeft de kaartlaag type terug.
+     * 
+     * @Return {string}
+     */
     get type() {
         return this.getAttribute('type') || 'wmts';
     }

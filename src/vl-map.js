@@ -6,6 +6,8 @@ import { VlElement } from "/node_modules/vl-ui-core/vl-core.js";
  * @classdesc De kaart component. <a href="demo/index.html">Demo</a>.
  *
  * @extends VlElement
+ * 
+ * @property {boolean} disable-escape-key - Attribuut wordt gebruikt om ervoor te zorgen dat de escape toets niet gebruikt kan worden.
  */
 export class VlMap extends VlElement(HTMLElement) {
     static __createLayerGroup(title, layers) {
@@ -41,7 +43,12 @@ export class VlMap extends VlElement(HTMLElement) {
             <div id="map"></div>
         `);
     }
-
+    
+    /**
+     * Geeft de OpenLayers map terug.
+     * 
+     * @Return {acd.ol.CustomMap}
+     */
     get map() {
         return this._map;
     }
