@@ -1,8 +1,8 @@
-import {VlMap} from "/src/vl-map.js";
-import {VlMapLayer} from "/src/vl-map-layer.js";
-import {VlMapLayerGRBGray} from "/src/vl-map-layer-grb-gray.js";
-import {VlMapLayerGRB} from "/src/vl-map-layer-grb.js";
-import {VlMapLayerGRBOrtho} from "/src/vl-map-layer-grb-ortho.js";
+import {VlMap} from "./src/vl-map";
+import {VlMapLayer} from "./src/vl-map-layer";
+import {VlMapLayerGRBGray} from "./src/vl-map-layer-grb-gray";
+import {VlMapLayerGRB} from "./src/vl-map-layer-grb";
+import {VlMapLayerGRBOrtho} from "./src/vl-map-layer-grb-ortho";
 
 (() => {
     loadScript('VlMap-openlayers', '/node_modules/vl-mapactions/lib/openlayers/dist/ol.js');
@@ -28,8 +28,8 @@ import {VlMapLayerGRBOrtho} from "/src/vl-map-layer-grb-ortho.js";
     }
 })();
 
-export * from "/src/vl-map.js";
-export * from "/src/vl-map-layer.js";
-export * from "/src/vl-map-layer-grb-gray.js";
-export * from "/src/vl-map-layer-grb.js";
-export * from "/src/vl-map-layer-grb-ortho.js";
+export * from "./src/vl-map";
+export * from "./src/vl-map-layer";
+export * from "./src/vl-map-layer-grb-gray";
+export * from "./src/vl-map-layer-grb";
+export * from "./src/vl-map-layer-grb-ortho";
