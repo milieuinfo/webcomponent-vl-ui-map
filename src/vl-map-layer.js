@@ -18,12 +18,39 @@ export class VlMapLayer extends VlElement(HTMLElement) {
     }
 
     /**
-     * Geeft de kaartlaag type terug.
+     * Geeft het kaartlaag type terug.
      * 
      * @Return {string}
      */
     get type() {
         return this.getAttribute('type') || 'wmts';
+    }
+
+    /**
+     * Geeft de kaartlaag URL terug.
+     * 
+     * @Return {string}
+     */
+    get url() {
+        return this.getAttribute('url');
+    }
+
+    /**
+     * Geeft de kaartlaag identifier terug.
+     * 
+     * @Return {string}
+     */
+    get layer() {
+        return this.getAttribute('layer');
+    }
+
+    /**
+     * Geeft de kaartlaag titel terug.
+     * 
+     * @Return {string}
+     */
+    get title() {
+        return this.getAttribute('title');
     }
 
     get _map() {
@@ -79,7 +106,7 @@ export class VlMapLayer extends VlElement(HTMLElement) {
             format: new ol.format.GeoJSON({
                 defaultDataProjection: self._projection
             }),
-            url: function(extent) {
+            url: function() {
                 return self.url;
             },
             strategy: ol.loadingstrategy.bbox
