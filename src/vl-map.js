@@ -21,6 +21,16 @@ export class VlMap extends VlElement(HTMLElement) {
                     display: block;
                     position: relative;
                 }
+
+                #map {
+                    width: 100%;
+                    height: var(--vl-map-height, 500px);
+                }
+
+                .ol-overviewmap-map {
+                    width: 100px;
+                    height: 100px;
+                }
             </style>
 
             <div id="map"></div>
