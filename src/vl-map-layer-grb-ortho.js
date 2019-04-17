@@ -10,8 +10,8 @@ import { VlMapLayer } from "./vl-map-layer.js";
 export class VlMapLayerGRBOrtho extends VlMapLayer {
     constructor() {
         super();
-        this.url = 'https://tile.informatievlaanderen.be/ws/raadpleegdiensten/wmts';
-        this.layer = 'omwrgbmrvl';
-        this.title = 'GRB ortho laag';
+        this.setAttribute('url', 'https://tile.informatievlaanderen.be/ws/raadpleegdiensten/wmts');
+        this.setAttribute('layer', 'omwrgbmrvl');
+        this.setAttribute('title', 'GRB ortho laag');
     }
 }
