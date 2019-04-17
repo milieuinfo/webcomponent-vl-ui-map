@@ -1,6 +1,6 @@
 <html>
-	<head>
-		<title>vl-map voorbeeld</title>
+    <head>
+        <title>vl-map voorbeeld</title>
     </head>
     
     <script type="module" src="../vl-map.js"></script>
@@ -15,7 +15,9 @@
             <h2>Kaart met GRB grijstinent kaartlaag</h2>
             <pre>
                 <code class="line-numbers language-markup">
-                    &lt;vl-map&gt;&lt;/vl-map&gt;
+                    &lt;vl-map&gt;
+                        &lt;vl-map-layer-grb-gray&gt;&lt;/vl-map-layer-grb-gray&gt;
+                    &lt;/vl-map&gt;
                 </code>
             </pre>
             <div class="demo">
@@ -24,5 +26,57 @@
                 </vl-map>
             </div>
         </div>
-	</body>
+
+        <div>
+            <h2>Kaart met GRB kaartlaag</h2>
+            <pre>
+                <code class="line-numbers language-markup">
+                    &lt;vl-map&gt;
+                        &lt;vl-map-layer-grb&gt;&lt;/vl-map-layer-grb&gt;
+                    &lt;/vl-map&gt;
+                </code>
+            </pre>
+            <div class="demo">
+                <vl-map>
+                    <vl-map-layer-grb></vl-map-layer-grb>
+                </vl-map>
+            </div>
+        </div>
+
+        <div>
+            <h2>Kaart met GRB ortho kaartlaag</h2>
+            <pre>
+                <code class="line-numbers language-markup">
+                    &lt;vl-map&gt;
+                        &lt;vl-map-layer-grb-ortho&gt;&lt;/vl-map-layer-grb-ortho&gt;
+                    &lt;/vl-map&gt;
+                </code>
+            </pre>
+            <div class="demo">
+                <vl-map>
+                    <vl-map-layer-grb-ortho></vl-map-layer-grb-ortho>
+                </vl-map>
+            </div>
+        </div>
+
+        <div>
+            <h2>Kaart met verschillende GRB kaartlaag</h2>
+            <pre>
+                <code class="line-numbers language-markup">
+                    &lt;vl-map&gt;
+                        &lt;vl-map-layer-grb-gray&gt;&lt;/vl-map-layer-grb-gray&gt;
+                        &lt;vl-map-layer-grb&gt;&lt;/vl-map-layer-grb&gt;
+                        &lt;vl-map-layer-grb-ortho&gt;&lt;/vl-map-layer-grb-ortho&gt;
+                    &lt;/vl-map&gt;
+                </code>
+            </pre>
+            <div class="demo">
+                <vl-map>
+                    <vl-map-layer-grb-gray></vl-map-layer-grb-gray>
+                    <vl-map-layer-grb></vl-map-layer-grb>
+                    <vl-map-layer-grb-ortho></vl-map-layer-grb-ortho>
+                </vl-map>
+            </div>
+        </div>
+    </body>
 </html>
