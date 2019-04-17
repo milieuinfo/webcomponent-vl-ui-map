@@ -76,12 +76,12 @@
 
         assert.lengthOf(actionsArg, 0);
         
-        assert.equal(baseLayerGroupArg, dummyLayerGroup1);
-        assert.equal(overlayGroupArg, dummyLayerGroup2);
+        assert.strictEqual(baseLayerGroupArg, dummyLayerGroup1);
+        assert.strictEqual(overlayGroupArg, dummyLayerGroup2);
 
         assert.lengthOf(overviewMapLayersArg, 0);
         
-        assert.equal(targetArg.id, 'map');
+        assert.strictEqual(targetArg.id, 'map');
         
         assert(initializeViewSpy.called);
       });
@@ -96,12 +96,12 @@
         const element = fixture('vl-map-fixture');
         const extent = element._extent;
         assert.lengthOf(extent, 4);
-        assert.equal(extent[0], 9928);
-        assert.equal(extent[1], 66928);
-        assert.equal(extent[2], 272072);
-        assert.equal(extent[3], 329072);
+        assert.strictEqual(extent[0], 9928);
+        assert.strictEqual(extent[1], 66928);
+        assert.strictEqual(extent[2], 272072);
+        assert.strictEqual(extent[3], 329072);
 
-        assert.deepEqual(element._map.getView().getCenter(), [140860.69299028325, 190532.7165957574]);
+        assert.deepStrictEqual(element._map.getView().getCenter(), [140860.69299028325, 190532.7165957574]);
       });
       
       test('kan een lagen groep aanmaken', () => {
@@ -114,8 +114,8 @@
         const properties = layerGroup.getProperties();
         const layerGroupLayers = layerGroup.getLayers().getArray();
         assert.isTrue(layerGroup instanceof ol.layer.Group);
-        assert.equal(properties.title, title);
-        assert.deepEqual(layerGroupLayers, layers);
+        assert.strictEqual(properties.title, title);
+        assert.deepStrictEqual(layerGroupLayers, layers);
       });
       
       test('er kan een actie toegevoegd worden aan de kaart', () => {

@@ -44,10 +44,10 @@
         const element = fixture('vl-map-baselayer-grb-ortho-fixture');
         const vlMapBaseLayerElement = element.querySelector('vl-map-baselayer-grb-ortho');
         assert.isTrue(vlMapBaseLayerElement instanceof VlMapBaseLayer);
-        assert.equal(vlMapBaseLayerElement.url, "https://tile.informatievlaanderen.be/ws/raadpleegdiensten/wmts");
-        assert.equal(vlMapBaseLayerElement.type, "wmts");
-        assert.equal(vlMapBaseLayerElement.layer, "omwrgbmrvl");
-        assert.equal(vlMapBaseLayerElement.title, "GRB ortho laag");
+        assert.strictEqual(vlMapBaseLayerElement.url, "https://tile.informatievlaanderen.be/ws/raadpleegdiensten/wmts");
+        assert.strictEqual(vlMapBaseLayerElement.type, "wmts");
+        assert.strictEqual(vlMapBaseLayerElement.layer, "omwrgbmrvl");
+        assert.strictEqual(vlMapBaseLayerElement.title, "GRB ortho laag");
       });
     });
   </script>
