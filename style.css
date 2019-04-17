@@ -12,12 +12,7 @@
   .ol-overlaycontainer-stopevent > .ol-scale-line .ol-scale-line-inner {
     border-color: black;
     color: black; }
-.ol-overlaycontainer-stopevent > div {
-  left: 8px; }
 .ol-overlaycontainer-stopevent > .ol-control {
   margin-top: 0; }
-.ol-overlaycontainer-stopevent > .ol-zoomslider {
-  top: 31px;
-  left: 9px; }
 
 /*# sourceMappingURL=style.css.map */
