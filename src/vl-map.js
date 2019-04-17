@@ -13,8 +13,6 @@ export class VlMap extends VlElement(HTMLElement) {
     constructor() {
         super(`
             <style>
-                @import '/node_modules/vl-mapactions/lib/openlayers/css/ol.css';
-                @import '/node_modules/vl-mapactions/dist/mapactions.css';
                 @import '../style.css';
 
                 :host {
