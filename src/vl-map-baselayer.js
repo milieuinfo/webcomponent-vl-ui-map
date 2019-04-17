@@ -1,9 +1,9 @@
 import { VlElement } from "/node_modules/vl-ui-core/vl-core.js";
 
 /**
- * VlMapLayer
+ * VlMapBaseLayer
  * @class
- * @classdesc De kaart layer component. <a href="demo/vl-map.html">Demo</a>.
+ * @classdesc De kaart basis laag component. <a href="demo/vl-map.html">Demo</a>.
  *
  * @extends VlElement
  * 
@@ -12,7 +12,7 @@ import { VlElement } from "/node_modules/vl-ui-core/vl-core.js";
  * @property {string} layer - Attribuut geeft aan wat de kaartlaag identifier is.
  * @property {string} title - Attribuut bepaalt de titel van de kaartlaag.
  */
-export class VlMapLayer extends VlElement(HTMLElement) {
+export class VlMapBaseLayer extends VlElement(HTMLElement) {
     connectedCallback() {
         this._map.addBaseLayerAndOverlayMapLayer(this._createBaseLayer(), this._createBaseLayer());
     }

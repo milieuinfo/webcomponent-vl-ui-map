@@ -1,13 +1,13 @@
-import { VlMapLayer } from "./vl-map-layer.js";
+import { VlMapBaseLayer } from "./vl-map-baselayer.js";
 
 /**
- * VlMapLayerGRBGray
+ * VlMapBaseLayerGRBGray
  * @class
- * @classdesc De kaart layer component voor GRB grijstinten. <a href="demo/vl-map.html">Demo</a>.
+ * @classdesc De kaart basis laag component voor GRB grijstinten. <a href="demo/vl-map.html">Demo</a>.
  *
  * @extends VlElement
  */
-export class VlMapLayerGRBGray extends VlMapLayer {
+export class VlMapBaseLayerGRBGray extends VlMapBaseLayer {
     constructor() {
         super();
         this.setAttribute('url', 'https://tile.informatievlaanderen.be/ws/raadpleegdiensten/wmts');
