@@ -96,14 +96,14 @@
         assert.strictEqual(source.getLayer(), 'layername 2');
         assert.strictEqual(source.getMatrixSet(), 'BPL72VL');
         assert.strictEqual(source.getFormat(), 'image/png');
-        assert.deepStrictEqual(source.getProjection(), vlMapBaseLayerElement._projection);
+        assert.deepEqual(source.getProjection(), vlMapBaseLayerElement._projection);
         assert.strictEqual(source.getStyle(), '');
               
         const tileGrid = source.getTileGrid();
         assert.isTrue(tileGrid instanceof ol.tilegrid.WMTS);
-        assert.deepStrictEqual(tileGrid.getOrigin(), [9928, 329072]);
-        assert.deepStrictEqual(tileGrid.getResolutions(), [1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1, 0.5, 0.25, 0.125, 0.0625, 0.03125]);
-        assert.deepStrictEqual(tileGrid.getMatrixIds(), [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15])
+        assert.deepEqual(tileGrid.getOrigin(), [9928, 329072]);
+        assert.deepEqual(tileGrid.getResolutions(), [1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1, 0.5, 0.25, 0.125, 0.0625, 0.03125]);
+        assert.deepEqual(tileGrid.getMatrixIds(), [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15])
       });
       
       test('Wanneer een WFS source wordt aangemaakt wordt een Vector source teruggegeven', () => {

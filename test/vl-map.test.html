@@ -28,7 +28,7 @@
     suite('<vl-map>', () => {
       const sandbox = sinon.sandbox.create();
       const should = chai.should();
-      
+
       setup(() => {
         return new Promise((resolve) => {
           const wait = () => {
@@ -101,7 +101,7 @@
         assert.strictEqual(extent[2], 272072);
         assert.strictEqual(extent[3], 329072);
 
-        assert.deepStrictEqual(element._map.getView().getCenter(), [140860.69299028325, 190532.7165957574]);
+        assert.deepEqual(element._map.getView().getCenter(), [140860.69299028325, 190532.7165957574]);
       });
       
       test('kan een lagen groep aanmaken', () => {
@@ -115,7 +115,7 @@
         const layerGroupLayers = layerGroup.getLayers().getArray();
         assert.isTrue(layerGroup instanceof ol.layer.Group);
         assert.strictEqual(properties.title, title);
-        assert.deepStrictEqual(layerGroupLayers, layers);
+        assert.deepEqual(layerGroupLayers, layers);
       });
       
       test('er kan een actie toegevoegd worden aan de kaart', () => {
