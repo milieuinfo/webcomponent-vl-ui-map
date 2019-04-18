@@ -25,7 +25,7 @@ export class VlMapLayer extends VlElement(HTMLElement) {
         this._layer = this.__createLayer(this._name, this._features);
         if (this._map) {
             this._map.getOverlayLayers().push(this._layer);
-            this._zoomToExtent();
+            this.__zoomToExtent();
         }
     }
 
