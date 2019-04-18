@@ -1,0 +1,249 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="../../@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../../web-component-tester/browser.js"></script>
+
+  <script src="ol-util.js"></script>
+
+  <script type="module" src="../vl-map.js"></script>
+</head>
+
+<body>
+  <test-fixture id="vl-map-layer-fixture">
+    <template>
+      <vl-map-layer></vl-map-layer>
+    </template>
+  </test-fixture>
+  
+  <test-fixture id="vl-map-fixture">
+    <template>
+      <vl-map>
+        <vl-map-layer 
+          name="testlaag" 
+          features='{"type":"FeatureCollection","features":[{"type":"Feature","id":1,"geometry":{"type":"Point","coordinates":[147055,197908]},"properties":null}]}'>
+        </vl-map-layer>
+      </vl-map>
+    </template>
+  </test-fixture>
+  
+  <test-fixture id="vl-map-auto-extent-fixture">
+    <template>
+      <vl-map>
+        <vl-map-layer 
+          name="testlaag" 
+          features='{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[147055,197908]},"properties":null}]}'
+          auto-extent>
+        </vl-map-layer>
+      </vl-map>
+    </template>
+  </test-fixture>
+  
+  <test-fixture id="vl-map-layers-fixture">
+    <template>
+      <vl-map>
+        <vl-map-layer></vl-map-layer>
+        <vl-map-layer></vl-map-layer>
+      </vl-map>
+    </template>
+  </test-fixture>
+  
+  <test-fixture id="vl-map-cluster-fixture">
+    <template>
+      <vl-map>
+        <vl-map-layer 
+          name="testlaag" 
+          features='{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[147055,197908]},"properties":null},{"type":"Feature","geometry":{"type":"Point","coordinates":[157055,207908]},"properties":null}]}'
+          cluster
+          cluster-distance="100">
+        </vl-map-layer>
+      </vl-map>
+    </template>
+  </test-fixture>
+
+  <script>
+    suite('vl-map-layer', () => {
+      const sandbox = sinon.sandbox.create();
+      const should = chai.should();
+      let geoJSON;
+
+      setup(() => {
+        return new Promise((resolve) => {
+          const wait = () => {
+            if (!!customElements.get('vl-map-layer')) {
+                geoJSON = new ol.format.GeoJSON();
+                resolve();
+            }
+          };
+          setInterval(wait, 500);
+        });
+      });
+      
+      teardown(() => {
+        sandbox.restore();
+      });
+
+      test('de kaartlaag zal toegevoegd worden aan de map', () => {
+        sandbox.spy(ol.layer, 'Vector');
+
+        const kaartElement = fixture('vl-map-fixture');
+        const kaartlaagElement = kaartElement.querySelector('vl-map-layer');
+        
+        should.exist(kaartlaagElement.layer);
+        should.exist(kaartlaagElement._map);
+        assert.lengthOf(kaartElement.map.getOverlayLayers(), 1);
+        assert.equal(kaartElement.map.getOverlayLayers()[0], kaartlaagElement.layer);
+        assert.equal(kaartElement.map.getOverlayLayers()[0].get('title'), 'testlaag');
+        assert.equal(geoJSON.writeFeatures(kaartElement.map.getOverlayLayers()[0].getSource().getFeatures()), kaartlaagElement.getAttribute('features'));
+        assert.isTrue(ol.layer.Vector.called);
+      });
+      
+      test('na het toevoegen van de kaartlaag zal de kaart zoomen naar de extent van de kaartlaag indien de auto-extent geactiveerd werd', () => {
+        let kaartElement = fixture('vl-map-fixture');
+        let kaartlaagElement = kaartElement.querySelector('vl-map-layer');
+        assert.notDeepEqual(kaartElement.map.getView().getCenter(), [147055, 197908]);
+        
+        kaartElement = fixture('vl-map-auto-extent-fixture');
+        kaartlaagElement = kaartElement.querySelector('vl-map-layer');
+        assert.deepEqual(kaartElement.map.getView().getCenter(), [147055, 197908]);
+      });
+      
+      test('bij het toevoegen van een feature zal deze automatisch toegevoegd worden aan de laag en zal de kaart opnieuw zoomen naar de extent van de kaartlaag indien de auto-extent geactiveerd werd', () => {
+        const kaartElement = fixture('vl-map-fixture');
+        const kaartlaagElement = kaartElement.querySelector('vl-map-layer');
+        
+        let layer = kaartElement.map.getOverlayLayers()[0];
+        assert.lengthOf(layer.getSource().getFeatures(), 1);
+        assert.equal(geoJSON.writeFeatures(layer.getSource().getFeatures()), kaartlaagElement.getAttribute('features'));
+        assert.deepEqual(kaartElement.map.getView().getCenter(), [140860.69299028325, 190532.7165957574]);
+        
+        kaartlaagElement.setAttribute('features', "{\"type\":\"FeatureCollection\",\"features\":[{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[147055,197908]},\"properties\":null},{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[157055,207908]},\"properties\":null}]}");
+        kaartlaagElement.setAttribute('auto-extent', '');
+        layer = kaartElement.map.getOverlayLayers()[0];
+        assert.lengthOf(layer.getSource().getFeatures(), 2);
+        assert.equal(geoJSON.writeFeatures(layer.getSource().getFeatures()), kaartlaagElement.getAttribute('features'));
+        assert.notDeepEqual(kaartElement.map.getView().getCenter(), [140860.69299028325, 190532.7165957574]);
+      });
+      
+      test('kan een laag aanmaken', () => {
+        const element = fixture('vl-map-layer-fixture');
+        const title = 'title';
+        const feature1 = new ol.Feature();
+        const feature2 = new ol.Feature();
+        const features = [feature1, feature2];
+        const layer = element.__createLayer(title, features);
+        const source = layer.getSource();
+        assert.isTrue(layer instanceof ol.layer.Vector);
+        assert.deepEqual(source.getFeatures(), features);
+      });
+      
+      test('elke kaartlaag zal een id krijgen', () => {
+        const element = fixture('vl-map-layers-fixture');
+        const kaartlaagElementen = element.querySelectorAll('vl-map-layer');
+        const kaartlaag1Element = kaartlaagElementen[0];
+        const kaartlaag2Element = kaartlaagElementen[1];
+        assert(kaartlaag1Element.layer.get('id'), 1);
+        assert(kaartlaag2Element.layer.get('id'), 2);
+      });
+      
+      test('bij het aanmaken van een laag zal de laag bij een update van de animatie en interactie niet verborgen worden', () => {
+        const element = fixture('vl-map-layer-fixture');
+        const title = 'title';
+        sandbox.spy(ol.layer, 'Vector');
+        const layer = element.__createLayer(title, []);
+        assert(ol.layer.Vector.calledWith(sinon.match.has('updateWhileAnimating', true).and(sinon.match.has('updateWhileInteracting', true))));
+      });
+      
+      test('kan de boundingbox opvragen van de features op de laag', () => {
+        const element = fixture('vl-map-layer-fixture');
+        const feature = new ol.Feature();
+        const extent = sandbox.spy();
+        element.setAttribute('features', "{\"type\":\"FeatureCollection\",\"features\":[{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[147055,197908]},\"properties\":null},{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[157055,207908]},\"properties\":null}]}");
+
+        sandbox.stub(element._source, 'getExtent').returns(extent);
+        const boundingbox = element.__getBoundingbox();
+        assert.equal(boundingbox, extent);
+      });
+      
+      test('de punt features op de kaart kunnen geclusterd worden en de line en polygoon features zullen ongeclusterd getoond worden', () => {
+        sandbox.spy(ol.source, 'Cluster');
+        const kaartElement = fixture('vl-map-cluster-fixture');
+        const kaartlaagElement = kaartElement.querySelector('vl-map-layer');
+        
+        const source = kaartlaagElement.layer.getSource();
+        assert.notDeepEqual(kaartlaagElement.source, source);
+        assert.isTrue(source instanceof ol.source.Cluster);
+
+        const arguments = ol.source.Cluster.getCall(0).args[0];
+        assert.equal(arguments.distance, 100);
+        assert.deepEqual(arguments.source, kaartlaagElement.source);
+
+        const geometryFunction = arguments.geometryFunction;
+        assert.isFunction(geometryFunction);
+
+        assert.isNotNull(geometryFunction(new ol.Feature({
+          geometry: new ol.geom.Point()
+        })));
+        
+        assert.isNull(geometryFunction(new ol.Feature({
+          geometry: new ol.geom.LineString()
+        })));
+        
+        assert.isNull(geometryFunction(new ol.Feature({
+          geometry: new ol.geom.Polygon()
+        })));
+      });
+      
+      test('kan een feature verkrijgen via id', () => {
+        const element = fixture('vl-map-fixture');
+        const kaartElement = element.querySelector('vl-map-layer');
+        should.exist(kaartElement.getFeature(1));
+        should.not.exist(kaartElement.getFeature(2));
+      });
+      
+      test('kan een cluster verkrijgen via een feature id in de cluster', () => {
+        const element = fixture('vl-map-fixture');
+        const kaartlaagElement = element.querySelector('vl-map-layer');
+        const feature1 = new ol.Feature({
+          geometry: new ol.geom.Point([109100, 204175])
+        });
+        const feature2 = new ol.Feature({
+          geometry: new ol.geom.Point([109100, 204175])
+        });
+        const feature3 = new ol.Feature({
+          geometry: new ol.geom.Point([109100, 204175])
+        });
+        feature1.setId(1);
+        feature2.setId(2);
+        feature3.setId(3);
+        const cluster1 = new ol.Feature({});
+        const cluster2 = new ol.Feature({});
+        cluster1.set('features', [feature1, feature2]);
+        cluster2.set('features', [feature3]);
+        kaartlaagElement.cluster = true;
+        kaartlaagElement.layer.getSource().addFeatures([cluster1, cluster2]);
+        assert.deepEqual(kaartlaagElement.getCluster(1), cluster1);
+        assert.deepEqual(kaartlaagElement.getCluster(2), cluster1);
+        assert.deepEqual(kaartlaagElement.getCluster(3), cluster2);
+      });
+      
+      test('al de feature specifieke stijl kan verwijderd worden', () => {
+        const element = fixture('vl-map-layer-fixture');
+        const feature1 = new ol.Feature();
+        const feature2 = new ol.Feature();
+        feature1.setStyle(new ol.style.Style({}));
+        feature2.setStyle(new ol.style.Style({}));
+        const features = [feature1, feature2];
+        element.setAttribute('features', geoJSON.writeFeatures(features));
+        
+        element.verwijderFeatureStijlen();
+        assert.isNull(element._features[0].getStyle());
+        assert.isNull(element._features[1].getStyle());
+      });
+    });
+  </script>
+</body>
+
+</html>

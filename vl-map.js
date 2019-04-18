@@ -114,10 +114,14 @@ class VlMap extends VlElement(HTMLElement) {
  * @extends VlElement
  */
 class VlMapLayer extends VlElement(HTMLElement) {
+    static get _observedAttributes() {
+        return ['auto-extent', 'features'];
+    } 
+
     constructor() {
         super();
         VlMapLayer._counter = 0;
-        this.__geoJson = new ol.format.GeoJSON();
+        this.__geoJSON = new ol.format.GeoJSON();
         this.__counter = ++VlMapLayer._counter;
     }
 
@@ -137,16 +141,34 @@ class VlMapLayer extends VlElement(HTMLElement) {
         this.__counter = counter;
     }
 
+    /**
+     * Geeft de OpenLayers kaartlaag.
+     * 
+     * @Return {ol.layer}
+     */
+    get layer() {
+        return this._layer;
+    }
+
+    /**
+     * Geeft de OpenLayers kaartlaag source.
+     * 
+     * @Return {ol.source}
+     */
+    get source() {
+        return this._source;
+    }
+
     get _name() {
-        return this.getAttribute('name');
+        return this.getAttribute('name') || 'kaartlaag';
     }
 
     get _autoExtent() {
-        return this.getAttribute('auto-extent');
+        return this.getAttribute('auto-extent') != undefined;
     }
 
     get _cluster() {
-        return this.getAttribute('cluster');
+        return this.getAttribute('cluster') != undefined;
     }
 
     get _clusterDistance() {
@@ -154,7 +176,8 @@ class VlMapLayer extends VlElement(HTMLElement) {
     }
 
     get _features() {
-        return this.__geoJson.readFeatures(this.getAttribute('features'));
+        const features = this.getAttribute('features');
+        return features ? this.__geoJSON.readFeatures(features) : [];
     }
 
     get _map() {
@@ -163,15 +186,91 @@ class VlMapLayer extends VlElement(HTMLElement) {
         }
     }
 
+    /**
+     * Geeft de OpenLayers kaartlaag stijl.
+     * 
+     * @Return {ol.style}
+     */
     get style() {
         if (this._layer) {
             return this._layer.getStyle();
         }
     }
     
+    /**
+     * Zet de OpenLayers kaartlaag stijl.
+     * 
+     * @param {ol.style} style
+     */
     set style(style) {
         this._style = style;
         this._layer.setStyle(style);
+    }
+
+    /**
+     * Verwijdert de stijl van al de kaartlaag features.
+     */
+    verwijderFeatureStijlen() {
+        if (this._source && this._source.getFeatures()) {
+            this._source.getFeatures().forEach((feature) => {
+                feature.setStyle(null);
+            });
+        }
+    }
+
+    /**
+     * Rendert de kaart opnieuw.
+     */
+    rerender() {
+        if (this._map) {
+            this._map.render();
+        }
+    }
+
+    /**
+     * Geeft de feature terug op basis van het id attribuut.
+     * 
+     * @param {number} id
+     */
+    getFeature(id) {
+        if (this._source && this._source.getFeatures()) {
+            return this._source.getFeatures().filter((feature) => {
+                return feature.getId() === id;
+            })[0];
+        }
+    }
+
+    /**
+     * Geeft de cluster terug op basis van het id attribuut.
+     * 
+     * @param {number} id
+     */
+    getCluster(id) {
+        if (this._layer) {
+            return this._layer.getSource().getFeatures().filter((cluster) => {
+                const features = cluster.get('features');
+                if (features) {
+                    return features.some((feature) => {
+                        return feature.getId() === id;
+                    });
+                } else {
+                    return false;
+                }
+            })[0];
+        }
+    }
+
+    _auto_extentChangedCallback(oldValue, newValue) {
+        this.__zoomToExtent();
+    }
+
+    _featuresChangedCallback(oldValue, newValue) {
+        if (newValue && this._layer) {
+            this._source.clear();
+            this._source.addFeatures(this._features);
+            this.__zoomToExtent();
+            this.rerender();
+        }
     }
 
     __zoomToExtent() {
