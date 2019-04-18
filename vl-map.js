@@ -158,7 +158,20 @@ class VlMapLayer extends VlElement(HTMLElement) {
     }
 
     get _map() {
+        if (this.parentNode) {
+            return this.parentNode.map;
+        }
+    }
 
+    get style() {
+        if (this._layer) {
+            return this._layer.getStyle();
+        }
+    }
+    
+    set style(style) {
+        this._style = style;
+        this._layer.setStyle(style);
     }
 
     __zoomToExtent() {
