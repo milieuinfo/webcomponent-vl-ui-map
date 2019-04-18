@@ -28,11 +28,12 @@
       setup(() => {
         return new Promise((resolve) => {
           const wait = () => {
-            if (!!customElements.get('vl-map')) {
+            console.log('test');
+            if (!!customElements.get('vl-map-baselayer-grb-gray')) {
                 resolve();
             }
           };
-          setTimeout(wait, 500);
+          setInterval(wait, 500);
         });
       });
       

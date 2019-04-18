@@ -44,11 +44,11 @@
       setup(() => {
         return new Promise((resolve) => {
           const wait = () => {
-            if (!!customElements.get('vl-map')) {
+            if (!!customElements.get('vl-map-baselayer')) {
                 resolve();
             }
           };
-          setTimeout(wait, 500);
+          setInterval(wait, 500);
         });
       });
       
@@ -96,6 +96,7 @@
         assert.strictEqual(source.getLayer(), 'layername 2');
         assert.strictEqual(source.getMatrixSet(), 'BPL72VL');
         assert.strictEqual(source.getFormat(), 'image/png');
+        debugger;
         assert.deepStrictEqual(source.getProjection(), vlMapBaseLayerElement._projection);
         assert.strictEqual(source.getStyle(), '');
               
