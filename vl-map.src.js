@@ -4,6 +4,7 @@ import {VlMapBaseLayer} from "./src/vl-map-baselayer";
 import {VlMapBaseLayerGRBGray} from "./src/vl-map-baselayer-grb-gray";
 import {VlMapBaseLayerGRB} from "./src/vl-map-baselayer-grb";
 import {VlMapBaseLayerGRBOrtho} from "./src/vl-map-baselayer-grb-ortho";
+import {VlMapLayerStyle} from "./src/vl-map-layer-style";
 import {VlMapLayerCircleStyle} from "./src/vl-map-layer-circle-style";
 
 (() => {
@@ -16,6 +17,7 @@ import {VlMapLayerCircleStyle} from "./src/vl-map-layer-circle-style";
         customElements.define('vl-map-baselayer-grb-gray', VlMapBaseLayerGRBGray);
         customElements.define('vl-map-baselayer-grb', VlMapBaseLayerGRB);
         customElements.define('vl-map-baselayer-grb-ortho', VlMapBaseLayerGRBOrtho);
+        customElements.define('vl-map-layer-style', VlMapLayerStyle);
         customElements.define('vl-map-layer-circle-style', VlMapLayerCircleStyle);
     });
   

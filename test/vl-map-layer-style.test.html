@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="../../@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../web-component-tester/browser.js"></script>
+
+    <script src="ol-util.js"></script>
+    <script src="dummy-vl-map-layer.js"></script>
+</head>
+
+<body>
+<test-fixture id="vl-map-layer-style-fixture">
+    <template>
+        <dummy-vl-map-layer>
+            <vl-map-layer-style></vl-map-layer-style>
+        </dummy-vl-map-layer>
+    </template>
+</test-fixture>
+<test-fixture id="vl-map-layer-style-met-properties-fixture">
+    <template>
+        <dummy-vl-map-layer>
+            <vl-map-layer-style color="#fff" text-color="#000" text-offset-x="1" text-offset-y="2"></vl-map-layer-style>
+        </dummy-vl-map-layer>
+    </template>
+</test-fixture>
+
+<script type="module">
+    import { VlMapLayerStyle } from '../vl-map.js';
+
+    suite('vl-map-layer-style', () => {
+        const sandbox = sinon.sandbox.create();
+        const should = chai.should();
+
+        setup(() => {
+            return new Promise((resolve) => {
+                const wait = () => {
+                    if (!!customElements.get('vl-map-layer-style')) {
+                        resolve();
+                    }
+                };
+                setInterval(wait, 500);
+            });
+        });
+
+        teardown(() => {
+            sandbox.restore();
+        });
+
+        test('De style wordt goed geconfigureerd met default properties', () => {
+            const element = fixture('vl-map-layer-style-fixture');
+            const vlMapLayerStyleElement = element.querySelector('vl-map-layer-style');
+            assert.isTrue(vlMapLayerStyleElement instanceof VlMapLayerStyle);
+            assert.equal(vlMapLayerStyleElement.color, 'rgba(255, 255, 255, 1)');
+            assert.equal(vlMapLayerStyleElement.textColor, "#FFF");
+            assert.equal(vlMapLayerStyleElement.textOffsetX, 0);
+            assert.equal(vlMapLayerStyleElement.textOffsetY, 0);
+        });
+
+        test('De style wordt goed geconfigureerd met aangepaste properties', () => {
+            const element = fixture('vl-map-layer-style-met-properties-fixture');
+            const vlMapLayerStyleElement = element.querySelector('vl-map-layer-style');
+            assert.isTrue(vlMapLayerStyleElement instanceof VlMapLayerStyle);
+            assert.equal(vlMapLayerStyleElement.color, '#fff');
+            assert.equal(vlMapLayerStyleElement.textColor, "#000");
+            assert.equal(vlMapLayerStyleElement.textOffsetX, 1);
+            assert.equal(vlMapLayerStyleElement.textOffsetY, 2);
+        });
+    });
+</script>
+</body>
+
+</html>

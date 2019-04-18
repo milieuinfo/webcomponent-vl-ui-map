@@ -76,34 +76,34 @@
 
         assert.lengthOf(actionsArg, 0);
         
-        assert.strictEqual(baseLayerGroupArg, dummyLayerGroup1);
-        assert.strictEqual(overlayGroupArg, dummyLayerGroup2);
+        assert.equal(baseLayerGroupArg, dummyLayerGroup1);
+        assert.equal(overlayGroupArg, dummyLayerGroup2);
 
         assert.lengthOf(overviewMapLayersArg, 0);
-        
-        assert.strictEqual(targetArg.id, 'map');
-        
+
+        assert.equal(targetArg.id, 'map');
+
         assert(initializeViewSpy.called);
       });
-      
+
       test('de Lambert 31370 projectie wordt correct gedefinieerd', () => {
         sandbox.spy(proj4, 'defs');
         const element = fixture('vl-map-fixture');
         assert(proj4.defs.calledWith('EPSG:31370', '+proj=lcc +lat_1=51.16666723333333 +lat_2=49.8333339 +lat_0=90 +lon_0=4.367486666666666 +x_0=150000.013 +y_0=5400088.438 +ellps=intl +towgs84=-106.869,52.2978,-103.724,0.3366,-0.457,1.8422,-1.2747 +units=m +no_defs'));
       });
-      
+
       test('de extent bevat Vlaanderen', () => {
         const element = fixture('vl-map-fixture');
         const extent = element._extent;
         assert.lengthOf(extent, 4);
-        assert.strictEqual(extent[0], 9928);
-        assert.strictEqual(extent[1], 66928);
-        assert.strictEqual(extent[2], 272072);
-        assert.strictEqual(extent[3], 329072);
+        assert.equal(extent[0], 9928);
+        assert.equal(extent[1], 66928);
+        assert.equal(extent[2], 272072);
+        assert.equal(extent[3], 329072);
 
         assert.deepEqual(element._map.getView().getCenter(), [140860.69299028325, 190532.7165957574]);
       });
-      
+
       test('kan een lagen groep aanmaken', () => {
         const element = fixture('vl-map-fixture');
         const title = 'title';
@@ -114,7 +114,7 @@
         const properties = layerGroup.getProperties();
         const layerGroupLayers = layerGroup.getLayers().getArray();
         assert.isTrue(layerGroup instanceof ol.layer.Group);
-        assert.strictEqual(properties.title, title);
+        assert.equal(properties.title, title);
         assert.deepEqual(layerGroupLayers, layers);
       });
       

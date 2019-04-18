@@ -32,7 +32,7 @@ export class VlMapLayerStyle extends VlElement(HTMLElement) {
      * @Return {string}
      */
     get textColor() {
-        return this.getAttribute('text-kleur') || '#FFF';
+        return this.getAttribute('text-color') || '#FFF';
     }
 
     /**

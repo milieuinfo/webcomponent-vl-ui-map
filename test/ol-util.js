@@ -32,4 +32,14 @@ class OpenLayersUtil {
 			addFeatures: () => {}
 		}
 	}
+
+	static createClusterFeaturesObject(features) {
+		return {
+			get: (value) => {
+				if (value == 'features') {
+					return features
+				}
+			}
+		}
+	}
 }
