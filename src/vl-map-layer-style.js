@@ -7,19 +7,23 @@ import { VlElement } from "/node_modules/vl-ui-core/vl-core.js";
  *
  * @extends VlElement
  *
- * @property {string} kleur - Attribuut wordt gebruikt om aan te geven wat de kleur is van de kaartlaagstijl.
- * @property {string} tekst-kleur - Attribuut wordt gebruikt om aan te geven wat de kleur is van de tekst.
- * @property {number} tekst-offset-x - Attribuut wordt gebruikt om aan te geven wat de offset op de x-as is van de tekst.
- * @property {number} tekst-offset-y - Attribuut wordt gebruikt om aan te geven wat de offset op de y-as is van de tekst.
+ * @property {string} color - Attribuut wordt gebruikt om aan te geven wat de kleur is van de kaartlaagstijl.
+ * @property {string} text-color - Attribuut wordt gebruikt om aan te geven wat de kleur is van de tekst.
+ * @property {number} text-offset-x - Attribuut wordt gebruikt om aan te geven wat de offset op de x-as is van de tekst.
+ * @property {number} text-offset-y - Attribuut wordt gebruikt om aan te geven wat de offset op de y-as is van de tekst.
  */
 export class VlMapLayerStyle extends VlElement(HTMLElement) {
+    connectedCallback() {
+        this._setStyleOnParent();
+    }
+
     /**
-     * Geeft de kleur van de stijl terug.
+     * Geeft de color van de stijl terug.
      *
      * @Return {string}
      */
-    get kleur() {
-        return this.getAttribute('kleur') || 'rgba(255, 255, 255, 1)';
+    get color() {
+        return this.getAttribute('color') || 'rgba(255, 255, 255, 1)';
     }
 
     /**
@@ -27,8 +31,8 @@ export class VlMapLayerStyle extends VlElement(HTMLElement) {
      *
      * @Return {string}
      */
-    get tekstKleur() {
-        return this.getAttribute('tekst-kleur') || '#FFF';
+    get textColor() {
+        return this.getAttribute('text-color') || '#FFF';
     }
 
     /**
@@ -36,8 +40,8 @@ export class VlMapLayerStyle extends VlElement(HTMLElement) {
      *
      * @Return {number}
      */
-    get tekstOffsetX() {
-        return this.getAttribute('tekst-offset-x') || 0;
+    get textOffsetX() {
+        return this.getAttribute('text-offset-x') || 0;
     }
 
     /**
@@ -45,8 +49,8 @@ export class VlMapLayerStyle extends VlElement(HTMLElement) {
      *
      * @Return {number}
      */
-    get tekstOffsetY() {
-        return this.getAttribute('tekst-offset-y') || 0;
+    get textOffsetY() {
+        return this.getAttribute('text-offset-y') || 0;
     }
 
     /**
@@ -54,18 +58,18 @@ export class VlMapLayerStyle extends VlElement(HTMLElement) {
      *
      * @Return {string}
      */
-    get stijl() {
+    get style() {
         console.info("opgelet vl-map-layer-style is abstract en zal geen stijl toevoegen aan de kaartlaag");
         return null;
     }
 
-    _hebbenIdentiekeStyle(features) {
+    _hasUniqueStyles(features) {
         const styles = this._getStyles(features);
-        return styles && this._bevatObject(styles) && this._zijnIdentiek(styles);
+        return styles && this._containsObject(styles) && this._areIdentical(styles);
     }
 
-    _bevatStyle(features) {
-        return this._bevatObject(features.map((feature) => feature.getStyle()));
+    _containsStyle(features) {
+        return this._containsObject(features.map((feature) => feature.getStyle()));
     }
 
     _getStyles(features) {
@@ -74,11 +78,17 @@ export class VlMapLayerStyle extends VlElement(HTMLElement) {
         });
     }
 
-    _bevatObject(objects) {
+    _containsObject(objects) {
         return objects.some((object) => { return !!object; });
     }
 
-    _zijnIdentiek(objects) {
+    _areIdentical(objects) {
         return objects.every((object, i, objects) => { return object == objects[0]; });
+    }
+
+    _setStyleOnParent() {
+        if (this.parentElement) {
+            return this.parentElement.style = this.style;
+        }
     }
 }

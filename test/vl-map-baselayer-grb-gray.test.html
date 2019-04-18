@@ -45,10 +45,10 @@
         const element = fixture('vl-map-baselayer-grb-gray-fixture');
         const vlMapBaseLayerElement = element.querySelector('vl-map-baselayer-grb-gray');
         assert.isTrue(vlMapBaseLayerElement instanceof VlMapBaseLayer);
-        assert.strictEqual(vlMapBaseLayerElement.url, "https://tile.informatievlaanderen.be/ws/raadpleegdiensten/wmts");
-        assert.strictEqual(vlMapBaseLayerElement.type, "wmts");
-        assert.strictEqual(vlMapBaseLayerElement.layer, "grb_bsk_grijs");
-        assert.strictEqual(vlMapBaseLayerElement.title, "GRB basis laag grijs");
+        assert.equal(vlMapBaseLayerElement.url, "https://tile.informatievlaanderen.be/ws/raadpleegdiensten/wmts");
+        assert.equal(vlMapBaseLayerElement.type, "wmts");
+        assert.equal(vlMapBaseLayerElement.layer, "grb_bsk_grijs");
+        assert.equal(vlMapBaseLayerElement.title, "GRB basis laag grijs");
       });
     });
   </script>

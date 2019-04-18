@@ -518,19 +518,23 @@ class VlMapBaseLayerGRBOrtho extends VlMapBaseLayer {
  *
  * @extends VlElement
  *
- * @property {string} kleur - Attribuut wordt gebruikt om aan te geven wat de kleur is van de kaartlaagstijl.
- * @property {string} tekst-kleur - Attribuut wordt gebruikt om aan te geven wat de kleur is van de tekst.
- * @property {number} tekst-offset-x - Attribuut wordt gebruikt om aan te geven wat de offset op de x-as is van de tekst.
- * @property {number} tekst-offset-y - Attribuut wordt gebruikt om aan te geven wat de offset op de y-as is van de tekst.
+ * @property {string} color - Attribuut wordt gebruikt om aan te geven wat de kleur is van de kaartlaagstijl.
+ * @property {string} text-color - Attribuut wordt gebruikt om aan te geven wat de kleur is van de tekst.
+ * @property {number} text-offset-x - Attribuut wordt gebruikt om aan te geven wat de offset op de x-as is van de tekst.
+ * @property {number} text-offset-y - Attribuut wordt gebruikt om aan te geven wat de offset op de y-as is van de tekst.
  */
 class VlMapLayerStyle extends VlElement(HTMLElement) {
+    connectedCallback() {
+        this._setStyleOnParent();
+    }
+
     /**
-     * Geeft de kleur van de stijl terug.
+     * Geeft de color van de stijl terug.
      *
      * @Return {string}
      */
-    get kleur() {
-        return this.getAttribute('kleur') || 'rgba(255, 255, 255, 1)';
+    get color() {
+        return this.getAttribute('color') || 'rgba(255, 255, 255, 1)';
     }
 
     /**
@@ -538,8 +542,8 @@ class VlMapLayerStyle extends VlElement(HTMLElement) {
      *
      * @Return {string}
      */
-    get tekstKleur() {
-        return this.getAttribute('tekst-kleur') || '#FFF';
+    get textColor() {
+        return this.getAttribute('text-color') || '#FFF';
     }
 
     /**
@@ -547,8 +551,8 @@ class VlMapLayerStyle extends VlElement(HTMLElement) {
      *
      * @Return {number}
      */
-    get tekstOffsetX() {
-        return this.getAttribute('tekst-offset-x') || 0;
+    get textOffsetX() {
+        return this.getAttribute('text-offset-x') || 0;
     }
 
     /**
@@ -556,8 +560,8 @@ class VlMapLayerStyle extends VlElement(HTMLElement) {
      *
      * @Return {number}
      */
-    get tekstOffsetY() {
-        return this.getAttribute('tekst-offset-y') || 0;
+    get textOffsetY() {
+        return this.getAttribute('text-offset-y') || 0;
     }
 
     /**
@@ -565,18 +569,18 @@ class VlMapLayerStyle extends VlElement(HTMLElement) {
      *
      * @Return {string}
      */
-    get stijl() {
+    get style() {
         console.info("opgelet vl-map-layer-style is abstract en zal geen stijl toevoegen aan de kaartlaag");
         return null;
     }
 
-    _hebbenIdentiekeStyle(features) {
+    _hasUniqueStyles(features) {
         const styles = this._getStyles(features);
-        return styles && this._bevatObject(styles) && this._zijnIdentiek(styles);
+        return styles && this._containsObject(styles) && this._areIdentical(styles);
     }
 
-    _bevatStyle(features) {
-        return this._bevatObject(features.map((feature) => feature.getStyle()));
+    _containsStyle(features) {
+        return this._containsObject(features.map((feature) => feature.getStyle()));
     }
 
     _getStyles(features) {
@@ -585,12 +589,18 @@ class VlMapLayerStyle extends VlElement(HTMLElement) {
         });
     }
 
-    _bevatObject(objects) {
+    _containsObject(objects) {
         return objects.some((object) => { return !!object; });
     }
 
-    _zijnIdentiek(objects) {
+    _areIdentical(objects) {
         return objects.every((object, i, objects) => { return object == objects[0]; });
+    }
+
+    _setStyleOnParent() {
+        if (this.parentElement) {
+            return this.parentElement.style = this.style;
+        }
     }
 }
 
@@ -601,10 +611,11 @@ class VlMapLayerStyle extends VlElement(HTMLElement) {
  *
  * @extends VlMapLayerStyle
  *
- * @property {number} grootte - Attribuut wordt gebruikt om aan te geven wat de grootte is van de cirkels.
- * @property {string} rand-kleur - Attribuut wordt gebruikt om aan te geven wat de kleur is van de randen van de cirkels.
- * @property {number} rand-grootte - Attribuut wordt gebruikt om aan te geven wat de grootte is van de randen van de cirkels.
- * @property {string} cluster-tekst-kleur - Attribuut wordt gebruikt om aan te geven wat de kleur van de tekst is bij het clusteren van features.
+ * @property {number} size - Attribuut wordt gebruikt om aan te geven wat de grootte is van de cirkels.
+ * @property {string} border-color - Attribuut wordt gebruikt om aan te geven wat de color is van de randen van de cirkels.
+ * @property {number} border-size - Attribuut wordt gebruikt om aan te geven wat de grootte is van de randen van de cirkels.
+ * @property {string} cluster-text-color - Attribuut wordt gebruikt om aan te geven wat de kleur van de tekst is bij het clusteren van features.
+ * @property {string} cluster-color - Attribuut wordt gebruikt om aan te geven wat de kleur is bij het clusteren van features.
  */
 class VlMapLayerCircleStyle extends VlMapLayerStyle {
     /**
@@ -612,8 +623,8 @@ class VlMapLayerCircleStyle extends VlMapLayerStyle {
      *
      * @Return {number}
      */
-    get grootte() {
-        return this.getAttribute('grootte') || 5;
+    get size() {
+        return this.getAttribute('size') || 5;
     }
 
     /**
@@ -621,26 +632,35 @@ class VlMapLayerCircleStyle extends VlMapLayerStyle {
      *
      * @Return {string}
      */
-    get randKleur() {
-        return this.getAttribute('rand-kleur') || 'rgba(0, 0, 0, 1)';
+    get borderColor() {
+        return this.getAttribute('border-color') || 'rgba(0, 0, 0, 1)';
     }
 
     /**
-     * Geeft de grootte van de rand van de cirkels terug.
+     * Geeft de size van de rand van de cirkels terug.
      *
      * @Return {number}
      */
-    get randGrootte() {
-        return this.getAttribute('rand-grootte') || 1;
+    get borderSize() {
+        return this.getAttribute('border-size') || 1;
     }
 
     /**
-     * Geeft kleur van de tekst bij het clusteren van features terug.
+     * Geeft de kleur van de tekst bij het clusteren van features terug.
      *
      * @Return {string}
      */
-    get clusterTekstKleur() {
-        return this.getAttribute('cluster-tekst-kleur') || '#FFF';
+    get clusterTextColor() {
+        return this.getAttribute('cluster-text-color') || '#FFF';
+    }
+
+    /**
+     * Geeft de kleur bij het clusteren van features terug.
+     *
+     * @Return {string}
+     */
+    get clusterColor() {
+        return this.getAttribute('cluster-color') || 'rgba(0, 0, 0, 0)';
     }
 
     /**
@@ -648,20 +668,20 @@ class VlMapLayerCircleStyle extends VlMapLayerStyle {
      *
      * @Return {string}
      */
-    get stijl() {
+    get style() {
         return (feature, resolution) => {
             const features = feature && feature.get ? (feature.get('features') || []) : [];
             const size = features.length || 1;
             const clusterMultiplier = size == 1 ? 1 : Math.max(1.5, size.toString().length);
             const text = size > 1 ? size.toString() : '';
-            let textColor = this.tekstKleur;
-            let kleur = this.kleur;
-            let randKleur = this.randKleur;
-            let randGrootte = this.randGrootte;
-            let radius =  size > 1 ? this.grootte * clusterMultiplier : this.grootte;
+            let textColor = this.textColor;
+            let kleur = this.color;
+            let randKleur = this.borderColor;
+            let randGrootte = this.borderSize;
+            let radius =  size > 1 ? this.size * clusterMultiplier : this.size;
 
             if (this.parentElement && this.parentElement.cluster) {
-                if (this._hebbenIdentiekeStyle(features)) {
+                if (this._hasUniqueStyles(features)) {
                     let style = features[0].getStyle();
                     if (style instanceof Function) {
                         style = style();
@@ -671,9 +691,9 @@ class VlMapLayerCircleStyle extends VlMapLayerStyle {
                     randKleur = styleImage.getStroke().getColor();
                     randGrootte = styleImage.getStroke().getWidth();
                     radius = size > 1 ? styleImage.getRadius() * clusterMultiplier : styleImage.getRadius();
-                } else if (this._bevatStyle(features)) {
-                    kleur = this.clusterKleur;
-                    textColor = this.clusterTekstKleur;
+                } else if (this._containsStyle(features)) {
+                    kleur = this.clusterColor;
+                    textColor = this.clusterTextColor;
                 }
             }
 
@@ -694,8 +714,8 @@ class VlMapLayerCircleStyle extends VlMapLayerStyle {
                     fill: new ol.style.Fill({
                         color: textColor
                     }),
-                    offsetX: this.tekstOffsetX,
-                    offsetY: this.tekstOffsetY
+                    offsetX: this.textOffsetX,
+                    offsetY: this.textOffsetY
                 })
             });
         };
@@ -712,6 +732,7 @@ class VlMapLayerCircleStyle extends VlMapLayerStyle {
         customElements.define('vl-map-baselayer-grb-gray', VlMapBaseLayerGRBGray);
         customElements.define('vl-map-baselayer-grb', VlMapBaseLayerGRB);
         customElements.define('vl-map-baselayer-grb-ortho', VlMapBaseLayerGRBOrtho);
+        customElements.define('vl-map-layer-style', VlMapLayerStyle);
         customElements.define('vl-map-layer-circle-style', VlMapLayerCircleStyle);
     });
   
