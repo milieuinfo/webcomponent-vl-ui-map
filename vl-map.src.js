@@ -1,4 +1,5 @@
 import {VlMap} from "./src/vl-map";
+import {VlMapLayer} from "./src/vl-map-layer";
 import {VlMapBaseLayer} from "./src/vl-map-baselayer";
 import {VlMapBaseLayerGRBGray} from "./src/vl-map-baselayer-grb-gray";
 import {VlMapBaseLayerGRB} from "./src/vl-map-baselayer-grb";
@@ -10,6 +11,7 @@ import {VlMapLayerCircleStyle} from "./src/vl-map-layer-circle-style";
     loadScript('VlMap-proj4', '/node_modules/proj4/dist/proj4.js');
     loadScript('VlMap-mapactions', '/node_modules/vl-mapactions/dist/mapactions-min.js', () => {
         customElements.define('vl-map', VlMap);
+        customElements.define('vl-map-layer', VlMapLayer);
         customElements.define('vl-map-baselayer', VlMapBaseLayer);
         customElements.define('vl-map-baselayer-grb-gray', VlMapBaseLayerGRBGray);
         customElements.define('vl-map-baselayer-grb', VlMapBaseLayerGRB);
@@ -31,6 +33,7 @@ import {VlMapLayerCircleStyle} from "./src/vl-map-layer-circle-style";
 })();
 
 export * from "./src/vl-map";
+export * from "./src/vl-map-layer";
 export * from "./src/vl-map-baselayer";
 export * from "./src/vl-map-baselayer-grb-gray";
 export * from "./src/vl-map-baselayer-grb";
