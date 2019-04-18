@@ -7,10 +7,11 @@ import { VlMapLayerStyle } from "./vl-map-layer-style.js";
  *
  * @extends VlMapLayerStyle
  *
- * @property {number} grootte - Attribuut wordt gebruikt om aan te geven wat de grootte is van de cirkels.
- * @property {string} rand-kleur - Attribuut wordt gebruikt om aan te geven wat de kleur is van de randen van de cirkels.
- * @property {number} rand-grootte - Attribuut wordt gebruikt om aan te geven wat de grootte is van de randen van de cirkels.
- * @property {string} cluster-tekst-kleur - Attribuut wordt gebruikt om aan te geven wat de kleur van de tekst is bij het clusteren van features.
+ * @property {number} size - Attribuut wordt gebruikt om aan te geven wat de grootte is van de cirkels.
+ * @property {string} border-color - Attribuut wordt gebruikt om aan te geven wat de color is van de randen van de cirkels.
+ * @property {number} border-size - Attribuut wordt gebruikt om aan te geven wat de grootte is van de randen van de cirkels.
+ * @property {string} cluster-text-color - Attribuut wordt gebruikt om aan te geven wat de kleur van de tekst is bij het clusteren van features.
+ * @property {string} cluster-color - Attribuut wordt gebruikt om aan te geven wat de kleur is bij het clusteren van features.
  */
 export class VlMapLayerCircleStyle extends VlMapLayerStyle {
     /**
@@ -18,8 +19,8 @@ export class VlMapLayerCircleStyle extends VlMapLayerStyle {
      *
      * @Return {number}
      */
-    get grootte() {
-        return this.getAttribute('grootte') || 5;
+    get size() {
+        return this.getAttribute('size') || 5;
     }
 
     /**
@@ -27,26 +28,35 @@ export class VlMapLayerCircleStyle extends VlMapLayerStyle {
      *
      * @Return {string}
      */
-    get randKleur() {
-        return this.getAttribute('rand-kleur') || 'rgba(0, 0, 0, 1)';
+    get borderColor() {
+        return this.getAttribute('border-color') || 'rgba(0, 0, 0, 1)';
     }
 
     /**
-     * Geeft de grootte van de rand van de cirkels terug.
+     * Geeft de size van de rand van de cirkels terug.
      *
      * @Return {number}
      */
-    get randGrootte() {
-        return this.getAttribute('rand-grootte') || 1;
+    get borderSize() {
+        return this.getAttribute('border-size') || 1;
     }
 
     /**
-     * Geeft kleur van de tekst bij het clusteren van features terug.
+     * Geeft de kleur van de tekst bij het clusteren van features terug.
      *
      * @Return {string}
      */
-    get clusterTekstKleur() {
-        return this.getAttribute('cluster-tekst-kleur') || '#FFF';
+    get clusterTextColor() {
+        return this.getAttribute('cluster-text-color') || '#FFF';
+    }
+
+    /**
+     * Geeft de kleur bij het clusteren van features terug.
+     *
+     * @Return {string}
+     */
+    get clusterColor() {
+        return this.getAttribute('cluster-color') || 'rgba(0, 0, 0, 0)';
     }
 
     /**
@@ -54,20 +64,20 @@ export class VlMapLayerCircleStyle extends VlMapLayerStyle {
      *
      * @Return {string}
      */
-    get stijl() {
+    get style() {
         return (feature, resolution) => {
             const features = feature && feature.get ? (feature.get('features') || []) : [];
             const size = features.length || 1;
             const clusterMultiplier = size == 1 ? 1 : Math.max(1.5, size.toString().length);
             const text = size > 1 ? size.toString() : '';
-            let textColor = this.tekstKleur;
-            let kleur = this.kleur;
-            let randKleur = this.randKleur;
-            let randGrootte = this.randGrootte;
-            let radius =  size > 1 ? this.grootte * clusterMultiplier : this.grootte;
+            let textColor = this.textColor;
+            let kleur = this.color;
+            let randKleur = this.borderColor;
+            let randGrootte = this.borderSize;
+            let radius =  size > 1 ? this.size * clusterMultiplier : this.size;
 
             if (this.parentElement && this.parentElement.cluster) {
-                if (this._hebbenIdentiekeStyle(features)) {
+                if (this._hasUniqueStyles(features)) {
                     let style = features[0].getStyle();
                     if (style instanceof Function) {
                         style = style();
@@ -77,9 +87,9 @@ export class VlMapLayerCircleStyle extends VlMapLayerStyle {
                     randKleur = styleImage.getStroke().getColor();
                     randGrootte = styleImage.getStroke().getWidth();
                     radius = size > 1 ? styleImage.getRadius() * clusterMultiplier : styleImage.getRadius();
-                } else if (this._bevatStyle(features)) {
-                    kleur = this.clusterKleur;
-                    textColor = this.clusterTekstKleur;
+                } else if (this._containsStyle(features)) {
+                    kleur = this.clusterColor;
+                    textColor = this.clusterTextColor;
                 } else {
                     // default options zijn goed
                 }
@@ -102,8 +112,8 @@ export class VlMapLayerCircleStyle extends VlMapLayerStyle {
                     fill: new ol.style.Fill({
                         color: textColor
                     }),
-                    offsetX: this.tekstOffsetX,
-                    offsetY: this.tekstOffsetY
+                    offsetX: this.textOffsetX,
+                    offsetY: this.textOffsetY
                 })
             });
         };
