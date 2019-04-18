@@ -39,6 +39,26 @@
                         &lt;vl-map-baselayer-grb-gray&gt;&lt;/vl-map-baselayer-grb-gray&gt;
                         &lt;vl-map-baselayer-grb&gt;&lt;/vl-map-baselayer-grb&gt;
                         &lt;vl-map-baselayer-grb-ortho&gt;&lt;/vl-map-baselayer-grb-ortho&gt;
+                        &lt;vl-map-layer 
+                            name="laag" 
+                            features='{
+                                "type": "FeatureCollection",
+                                "crs": {
+                                    "type": "name",
+                                    "properties": {
+                                        "name": "EPSG:3857"
+                                    }
+                                },
+                                "features": [{
+                                    "type": "Feature",
+                                    "geometry": {
+                                        "type": "Point",
+                                        "coordinates": [147055.0,197908.0]
+                                    }
+                                }]
+                            }'&gt;
+                            &lt;vl-map-layer-circle-style&gt;&lt;/vl-map-layer-circle-style&gt;
+                        &lt;/vl-map-layer&gt;
                     &lt;/vl-map&gt;
                 </code>
             </pre>
@@ -47,23 +67,25 @@
                     <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
                     <vl-map-baselayer-grb></vl-map-baselayer-grb>
                     <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
-                    <vl-map-layer name="laag" features='{
-                        "type": "FeatureCollection",
-                        "crs": {
-                            "type": "name",
-                            "properties": {
-                                "name": "EPSG:3857"
-                            }
-                        },
-                        "features": [{
-                            "type": "Feature",
-                            "geometry": {
-                                "type": "Point",
-                                "coordinates": [147055.0,197908.0]
-                            }
-                        }]
-                    }'>
-                        <vl-map-layer-style></vl-map-layer-style>
+                    <vl-map-layer 
+                        name="laag" 
+                        features='{
+                            "type": "FeatureCollection",
+                            "crs": {
+                                "type": "name",
+                                "properties": {
+                                    "name": "EPSG:3857"
+                                }
+                            },
+                            "features": [{
+                                "type": "Feature",
+                                "geometry": {
+                                    "type": "Point",
+                                    "coordinates": [147055.0,197908.0]
+                                }
+                            }]
+                        }'>
+                        <vl-map-layer-circle-style></vl-map-layer-circle-style>
                     </vl-map-layer>
                 </vl-map>
             </div>
