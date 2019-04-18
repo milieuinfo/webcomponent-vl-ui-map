@@ -44,11 +44,11 @@
       setup(() => {
         return new Promise((resolve) => {
           const wait = () => {
-            if (!!customElements.get('vl-map')) {
+            if (!!customElements.get('vl-map-baselayer')) {
                 resolve();
             }
           };
-          setTimeout(wait, 500);
+          setInterval(wait, 500);
         });
       });
       
