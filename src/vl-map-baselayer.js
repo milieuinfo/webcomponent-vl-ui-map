@@ -107,7 +107,7 @@ export class VlMapBaseLayer extends VlElement(HTMLElement) {
                 defaultDataProjection: self._projection
             }),
             url: function() {
-                return self.url;
+                return self.url + 'typeName=' + this.layer;
             },
             strategy: ol.loadingstrategy.bbox
         });
