@@ -27,10 +27,7 @@ export class VlMapLayer extends VlElement(HTMLElement) {
 
     connectedCallback() {
         this._layer = this.__createLayer(this._name, this.features);
-        if (this._map) {
-            this._map.getOverlayLayers().push(this._layer);
-            this.__zoomToExtent();
-        }
+        this._configureMap();
     }
 
     static get _counter() {
@@ -236,5 +233,12 @@ export class VlMapLayer extends VlElement(HTMLElement) {
 
     __negeerClustering() {
         return null;
+    }
+
+    _configureMap() {
+        if (this._map) {
+            this._map.getOverlayLayers().push(this._layer);
+            this.__zoomToExtent();
+        }
     }
 }

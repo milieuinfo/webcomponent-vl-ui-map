@@ -14,7 +14,7 @@ import { VlElement } from "/node_modules/vl-ui-core/vl-core.js";
  */
 export class VlMapBaseLayer extends VlElement(HTMLElement) {
     connectedCallback() {
-        this._map.addBaseLayerAndOverlayMapLayer(this._createBaseLayer(), this._createBaseLayer());
+        this._configureMap();
     }
 
     /**
@@ -73,6 +73,12 @@ export class VlMapBaseLayer extends VlElement(HTMLElement) {
     get _vectorSource() {
         this._createdVectorSource = this._createdVectorSource || this._createVectorSource();
         return this._createdVectorSource;
+    }
+
+    _configureMap() {
+        if(this._map) {
+            this._map.addBaseLayerAndOverlayMapLayer(this._createBaseLayer(), this._createBaseLayer());
+        }
     }
 
     _createWMTSSource() {

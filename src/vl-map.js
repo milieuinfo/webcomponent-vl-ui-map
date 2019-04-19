@@ -33,6 +33,8 @@ export class VlMap extends VlElement(HTMLElement) {
 
             <div id="map"></div>
         `);
+
+        this._updateSizeOnLoad();
     }
     
     /**
@@ -95,6 +97,14 @@ export class VlMap extends VlElement(HTMLElement) {
      */
     addAction(action) {
         this._map.addAction(action);
+    }
+
+    _updateSize() {
+        this._map.updateSize();
+    }
+
+    _updateSizeOnLoad() {
+        window.addEventListener('load', this._updateSize.bind(this), { once: true });
     }
 
     __createLayerGroup(title, layers) {

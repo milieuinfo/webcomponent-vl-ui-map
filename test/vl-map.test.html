@@ -25,7 +25,7 @@
   </test-fixture>
 
   <script>
-    suite('<vl-map>', () => {
+    suite('vl-map', () => {
       const sandbox = sinon.sandbox.create();
       const should = chai.should();
 
@@ -49,7 +49,8 @@
         sandbox.stub(acd.ol, 'CustomMap').returns({
           initializeView: initializeViewSpy,
           addAction: sandbox.spy(),
-          activateDefaultAction: sandbox.spy()
+          activateDefaultAction: sandbox.spy(),
+          updateSize: sandbox.spy()
         });
 
         const dummyLayerGroup1 = OpenLayersUtil.createDummyLayerGroup('dummy_layer_group_1');
@@ -131,10 +132,24 @@
         sandbox.stub(acd.ol, 'CustomMap').returns({
           initializeView: sandbox.spy(),
           addAction: sandbox.spy(),
-          activateDefaultAction: sandbox.spy()
+          activateDefaultAction: sandbox.spy(),
+          updateSize: sandbox.spy()
         });
         const element = fixture('vl-map-disable-escape-key-fixture');
         assert(acd.ol.CustomMap.calledWith(sinon.match.has('disableEscapeKey', true)));
+      });
+
+      test('wanneer de pagina volledig ingeladen is, wordt de grootte van de kaart geupdate', () => {
+        const updateSizeSpy = sandbox.spy();
+        sandbox.stub(acd.ol, 'CustomMap').returns({
+          initializeView: sandbox.spy(),
+          addAction: sandbox.spy(),
+          activateDefaultAction: sandbox.spy(),
+          updateSize: updateSizeSpy
+        });
+        const element = fixture('vl-map-fixture');
+        window.dispatchEvent(new Event('load'));
+        assert(updateSizeSpy.called);
       });
     });
   </script>

@@ -176,11 +176,11 @@
         assert.notDeepEqual(kaartlaagElement.source, source);
         assert.isTrue(source instanceof ol.source.Cluster);
 
-        const arguments = ol.source.Cluster.getCall(0).args[0];
-        assert.equal(arguments.distance, 100);
-        assert.deepEqual(arguments.source, kaartlaagElement.source);
+        const callArguments = ol.source.Cluster.getCall(0).args[0];
+        assert.equal(callArguments.distance, 100);
+        assert.deepEqual(callArguments.source, kaartlaagElement.source);
 
-        const geometryFunction = arguments.geometryFunction;
+        const geometryFunction = callArguments.geometryFunction;
         assert.isFunction(geometryFunction);
 
         assert.isNotNull(geometryFunction(new ol.Feature({
