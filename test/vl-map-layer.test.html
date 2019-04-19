@@ -239,8 +239,8 @@
         element.setAttribute('features', geoJSON.writeFeatures(features));
         
         element.verwijderFeatureStijlen();
-        assert.isNull(element._features[0].getStyle());
-        assert.isNull(element._features[1].getStyle());
+        assert.isNull(element.features[0].getStyle());
+        assert.isNull(element.features[1].getStyle());
       });
     });
   </script>

@@ -9,7 +9,7 @@ import { VlElement } from "/node_modules/vl-ui-core/vl-core.js";
  * @property {boolean} auto-extent - Attribuut geeft aan of er automatisch gezoomt wordt op de kaartlaag zodat al de features zichtbaar zijn.
  * @property {boolean} cluster - Attribuut geeft aan of de features geclusterd moeten worden of niet.
  * @property {number} cluster-distance - Attribuut geeft aan vanaf welke afstand tussen features er geclusterd mag worden.
- * @property {(string|Array.))} features - Attribuut die de kaartlaag bevat.
+ * @property {string[]} features - Attribuut die de kaartlaag bevat.
  * 
  * @extends VlElement
  */
@@ -26,7 +26,7 @@ export class VlMapLayer extends VlElement(HTMLElement) {
     }
 
     connectedCallback() {
-        this._layer = this.__createLayer(this._name, this._features);
+        this._layer = this.__createLayer(this._name, this.features);
         if (this._map) {
             this._map.getOverlayLayers().push(this._layer);
             this.__zoomToExtent();
@@ -44,7 +44,7 @@ export class VlMapLayer extends VlElement(HTMLElement) {
     /**
      * Geeft de OpenLayers kaartlaag.
      * 
-     * @Return {ol.layer}
+     * @returns {ol.layer}
      */
     get layer() {
         return this._layer;
@@ -53,10 +53,50 @@ export class VlMapLayer extends VlElement(HTMLElement) {
     /**
      * Geeft de OpenLayers kaartlaag source.
      * 
-     * @Return {ol.source}
+     * @returns {ol.source}
      */
     get source() {
         return this._source;
+    }
+
+    /**
+     * Geeft de OpenLayers features collectie van de kaartlaag terug.
+     * 
+     * @returns {object}
+     */
+    get features() {
+        const features = this.getAttribute('features');
+        return features ? this.__geoJSON.readFeatures(features) : [];
+    }
+
+    /**
+     * Zet de OpenLayers features collectie op de kaartlaag.
+     * 
+     * @param {object} features
+     */
+    set features(features) {
+        this.setAttribute('features', JSON.stringify(features));
+    }
+
+    /**
+     * Geeft de OpenLayers kaartlaag stijl.
+     * 
+     * @returns {ol.style}
+     */
+    get style() {
+        if (this._layer) {
+            return this._layer.getStyle();
+        }
+    }
+    
+    /**
+     * Zet de OpenLayers kaartlaag stijl.
+     * 
+     * @param {ol.style} style
+     */
+    set style(style) {
+        this._style = style;
+        this._layer.setStyle(style);
     }
 
     get _name() {
@@ -75,36 +115,10 @@ export class VlMapLayer extends VlElement(HTMLElement) {
         return this.getAttribute('cluster-distance');
     }
 
-    get _features() {
-        const features = this.getAttribute('features');
-        return features ? this.__geoJSON.readFeatures(features) : [];
-    }
-
     get _map() {
         if (this.parentNode) {
             return this.parentNode.map;
         }
-    }
-
-    /**
-     * Geeft de OpenLayers kaartlaag stijl.
-     * 
-     * @Return {ol.style}
-     */
-    get style() {
-        if (this._layer) {
-            return this._layer.getStyle();
-        }
-    }
-    
-    /**
-     * Zet de OpenLayers kaartlaag stijl.
-     * 
-     * @param {ol.style} style
-     */
-    set style(style) {
-        this._style = style;
-        this._layer.setStyle(style);
     }
 
     /**
@@ -167,7 +181,7 @@ export class VlMapLayer extends VlElement(HTMLElement) {
     _featuresChangedCallback(oldValue, newValue) {
         if (newValue && this._layer) {
             this._source.clear();
-            this._source.addFeatures(this._features);
+            this._source.addFeatures(this.features);
             this.__zoomToExtent();
             this.rerender();
         }
