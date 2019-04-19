@@ -28,7 +28,6 @@
       setup(() => {
         return new Promise((resolve) => {
           const wait = () => {
-            console.log('test');
             if (!!customElements.get('vl-map-baselayer-grb-gray')) {
                 resolve();
             }

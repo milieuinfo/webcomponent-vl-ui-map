@@ -14,6 +14,10 @@ export class VlMapAction extends VlElement(HTMLElement) {
         this.__registerMapActionChangedCallback();
     }
 
+    static isVlMapAction() {
+        return true;
+    }
+
     /**
      * Geeft de event naam die gebruikt wordt wanneer een nieuwe actie toegevoegd wordt aan de kaart
      * 
