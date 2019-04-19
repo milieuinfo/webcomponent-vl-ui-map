@@ -88,6 +88,15 @@ export class VlMap extends VlElement(HTMLElement) {
         this._map.initializeView();
     }
 
+    /**
+     * Voegt een kaartactie toe aan de kaart.
+     * 
+     * @param {ol.interaction} action 
+     */
+    addAction(action) {
+        this._map.addAction(action);
+    }
+
     __createLayerGroup(title, layers) {
         return new ol.layer.Group({
             title: title,

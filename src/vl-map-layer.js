@@ -3,7 +3,7 @@ import { VlElement } from "/node_modules/vl-ui-core/vl-core.js";
 /**
  * VlMapLayer
  * @class
- * @classdesc De kaart laag component. <a href="demo/vl-map.html">Demo</a>.
+ * @classdesc De kaart laag component. <a href="demo/vl-map-layer.html">Demo</a>.
  *
  * @property {string} name - Attribuut bepaalt de kaartlaag naam.
  * @property {boolean} auto-extent - Attribuut geeft aan of er automatisch gezoomt wordt op de kaartlaag zodat al de features zichtbaar zijn.
@@ -44,7 +44,7 @@ export class VlMapLayer extends VlElement(HTMLElement) {
     /**
      * Geeft de OpenLayers kaartlaag.
      * 
-     * @returns {ol.layer}
+     * @returns {ol.layer.Layer}
      */
     get layer() {
         return this._layer;

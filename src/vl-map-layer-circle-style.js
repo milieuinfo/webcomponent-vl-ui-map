@@ -3,7 +3,7 @@ import { VlMapLayerStyle } from "./vl-map-layer-style.js";
 /**
  * VlMapLayerCircleStyle
  * @class
- * @classdesc De kaart laag style klasse voor cirkels. <a href="demo/vl-map.html">Demo</a>.
+ * @classdesc De kaart laag style klasse voor cirkels. <a href="demo/vl-map-circle-style.html">Demo</a>.
  *
  * @extends VlMapLayerStyle
  *

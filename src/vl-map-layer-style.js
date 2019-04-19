@@ -3,7 +3,7 @@ import { VlElement } from "/node_modules/vl-ui-core/vl-core.js";
 /**
  * VlMapLayerStyle
  * @class
- * @classdesc De abstracte kaart laag style klasse. <a href="demo/vl-map.html">Demo</a>.
+ * @classdesc De abstracte kaart laag style klasse.
  *
  * @extends VlElement
  *
