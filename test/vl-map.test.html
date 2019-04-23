@@ -139,17 +139,26 @@
         assert(acd.ol.CustomMap.calledWith(sinon.match.has('disableEscapeKey', true)));
       });
 
-      test('wanneer de pagina volledig ingeladen is, wordt de grootte van de kaart geupdate', () => {
+      test('wanneer de pagina volledig ingeladen is, wordt de grootte van de overview kaart geupdate', () => {
         const updateSizeSpy = sandbox.spy();
-        sandbox.stub(acd.ol, 'CustomMap').returns({
-          initializeView: sandbox.spy(),
-          addAction: sandbox.spy(),
-          activateDefaultAction: sandbox.spy(),
-          updateSize: updateSizeSpy
-        });
         const element = fixture('vl-map-fixture');
+        element._map = {
+          overviewMapControl: {
+            getOverviewMap: () => {
+              return {
+                updateSize: updateSizeSpy
+              }
+            }
+          }
+        };
         window.dispatchEvent(new Event('load'));
         assert(updateSizeSpy.called);
+      });
+
+      test('de breedte en hoogte van de kaart wordt met inline stijl gezet zodat de map aangemaakt wordt met de correcte afmetingen', () => {
+        const element = fixture('vl-map-fixture');
+        assert.equal(element.shadowRoot.querySelector('#map').style.height, '500px');
+        assert.equal(element.shadowRoot.querySelector('#map').style.width, '100%');
       });
     });
   </script>

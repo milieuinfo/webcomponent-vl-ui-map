@@ -19,22 +19,13 @@ export class VlMap extends VlElement(HTMLElement) {
                     display: block;
                     position: relative;
                 }
-
-                #map {
-                    width: 100%;
-                    height: var(--vl-map-height, 500px);
-                }
-
-                .ol-overviewmap-map {
-                    width: 100px;
-                    height: 100px;
-                }
             </style>
 
             <div id="map"></div>
         `);
 
-        this._updateSizeOnLoad();
+        this.__setMapSize();
+        this.__updateOverviewMapSizeOnLoad();
     }
     
     /**
@@ -99,12 +90,23 @@ export class VlMap extends VlElement(HTMLElement) {
         this._map.addAction(action);
     }
 
-    _updateSize() {
-        this._map.updateSize();
+    /**
+     * Gaat de breedte en hoogte van de kaart bepalen aan de hand van inline stijl zodat de map aangemaakt wordt met de correcte afmetingen.
+     */
+    __setMapSize() {
+        const height = getComputedStyle(this).getPropertyValue('--vl-map-height') || '500px';
+        this.shadowRoot.querySelector('#map').style.height = height;
+        this.shadowRoot.querySelector('#map').style.width = '100%';
     }
 
-    _updateSizeOnLoad() {
-        window.addEventListener('load', this._updateSize.bind(this), { once: true });
+    __updateOverviewMapSize() {
+        if (this._map.overviewMapControl) {
+            this._map.overviewMapControl.getOverviewMap().updateSize();
+        }
+    }
+
+    __updateOverviewMapSizeOnLoad() {
+        window.addEventListener('load', this.__updateOverviewMapSize.bind(this), { once: true });
     }
 
     __createLayerGroup(title, layers) {
