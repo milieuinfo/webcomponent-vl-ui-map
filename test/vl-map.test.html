@@ -157,8 +157,21 @@
 
       test('de breedte en hoogte van de kaart wordt met inline stijl gezet zodat de map aangemaakt wordt met de correcte afmetingen', () => {
         const element = fixture('vl-map-fixture');
-        assert.equal(element.shadowRoot.querySelector('#map').style.height, '500px');
-        assert.equal(element.shadowRoot.querySelector('#map').style.width, '100%');
+        const map = element.shadowRoot.querySelector('#map');
+        assert.equal(map.style.height, '500px');
+        assert.equal(map.style.width, '100%');
+      });
+
+      test('de breedte en hoogte van de zoomslider wordt met inline stijl gezet zodat de zoomslider correct wordt getoond', () => {
+        const element = fixture('vl-map-fixture');
+
+        const zoomslider = element.shadowRoot.querySelector('.ol-zoomslider');
+        assert.equal(zoomslider.style.height, '203px');
+        assert.equal(zoomslider.style.width, '27px');
+
+        const zoomsliderButton = zoomslider.querySelector('button');
+        assert.equal(zoomsliderButton.style.width, '27px');
+        assert.equal(zoomsliderButton.style['margin-bottom'], '10px');
       });
     });
   </script>
