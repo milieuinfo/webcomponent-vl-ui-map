@@ -1,6 +1,11 @@
 @import '~vl-mapactions/lib/openlayers/css/ol';
 @import '~vl-mapactions/dist/mapactions';
 
+#map {
+    height: var(--vl-map-height, 500px);
+    width: 100%;
+}
+
 .ol-overlaycontainer-stopevent {
     > .ol-zoom {
         border-radius: 0;

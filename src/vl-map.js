@@ -15,7 +15,7 @@ export class VlMap extends VlElement(HTMLElement) {
         super(`
             <style>
                 :host {
-                    display: block;
+                    display: none;
                     position: relative;
                 }
                 
@@ -25,7 +25,6 @@ export class VlMap extends VlElement(HTMLElement) {
             <div id="map"></div>
         `);
 
-        this.__setMapSize();
         this.__updateMapSizeOnLoad();
         this.__updateOverviewMapSizeOnLoad();
     }
@@ -92,19 +91,8 @@ export class VlMap extends VlElement(HTMLElement) {
         this._map.addAction(action);
     }
 
-    /**
-     * Gaat de breedte en hoogte van de kaart bepalen aan de hand van inline stijl zodat de map aangemaakt wordt met de correcte afmetingen.
-     */
-    __setMapSize() {
-        const height = getComputedStyle(this).getPropertyValue('--vl-map-height') || '500px';
-        const map = this.shadowRoot.querySelector('#map');
-        if (map) {
-            map.style.height = height;
-            map.style.width = '100%';
-        }
-    }
-
     __updateMapSize() {
+        this.style.display = 'block';
         if (this._map) {
             this._map.updateSize();
         }
