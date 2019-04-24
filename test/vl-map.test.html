@@ -2,179 +2,182 @@
 <html>
 
 <head>
-  <meta charset="utf-8">
-  <script src="../../@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
-  <script src="../../web-component-tester/browser.js"></script>
+    <meta charset="utf-8">
+    <script src="../../@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../web-component-tester/browser.js"></script>
 
-  <script src="ol-util.js"></script>
+    <script src="ol-util.js"></script>
 
-  <script type="module" src="../vl-map.js"></script>
+    <script type="module" src="../vl-map.js"></script>
 </head>
 
 <body>
-  <test-fixture id="vl-map-fixture">
+<test-fixture id="vl-map-fixture">
     <template>
-      <vl-map></vl-map>
+        <vl-map></vl-map>
     </template>
-  </test-fixture>
+</test-fixture>
 
-  <test-fixture id="vl-map-disable-escape-key-fixture">
+<test-fixture id="vl-map-disable-escape-key-fixture">
     <template>
-      <vl-map disable-escape-key></vl-map>
+        <vl-map disable-escape-key></vl-map>
     </template>
-  </test-fixture>
+</test-fixture>
 
-  <script>
+<script>
     suite('vl-map', () => {
-      const sandbox = sinon.sandbox.create();
-      const should = chai.should();
+        const sandbox = sinon.sandbox.create();
+        const should = chai.should();
 
-      setup(() => {
-        return new Promise((resolve) => {
-          const wait = () => {
-            if (!!customElements.get('vl-map')) {
-                resolve();
-            }
-          };
-          setInterval(wait, 500);
-        });
-      });
-
-      teardown(() => {
-        sandbox.restore();
-      });
-
-      test('kaart configuratie controle', () => {
-        const initializeViewSpy = sandbox.spy();
-        sandbox.stub(acd.ol, 'CustomMap').returns({
-          initializeView: initializeViewSpy,
-          addAction: sandbox.spy(),
-          activateDefaultAction: sandbox.spy(),
-          updateSize: sandbox.spy()
+        setup(() => {
+            return new Promise((resolve) => {
+                const wait = () => {
+                    if (!!customElements.get('vl-map')) {
+                        resolve();
+                    }
+                };
+                setInterval(wait, 500);
+            });
         });
 
-        const dummyLayerGroup1 = OpenLayersUtil.createDummyLayerGroup('dummy_layer_group_1');
-        const dummyLayerGroup2 = OpenLayersUtil.createDummyLayerGroup('dummy_layer_group_2');
-        
-        const stub = sandbox.stub(ol.layer, 'Group');
-        stub.onCall(0).returns(dummyLayerGroup1);
-        stub.onCall(1).returns(dummyLayerGroup2);
-        
-        const element = fixture('vl-map-fixture');
-
-        assert(acd.ol.CustomMap.calledWith(sandbox.match.has("actions", sinon.match.array)));
-        assert(acd.ol.CustomMap.calledWith(sinon.match.has("disableEscapeKey", false)));
-        assert(acd.ol.CustomMap.calledWith(sinon.match.has("projection", sinon.match.object)));
-        assert(acd.ol.CustomMap.calledWith(sinon.match.has("target", sinon.match.any)));
-        
-        const actionsArg = acd.ol.CustomMap.args[0][0]['actions'];
-        const customLayersArg = acd.ol.CustomMap.args[0][0]['customLayers'];
-        const targetArg = acd.ol.CustomMap.args[0][0]['target'];
-        
-        const baseLayerGroupArg = customLayersArg['baseLayerGroup'];
-        const overviewMapLayersArg = customLayersArg['overviewMapLayers'];
-        const overlayGroupArg = customLayersArg['overlayGroup'];
-
-        assert.lengthOf(actionsArg, 0);
-        
-        assert.equal(baseLayerGroupArg, dummyLayerGroup1);
-        assert.equal(overlayGroupArg, dummyLayerGroup2);
-
-        assert.lengthOf(overviewMapLayersArg, 0);
-
-        assert.equal(targetArg.id, 'map');
-
-        assert(initializeViewSpy.called);
-      });
-
-      test('de Lambert 31370 projectie wordt correct gedefinieerd', () => {
-        sandbox.spy(proj4, 'defs');
-        const element = fixture('vl-map-fixture');
-        assert(proj4.defs.calledWith('EPSG:31370', '+proj=lcc +lat_1=51.16666723333333 +lat_2=49.8333339 +lat_0=90 +lon_0=4.367486666666666 +x_0=150000.013 +y_0=5400088.438 +ellps=intl +towgs84=-106.869,52.2978,-103.724,0.3366,-0.457,1.8422,-1.2747 +units=m +no_defs'));
-      });
-
-      test('de extent bevat Vlaanderen', () => {
-        const element = fixture('vl-map-fixture');
-        const extent = element._extent;
-        assert.lengthOf(extent, 4);
-        assert.equal(extent[0], 9928);
-        assert.equal(extent[1], 66928);
-        assert.equal(extent[2], 272072);
-        assert.equal(extent[3], 329072);
-
-        assert.deepEqual(element._map.getView().getCenter(), [140860.69299028325, 190532.7165957574]);
-      });
-
-      test('kan een lagen groep aanmaken', () => {
-        const element = fixture('vl-map-fixture');
-        const title = 'title';
-        const layer1 = OpenLayersUtil.createDummyLayer('layer 1');
-        const layer2 = OpenLayersUtil.createDummyLayer('layer 2');
-        const layers = [layer1, layer2];
-        const layerGroup = element.__createLayerGroup(title, layers);
-        const properties = layerGroup.getProperties();
-        const layerGroupLayers = layerGroup.getLayers().getArray();
-        assert.isTrue(layerGroup instanceof ol.layer.Group);
-        assert.equal(properties.title, title);
-        assert.deepEqual(layerGroupLayers, layers);
-      });
-      
-      test('er kan een actie toegevoegd worden aan de kaart', () => {
-        const element = fixture('vl-map-fixture');
-        const map = element.map;
-        const actie = new acd.ol.action.SelectAction();
-        sandbox.spy(acd.ol.MapWithActions.prototype, 'activateAction');
-        map.addAction(actie);
-        assert(acd.ol.MapWithActions.prototype.activateAction);
-      });
-      
-      test('indien gewenst kan de escape key functionaliteit uitgeschakeld worden', () => {
-        sandbox.stub(acd.ol, 'CustomMap').returns({
-          initializeView: sandbox.spy(),
-          addAction: sandbox.spy(),
-          activateDefaultAction: sandbox.spy(),
-          updateSize: sandbox.spy()
+        teardown(() => {
+            sandbox.restore();
         });
-        const element = fixture('vl-map-disable-escape-key-fixture');
-        assert(acd.ol.CustomMap.calledWith(sinon.match.has('disableEscapeKey', true)));
-      });
 
-      test('wanneer de pagina volledig ingeladen is, wordt de grootte van de overview kaart geupdate', () => {
-        const updateSizeSpy = sandbox.spy();
-        const element = fixture('vl-map-fixture');
-        element._map = {
-          overviewMapControl: {
-            getOverviewMap: () => {
-              return {
-                updateSize: updateSizeSpy
-              }
-            }
-          }
-        };
-        window.dispatchEvent(new Event('load'));
-        assert(updateSizeSpy.called);
-      });
+        test('kaart configuratie controle', () => {
+            const initializeViewSpy = sandbox.spy();
+            sandbox.stub(acd.ol, 'CustomMap').returns({
+                initializeView: initializeViewSpy,
+                addAction: sandbox.spy(),
+                activateDefaultAction: sandbox.spy(),
+                updateSize: sandbox.spy()
+            });
 
-      test('de breedte en hoogte van de kaart wordt met inline stijl gezet zodat de map aangemaakt wordt met de correcte afmetingen', () => {
-        const element = fixture('vl-map-fixture');
-        const map = element.shadowRoot.querySelector('#map');
-        assert.equal(map.style.height, '500px');
-        assert.equal(map.style.width, '100%');
-      });
+            const dummyLayerGroup1 = OpenLayersUtil.createDummyLayerGroup('dummy_layer_group_1');
+            const dummyLayerGroup2 = OpenLayersUtil.createDummyLayerGroup('dummy_layer_group_2');
 
-      test('de breedte en hoogte van de zoomslider wordt met inline stijl gezet zodat de zoomslider correct wordt getoond', () => {
-        const element = fixture('vl-map-fixture');
+            const stub = sandbox.stub(ol.layer, 'Group');
+            stub.onCall(0).returns(dummyLayerGroup1);
+            stub.onCall(1).returns(dummyLayerGroup2);
 
-        const zoomslider = element.shadowRoot.querySelector('.ol-zoomslider');
-        assert.equal(zoomslider.style.height, '203px');
-        assert.equal(zoomslider.style.width, '27px');
+            const element = fixture('vl-map-fixture');
 
-        const zoomsliderButton = zoomslider.querySelector('button');
-        assert.equal(zoomsliderButton.style.width, '27px');
-        assert.equal(zoomsliderButton.style['margin-bottom'], '10px');
-      });
+            assert(acd.ol.CustomMap.calledWith(sandbox.match.has("actions", sinon.match.array)));
+            assert(acd.ol.CustomMap.calledWith(sinon.match.has("disableEscapeKey", false)));
+            assert(acd.ol.CustomMap.calledWith(sinon.match.has("projection", sinon.match.object)));
+            assert(acd.ol.CustomMap.calledWith(sinon.match.has("target", sinon.match.any)));
+
+            const actionsArg = acd.ol.CustomMap.args[0][0]['actions'];
+            const customLayersArg = acd.ol.CustomMap.args[0][0]['customLayers'];
+            const targetArg = acd.ol.CustomMap.args[0][0]['target'];
+
+            const baseLayerGroupArg = customLayersArg['baseLayerGroup'];
+            const overviewMapLayersArg = customLayersArg['overviewMapLayers'];
+            const overlayGroupArg = customLayersArg['overlayGroup'];
+
+            assert.lengthOf(actionsArg, 0);
+
+            assert.equal(baseLayerGroupArg, dummyLayerGroup1);
+            assert.equal(overlayGroupArg, dummyLayerGroup2);
+
+            assert.lengthOf(overviewMapLayersArg, 0);
+
+            assert.equal(targetArg.id, 'map');
+
+            assert(initializeViewSpy.called);
+        });
+
+        test('de Lambert 31370 projectie wordt correct gedefinieerd', () => {
+            sandbox.spy(proj4, 'defs');
+            const element = fixture('vl-map-fixture');
+            assert(proj4.defs.calledWith('EPSG:31370', '+proj=lcc +lat_1=51.16666723333333 +lat_2=49.8333339 +lat_0=90 +lon_0=4.367486666666666 +x_0=150000.013 +y_0=5400088.438 +ellps=intl +towgs84=-106.869,52.2978,-103.724,0.3366,-0.457,1.8422,-1.2747 +units=m +no_defs'));
+        });
+
+        test('de extent bevat Vlaanderen', () => {
+            const element = fixture('vl-map-fixture');
+            const extent = element._extent;
+            assert.lengthOf(extent, 4);
+            assert.equal(extent[0], 9928);
+            assert.equal(extent[1], 66928);
+            assert.equal(extent[2], 272072);
+            assert.equal(extent[3], 329072);
+
+            assert.deepEqual(element._map.getView().getCenter(), [140860.69299028325, 190532.7165957574]);
+        });
+
+        test('kan een lagen groep aanmaken', () => {
+            const element = fixture('vl-map-fixture');
+            const title = 'title';
+            const layer1 = OpenLayersUtil.createDummyLayer('layer 1');
+            const layer2 = OpenLayersUtil.createDummyLayer('layer 2');
+            const layers = [layer1, layer2];
+            const layerGroup = element.__createLayerGroup(title, layers);
+            const properties = layerGroup.getProperties();
+            const layerGroupLayers = layerGroup.getLayers().getArray();
+            assert.isTrue(layerGroup instanceof ol.layer.Group);
+            assert.equal(properties.title, title);
+            assert.deepEqual(layerGroupLayers, layers);
+        });
+
+        test('er kan een actie toegevoegd worden aan de kaart', () => {
+            const element = fixture('vl-map-fixture');
+            const map = element.map;
+            const actie = new acd.ol.action.SelectAction();
+            sandbox.spy(acd.ol.MapWithActions.prototype, 'activateAction');
+            map.addAction(actie);
+            assert(acd.ol.MapWithActions.prototype.activateAction);
+        });
+
+        test('indien gewenst kan de escape key functionaliteit uitgeschakeld worden', () => {
+            sandbox.stub(acd.ol, 'CustomMap').returns({
+                initializeView: sandbox.spy(),
+                addAction: sandbox.spy(),
+                activateDefaultAction: sandbox.spy(),
+                updateSize: sandbox.spy()
+            });
+            const element = fixture('vl-map-disable-escape-key-fixture');
+            assert(acd.ol.CustomMap.calledWith(sinon.match.has('disableEscapeKey', true)));
+        });
+
+        test('wanneer de pagina volledig ingeladen is, wordt de grootte van de kaart geupdate', () => {
+            const updateMapSizeSpy = sandbox.spy();
+            const updateOverviewMapSizeSpy = sandbox.spy();
+            const element = fixture('vl-map-fixture');
+            element._map = {
+                updateSize: updateMapSizeSpy,
+                overviewMapControl: {
+                    getOverviewMap: () => {
+                        return {
+                            updateSize: updateOverviewMapSizeSpy
+                        }
+                    }
+                }
+            };
+            window.dispatchEvent(new Event('load'));
+            assert(updateMapSizeSpy.called);
+            assert(updateOverviewMapSizeSpy.called);
+        });
+
+        test('de breedte en hoogte van de kaart wordt met inline stijl gezet zodat de map aangemaakt wordt met de correcte afmetingen', () => {
+            const element = fixture('vl-map-fixture');
+            const map = element.shadowRoot.querySelector('#map');
+            assert.equal(map.style.height, '500px');
+            assert.equal(map.style.width, '100%');
+        });
+
+        test('de breedte en hoogte van de zoomslider wordt met inline stijl gezet zodat de zoomslider correct wordt getoond', () => {
+            const element = fixture('vl-map-fixture');
+
+            const zoomslider = element.shadowRoot.querySelector('.ol-zoomslider');
+            assert.equal(zoomslider.style.height, '203px');
+            assert.equal(zoomslider.style.width, '27px');
+
+            const zoomsliderButton = zoomslider.querySelector('button');
+            assert.equal(zoomsliderButton.style.width, '27px');
+            assert.equal(zoomsliderButton.style['margin-bottom'], '10px');
+        });
     });
-  </script>
+</script>
 </body>
 
 </html>
