@@ -15,7 +15,7 @@
   },
   "scripts": {
     "prepare": "npm run prepare:util",
-    "prepare:util": "npm explore vl-ui-util -- npm run util",
+    "prepare:util": "npm explore vl-ui-util -- npm run install:copy",
     "test": "wct -l chrome,firefox --npm",
     "release": "np",
     "release:prepare": "npm run release:prepare:build && npm run release:prepare:imports && npm run release:prepare:css && npm run release:prepare:commit",
@@ -45,7 +45,9 @@
     "np": "3.0.4",
     "replace": "1.0.0",
     "rollup": "1.10.0",
+    "rollup-plugin-postcss": "2.0.3",
     "rollup-plugin-terser": "4.0.4",
+    "sass": "1.19.0",
     "uglify-js-es6": "2.8.9",
     "vl-ui-icon": "0.2.0",
     "vl-ui-util": "1.0.1",

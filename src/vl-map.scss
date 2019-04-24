@@ -1,5 +1,5 @@
-@import '/node_modules/vl-mapactions/lib/openlayers/css/ol.css';
-@import '/node_modules/vl-mapactions/dist/mapactions.css';
+@import '~vl-mapactions/lib/openlayers/css/ol';
+@import '~vl-mapactions/dist/mapactions';
 
 .ol-overlaycontainer-stopevent {
     > .ol-zoom {

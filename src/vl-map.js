@@ -1,4 +1,5 @@
 import { VlElement } from "/node_modules/vl-ui-core/vl-core.js";
+import style from './vl-map.scss';
 
 /**
  * VlMap
@@ -13,18 +14,19 @@ export class VlMap extends VlElement(HTMLElement) {
     constructor() {
         super(`
             <style>
-                @import '../style.css';
-
                 :host {
                     display: block;
                     position: relative;
                 }
+                
+                ${style}
             </style>
 
             <div id="map"></div>
         `);
 
         this.__setMapSize();
+        this.__updateMapSizeOnLoad();
         this.__updateOverviewMapSizeOnLoad();
     }
     
@@ -103,6 +105,12 @@ export class VlMap extends VlElement(HTMLElement) {
         }
     }
 
+    __updateMapSize() {
+        if (this._map) {
+            this._map.updateSize();
+        }
+    }
+
     __updateOverviewMapSize() {
         if (this._map.overviewMapControl) {
             this._map.overviewMapControl.getOverviewMap().updateSize();
@@ -111,6 +119,10 @@ export class VlMap extends VlElement(HTMLElement) {
 
     __updateOverviewMapSizeOnLoad() {
         window.addEventListener('load', this.__updateOverviewMapSize.bind(this), { once: true });
+    }
+
+    __updateMapSizeOnLoad() {
+        window.addEventListener('load', this.__updateMapSize.bind(this), { once: true });
     }
 
     __createLayerGroup(title, layers) {
