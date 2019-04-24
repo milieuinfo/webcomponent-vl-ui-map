@@ -23,7 +23,7 @@ export class VlMapAction extends VlElement(HTMLElement) {
      * 
      * @returns {string}
      */
-    static get newActionEventName() {
+    static get NEW_ACTION_EVENT_NAME() {
         return 'new-action-activated';
     }
 
@@ -75,7 +75,7 @@ export class VlMapAction extends VlElement(HTMLElement) {
      * Stuurt een event om te laten weten dat de actieve kaart actie gewijzigd werd
      */
     actionChanged() {
-        const event = new Event(VlMapAction.newActionEventName);
+        const event = new Event(VlMapAction.NEW_ACTION_EVENT_NAME);
         this.parentElement.dispatchEvent(event);
     }
 
@@ -98,7 +98,7 @@ export class VlMapAction extends VlElement(HTMLElement) {
     }
 
     __registerMapActionChangedCallback() {
-        this.parentElement.addEventListener(VlMapAction.newActionEventName, () => {
+        this.parentElement.addEventListener(VlMapAction.NEW_ACTION_EVENT_NAME, () => {
             this.setAttribute('active', (this._map && this._map.currentAction == this._action));
         });
     }
