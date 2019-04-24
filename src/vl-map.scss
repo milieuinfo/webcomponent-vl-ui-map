@@ -25,4 +25,12 @@
     > .ol-control {
         margin-top: 0;
     }
+
+    > .ol-zoomslider {
+        background: none;
+
+        .ol-zoomslider-thumb {
+            margin-bottom: 5px;
+        }
+    }
 }
