@@ -1,4 +1,4 @@
-import { VlElement, VlRegisterElement } from '../../../../../../../node_modules/vl-ui-core/vl-core.js';
+import { VlElement, VlRegisterElement } from '/node_modules/vl-ui-core/vl-core.js';
 
 function styleInject(css, ref) {
   if ( ref === void 0 ) ref = {};
