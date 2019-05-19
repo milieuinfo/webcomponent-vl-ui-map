@@ -1,4 +1,3 @@
-import {VlRegisterElement} from '/node_modules/vl-ui-core/vl-core.js';
 import {VlMap} from "./src/vl-map";
 import {VlMapLayer} from "./src/vl-map-layer";
 import {VlMapBaseLayer} from "./src/vl-map-baselayer";
@@ -14,18 +13,16 @@ import {VlMapLayerCircleStyle} from "./src/vl-map-layer-circle-style";
     loadScript('VlMap-openlayers', '/node_modules/vl-mapactions/lib/openlayers/dist/ol.js');
     loadScript('VlMap-proj4', '/node_modules/proj4/dist/proj4.js');
     loadScript('VlMap-mapactions', '/node_modules/vl-mapactions/dist/mapactions-min.js', () => {
-        VlRegisterElement(() => {
-            customElements.define('vl-map', VlMap);
-            customElements.define('vl-map-layer', VlMapLayer);
-            customElements.define('vl-map-baselayer', VlMapBaseLayer);
-            customElements.define('vl-map-baselayer-grb-gray', VlMapBaseLayerGRBGray);
-            customElements.define('vl-map-baselayer-grb', VlMapBaseLayerGRB);
-            customElements.define('vl-map-baselayer-grb-ortho', VlMapBaseLayerGRBOrtho);
-            customElements.define('vl-map-action', VlMapAction);
-            customElements.define('vl-map-select-action', VlMapSelectAction);
-            customElements.define('vl-map-layer-style', VlMapLayerStyle);
-            customElements.define('vl-map-layer-circle-style', VlMapLayerCircleStyle);
-        });
+        customElements.define('vl-map', VlMap);
+        customElements.define('vl-map-layer', VlMapLayer);
+        customElements.define('vl-map-baselayer', VlMapBaseLayer);
+        customElements.define('vl-map-baselayer-grb-gray', VlMapBaseLayerGRBGray);
+        customElements.define('vl-map-baselayer-grb', VlMapBaseLayerGRB);
+        customElements.define('vl-map-baselayer-grb-ortho', VlMapBaseLayerGRBOrtho);
+        customElements.define('vl-map-action', VlMapAction);
+        customElements.define('vl-map-select-action', VlMapSelectAction);
+        customElements.define('vl-map-layer-style', VlMapLayerStyle);
+        customElements.define('vl-map-layer-circle-style', VlMapLayerCircleStyle);
     });
   
     function loadScript(id, src, onload) {
