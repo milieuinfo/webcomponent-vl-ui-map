@@ -5,6 +5,8 @@ import { VlMapAction } from "./vl-map-action.js";
  * @class
  * @classdesc De kaart selecteer actie component. <a href="demo/vl-map.html">Demo</a>.
  * 
+ * @property {boolean} cluster - Attribuut geeft aan of de features geclusterd zijn of niet.
+ * 
  * @extends VlElement
  */
 export class VlMapSelectAction extends VlMapAction {
@@ -23,15 +25,19 @@ export class VlMapSelectAction extends VlMapAction {
         this._style = style;
     }
 
+    get _cluster() {
+        return this.getAttribute('cluster');
+    }
+
     mark(id) {
         if (this._action && id) {
-            this._action.hoverFeatureWithId(id, this.layer);
+            this._action.markFeatureWithId(id, this.layer);
         }
     }
     
     removeMarks() {
         if (this._action) {
-            this._action.dehoverAllFeatures();
+            this._action.demarkAllFeatures();
         }
     }
     
@@ -53,7 +59,8 @@ export class VlMapSelectAction extends VlMapAction {
     
     _createAction(layer) {
         return new acd.ol.action.SelectAction(layer, (args) => {this._onSelect(args)}, {
-            style: this._style
+            style: this._style,
+            cluster: (this._cluster != undefined)
         });
     }
 }

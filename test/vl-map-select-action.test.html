@@ -38,13 +38,13 @@
       
       setup(() => {
         const kaartElement = fixture('vl-map-fixture');
-        const kaartlaagElement = kaartElement.querySelector('vl-map-layer');
-        kaartlaag = kaartlaagElement.layer;
 
         return new Promise((resolve) => {
           const wait = () => {
             if (!!customElements.get('vl-map-select-action')) {
-                resolve();
+              const kaartlaagElement = kaartElement.querySelector('vl-map-layer');
+              kaartlaag = kaartlaagElement.layer;
+              resolve();
             }
           };
           setInterval(wait, 500);
@@ -80,9 +80,9 @@
         const id = 1;
 
         actionElement.layer = kaartlaag;
-        sandbox.spy(actionElement.action, 'hoverFeatureWithId');
+        sandbox.spy(actionElement.action, 'markFeatureWithId');
         actionElement.mark(id);
-        assert(actionElement.action.hoverFeatureWithId.calledWith(id));
+        assert(actionElement.action.markFeatureWithId.calledWith(id));
       });
       
       test('de gemarkeerde features op de kaart kunnen gedemarkeerd worden', () => {
@@ -90,9 +90,9 @@
         const actionElement = kaartElement.querySelector('vl-map-select-action');
 
         actionElement.layer = kaartlaag;
-        sandbox.spy(actionElement.action, 'dehoverAllFeatures');
+        sandbox.spy(actionElement.action, 'demarkAllFeatures');
         actionElement.removeMarks();
-        assert(actionElement.action.dehoverAllFeatures.called);
+        assert(actionElement.action.demarkAllFeatures.called);
       });
       
       test('er kan een feature op de kaart geselecteerd worden', () => {
@@ -114,6 +114,21 @@
         sandbox.spy(actionElement.action, 'clearFeatures');
         actionElement.reset();
         assert(actionElement.action.clearFeatures.calledWith());
+      });
+
+      test('het cluster attribuut wordt doorgegeven aan de select actie', () => {
+        sandbox.spy(acd.ol.action, 'SelectAction');
+
+        const kaartElement = fixture('vl-map-select-action-fixture');
+        const actionElement = kaartElement.querySelector('vl-map-select-action');
+        const styleElement = kaartElement.querySelector('vl-map-layer-circle-style');
+        const onSelectie = sandbox.spy();
+
+        actionElement.setAttribute('cluster', '');
+        actionElement.layer = kaartlaag;
+        const args = acd.ol.action.SelectAction.getCall(0).args;
+        assert.deepEqual(args[0], kaartlaag);
+        assert.equal(args[2].cluster, true);
       });
     });
   </script>
