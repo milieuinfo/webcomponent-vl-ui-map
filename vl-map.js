@@ -1020,13 +1020,10 @@ class VlMapSearch extends VlElement(HTMLElement) {
     }
 
     _addSearchEventListener() {
-        console.log('boem');
         this._selectElement.addEventListener('search', (event) => {
-            console.log('test');
             if (event && event.detail && event.detail.value) {
                 fetch('http://loc.geopunt.be/v4/Suggestion?q=' + event.detail.value)
                     .then((response) => {
-                        console.log('test');
                         return response.json()
                     }).then((data) => {
                         if (data && data.SuggestionResult) {
