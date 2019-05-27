@@ -6,6 +6,12 @@
     width: 100%;
 }
 
+:host(.vl-map--search) {
+    .ol-zoom, .ol-zoomslider, .ol-rotate {
+        margin-top: 35px;
+    }
+}
+
 .ol-overlaycontainer-stopevent {
     > .ol-zoom {
         border-radius: 0;

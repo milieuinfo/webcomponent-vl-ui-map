@@ -8,6 +8,7 @@ import {VlMapAction} from "./src/vl-map-action";
 import {VlMapSelectAction} from "./src/vl-map-select-action";
 import {VlMapLayerStyle} from "./src/vl-map-layer-style";
 import {VlMapLayerCircleStyle} from "./src/vl-map-layer-circle-style";
+import {VlMapSearch} from "./src/vl-map-search";
 
 (() => {
     loadScript('VlMap-openlayers', '/node_modules/vl-mapactions/lib/openlayers/dist/ol.js');
@@ -23,6 +24,7 @@ import {VlMapLayerCircleStyle} from "./src/vl-map-layer-circle-style";
         customElements.define('vl-map-select-action', VlMapSelectAction);
         customElements.define('vl-map-layer-style', VlMapLayerStyle);
         customElements.define('vl-map-layer-circle-style', VlMapLayerCircleStyle);
+        customElements.define('vl-map-search', VlMapSearch);
     });
   
     function loadScript(id, src, onload) {
@@ -48,3 +50,4 @@ export * from "./src/vl-map-action";
 export * from "./src/vl-map-select-action";
 export * from "./src/vl-map-layer-style";
 export * from "./src/vl-map-layer-circle-style";
+export * from "./src/vl-map-search";

@@ -24,6 +24,14 @@
     </template>
 </test-fixture>
 
+<test-fixture id="vl-map-search-fixture">
+    <template>
+        <vl-map>
+            <vl-map-search></vl-map-search>
+        </vl-map>
+    </template>
+</test-fixture>
+
 <script>
     suite('vl-map', () => {
         const sandbox = sinon.sandbox.create();
@@ -156,6 +164,20 @@
             window.dispatchEvent(new Event('load'));
             assert(updateMapSizeSpy.called);
             assert(updateOverviewMapSizeSpy.called);
+        });
+
+        test('er kan gezoomd worden naar een bounding box', () => {
+            const element = fixture('vl-map-fixture');
+            sandbox.spy(element._map, 'zoomToExtent');
+            const boundingbox = [0, 1, 2, 3];
+            element.zoom(boundingbox);
+            assert(element._map.zoomToExtent.calledWith(boundingbox));
+        });
+
+        test('indien de map een vl-map-search element bevat zal dit toegevoegd worden aan de shadow dom', () => {
+            const element = fixture('vl-map-search-fixture');
+            should.exist(element.shadowRoot.querySelector('vl-map-search'));
+            assert.isTrue(element.classList.contains('vl-map--search'));
         });
     });
 </script>
