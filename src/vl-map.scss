@@ -12,6 +12,10 @@
     }
 }
 
+:host(#map) {
+    height: calc(var(--vl-map-height, 500px) - 35px);
+}
+
 .ol-overlaycontainer-stopevent {
     > .ol-zoom {
         border-radius: 0;
