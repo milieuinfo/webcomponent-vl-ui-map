@@ -7,13 +7,13 @@
 }
 
 :host(.vl-map--search) {
+    #map {
+        height: calc(var(--vl-map-height, 500px) - 35px); 
+    }
+
     .ol-zoom, .ol-zoomslider, .ol-rotate {
         margin-top: 35px;
     }
-}
-
-:host(#map) {
-    height: calc(var(--vl-map-height, 500px) - 35px);
 }
 
 .ol-overlaycontainer-stopevent {
