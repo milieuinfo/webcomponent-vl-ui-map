@@ -117,7 +117,7 @@
                 }));
                 return new Promise((resolve) => {
                     (async () => {
-                        while(!map.zoom.calledWith([location.LocationResult.BoundingBox.LowerLeft.X_Lambert72, location.LocationResult.BoundingBox.LowerLeft.Y_Lambert72, location.LocationResult.BoundingBox.UpperRight.X_Lambert72, location.LocationResult.BoundingBox.UpperRight.Y_Lambert72])) {
+                        while(!map.zoomTo.calledWith([location.LocationResult.BoundingBox.LowerLeft.X_Lambert72, location.LocationResult.BoundingBox.LowerLeft.Y_Lambert72, location.LocationResult.BoundingBox.UpperRight.X_Lambert72, location.LocationResult.BoundingBox.UpperRight.Y_Lambert72])) {
                             await new Promise(resolve => setTimeout(resolve, 100));
                         }
                         resolve();

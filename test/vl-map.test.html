@@ -170,7 +170,7 @@
             const element = fixture('vl-map-fixture');
             sandbox.spy(element._map, 'zoomToExtent');
             const boundingbox = [0, 1, 2, 3];
-            element.zoom(boundingbox);
+            element.zoomTo(boundingbox);
             assert(element._map.zoomToExtent.calledWith(boundingbox));
         });
 

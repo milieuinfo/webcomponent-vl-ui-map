@@ -97,7 +97,7 @@ export class VlMap extends VlElement(HTMLElement) {
      * 
      * @param {Number[]} boundingbox 
      */
-    zoom(boundingbox) {
+    zoomTo(boundingbox) {
         this._map.zoomToExtent(boundingbox);
     }
 
