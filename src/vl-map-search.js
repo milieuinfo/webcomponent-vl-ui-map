@@ -30,7 +30,7 @@ export class VlMapSearch extends VlElement(HTMLElement) {
 
     get _parentElement() {
         if (this.parentNode) {
-            return this.parentNode.host;
+            return this.parentNode.host || this.parentNode;
         }
     }
 
