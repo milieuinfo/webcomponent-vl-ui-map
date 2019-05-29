@@ -30,7 +30,7 @@ export class VlMapSearch extends VlElement(HTMLElement) {
 
     get _parentElement() {
         if (this.parentNode) {
-            return this.parentNode.host || this.parentNode;
+            return this.parentNode.host;
         }
     }
 
@@ -78,9 +78,9 @@ export class VlMapSearch extends VlElement(HTMLElement) {
 
     _configure() {
         customElements.whenDefined('vl-map').then(() => {
-            if (this._parentElement && this._parentElement.map) {
-                this._parentElement._shadow.prepend(this);
-                this._parentElement.style.setProperty('--vl-map--margin-top', "35px");
+            if (this.parentNode && this.parentNode.map) {
+                this.parentNode._shadow.prepend(this);
+                this.parentNode.host.style.setProperty('--vl-map--margin-top', "35px");
             }
         });
     }
