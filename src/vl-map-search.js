@@ -16,6 +16,7 @@ export class VlMapSearch extends VlElement(HTMLElement) {
             </style>
             <select is="vl-select" data-vl-select data-vl-select-search-empty-text="Geen adres gevonden"></select>
         `);
+        this._configure();
     }
 
     connectedCallback() {
@@ -73,5 +74,14 @@ export class VlMapSearch extends VlElement(HTMLElement) {
                 }
             });
         }
+    }
+
+    _configure() {
+        customElements.whenDefined('vl-map').then(() => {
+            if (this._parentElement && this._parentElement.map) {
+                this._parentElement._shadow.prepend(this);
+                this._parentElement.style.setProperty('--vl-map--margin-top', "35px");
+            }
+        });
     }
 }

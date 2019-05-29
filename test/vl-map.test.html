@@ -173,12 +173,6 @@
             element.zoomTo(boundingbox);
             assert(element._map.zoomToExtent.calledWith(boundingbox));
         });
-
-        test('indien de map een vl-map-search element bevat zal dit toegevoegd worden aan de shadow dom', () => {
-            const element = fixture('vl-map-search-fixture');
-            should.exist(element.shadowRoot.querySelector('vl-map-search'));
-            assert.isTrue(element.classList.contains('vl-map--search'));
-        });
     });
 </script>
 </body>

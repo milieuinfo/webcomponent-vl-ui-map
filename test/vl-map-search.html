@@ -63,19 +63,21 @@
                 const fetchStub = sandbox.stub(window, 'fetch');
                 fetchStub.withArgs('http://loc.geopunt.be/v4/Suggestion?q=' + value).returns(response);
                 const element = fixture('vl-map-with-search-fixture');
-                const selectElement = element.shadowRoot.querySelector('vl-map-search').shadowRoot.querySelector('select');
-                selectElement.dispatchEvent(new CustomEvent('search', {
-                    detail: {
-                        value: value
-                    }
-                }));
-                return new Promise((resolve) => {
-                    (async () => {
-                        while(!fetchStub.called) {
-                            await new Promise((resolve) => setTimeout(resolve, 100));
+                customElements.whenDefined('vl-map').then(() => {
+                    const selectElement = element.shadowRoot.querySelector('vl-map-search').shadowRoot.querySelector('select');
+                    selectElement.dispatchEvent(new CustomEvent('search', {
+                        detail: {
+                            value: value
                         }
-                        resolve();
-                    })();
+                    }));
+                    return new Promise((resolve) => {
+                        (async () => {
+                            while(!fetchStub.called) {
+                                await new Promise((resolve) => setTimeout(resolve, 100));
+                            }
+                            resolve();
+                        })();
+                    });
                 });
             });
 
@@ -101,24 +103,37 @@
                 const fetchStub = sandbox.stub(window, 'fetch');
                 fetchStub.withArgs('http://loc.geopunt.be/v4/Location?q=' + value).returns(response);
                 const map = fixture('vl-map-with-search-fixture');
-                sandbox.spy(map, 'zoomTo');
-                const selectElement = map.shadowRoot.querySelector('vl-map-search').shadowRoot.querySelector('select');
-                selectElement.dispatchEvent(new CustomEvent('choice', {
-                    detail: {
-                        choice: {
-                            value: value
-                        }
-                    },
-                    bubbles: false,
-                    composed: false
-                }));
-                return new Promise((resolve) => {
-                    (async () => {
-                        while(!map.zoomTo.calledWith([location.LocationResult[0].BoundingBox.LowerLeft.X_Lambert72, location.LocationResult[0].BoundingBox.LowerLeft.Y_Lambert72, location.LocationResult[0].BoundingBox.UpperRight.X_Lambert72, location.LocationResult[0].BoundingBox.UpperRight.Y_Lambert72])) {
-                            await new Promise((resolve) => setTimeout(resolve, 100));
-                        }
-                        resolve();
-                    })();
+                customElements.whenDefined('vl-map').then(() => {
+                    sandbox.spy(map, 'zoomTo');
+                    const selectElement = map.shadowRoot.querySelector('vl-map-search').shadowRoot.querySelector('select');
+                    selectElement.dispatchEvent(new CustomEvent('choice', {
+                        detail: {
+                            choice: {
+                                value: value
+                            }
+                        },
+                        bubbles: false,
+                        composed: false
+                    }));
+                    return new Promise((resolve) => {
+                        (async () => {
+                            while(!map.zoomTo.calledWith([location.LocationResult[0].BoundingBox.LowerLeft.X_Lambert72, location.LocationResult[0].BoundingBox.LowerLeft.Y_Lambert72, location.LocationResult[0].BoundingBox.UpperRight.X_Lambert72, location.LocationResult[0].BoundingBox.UpperRight.Y_Lambert72])) {
+                                await new Promise((resolve) => setTimeout(resolve, 100));
+                            }
+                            resolve();
+                        })();
+                    });
+                });
+            });
+
+            test('indien vl-map-search element binnen een vl-map element zit, zal dit element toegevoegd worden aan de shadow dom en zal een stijl variabele gewijzigd worden', (done) => {
+                const element = fixture('vl-map-with-search-fixture');
+                should.not.exist(element.shadowRoot.querySelector('vl-map-search'));
+                assert.equal(element.style.getPropertyValue('--vl-map--margin-top'), '');
+                customElements.whenDefined('vl-map').then(() => {
+                    should.exist(element.shadowRoot.querySelector('vl-map-search'));
+                    assert.equal(element.style.getPropertyValue('--vl-map--margin-top'), '35px');
+                    done();
                 });
             });
         });
