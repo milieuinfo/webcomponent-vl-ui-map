@@ -126,14 +126,16 @@
                 });
             });
 
-            test('indien vl-map-search element binnen een vl-map element zit, zal dit element toegevoegd worden aan de shadow dom en zal een stijl variabele gewijzigd worden', (done) => {
+            test('indien vl-map-search element binnen een vl-map element zit, zal dit element toegevoegd worden aan de shadow dom en zal een stijl variabele gewijzigd worden', () => {
                 const element = fixture('vl-map-with-search-fixture');
                 should.not.exist(element.shadowRoot.querySelector('vl-map-search'));
                 assert.equal(element.style.getPropertyValue('--vl-map--margin-top'), '');
                 customElements.whenDefined('vl-map').then(() => {
                     should.exist(element.shadowRoot.querySelector('vl-map-search'));
                     assert.equal(element.style.getPropertyValue('--vl-map--margin-top'), '35px');
-                    done();
+                    return new Promise((resolve) => {
+                        resolve();
+                    });
                 });
             });
         });
