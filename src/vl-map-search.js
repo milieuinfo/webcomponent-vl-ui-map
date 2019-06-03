@@ -39,7 +39,7 @@ export class VlMapSearch extends VlElement(HTMLElement) {
             this.__searchEventListenerRegistered = true;
             this._selectElement.addEventListener('search', (event) => {
                 if (event && event.detail && event.detail.value) {
-                    fetch('http://loc.geopunt.be/v4/Suggestion?q=' + event.detail.value)
+                    fetch('https://loc.geopunt.be/v4/Suggestion?q=' + event.detail.value)
                         .then((response) => {
                             return response.json();
                         }).then((data) => {
@@ -63,7 +63,7 @@ export class VlMapSearch extends VlElement(HTMLElement) {
             this.__choiceEventListenerRegistered = true;
             this.__choiceEventListener = this._selectElement.addEventListener('choice', (event) => {
                 if (event && event.detail && event.detail.choice) {
-                    fetch('http://loc.geopunt.be/v4/Location?q=' + event.detail.choice.value)
+                    fetch('https://loc.geopunt.be/v4/Location?q=' + event.detail.choice.value)
                         .then((response) => {
                             return response.json();
                         }).then((data) => {

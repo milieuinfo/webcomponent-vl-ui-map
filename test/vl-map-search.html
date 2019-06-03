@@ -61,7 +61,7 @@
                     resolve(new Response(JSON.stringify({}), { status: 200 }));
                 });
                 const fetchStub = sandbox.stub(window, 'fetch');
-                fetchStub.withArgs('http://loc.geopunt.be/v4/Suggestion?q=' + value).returns(response);
+                fetchStub.withArgs('https://loc.geopunt.be/v4/Suggestion?q=' + value).returns(response);
                 const element = fixture('vl-map-with-search-fixture');
                 customElements.whenDefined('vl-map').then(() => {
                     const selectElement = element.shadowRoot.querySelector('vl-map-search').shadowRoot.querySelector('select');
@@ -101,7 +101,7 @@
                     resolve(new Response(JSON.stringify(location), { status: 200 }));
                 });
                 const fetchStub = sandbox.stub(window, 'fetch');
-                fetchStub.withArgs('http://loc.geopunt.be/v4/Location?q=' + value).returns(response);
+                fetchStub.withArgs('https://loc.geopunt.be/v4/Location?q=' + value).returns(response);
                 const map = fixture('vl-map-with-search-fixture');
                 customElements.whenDefined('vl-map').then(() => {
                     sandbox.spy(map, 'zoomTo');
