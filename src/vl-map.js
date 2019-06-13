@@ -4,7 +4,7 @@ import style from './vl-map.scss';
 /**
  * VlMap
  * @class
- * @classdesc De kaart component. <a href="demo/index.html">Demo</a>.
+ * @classdesc De kaart component. <a href="demo/vl-map.html">Demo</a>.
  *
  * @extends VlElement
  * 
