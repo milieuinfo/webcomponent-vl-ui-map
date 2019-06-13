@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>vl-map voorbeeld</title>
-    </head>
-    
+
+<head>
+    <title>vl-map voorbeeld</title>
     <script type="module" src="../vl-map.js"></script>
     <script type="module" src="demo.js"></script>
-    
-    <link rel="stylesheet" type="text/css" href="demo.css">
-    
-    <body>
-        <h1>vl-ui-map demo</h1>
 
-        <div>
-            <h2>Kaart met kaartlaag met features</h2>
-            <pre>
+    <link rel="stylesheet" type="text/css" href="demo.css">
+</head>
+
+<body>
+    <h1>vl-ui-map demo</h1>
+
+    <div>
+        <h2>Kaart met kaartlaag met features</h2>
+        <pre>
                 <code class="line-numbers language-markup">
                     &lt;vl-map&gt;
                         &lt;vl-map-baselayer-grb-gray&gt;&lt;/vl-map-baselayer-grb-gray&gt;
@@ -48,14 +48,12 @@
                     &lt;/vl-map&gt;
                 </code>
             </pre>
-            <div class="demo">
-                <vl-map>
-                    <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
-                    <vl-map-baselayer-grb></vl-map-baselayer-grb>
-                    <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
-                    <vl-map-layer 
-                        name="laag" 
-                        features='{
+        <div class="demo">
+            <vl-map>
+                <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
+                <vl-map-baselayer-grb></vl-map-baselayer-grb>
+                <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
+                <vl-map-layer name="laag" features='{
                             "type": "FeatureCollection",
                             "features": [{
                                 "type": "Feature",
@@ -77,14 +75,14 @@
                                 }
                             }]
                         }'>
-                    </vl-map-layer>
-                </vl-map>
-            </div>
+                </vl-map-layer>
+            </vl-map>
         </div>
+    </div>
 
-        <div>
-            <h2>Kaart met kaartlaag met geclusterde features</h2>
-            <pre>
+    <div>
+        <h2>Kaart met kaartlaag met geclusterde features</h2>
+        <pre>
                 <code class="line-numbers language-markup">
                     &lt;vl-map&gt;
                         &lt;vl-map-baselayer-grb-gray&gt;&lt;/vl-map-baselayer-grb-gray&gt;
@@ -120,14 +118,12 @@
                     &lt;/vl-map&gt;
                 </code>
             </pre>
-            <div class="demo">
-                <vl-map>
-                    <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
-                    <vl-map-baselayer-grb></vl-map-baselayer-grb>
-                    <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
-                    <vl-map-layer 
-                        name="laag" 
-                        features='{
+        <div class="demo">
+            <vl-map>
+                <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
+                <vl-map-baselayer-grb></vl-map-baselayer-grb>
+                <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
+                <vl-map-layer name="laag" features='{
                             "type": "FeatureCollection",
                             "features": [{
                                 "type": "Feature",
@@ -148,17 +144,15 @@
                                     "coordinates": [151055.0,201908.0]
                                 }
                             }]
-                        }'
-                        cluster
-                        cluster-distance="100">
-                    </vl-map-layer>
-                </vl-map>
-            </div>
+                        }' cluster cluster-distance="100">
+                </vl-map-layer>
+            </vl-map>
         </div>
+    </div>
 
-        <div>
-            <h2>Kaart met kaartlaag met features en auto extent</h2>
-            <pre>
+    <div>
+        <h2>Kaart met kaartlaag met features en auto extent</h2>
+        <pre>
                 <code class="line-numbers language-markup">
                     &lt;vl-map&gt;
                         &lt;vl-map-baselayer-grb-gray&gt;&lt;/vl-map-baselayer-grb-gray&gt;
@@ -193,14 +187,12 @@
                     &lt;/vl-map&gt;
                 </code>
             </pre>
-            <div class="demo">
-                <vl-map>
-                    <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
-                    <vl-map-baselayer-grb></vl-map-baselayer-grb>
-                    <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
-                    <vl-map-layer 
-                        name="laag" 
-                        features='{
+        <div class="demo">
+            <vl-map>
+                <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
+                <vl-map-baselayer-grb></vl-map-baselayer-grb>
+                <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
+                <vl-map-layer name="laag" features='{
                             "type": "FeatureCollection",
                             "features": [{
                                 "type": "Feature",
@@ -221,11 +213,10 @@
                                     "coordinates": [151055.0,201908.0]
                                 }
                             }]
-                        }'
-                        auto-extent>
-                    </vl-map-layer>
-                </vl-map>
-            </div>
+                        }' auto-extent>
+                </vl-map-layer>
+            </vl-map>
         </div>
-    </body>
+    </div>
+</body>
 </html>

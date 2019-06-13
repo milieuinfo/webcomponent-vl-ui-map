@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>vl-map voorbeeld</title>
-    </head>
-    
+    
+<head>
+    <title>vl-map voorbeeld</title>
+
     <script type="module" src="../vl-map.js"></script>
     <script type="module" src="demo.js"></script>
 
@@ -21,15 +21,16 @@
             });
         };
     </script>
-    
+
     <link rel="stylesheet" type="text/css" href="demo.css">
-    
-    <body>
-        <h1>vl-ui-map demo</h1>
-        
-        <div>
-            <h2>Kaart met kaartlaag met selecteer actie</h2>
-            <pre>
+</head>
+
+<body>
+    <h1>vl-ui-map demo</h1>
+
+    <div>
+        <h2>Kaart met kaartlaag met selecteer actie</h2>
+        <pre>
                 <code class="line-numbers language-markup">
                     &lt;vl-map&gt;
                         &lt;vl-map-baselayer-grb-gray&gt;&lt;/vl-map-baselayer-grb-gray&gt;
@@ -70,17 +71,12 @@
                     &lt;/vl-map&gt;
                 </code>
             </pre>
-            <div class="demo">
-                <vl-map>
-                    <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
-                    <vl-map-baselayer-grb></vl-map-baselayer-grb>
-                    <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
-                    <vl-map-layer 
-                        id="kaartlaag"
-                        name="laag" 
-                        cluster 
-                        cluster-distance="100"
-                        features='{
+        <div class="demo">
+            <vl-map>
+                <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
+                <vl-map-baselayer-grb></vl-map-baselayer-grb>
+                <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
+                <vl-map-layer id="kaartlaag" name="laag" cluster cluster-distance="100" features='{
                             "type": "FeatureCollection",
                             "features": [{
                                 "type": "Feature",
@@ -105,12 +101,12 @@
                                 }
                             }]
                         }'>
-                    </vl-map-layer>
-                    <vl-map-select-action id="select_actie">
-                        <vl-map-layer-circle-style color="#fff" border-color="yellow"></vl-map-layer-circle-style>
-                    </vl-map-select-action>
-                </vl-map>
-            </div>
+                </vl-map-layer>
+                <vl-map-select-action id="select_actie">
+                    <vl-map-layer-circle-style color="#fff" border-color="yellow"></vl-map-layer-circle-style>
+                </vl-map-select-action>
+            </vl-map>
         </div>
-    </body>
+    </div>
+</body>
 </html>
