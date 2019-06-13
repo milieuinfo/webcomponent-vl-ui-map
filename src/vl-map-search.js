@@ -4,7 +4,7 @@ import '/node_modules/vl-ui-select/vl-select.js';
 /**
  * VlMapSearch
  * @class
- * @classdesc De kaart zoek op adres component.
+ * @classdesc De kaart zoek op adres component. <a href="demo/vl-map-search.html">Demo</a>.
  * 
  * @extends VlElement
  */
