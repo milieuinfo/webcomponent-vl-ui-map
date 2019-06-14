@@ -3,7 +3,7 @@ import { VlMapAction } from "./vl-map-action.js";
 /**
  * VlMapSelectAction
  * @class
- * @classdesc De kaart selecteer actie component. <a href="demo/vl-map.html">Demo</a>.
+ * @classdesc De kaart selecteer actie component. <a href="demo/vl-map-select-action.html">Demo</a>.
  * 
  * @property {boolean} cluster - Attribuut geeft aan of de features geclusterd zijn of niet.
  * 
