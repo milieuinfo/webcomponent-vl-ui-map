@@ -26,10 +26,11 @@ import {VlMapSearch} from "./src/vl-map-search";
         customElements.define('vl-map-layer-circle-style', VlMapLayerCircleStyle);
         customElements.define('vl-map-search', VlMapSearch);
     });
-  
+
     function loadScript(id, src, onload) {
         if (!document.head.querySelector('#' + id)) {
             const script = document.createElement('script');
+            const test = true;
             script.setAttribute('id', id);
             script.setAttribute('src', src);
             script.async = false;
