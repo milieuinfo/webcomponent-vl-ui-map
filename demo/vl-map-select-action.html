@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>vl-map voorbeeld</title>
+
+    <script type="module" src="../vl-map.js"></script>
+    <script type="module" src="demo.js"></script>
+
+    <script>
+        window.onload = () => {
+            const kaartlaag1 = document.querySelector('#kaartlaag_1');
+            const selectActie1 = document.querySelector('#select_actie_1');
+            const kaartlaag2 = document.querySelector('#kaartlaag_2');
+            const selectActie2 = document.querySelector('#select_actie_2');
+
+            selectActie1.layer = kaartlaag1.layer;
+            selectActie1.activateAction();
+            selectActie1.onSelect((feature) => {
+                if (feature) {
+                    console.log('feature met id ' + feature.getId() + ' werd geselecteerd!');
+                }
+            });
+
+            selectActie2.layer = kaartlaag2.layer;
+            selectActie2.activateAction();
+            selectActie2.onSelect((feature) => {
+                if (feature) {
+                    console.log('feature met id ' + feature.getId() + ' werd geselecteerd!');
+                }
+            });
+        };
+    </script>
+
+    <link rel="stylesheet" type="text/css" href="demo.css">
+</head>
+
+<body>
+    <h1>vl-ui-map demo</h1>
+
+    <div>
+        <h2>Kaart met kaartlaag met selecteer actie</h2>
+        <pre>
+                <code class="line-numbers language-markup">
+                    &lt;vl-map&gt;
+                        &lt;vl-map-baselayer-grb-gray&gt;&lt;/vl-map-baselayer-grb-gray&gt;
+                        &lt;vl-map-baselayer-grb&gt;&lt;/vl-map-baselayer-grb&gt;
+                        &lt;vl-map-baselayer-grb-ortho&gt;&lt;/vl-map-baselayer-grb-ortho&gt;
+                        &lt;vl-map-layer 
+                            id="kaartlaag"
+                            name="laag" 
+                            features='{
+                                "type": "FeatureCollection",
+                                "features": [{
+                                    "type": "Feature",
+                                    "id": 1,
+                                    "geometry": {
+                                        "type": "Point",
+                                        "coordinates": [147055.0,197908.0]
+                                    }
+                                }, {
+                                    "type": "Feature",
+                                    "id": 2,
+                                    "geometry": {
+                                        "type": "Point",
+                                        "coordinates": [149055.0,199908.0]
+                                    }
+                                }, {
+                                    "type": "Feature",
+                                    "id": 3,
+                                    "geometry": {
+                                        "type": "Point",
+                                        "coordinates": [151055.0,201908.0]
+                                    }
+                                }]
+                            }'&gt;
+                        &lt;/vl-map-layer&gt;
+                        &lt;vl-map-select-action id="select_actie"&gt;
+                            &lt;vl-map-layer-circle-style color="#fff" border-color="yellow"&gt;&lt;/vl-map-layer-circle-style&gt;
+                        &lt;/vl-map-select-action&gt;
+                    &lt;/vl-map&gt;
+                </code>
+            </pre>
+        <div class="demo">
+            <vl-map>
+                <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
+                <vl-map-baselayer-grb></vl-map-baselayer-grb>
+                <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
+                <vl-map-layer id="kaartlaag_1" name="laag" features='{
+                            "type": "FeatureCollection",
+                            "features": [{
+                                "type": "Feature",
+                                "id": 1,
+                                "geometry": {
+                                    "type": "Point",
+                                    "coordinates": [147055.0,197908.0]
+                                }
+                            }, {
+                                "type": "Feature",
+                                "id": 2,
+                                "geometry": {
+                                    "type": "Point",
+                                    "coordinates": [149055.0,199908.0]
+                                }
+                            }, {
+                                "type": "Feature",
+                                "id": 3,
+                                "geometry": {
+                                    "type": "Point",
+                                    "coordinates": [151055.0,201908.0]
+                                }
+                            }]
+                        }'>
+                </vl-map-layer>
+                <vl-map-select-action id="select_actie_1">
+                    <vl-map-layer-circle-style color="#fff" border-color="yellow"></vl-map-layer-circle-style>
+                </vl-map-select-action>
+            </vl-map>
+        </div>
+    </div>
+
+    <div>
+        <h2>Kaart met kaartlaag met selecteer actie en clustering</h2>
+        <pre>
+                <code class="line-numbers language-markup">
+                    &lt;vl-map&gt;
+                        &lt;vl-map-baselayer-grb-gray&gt;&lt;/vl-map-baselayer-grb-gray&gt;
+                        &lt;vl-map-baselayer-grb&gt;&lt;/vl-map-baselayer-grb&gt;
+                        &lt;vl-map-baselayer-grb-ortho&gt;&lt;/vl-map-baselayer-grb-ortho&gt;
+                        &lt;vl-map-layer 
+                            id="kaartlaag"
+                            name="laag" 
+                            cluster cluster-distance="100"
+                            features='{
+                                "type": "FeatureCollection",
+                                "features": [{
+                                    "type": "Feature",
+                                    "id": 1,
+                                    "geometry": {
+                                        "type": "Point",
+                                        "coordinates": [147055.0,197908.0]
+                                    }
+                                }, {
+                                    "type": "Feature",
+                                    "id": 2,
+                                    "geometry": {
+                                        "type": "Point",
+                                        "coordinates": [149055.0,199908.0]
+                                    }
+                                }, {
+                                    "type": "Feature",
+                                    "id": 3,
+                                    "geometry": {
+                                        "type": "Point",
+                                        "coordinates": [151055.0,201908.0]
+                                    }
+                                }]
+                            }'&gt;
+                        &lt;/vl-map-layer&gt;
+                        &lt;vl-map-select-action id="select_actie" cluster&gt;
+                            &lt;vl-map-layer-circle-style color="#fff" border-color="yellow"&gt;&lt;/vl-map-layer-circle-style&gt;
+                        &lt;/vl-map-select-action&gt;
+                    &lt;/vl-map&gt;
+                </code>
+            </pre>
+        <div class="demo">
+            <vl-map>
+                <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
+                <vl-map-baselayer-grb></vl-map-baselayer-grb>
+                <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
+                <vl-map-layer id="kaartlaag_2" name="laag" cluster cluster-distance="100" features='{
+                            "type": "FeatureCollection",
+                            "features": [{
+                                "type": "Feature",
+                                "id": 1,
+                                "geometry": {
+                                    "type": "Point",
+                                    "coordinates": [147055.0,197908.0]
+                                }
+                            }, {
+                                "type": "Feature",
+                                "id": 2,
+                                "geometry": {
+                                    "type": "Point",
+                                    "coordinates": [149055.0,199908.0]
+                                }
+                            }, {
+                                "type": "Feature",
+                                "id": 3,
+                                "geometry": {
+                                    "type": "Point",
+                                    "coordinates": [151055.0,201908.0]
+                                }
+                            }]
+                        }'>
+                </vl-map-layer>
+                <vl-map-select-action id="select_actie_2" cluster>
+                    <vl-map-layer-circle-style color="#fff" border-color="yellow"></vl-map-layer-circle-style>
+                </vl-map-select-action>
+            </vl-map>
+        </div>
+    </div>
+</body>
+
+</html>
