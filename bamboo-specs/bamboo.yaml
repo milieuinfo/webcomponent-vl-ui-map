@@ -1,7 +1,7 @@
 project:
   key: WEBCOM
   plan:
-    name: webcomponent-vl-ui-map
+    name: vl-ui-map
     key: WEBCOM-VLUI-MAP
 
 stages:
