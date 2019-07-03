@@ -2,7 +2,7 @@ project:
   key: WEBCOM
   plan:
     name: vl-ui-map
-    key: VLUIMAP
+    key: UIMAP
 
 stages:
   - jobs:
