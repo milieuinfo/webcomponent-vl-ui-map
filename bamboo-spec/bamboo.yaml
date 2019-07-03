@@ -2,7 +2,7 @@ project:
   key: WEBCOM
   plan:
     name: webcomponent-vl-ui-map
-    key: WCMAP
+    key: WEBCOM-VLUIMAP
 
 stages:
   - jobs:
