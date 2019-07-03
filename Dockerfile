@@ -2,8 +2,6 @@ FROM artifactory-pr-build.lb.cumuli.be:8081/acd-docker/node:12
 
 ENV NPM_CONFIG_PREFIX=/home/node/.npm-global
 ENV PATH=$PATH:/home/node/.npm-global/bin
-ENV HTTP_PROXY=http://forwardproxy-pr-build.lb.cumuli.be:3128
-ENV HTTPS_PROXY=http://forwardproxy-pr-build.lb.cumuli.be:3128
 
 ARG VERSION
 ARG REPO
