@@ -1,8 +1,5 @@
 FROM artifactory-pr-build.lb.cumuli.be:8081/acd-docker/node:12
 
-ENV NPM_CONFIG_PREFIX=/home/node/.npm-global
-ENV PATH=$PATH:/home/node/.npm-global/bin
-
 ARG VERSION
 ARG REPO
 
