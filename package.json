@@ -44,7 +44,7 @@
     "@govflanders/vl-ui-map": "3.7.2",
     "concurrently": "4.1.0",
     "http-server": "0.11.1",
-    "np": "3.0.4",
+    "np": "5.0.3",
     "replace": "1.0.0",
     "rollup": "1.10.0",
     "rollup-plugin-postcss": "2.0.3",
