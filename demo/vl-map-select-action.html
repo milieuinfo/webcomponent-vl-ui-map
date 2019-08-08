@@ -49,7 +49,7 @@
                         &lt;vl-map-layer 
                             id="kaartlaag"
                             name="laag" 
-                            features='{
+                            data-vl-features='{
                                 "type": "FeatureCollection",
                                 "features": [{
                                     "type": "Feature",
@@ -76,7 +76,7 @@
                             }'&gt;
                         &lt;/vl-map-layer&gt;
                         &lt;vl-map-select-action id="select_actie"&gt;
-                            &lt;vl-map-layer-circle-style color="#fff" border-color="yellow"&gt;&lt;/vl-map-layer-circle-style&gt;
+                            &lt;vl-map-layer-circle-style data-vl-color="#fff" data-vl-border-color="yellow"&gt;&lt;/vl-map-layer-circle-style&gt;
                         &lt;/vl-map-select-action&gt;
                     &lt;/vl-map&gt;
                 </code>
@@ -86,7 +86,7 @@
                 <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
                 <vl-map-baselayer-grb></vl-map-baselayer-grb>
                 <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
-                <vl-map-layer id="kaartlaag_1" name="laag" features='{
+                <vl-map-layer id="kaartlaag_1" name="laag" data-vl-features='{
                             "type": "FeatureCollection",
                             "features": [{
                                 "type": "Feature",
@@ -113,7 +113,7 @@
                         }'>
                 </vl-map-layer>
                 <vl-map-select-action id="select_actie_1">
-                    <vl-map-layer-circle-style color="#fff" border-color="yellow"></vl-map-layer-circle-style>
+                    <vl-map-layer-circle-style data-vl-color="#fff" data-vl-border-color="yellow"></vl-map-layer-circle-style>
                 </vl-map-select-action>
             </vl-map>
         </div>
@@ -130,8 +130,8 @@
                         &lt;vl-map-layer 
                             id="kaartlaag"
                             name="laag" 
-                            cluster cluster-distance="100"
-                            features='{
+                            data-vl-cluster cluster-distance="100"
+                            data-vl-features='{
                                 "type": "FeatureCollection",
                                 "features": [{
                                     "type": "Feature",
@@ -157,8 +157,8 @@
                                 }]
                             }'&gt;
                         &lt;/vl-map-layer&gt;
-                        &lt;vl-map-select-action id="select_actie" cluster&gt;
-                            &lt;vl-map-layer-circle-style color="#fff" border-color="yellow"&gt;&lt;/vl-map-layer-circle-style&gt;
+                        &lt;vl-map-select-action id="select_actie" data-vl-cluster&gt;
+                            &lt;vl-map-layer-circle-style data-vl-color="#fff" data-vl-border-color="yellow"&gt;&lt;/vl-map-layer-circle-style&gt;
                         &lt;/vl-map-select-action&gt;
                     &lt;/vl-map&gt;
                 </code>
@@ -168,7 +168,7 @@
                 <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
                 <vl-map-baselayer-grb></vl-map-baselayer-grb>
                 <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
-                <vl-map-layer id="kaartlaag_2" name="laag" cluster cluster-distance="100" features='{
+                <vl-map-layer id="kaartlaag_2" name="laag" data-vl-cluster data-vl-cluster-distance="100" data-vl-features='{
                             "type": "FeatureCollection",
                             "features": [{
                                 "type": "Feature",
@@ -194,8 +194,8 @@
                             }]
                         }'>
                 </vl-map-layer>
-                <vl-map-select-action id="select_actie_2" cluster>
-                    <vl-map-layer-circle-style color="#fff" border-color="yellow"></vl-map-layer-circle-style>
+                <vl-map-select-action id="select_actie_2" data-vl-cluster>
+                    <vl-map-layer-circle-style data-vl-color="#fff" data-vl-border-color="yellow"></vl-map-layer-circle-style>
                 </vl-map-select-action>
             </vl-map>
         </div>
