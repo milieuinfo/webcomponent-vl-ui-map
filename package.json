@@ -46,7 +46,7 @@
     "http-server": "0.11.1",
     "np": "3.0.4",
     "replace": "1.0.0",
-    "rollup": "1.10.0",
+    "rollup": "1.19.4",
     "rollup-plugin-postcss": "2.0.3",
     "rollup-plugin-terser": "4.0.4",
     "sass": "1.19.0",
