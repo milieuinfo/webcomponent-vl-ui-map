@@ -11,6 +11,8 @@ import { VlElement } from "/node_modules/vl-ui-core/vl-core.js";
  * @property {string} text-color - Attribuut wordt gebruikt om aan te geven wat de kleur is van de tekst.
  * @property {number} text-offset-x - Attribuut wordt gebruikt om aan te geven wat de offset op de x-as is van de tekst.
  * @property {number} text-offset-y - Attribuut wordt gebruikt om aan te geven wat de offset op de y-as is van de tekst.
+ * 
+ *  @version <a href="http://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest">Release notes</a>
  */
 export class VlMapLayerStyle extends VlElement(HTMLElement) {
     connectedCallback() {

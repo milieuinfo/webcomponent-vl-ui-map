@@ -1,6 +1,6 @@
 {
   "name": "vl-ui-map",
-  "version": "1.0.14",
+  "version": "1.0.16",
   "description": "De kaart webcomponent.",
   "main": "vl-map.js",
   "author": "DIDM",
@@ -33,7 +33,7 @@
   "dependencies": {
     "vl-mapactions": "1.0.1",
     "vl-ui-core": "1.4.4",
-    "vl-ui-select": "1.1.5"
+    "vl-ui-select": "1.1.6"
   },
   "peerDependencies": {
     "vl-ui-core": "^1.4.1",
@@ -52,7 +52,7 @@
     "sass": "1.19.0",
     "uglify-js-es6": "2.8.9",
     "vl-ui-icon": "2.0.5",
-    "vl-ui-util": "^1.2.3",
+    "vl-ui-util": "^1.2.17",
     "wct-browser-legacy": "1.0.2",
     "web-component-tester": "6.9.2"
   }
