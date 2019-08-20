@@ -1,6 +1,6 @@
 {
   "name": "vl-ui-map",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "description": "De kaart webcomponent.",
   "main": "vl-map.js",
   "author": "DIDM",
