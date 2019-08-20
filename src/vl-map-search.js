@@ -7,8 +7,6 @@ import '/node_modules/vl-ui-select/vl-select.js';
  * @classdesc De kaart zoek op adres component. <a href="demo/vl-map-search.html">Demo</a>.
  * 
  * @extends VlElement
- * 
- *  @version <a href="http://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest">Release notes</a>
  */
 export class VlMapSearch extends VlElement(HTMLElement) {
     constructor() {

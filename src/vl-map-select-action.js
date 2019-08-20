@@ -8,8 +8,6 @@ import { VlMapAction } from "./vl-map-action.js";
  * @property {boolean} cluster - Attribuut geeft aan of de features geclusterd zijn of niet.
  * 
  * @extends VlElement
- * 
- *  @version <a href="http://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest">Release notes</a>
  */
 export class VlMapSelectAction extends VlMapAction {
     constructor() {

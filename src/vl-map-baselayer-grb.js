@@ -6,8 +6,6 @@ import { VlMapBaseLayer } from "./vl-map-baselayer.js";
  * @classdesc De kaart layer component voor GRB. <a href="demo/vl-map.html">Demo</a>.
  * 
  * @extends VlElement
- * 
- *  @version <a href="http://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest">Release notes</a>
  */
 export class VlMapBaseLayerGRB extends VlMapBaseLayer {
     constructor() {

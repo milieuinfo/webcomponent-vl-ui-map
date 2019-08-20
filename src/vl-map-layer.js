@@ -12,8 +12,6 @@ import { VlElement } from "/node_modules/vl-ui-core/vl-core.js";
  * @property {string[]} features - Attribuut die de kaartlaag bevat.
  * 
  * @extends VlElement
- * 
- *  @version <a href="http://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest">Release notes</a>
  */
 export class VlMapLayer extends VlElement(HTMLElement) {
     static get _observedAttributes() {
