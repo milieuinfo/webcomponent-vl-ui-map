@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "vl-mapactions": "1.0.1",
-    "vl-ui-core": "1.4.3",
+    "vl-ui-core": "1.4.4",
     "vl-ui-select": "1.1.6"
   },
   "peerDependencies": {
