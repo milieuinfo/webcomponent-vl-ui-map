@@ -52,7 +52,7 @@
     "sass": "1.19.0",
     "uglify-js-es6": "2.8.9",
     "vl-ui-icon": "2.0.5",
-    "vl-ui-util": "^1.2.3",
+    "vl-ui-util": "^1.2.17",
     "wct-browser-legacy": "1.0.2",
     "web-component-tester": "6.9.2"
   }
