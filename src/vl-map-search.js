@@ -8,7 +8,8 @@ import '/node_modules/vl-ui-select/vl-select.js';
  * 
  * @extends VlElement
  * 
- *  @version <a href="http://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest">Release notes</a>
+ * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
+ * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
  */
 export class VlMapSearch extends VlElement(HTMLElement) {
     constructor() {

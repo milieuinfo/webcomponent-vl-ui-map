@@ -13,7 +13,8 @@ import { VlMapLayerStyle } from "./vl-map-layer-style.js";
  * @property {string} cluster-text-color - Attribuut wordt gebruikt om aan te geven wat de kleur van de tekst is bij het clusteren van features.
  * @property {string} cluster-color - Attribuut wordt gebruikt om aan te geven wat de kleur is bij het clusteren van features.
  * 
- *  @version <a href="http://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest">Release notes</a>
+ * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
+ * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
  */
 export class VlMapLayerCircleStyle extends VlMapLayerStyle {
     /**

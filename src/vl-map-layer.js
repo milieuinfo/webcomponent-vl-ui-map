@@ -13,7 +13,8 @@ import { VlElement } from "/node_modules/vl-ui-core/vl-core.js";
  * 
  * @extends VlElement
  * 
- *  @version <a href="http://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest">Release notes</a>
+ * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
+ * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
  */
 export class VlMapLayer extends VlElement(HTMLElement) {
     static get _observedAttributes() {
