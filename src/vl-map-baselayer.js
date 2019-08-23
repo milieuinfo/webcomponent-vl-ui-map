@@ -12,7 +12,8 @@ import { VlElement } from "/node_modules/vl-ui-core/vl-core.js";
  * @property {string} layer - Attribuut geeft aan wat de kaartlaag identifier is.
  * @property {string} title - Attribuut bepaalt de titel van de kaartlaag.
  * 
- *  @version <a href="http://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest">Release notes</a>
+ * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
+ * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
  */
 export class VlMapBaseLayer extends VlElement(HTMLElement) {
     connectedCallback() {
