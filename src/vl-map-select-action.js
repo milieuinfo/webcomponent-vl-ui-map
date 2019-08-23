@@ -9,7 +9,8 @@ import { VlMapAction } from "./vl-map-action.js";
  * 
  * @extends VlElement
  * 
- *  @version <a href="http://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest">Release notes</a>
+ * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
+ * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
  */
 export class VlMapSelectAction extends VlMapAction {
     constructor() {
