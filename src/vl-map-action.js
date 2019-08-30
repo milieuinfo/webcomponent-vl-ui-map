@@ -8,6 +8,9 @@ import { VlElement } from "/node_modules/vl-ui-core/vl-core.js";
  * @property {boolean} active - Attribuut bepaalt of de kaart geactiveerd is.
  * 
  * @extends VlElement
+ * 
+ * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
+ * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
  */
 export class VlMapAction extends VlElement(HTMLElement) {
     connectedCallback() {

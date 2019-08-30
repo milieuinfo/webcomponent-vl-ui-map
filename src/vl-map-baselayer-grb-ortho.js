@@ -6,6 +6,9 @@ import { VlMapBaseLayer } from "./vl-map-baselayer.js";
  * @classdesc De kaart basis laag component voor GRB ortho. <a href="demo/vl-map.html">Demo</a>.
  * 
  * @extends VlElement
+ * 
+ * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
+ * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
  */
 export class VlMapBaseLayerGRBOrtho extends VlMapBaseLayer {
     constructor() {
