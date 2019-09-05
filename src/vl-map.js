@@ -4,7 +4,7 @@ import style from './vl-map.scss';
 /**
  * VlMap
  * @class
- * @classdesc De kaart component. <a href="demo/vl-map.html">Demo</a>.
+ * @classdesc De kaart component.
  *
  * @extends VlElement
  * 
@@ -12,6 +12,7 @@ import style from './vl-map.scss';
  * 
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
+ * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-ui-map.html|Demo}
  */
 export class VlMap extends VlElement(HTMLElement) {
     constructor() {
