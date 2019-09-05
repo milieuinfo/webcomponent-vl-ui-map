@@ -3,12 +3,13 @@ import { VlMapBaseLayer } from "./vl-map-baselayer.js";
 /**
  * VlMapBaseLayerGRBOrtho
  * @class
- * @classdesc De kaart basis laag component voor GRB ortho. <a href="demo/vl-map.html">Demo</a>.
+ * @classdesc De kaart basis laag component voor GRB ortho.
  * 
  * @extends VlElement
  * 
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
+ * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-ui-map.html|Demo}
  */
 export class VlMapBaseLayerGRBOrtho extends VlMapBaseLayer {
     constructor() {
