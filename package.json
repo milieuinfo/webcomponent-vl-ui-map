@@ -48,6 +48,7 @@
     "replace": "1.0.0",
     "rollup": "1.19.4",
     "rollup-plugin-postcss": "2.0.3",
+    "sass": "1.22.9",
     "rollup-plugin-terser": "5.1.1",
     "sass": "1.19.0",
     "uglify-js-es6": "2.8.9",
