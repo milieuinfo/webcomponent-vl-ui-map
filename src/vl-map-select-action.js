@@ -3,11 +3,15 @@ import { VlMapAction } from "./vl-map-action.js";
 /**
  * VlMapSelectAction
  * @class
- * @classdesc De kaart selecteer actie component. <a href="demo/vl-map-select-action.html">Demo</a>.
+ * @classdesc De kaart selecteer actie component.
  * 
  * @property {boolean} cluster - Attribuut geeft aan of de features geclusterd zijn of niet.
  * 
  * @extends VlElement
+ * 
+ * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
+ * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
+ * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map.html|Demo}
  */
 export class VlMapSelectAction extends VlMapAction {
     constructor() {
