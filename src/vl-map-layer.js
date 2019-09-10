@@ -3,7 +3,7 @@ import { VlElement } from "/node_modules/vl-ui-core/vl-core.js";
 /**
  * VlMapLayer
  * @class
- * @classdesc De kaart laag component. <a href="demo/vl-map-layer.html">Demo</a>.
+ * @classdesc De kaart laag component.
  *
  * @property {string} name - Attribuut bepaalt de kaartlaag naam.
  * @property {boolean} auto-extent - Attribuut geeft aan of er automatisch gezoomt wordt op de kaartlaag zodat al de features zichtbaar zijn.
@@ -12,6 +12,10 @@ import { VlElement } from "/node_modules/vl-ui-core/vl-core.js";
  * @property {string[]} features - Attribuut die de kaartlaag bevat.
  * 
  * @extends VlElement
+ * 
+ * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
+ * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
+ * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map.html|Demo}
  */
 export class VlMapLayer extends VlElement(HTMLElement) {
     static get _observedAttributes() {

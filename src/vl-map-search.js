@@ -4,9 +4,13 @@ import '/node_modules/vl-ui-select/vl-select.js';
 /**
  * VlMapSearch
  * @class
- * @classdesc De kaart zoek op adres component. <a href="demo/vl-map-search.html">Demo</a>.
+ * @classdesc De kaart zoek op adres component.
  * 
  * @extends VlElement
+ * 
+ * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
+ * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
+ * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map.html|Demo}
  */
 export class VlMapSearch extends VlElement(HTMLElement) {
     constructor() {

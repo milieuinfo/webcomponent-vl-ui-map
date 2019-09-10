@@ -1,6 +1,6 @@
 {
   "name": "vl-ui-map",
-  "version": "1.0.14",
+  "version": "1.0.19",
   "description": "De kaart webcomponent.",
   "main": "vl-map.js",
   "author": "DIDM",
@@ -14,7 +14,7 @@
     "registry": "http://artifactory-pr-build.lb.cumuli.be:8081/artifactory/api/npm/acd-npm/"
   },
   "scripts": {
-    "prepare": "npm run prepare:util",
+    "prepare": "npm update --dev vl-ui-util && npm run prepare:util",
     "prepare:util": "npm explore vl-ui-util -- npm run install:copy && npm explore vl-ui-util -- npm run install:bamboo",
     "test": "wct -l chrome,firefox --npm",
     "release": "np",
@@ -32,8 +32,8 @@
   },
   "dependencies": {
     "vl-mapactions": "1.0.1",
-    "vl-ui-core": "1.4.3",
-    "vl-ui-select": "1.1.5"
+    "vl-ui-core": "1.4.4",
+    "vl-ui-select": "1.1.6"
   },
   "peerDependencies": {
     "vl-ui-core": "^1.4.1",
@@ -45,14 +45,15 @@
     "concurrently": "4.1.0",
     "http-server": "0.11.1",
     "np": "3.1.0",
-    "replace": "1.0.0",
-    "rollup": "1.10.0",
+    "replace": "1.1.0",
+    "rollup": "1.19.4",
     "rollup-plugin-postcss": "2.0.3",
-    "rollup-plugin-terser": "4.0.4",
+    "sass": "1.22.9",
+    "rollup-plugin-terser": "5.1.1",
     "sass": "1.19.0",
     "uglify-js-es6": "2.8.9",
     "vl-ui-icon": "2.0.5",
-    "vl-ui-util": "^1.2.3",
+    "vl-ui-util": "^1.2.23",
     "wct-browser-legacy": "1.0.2",
     "web-component-tester": "6.9.2"
   }

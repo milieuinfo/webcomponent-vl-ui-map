@@ -3,7 +3,7 @@ import { VlElement } from "/node_modules/vl-ui-core/vl-core.js";
 /**
  * VlMapBaseLayer
  * @class
- * @classdesc De kaart basis laag component. <a href="demo/vl-map.html">Demo</a>.
+ * @classdesc De kaart basis laag component.
  *
  * @extends VlElement
  * 
@@ -11,6 +11,10 @@ import { VlElement } from "/node_modules/vl-ui-core/vl-core.js";
  * @property {string} url - Attribuut geeft aan via welke URL gebruikt wordt om de kaartlaag op te halen.
  * @property {string} layer - Attribuut geeft aan wat de kaartlaag identifier is.
  * @property {string} title - Attribuut bepaalt de titel van de kaartlaag.
+ * 
+ * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
+ * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
+ * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map.html|Demo}
  */
 export class VlMapBaseLayer extends VlElement(HTMLElement) {
     connectedCallback() {
