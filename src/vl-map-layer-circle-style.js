@@ -3,7 +3,7 @@ import { VlMapLayerStyle } from "./vl-map-layer-style.js";
 /**
  * VlMapLayerCircleStyle
  * @class
- * @classdesc De kaart laag style klasse voor cirkels. <a href="demo/vl-map-circle-style.html">Demo</a>.
+ * @classdesc De kaart laag style klasse voor cirkels.
  *
  * @extends VlMapLayerStyle
  *
@@ -12,6 +12,10 @@ import { VlMapLayerStyle } from "./vl-map-layer-style.js";
  * @property {number} border-size - Attribuut wordt gebruikt om aan te geven wat de grootte is van de randen van de cirkels.
  * @property {string} cluster-text-color - Attribuut wordt gebruikt om aan te geven wat de kleur van de tekst is bij het clusteren van features.
  * @property {string} cluster-color - Attribuut wordt gebruikt om aan te geven wat de kleur is bij het clusteren van features.
+ * 
+ * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
+ * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
+ * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map.html|Demo}
  */
 export class VlMapLayerCircleStyle extends VlMapLayerStyle {
     /**
