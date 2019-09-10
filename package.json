@@ -32,8 +32,8 @@
   },
   "dependencies": {
     "vl-mapactions": "1.0.1",
-    "vl-ui-core": "1.4.4",
-    "vl-ui-select": "1.1.6"
+    "vl-ui-core": "1.4.6",
+    "vl-ui-select": "1.1.10"
   },
   "peerDependencies": {
     "vl-ui-core": "^1.4.1",
@@ -46,13 +46,13 @@
     "http-server": "0.11.1",
     "np": "3.1.0",
     "replace": "1.1.1",
-    "rollup": "1.19.4",
+    "rollup": "1.21.2",
     "rollup-plugin-postcss": "2.0.3",
     "sass": "1.22.9",
     "rollup-plugin-terser": "5.1.1",
-    "sass": "1.19.0",
+    "sass": "1.22.10",
     "uglify-js-es6": "2.8.9",
-    "vl-ui-icon": "2.0.5",
+    "vl-ui-icon": "2.0.11",
     "vl-ui-util": "^1.2.23",
     "wct-browser-legacy": "1.0.2",
     "web-component-tester": "6.9.2"
