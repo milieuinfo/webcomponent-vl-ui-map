@@ -48,11 +48,11 @@
     "replace": "1.1.1",
     "rollup": "1.21.4",
     "rollup-plugin-postcss": "2.0.3",
-    "sass": "1.22.12",
     "rollup-plugin-terser": "5.1.2",
+    "sass": "1.22.12",
     "uglify-js-es6": "2.8.9",
     "vl-ui-icon": "2.0.12",
-    "vl-ui-util": "^1.2.23",
+    "vl-ui-util": "^2.0.3",
     "wct-browser-legacy": "1.0.2",
     "web-component-tester": "6.9.2"
   }
