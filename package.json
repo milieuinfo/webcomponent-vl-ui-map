@@ -1,6 +1,6 @@
 {
   "name": "vl-ui-map",
-  "version": "1.0.17",
+  "version": "1.0.19",
   "description": "De kaart webcomponent.",
   "main": "vl-map.js",
   "author": "DIDM",
@@ -32,8 +32,8 @@
   },
   "dependencies": {
     "vl-mapactions": "1.0.1",
-    "vl-ui-core": "1.4.4",
-    "vl-ui-select": "1.1.6"
+    "vl-ui-core": "1.4.7",
+    "vl-ui-select": "1.1.11"
   },
   "peerDependencies": {
     "vl-ui-core": "^1.4.1",
@@ -42,17 +42,17 @@
   },
   "devDependencies": {
     "@govflanders/vl-ui-map": "3.7.2",
-    "concurrently": "4.1.0",
+    "concurrently": "4.1.2",
     "http-server": "0.11.1",
-    "np": "3.0.4",
-    "replace": "1.0.0",
-    "rollup": "1.10.0",
+    "np": "3.1.0",
+    "replace": "1.1.1",
+    "rollup": "1.21.4",
     "rollup-plugin-postcss": "2.0.3",
-    "rollup-plugin-terser": "4.0.4",
-    "sass": "1.19.0",
+    "rollup-plugin-terser": "5.1.2",
+    "sass": "1.22.12",
     "uglify-js-es6": "2.8.9",
-    "vl-ui-icon": "2.0.5",
-    "vl-ui-util": "^1.2.17",
+    "vl-ui-icon": "2.0.12",
+    "vl-ui-util": "^2.0.3",
     "wct-browser-legacy": "1.0.2",
     "web-component-tester": "6.9.2"
   }
