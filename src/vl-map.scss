@@ -3,6 +3,7 @@
 
 :host {
     --vl-map--margin-top: 0px;
+    --vl-map--overviewmap-display: true;
 }
 
 #map {
@@ -19,11 +20,20 @@
         border-radius: 0;
     }
 
-    > .ol-overviewmap {
-        border-radius: 0;
-        width: 100px;
-        height: 100px;
+    @if(var(--vl-map--overviewmap-display)) {
+        > .ol-overviewmap {
+            border-radius: 0;
+            width: 100px;
+            height: 100px;
+        }
     }
+    @else {
+        > .ol-overviewmap {
+          display: var(--vl-map--overviewmap-display);
+        }
+    }
+
+
 
     > .ol-scale-line {
         border-radius: 0;
