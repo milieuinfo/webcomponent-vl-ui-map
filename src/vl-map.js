@@ -121,10 +121,10 @@ export class VlMap extends VlElement(HTMLElement) {
    *@param {boolean} active
    */
   _setAction(action, active) {
-    let interactions = this._map.map.getInteractions().getArray();
+    let interactions = this._map.getInteractions().getArray();
     interactions.filter(function (interaction) {
       return interaction instanceof action;
-    })[0].forEach((a) => a.setActive(active));
+    }).forEach((a) => a.setActive(active));
   }
 
   /**
