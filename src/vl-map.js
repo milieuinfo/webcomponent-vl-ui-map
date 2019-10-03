@@ -92,7 +92,8 @@ export class VlMap extends VlElement(HTMLElement) {
                 overlayGroup: this.__createLayerGroup('Lagen', [])
             },
             projection: this._projection,
-            target: this._mapElement
+            target: this._mapElement,
+            enableRotation: false
         });
 
         this._map.initializeView();
