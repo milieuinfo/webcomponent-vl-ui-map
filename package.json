@@ -33,7 +33,7 @@
   "dependencies": {
     "vl-mapactions": "^1.0.1",
     "vl-ui-core": "^2.0.0",
-    "vl-ui-select": "^1.1.11"
+    "vl-ui-select": "github:milieuinfo/webcomponent-vl-ui-select#VHRMVC-75"
   },
   "peerDependencies": {
     "vl-ui-core": "^2.0.0",
