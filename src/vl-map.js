@@ -10,7 +10,7 @@ import style from './vl-map.scss';
  *
  * @property {boolean} disable-escape-key - Attribuut wordt gebruikt om ervoor te zorgen dat de escape toets niet gebruikt kan worden.
  *
- *  @example De map krijgt een default hoogte 500px. Wij kunnen dit hoogte overschrijven door de css variable.
+ * @example De map krijgt een default hoogte 500px. Wij kunnen dit hoogte overschrijven door volgende property.
  *
  *  static get styles() {
     return [
@@ -108,6 +108,13 @@ export class VlMap extends VlElement(HTMLElement) {
   }
 
   /**
+   * Disable een kaartactie
+   *
+   * @example Disable rotation aan mobile:
+   *
+   *  this._map.disableAction(ol.interaction.PinchRotate);
+   *
+   *Mogelijke kaartacties:
    *https://openlayers.org/en/latest/apidoc/module-ol_interaction_Interaction-Interaction.html
    *@param {ol.interaction.Pointer} action
    */
@@ -116,6 +123,7 @@ export class VlMap extends VlElement(HTMLElement) {
   }
 
   /**
+   *Zet de status van een kaartactie (active/niet actieve)
    *
    *@param {ol.interaction.Pointer} action
    *@param {boolean} active
