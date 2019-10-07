@@ -9,7 +9,30 @@ import style from './vl-map.scss';
  * @extends VlElement
  * 
  * @property {boolean} disable-escape-key - Attribuut wordt gebruikt om ervoor te zorgen dat de escape toets niet gebruikt kan worden.
- * 
+ *
+ * @example Hoogte van de map aanpassen:
+ * static get styles() {
+    return [
+      css`
+        :host {
+         --vl-map-height: 79vh;
+         }
+        `
+    ];
+  }
+ *
+ * @example Verbergen de overviewmap:
+ *
+ * static get styles() {
+    return [
+      css`
+        :host {
+         --vl-map--overviewmap-display: none;
+         }
+        `
+    ];
+  }
+ *
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
  * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map.html|Demo}
