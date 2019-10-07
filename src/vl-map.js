@@ -57,16 +57,25 @@ export class VlMap extends VlElement(HTMLElement) {
         return this._shadow.querySelector('#map');
     }
 
-    get _projection() {
-        return new ol.proj.Projection({
-            code: 'EPSG:31370',
-            extent: this._extent
-        });
-    }
+  get _porjectionCode() {
+    return 'EPSG:31370';
+  }
 
-    get _extent() {
-        return [9928, 66928, 272072, 329072];
-    }
+  get _projection() {
+    return new ol.proj.Projection({
+      code: this._porjectionCode,
+      extent: this._extent
+    });
+  }
+
+  convertWGS84(longitude, latitude) {
+    return proj4(this._porjectionCode,
+        [longitude, latitude]);
+  }
+
+  get _extent() {
+    return [9928, 66928, 272072, 329072];
+  }
 
     connectedCallback() {
         this.__initializeCoordinateSystem();
