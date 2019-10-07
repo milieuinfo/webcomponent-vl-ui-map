@@ -95,14 +95,49 @@ export class VlMap extends VlElement(HTMLElement) {
         this._map.addAction(action);
     }
 
-    /**
-     * Zoomt op de kaart naar de bounding box.
-     * 
-     * @param {Number[]} boundingbox 
-     */
-    zoomTo(boundingbox) {
-        this._map.zoomToExtent(boundingbox);
-    }
+  /**
+   * Disable een kaartactie
+   *
+   * @example Disable rotation aan mobile:
+   *
+   *  this._map.disableAction(ol.interaction.PinchRotate);
+   *
+   *Mogelijke kaartacties:
+   *https://openlayers.org/en/latest/apidoc/module-ol_interaction_Interaction-Interaction.html
+   *@param {ol.interaction.Pointer} action
+   */
+  _disableAction(action) {
+    this._setAction(action, false);
+  }
+
+  /**
+   * Disable pinchRotate
+   */
+  disablePinchRotate() {
+    this._disableAction(ol.interaction.PinchRotate)
+  }
+
+  /**
+   *Zet de status van een kaartactie (active/niet actieve)
+   *
+   *@param {ol.interaction.Pointer} action
+   *@param {boolean} active
+   */
+  _setAction(action, active) {
+    let interactions = this._map.getInteractions().getArray();
+    interactions.filter(function (interaction) {
+      return interaction instanceof action;
+    }).forEach((a) => a.setActive(active));
+  }
+
+  /**
+   * Zoomt op de kaart naar de bounding box.
+   *
+   * @param {Number[]} boundingbox
+   */
+  zoomTo(boundingbox) {
+    this._map.zoomToExtent(boundingbox);
+  }
 
     __updateMapSize() {
         this.style.display = 'block';
