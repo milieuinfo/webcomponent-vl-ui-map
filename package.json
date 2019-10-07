@@ -25,9 +25,11 @@
     "release:testless": "np --yolo",
     "demo": "npm run dev",
     "dev": "concurrently \"npm:bundle:watch\" \"http-server\"",
-    "build": "npm run bundle:build",
+    "build": "npm run bundle:build && npm run bundle:build:imports:core && npm run bundle:build:imports:select",
     "bundle:watch": "rollup --config rollup.config.js --watch",
-    "bundle:build": "rollup --config rollup.config.js"
+    "bundle:build": "rollup --config rollup.config.js",
+    "bundle:build:imports:core": "replace '../../../../node_modules/vl-ui-core/vl-core.js' '/node_modules/vl-ui-core/vl-core.js' vl-map.js",
+    "bundle:build:imports:select": "replace '../../../../node_modules/vl-ui-select/vl-select.js' '/node_modules/vl-ui-select/vl-select.js' vl-map.js"
   },
   "dependencies": {
     "vl-mapactions": "^1.0.1",
