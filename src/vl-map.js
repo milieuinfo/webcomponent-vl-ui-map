@@ -9,19 +9,7 @@ import style from './vl-map.scss';
  * @extends VlElement
  * 
  * @property {boolean} disable-escape-key - Attribuut wordt gebruikt om ervoor te zorgen dat de escape toets niet gebruikt kan worden.
- *
- * @example De map krijgt een default hoogte 500px. Wij kunnen dit hoogte overschrijven door volgende property.
- *
- *  static get styles() {
-    return [
-      css`
-        :host {
-         --vl-map-height: 100vh;
-         }
-      `
-    ];
-    }
- *
+ * 
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
  * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map.html|Demo}
@@ -69,16 +57,25 @@ export class VlMap extends VlElement(HTMLElement) {
         return this._shadow.querySelector('#map');
     }
 
-    get _projection() {
-        return new ol.proj.Projection({
-            code: 'EPSG:31370',
-            extent: this._extent
-        });
-    }
+  get _porjectionCode() {
+    return 'EPSG:31370';
+  }
 
-    get _extent() {
-        return [9928, 66928, 272072, 329072];
-    }
+  get _projection() {
+    return new ol.proj.Projection({
+      code: this._porjectionCode,
+      extent: this._extent
+    });
+  }
+
+  convertWGS84(longitude, latitude) {
+    return proj4(this._porjectionCode,
+        [longitude, latitude]);
+  }
+
+  get _extent() {
+    return [9928, 66928, 272072, 329072];
+  }
 
     connectedCallback() {
         this.__initializeCoordinateSystem();
@@ -107,49 +104,14 @@ export class VlMap extends VlElement(HTMLElement) {
         this._map.addAction(action);
     }
 
-  /**
-   * Disable een kaartactie
-   *
-   * @example Disable rotation aan mobile:
-   *
-   *  this._map.disableAction(ol.interaction.PinchRotate);
-   *
-   *Mogelijke kaartacties:
-   *https://openlayers.org/en/latest/apidoc/module-ol_interaction_Interaction-Interaction.html
-   *@param {ol.interaction.Pointer} action
-   */
-  _disableAction(action) {
-    this._setAction(action, false);
-  }
-
-  /**
-   * Disable pinchRotate
-   */
-  disablePinchRotate() {
-    this._disableAction(ol.interaction.PinchRotate)
-  }
-
-  /**
-   *Zet de status van een kaartactie (active/niet actieve)
-   *
-   *@param {ol.interaction.Pointer} action
-   *@param {boolean} active
-   */
-  _setAction(action, active) {
-    let interactions = this._map.getInteractions().getArray();
-    interactions.filter(function (interaction) {
-      return interaction instanceof action;
-    }).forEach((a) => a.setActive(active));
-  }
-
-  /**
-   * Zoomt op de kaart naar de bounding box.
-   *
-   * @param {Number[]} boundingbox
-   */
-  zoomTo(boundingbox) {
-    this._map.zoomToExtent(boundingbox);
-  }
+    /**
+     * Zoomt op de kaart naar de bounding box.
+     * 
+     * @param {Number[]} boundingbox 
+     */
+    zoomTo(boundingbox) {
+        this._map.zoomToExtent(boundingbox);
+    }
 
     __updateMapSize() {
         this.style.display = 'block';
