@@ -107,7 +107,7 @@ export class VlMap extends VlElement(HTMLElement) {
   /**
    * Disable een kaartactie
    *
-   * @example Disable rotation aan mobile:
+   * @example Disable rotation voor mobile:
    *
    *  this._map.disableAction(ol.interaction.PinchRotate);
    *
@@ -127,7 +127,7 @@ export class VlMap extends VlElement(HTMLElement) {
   }
 
   /**
-   *Zet de status van een kaartactie (active/niet actieve)
+   *Zet de status van een kaartactie (actief/niet actief)
    *
    *@param {ol.interaction.Pointer} action
    *@param {boolean} active
