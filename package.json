@@ -25,9 +25,10 @@
     "release:testless": "np --yolo",
     "demo": "npm run dev",
     "dev": "concurrently \"npm:bundle:watch\" \"http-server\"",
-    "build": "npm run bundle:build",
+    "build": "npm run bundle:build && npm run bundle:build:imports",
     "bundle:watch": "rollup --config rollup.config.js --watch",
-    "bundle:build": "rollup --config rollup.config.js"
+    "bundle:build": "rollup --config rollup.config.js",
+    "bundle:build:imports": "replace '\"[../]+/node_modules' '\"/node_modules' vl-map.js"
   },
   "dependencies": {
     "vl-mapactions": "^1.0.1",
