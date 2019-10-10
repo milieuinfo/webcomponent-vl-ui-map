@@ -34,14 +34,14 @@
     "bundle:build:imports": "replace '\"[../]+/node_modules' '\"/node_modules' vl-map.js"
   },
   "dependencies": {
-    "vl-mapactions": "github:milieuinfo/vl-mapactions##1-disableRotation",
+    "vl-mapactions": "github:milieuinfo/vl-mapactions#VHRMVC",
     "vl-ui-core": "^2.0.0",
     "vl-ui-select": "github:milieuinfo/webcomponent-vl-ui-select#VHRMVC-70"
   },
   "peerDependencies": {
     "vl-ui-core": "^2.0.0",
     "vl-ui-select": "github:milieuinfo/webcomponent-vl-ui-select#VHRMVC-70",
-    "vl-mapactions": "github:milieuinfo/vl-mapactions##1-disableRotation"
+    "vl-mapactions": "github:milieuinfo/vl-mapactions#VHRMVC"
   },
   "devDependencies": {
     "concurrently": "5.0.0",
@@ -54,7 +54,7 @@
     "sass": "1.23.0",
     "uglify-js-es6": "2.8.9",
     "vl-ui-icon": "^2.1.0",
-    "vl-ui-util": "^2.0.8",
+    "vl-ui-util": "^2.0.9",
     "wct-browser-legacy": "1.0.2",
     "web-component-tester": "6.9.2"
   }
