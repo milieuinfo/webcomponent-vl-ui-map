@@ -42,9 +42,13 @@ export class VlMap extends VlElement(HTMLElement) {
         return this._map;
     }
 
-    get disableEscapeKey() {
-        return this.getAttribute('disable-escape-key') != undefined;
-    }
+  get disableRotation() {
+    return this.getAttribute('disable-rotation') != undefined;
+  }
+
+  get disableEscapeKey() {
+    return this.getAttribute('disable-escape-key') != undefined;
+  }
 
     get _geoJSON() {
         if (!this.__geoJSON) {
@@ -57,40 +61,33 @@ export class VlMap extends VlElement(HTMLElement) {
         return this._shadow.querySelector('#map');
     }
 
-  get _porjectionCode() {
-    return 'EPSG:31370';
-  }
+    get _projection() {
+        return new ol.proj.Projection({
+            code: 'EPSG:31370',
+            extent: this._extent
+        });
+    }
 
-  get _projection() {
-    return new ol.proj.Projection({
-      code: this._porjectionCode,
-      extent: this._extent
-    });
-  }
-
-  convertWGS84(longitude, latitude) {
-    return proj4(this._porjectionCode,
-        [longitude, latitude]);
-  }
-
-  get _extent() {
-    return [9928, 66928, 272072, 329072];
-  }
+    get _extent() {
+        return [9928, 66928, 272072, 329072];
+    }
 
     connectedCallback() {
         this.__initializeCoordinateSystem();
 
-        this._map = new acd.ol.CustomMap({
-            actions: [],
-            disableEscapeKey: this.disableEscapeKey,
-            customLayers: {
-                baseLayerGroup: this.__createLayerGroup('Basis lagen', []),
-                overviewMapLayers: [],
-                overlayGroup: this.__createLayerGroup('Lagen', [])
-            },
-            projection: this._projection,
-            target: this._mapElement
-        });
+    this._map = new acd.ol.CustomMap({
+      actions: [],
+      disableEscapeKey: this.disableEscapeKey,
+      customLayers: {
+        baseLayerGroup: this.__createLayerGroup('Basis lagen', []),
+        overviewMapLayers: [],
+        overlayGroup: this.__createLayerGroup('Lagen', [])
+      },
+      projection: this._projection,
+      interactions: this.disableRotation ? ol.interaction.defaults(
+          {altShiftDragRotate: false, pinchRotate: false}) : [],
+      target: this._mapElement
+    });
 
         this._map.initializeView();
     }
@@ -107,7 +104,7 @@ export class VlMap extends VlElement(HTMLElement) {
   /**
    * Disable een kaartactie
    *
-   * @example Disable rotation voor mobile:
+   * @example Disable rotation aan mobile:
    *
    *  this._map.disableAction(ol.interaction.PinchRotate);
    *
@@ -127,7 +124,7 @@ export class VlMap extends VlElement(HTMLElement) {
   }
 
   /**
-   *Zet de status van een kaartactie (actief/niet actief)
+   *Zet de status van een kaartactie (active/niet actieve)
    *
    *@param {ol.interaction.Pointer} action
    *@param {boolean} active
