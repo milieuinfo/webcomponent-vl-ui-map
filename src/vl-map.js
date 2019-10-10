@@ -78,14 +78,13 @@ export class VlMap extends VlElement(HTMLElement) {
     this._map = new acd.ol.CustomMap({
       actions: [],
       disableEscapeKey: this.disableEscapeKey,
+      disableRotation: this.disableRotation,
       customLayers: {
         baseLayerGroup: this.__createLayerGroup('Basis lagen', []),
         overviewMapLayers: [],
         overlayGroup: this.__createLayerGroup('Lagen', [])
       },
       projection: this._projection,
-      interactions: this.disableRotation ? ol.interaction.defaults(
-          {altShiftDragRotate: false, pinchRotate: false}) : undefined,
       target: this._mapElement
     });
 

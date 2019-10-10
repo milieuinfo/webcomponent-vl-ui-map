@@ -34,7 +34,7 @@
     "bundle:build:imports": "replace '\"[../]+/node_modules' '\"/node_modules' vl-map.js"
   },
   "dependencies": {
-    "vl-mapactions": "^1.0.1",
+    "vl-mapactions": "github:milieuinfo/milieuinfo/vl-mapactions##1-disableRotation",
     "vl-ui-core": "^2.0.0",
     "vl-ui-select": "github:milieuinfo/webcomponent-vl-ui-select#VHRMVC-70"
   },
