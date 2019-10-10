@@ -1,6 +1,6 @@
 {
   "name": "vl-ui-map",
-  "version": "1.0.22",
+  "version": "1.0.23",
   "description": "De kaart webcomponent.",
   "main": "vl-map.js",
   "author": "DIDM",
@@ -25,9 +25,10 @@
     "release:testless": "np --yolo",
     "demo": "npm run dev",
     "dev": "concurrently \"npm:bundle:watch\" \"http-server\"",
-    "build": "npm run bundle:build",
+    "build": "npm run bundle:build && npm run bundle:build:imports",
     "bundle:watch": "rollup --config rollup.config.js --watch",
-    "bundle:build": "rollup --config rollup.config.js"
+    "bundle:build": "rollup --config rollup.config.js",
+    "bundle:build:imports": "replace '\"[../]+/node_modules' '\"/node_modules' vl-map.js"
   },
   "dependencies": {
     "vl-mapactions": "^1.0.1",
@@ -40,11 +41,11 @@
     "vl-mapactions": "^1.0.0"
   },
   "devDependencies": {
-    "concurrently": "4.1.2",
+    "concurrently": "5.0.0",
     "http-server": "0.11.1",
     "np": "3.1.0",
     "replace": "1.1.1",
-    "rollup": "1.22.0",
+    "rollup": "1.23.1",
     "rollup-plugin-postcss": "2.0.3",
     "rollup-plugin-terser": "5.1.2",
     "sass": "1.23.0",
