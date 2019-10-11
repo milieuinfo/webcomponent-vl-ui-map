@@ -11,6 +11,6 @@ export default {
     },
     plugins: [
         postcss(),
-        production && terser()
+        production && terser(),
     ]
 };

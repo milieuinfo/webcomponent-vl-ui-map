@@ -1,6 +1,6 @@
 {
   "name": "vl-ui-map",
-  "version": "1.0.22",
+  "version": "1.0.23",
   "description": "De kaart webcomponent.",
   "main": "vl-map.js",
   "author": "DIDM",
@@ -18,39 +18,43 @@
     "prepare:util": "npm explore vl-ui-util -- npm run install:copy && npm explore vl-ui-util -- npm run install:bamboo",
     "test": "wct -l chrome,firefox --npm",
     "release": "np",
-    "release:prepare": "npm run release:prepare:build && npm run release:prepare:css && npm run release:prepare:commit",
+    "release:prepare": "npm run release:prepare:build  && npm run release:prepare:imports && npm run release:prepare:css && npm run release:prepare:commit",
     "release:prepare:build": "npm run build",
+    "release:prepare:imports": "npm run release:prepare:imports:core && npm run release:prepare:imports:select",
+    "release:prepare:imports:core": "replace '../../../node_modules/vl-ui-core/vl-core.js' '/node_modules/vl-ui-core/vl-core.js' vl-map.js",
+    "release:prepare:imports:select": "replace '../../../node_modules/vl-ui-select/vl-select.js' '/node_modules/vl-ui-select/vl-select.js' vl-map.js",
     "release:prepare:css": "replace '\\.\\./style.css' '/node_modules/vl-ui-map/style.css' vl-map.js",
     "release:prepare:commit": "git add -f vl-map.js && git commit --amend --no-edit && git pull",
     "release:testless": "np --yolo",
     "demo": "npm run dev",
     "dev": "concurrently \"npm:bundle:watch\" \"http-server\"",
-    "build": "npm run bundle:build",
+    "build": "npm run bundle:build && npm run bundle:build:imports",
     "bundle:watch": "rollup --config rollup.config.js --watch",
-    "bundle:build": "rollup --config rollup.config.js"
+    "bundle:build": "rollup --config rollup.config.js",
+    "bundle:build:imports": "replace '\"[../]+/node_modules' '\"/node_modules' vl-map.js"
   },
   "dependencies": {
-    "vl-mapactions": "^1.0.1",
+    "vl-mapactions": "github:milieuinfo/vl-mapactions#VHRMVC",
     "vl-ui-core": "^2.0.0",
-    "vl-ui-select": "^1.1.11"
+    "vl-ui-select": "github:milieuinfo/webcomponent-vl-ui-select#VHRMVC-70"
   },
   "peerDependencies": {
     "vl-ui-core": "^2.0.0",
-    "vl-ui-select": "^1.1.11",
-    "vl-mapactions": "^1.0.0"
+    "vl-ui-select": "github:milieuinfo/webcomponent-vl-ui-select#VHRMVC-70",
+    "vl-mapactions": "github:milieuinfo/vl-mapactions#VHRMVC"
   },
   "devDependencies": {
-    "concurrently": "4.1.2",
+    "concurrently": "5.0.0",
     "http-server": "0.11.1",
     "np": "3.1.0",
     "replace": "1.1.1",
-    "rollup": "1.22.0",
+    "rollup": "1.23.1",
     "rollup-plugin-postcss": "2.0.3",
     "rollup-plugin-terser": "5.1.2",
     "sass": "1.23.0",
     "uglify-js-es6": "2.8.9",
     "vl-ui-icon": "^2.1.0",
-    "vl-ui-util": "^2.0.6",
+    "vl-ui-util": "^2.0.9",
     "wct-browser-legacy": "1.0.2",
     "web-component-tester": "6.9.2"
   }
