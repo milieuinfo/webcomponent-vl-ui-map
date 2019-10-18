@@ -20,6 +20,9 @@ export class VlMapSearch extends VlElement(HTMLElement) {
             </style>
             <select is="vl-select" data-vl-select data-vl-select-search-empty-text="Geen adres gevonden"></select>
         `);
+        this._onSelect = () => {
+            console.info('er is geen onSelect functie gedefinieerd!');
+        };
         this._configure();
     }
 
@@ -84,12 +87,17 @@ export class VlMapSearch extends VlElement(HTMLElement) {
                             return response.json();
                         }).then((data) => {
                             if (data && data.LocationResult) {
+                                this._onSelect();
                                 this._parentElement.zoomTo([data.LocationResult[0].BoundingBox.LowerLeft.X_Lambert72, data.LocationResult[0].BoundingBox.LowerLeft.Y_Lambert72, data.LocationResult[0].BoundingBox.UpperRight.X_Lambert72, data.LocationResult[0].BoundingBox.UpperRight.Y_Lambert72]);
                             }
                         });
                 }
             });
         }
+    }
+
+    onSelect(callback) {
+        this._onSelect = callback;
     }
 
     _configure() {
