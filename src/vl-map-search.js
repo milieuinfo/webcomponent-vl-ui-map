@@ -50,6 +50,10 @@ export class VlMapSearch extends VlElement(HTMLElement) {
         }
     }
 
+    bindMap(map) {
+      this._map = map;
+    }
+
     _addSearchEventListener() {
         if (!this.__searchEventListenerRegistered) {
             this.__searchEventListenerRegistered = true;
@@ -84,7 +88,7 @@ export class VlMapSearch extends VlElement(HTMLElement) {
                             return response.json();
                         }).then((data) => {
                             if (data && data.LocationResult) {
-                                this._parentElement.zoomTo([data.LocationResult[0].BoundingBox.LowerLeft.X_Lambert72, data.LocationResult[0].BoundingBox.LowerLeft.Y_Lambert72, data.LocationResult[0].BoundingBox.UpperRight.X_Lambert72, data.LocationResult[0].BoundingBox.UpperRight.Y_Lambert72]);
+                                this._map.zoomTo([data.LocationResult[0].BoundingBox.LowerLeft.X_Lambert72, data.LocationResult[0].BoundingBox.LowerLeft.Y_Lambert72, data.LocationResult[0].BoundingBox.UpperRight.X_Lambert72, data.LocationResult[0].BoundingBox.UpperRight.Y_Lambert72]);
                             }
                         });
                 }
@@ -94,9 +98,10 @@ export class VlMapSearch extends VlElement(HTMLElement) {
 
     _configure() {
         customElements.whenDefined('vl-map').then(() => {
-            if (this.parentNode && this.parentNode.map) {
+            if (this.parentNode  && this.parentNode.map && this.parentNode.host.tagName === 'VL-MAP') {
                 this.parentNode._shadow.prepend(this);
                 this.parentNode.host.style.setProperty('--vl-map--margin-top', "35px");
+                this._map = this._parentElement;
             }
         });
     }
