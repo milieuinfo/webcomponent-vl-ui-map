@@ -18,7 +18,7 @@ export class VlMapSearch extends VlElement(HTMLElement) {
             <style>
                 @import '/node_modules/vl-ui-select/style.css';
             </style>
-            <select is="vl-select" data-vl-select data-vl-select-search-empty-text="Geen adres gevonden"></select>
+            <select is="vl-select" data-vl-select data-vl-select-deletable data-vl-select-search-empty-text="Geen adres gevonden"></select>
         `);
         this._configure();
     }
