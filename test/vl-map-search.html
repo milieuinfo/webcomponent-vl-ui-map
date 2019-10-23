@@ -52,6 +52,7 @@
                 should.exist(selectElement);
                 assert.equal(selectElement.getAttribute('is'), 'vl-select');
                 assert.isDefined(selectElement.getAttribute('data-vl-select'));
+                assert.isDefined(selectElement.getAttribute('data-vl-select-deletable'));
                 assert.equal(selectElement.getAttribute('data-vl-select-search-empty-text'), 'Geen adres gevonden');
             });
 
