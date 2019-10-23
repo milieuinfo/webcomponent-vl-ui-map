@@ -1,4 +1,4 @@
-import { VlElement } from '../../../../../../../node_modules/vl-ui-core/vl-core.js';
+import { VlElement, awaitScript, define } from '../../../../../../../node_modules/vl-ui-core/vl-core.js';
 import '../../../../../../../node_modules/vl-ui-select/vl-select.js';
 
 function styleInject(css, ref) {
@@ -168,6 +168,38 @@ class VlMap extends VlElement(HTMLElement) {
 }
 
 /**
+ * VlMap
+ * @class
+ * @classdesc De kaart overview component.
+ *
+ * @extends VlElement
+ * 
+ * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
+ * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
+ * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map-overview-map.html|Demo}
+ */
+class VlMapOverviewMap extends VlElement(HTMLElement) {
+    connectedCallback() {
+        this._configureMap();
+    }
+
+    get _map() {
+        if (this.parentNode) {
+            return this.parentNode.map;
+        }
+    }
+
+    _configureMap() {
+        (async () => {
+            while (!(this._map && this._map.overviewMapControl)) {
+                await new Promise(resolve => setTimeout(resolve, 100));
+            }
+            this._map.addControl(this._map.overviewMapControl);
+        })();
+    }
+}
+
+/**
  * VlMapLayer
  * @class
  * @classdesc De kaart laag component.
@@ -182,7 +214,7 @@ class VlMap extends VlElement(HTMLElement) {
  * 
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
- * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map.html|Demo}
+ * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map-layer.html|Demo}
  */
 class VlMapLayer extends VlElement(HTMLElement) {
     static get _observedAttributes() {
@@ -633,7 +665,6 @@ class VlMapBaseLayerGRBOrtho extends VlMapBaseLayer {
  * 
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
- * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map.html|Demo}
  */
 class VlMapAction extends VlElement(HTMLElement) {
     connectedCallback() {
@@ -813,7 +844,6 @@ class VlMapSelectAction extends VlMapAction {
  * 
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
- * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map.html|Demo}
  */
 class VlMapLayerStyle extends VlElement(HTMLElement) {
     connectedCallback() {
@@ -911,7 +941,7 @@ class VlMapLayerStyle extends VlElement(HTMLElement) {
  * 
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
- * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map.html|Demo}
+ * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map-circle-style.html|Demo}
  */
 class VlMapLayerCircleStyle extends VlMapLayerStyle {
     /**
@@ -1027,7 +1057,7 @@ class VlMapLayerCircleStyle extends VlMapLayerStyle {
  * 
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
- * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map.html|Demo}
+ * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map-search.html|Demo}
  */
 class VlMapSearch extends VlElement(HTMLElement) {
     constructor() {
@@ -1119,34 +1149,23 @@ class VlMapSearch extends VlElement(HTMLElement) {
     }
 }
 
-(() => {
-    loadScript('VlMap-openlayers', '/node_modules/vl-mapactions/lib/openlayers/dist/ol.js');
-    loadScript('VlMap-proj4', '/node_modules/proj4/dist/proj4.js');
-    loadScript('VlMap-mapactions', '/node_modules/vl-mapactions/dist/mapactions-min.js', () => {
-        customElements.define('vl-map', VlMap);
-        customElements.define('vl-map-layer', VlMapLayer);
-        customElements.define('vl-map-baselayer', VlMapBaseLayer);
-        customElements.define('vl-map-baselayer-grb-gray', VlMapBaseLayerGRBGray);
-        customElements.define('vl-map-baselayer-grb', VlMapBaseLayerGRB);
-        customElements.define('vl-map-baselayer-grb-ortho', VlMapBaseLayerGRBOrtho);
-        customElements.define('vl-map-action', VlMapAction);
-        customElements.define('vl-map-select-action', VlMapSelectAction);
-        customElements.define('vl-map-layer-style', VlMapLayerStyle);
-        customElements.define('vl-map-layer-circle-style', VlMapLayerCircleStyle);
-        customElements.define('vl-map-search', VlMapSearch);
-    });
+Promise.all([
+    awaitScript('vl-map-openlayers', '/node_modules/vl-mapactions/lib/openlayers/dist/ol.js'),
+    awaitScript('vl-map-proj4', '/node_modules/proj4/dist/proj4.js'),
+    awaitScript('vl-map-mapactions', '/node_modules/vl-mapactions/dist/mapactions-min.js')]
+).then(() => {
+    define('vl-map', VlMap);
+    define('vl-map-overview-map', VlMapOverviewMap);
+    define('vl-map-layer', VlMapLayer);
+    define('vl-map-baselayer', VlMapBaseLayer);
+    define('vl-map-baselayer-grb-gray', VlMapBaseLayerGRBGray);
+    define('vl-map-baselayer-grb', VlMapBaseLayerGRB);
+    define('vl-map-baselayer-grb-ortho', VlMapBaseLayerGRBOrtho);
+    define('vl-map-action', VlMapAction);
+    define('vl-map-select-action', VlMapSelectAction);
+    define('vl-map-layer-style', VlMapLayerStyle);
+    define('vl-map-layer-circle-style', VlMapLayerCircleStyle);
+    define('vl-map-search', VlMapSearch);
+});
 
-    function loadScript(id, src, onload) {
-        if (!document.head.querySelector('#' + id)) {
-            const script = document.createElement('script');
-            script.setAttribute('id', id);
-            script.setAttribute('src', src);
-            script.async = false;
-            script.defer = false;
-            script.onload = onload;
-            document.head.appendChild(script);
-        }
-    }
-})();
-
-export { VlMap, VlMapAction, VlMapBaseLayer, VlMapBaseLayerGRB, VlMapBaseLayerGRBGray, VlMapBaseLayerGRBOrtho, VlMapLayer, VlMapLayerCircleStyle, VlMapLayerStyle, VlMapSearch, VlMapSelectAction };
+export { VlMap, VlMapAction, VlMapBaseLayer, VlMapBaseLayerGRB, VlMapBaseLayerGRBGray, VlMapBaseLayerGRBOrtho, VlMapLayer, VlMapLayerCircleStyle, VlMapLayerStyle, VlMapOverviewMap, VlMapSearch, VlMapSelectAction };

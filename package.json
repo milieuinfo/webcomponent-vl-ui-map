@@ -38,7 +38,7 @@
   "peerDependencies": {
     "vl-ui-core": "^2.0.0",
     "vl-ui-select": "^1.1.11",
-    "vl-mapactions": "^1.0.0"
+    "vl-mapactions": "milieuinfo/vl-mapactions"
   },
   "devDependencies": {
     "concurrently": "5.0.0",
