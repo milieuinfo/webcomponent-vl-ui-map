@@ -9,6 +9,7 @@ import style from './vl-map.scss';
  * @extends VlElement
  * 
  * @property {boolean} disable-escape-key - Attribuut wordt gebruikt om ervoor te zorgen dat de escape toets niet gebruikt kan worden.
+ * @property {boolean} disable-rotation - Attribuut wordt gebruikt om ervoor te zorgen dat het niet mogelijk is om de kaart te draaien.
  * 
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
@@ -46,6 +47,10 @@ export class VlMap extends VlElement(HTMLElement) {
         return this.getAttribute('disable-escape-key') != undefined;
     }
 
+    get disableRotation() {
+        return this.getAttribute('disable-rotation') != undefined;
+    }
+
     get _geoJSON() {
         if (!this.__geoJSON) {
             this.__geoJSON = new ol.format.GeoJSON();
@@ -74,6 +79,7 @@ export class VlMap extends VlElement(HTMLElement) {
         this._map = new acd.ol.CustomMap({
             actions: [],
             disableEscapeKey: this.disableEscapeKey,
+            disableRotation: this.disableRotation,
             customLayers: {
                 baseLayerGroup: this.__createLayerGroup('Basis lagen', []),
                 overviewMapLayers: [],

@@ -31,7 +31,7 @@
     "bundle:build:imports": "replace '\"[../]+/node_modules' '\"/node_modules' vl-map.js"
   },
   "dependencies": {
-    "vl-mapactions": "^1.0.1",
+    "vl-mapactions": "^2.0.0",
     "vl-ui-core": "^2.0.0",
     "vl-ui-select": "^1.1.11"
   },
@@ -51,7 +51,7 @@
     "sass": "1.23.0",
     "uglify-js-es6": "2.8.9",
     "vl-ui-icon": "^2.1.0",
-    "vl-ui-util": "^2.0.9",
+    "vl-ui-util": "^2.0.10",
     "wct-browser-legacy": "1.0.2",
     "web-component-tester": "6.9.2"
   }
