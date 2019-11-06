@@ -46,14 +46,17 @@
                 sandbox.restore();
             });
 
-            test('bevat een select element met correcte configuratie', () => {
+            test('bevat een select element met correcte configuratie', (done) => {
                 const element = fixture('vl-map-search-fixture');
-                const selectElement = element.shadowRoot.querySelector('select');
-                should.exist(selectElement);
-                assert.equal(selectElement.getAttribute('is'), 'vl-select');
-                assert.isDefined(selectElement.getAttribute('data-vl-select'));
-                assert.isDefined(selectElement.getAttribute('data-vl-select-deletable'));
-                assert.equal(selectElement.getAttribute('data-vl-select-search-empty-text'), 'Geen adres gevonden');
+                customElements.whenDefined('vl-select').then(() => {
+                    const selectElement = element.shadowRoot.querySelector('select');
+                    should.exist(selectElement);
+                    assert.equal(selectElement.getAttribute('is'), 'vl-select');
+                    assert.isDefined(selectElement.getAttribute('data-vl-select'));
+                    assert.isDefined(selectElement.getAttribute('data-vl-select-deletable'));
+                    assert.equal(selectElement.getAttribute('data-vl-select-search-empty-text'), 'Geen adres gevonden');
+                    done();
+                });
             });
 
             test('wanneer de gebruiker zoekt zullen bij geopunt de suggesties opgehaald worden', () => {
