@@ -114,7 +114,7 @@ export class VlMapBaseLayer extends VlElement(HTMLElement) {
         var self = this;
         return new ol.source.Vector({
             format: new ol.format.GeoJSON({
-                defaultDataProjection: self._projection
+                dataProjection: self._projection
             }),
             url: function() {
                 return self.url + '&typeName=' + self.layer;
