@@ -64,6 +64,17 @@
   </test-fixture>
 
   <script>
+
+    stringToObjectSortedByKeys = (o) => {
+      const unordered = JSON.parse(o);
+      const ordered = {};
+      Object.keys(unordered).sort().forEach(function(key) {
+        ordered[key] = unordered[key];
+      });
+      return ordered;
+
+    };
+
     suite('vl-map-layer', () => {
       const sandbox = sinon.sandbox.create();
       const should = chai.should();
@@ -96,7 +107,8 @@
         assert.lengthOf(kaartElement.map.getOverlayLayers(), 1);
         assert.equal(kaartElement.map.getOverlayLayers()[0], kaartlaagElement.layer);
         assert.equal(kaartElement.map.getOverlayLayers()[0].get('title'), 'testlaag');
-        assert.equal(geoJSON.writeFeatures(kaartElement.map.getOverlayLayers()[0].getSource().getFeatures()), kaartlaagElement.getAttribute('features'));
+        assert.deepEqual(stringToObjectSortedByKeys(geoJSON.writeFeatures(kaartElement.map.getOverlayLayers()[0].getSource().getFeatures())),
+            stringToObjectSortedByKeys(kaartlaagElement.getAttribute('features')));
         assert.isTrue(ol.layer.Vector.called);
       });
       
@@ -116,14 +128,16 @@
         
         let layer = kaartElement.map.getOverlayLayers()[0];
         assert.lengthOf(layer.getSource().getFeatures(), 1);
-        assert.equal(geoJSON.writeFeatures(layer.getSource().getFeatures()), kaartlaagElement.getAttribute('features'));
+        assert.deepEqual(stringToObjectSortedByKeys(geoJSON.writeFeatures(layer.getSource().getFeatures())),
+            stringToObjectSortedByKeys(kaartlaagElement.getAttribute('features')));
         assert.deepEqual(kaartElement.map.getView().getCenter(), [140860.69299028325, 190532.7165957574]);
         
         kaartlaagElement.setAttribute('features', "{\"type\":\"FeatureCollection\",\"features\":[{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[147055,197908]},\"properties\":null},{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[157055,207908]},\"properties\":null}]}");
         kaartlaagElement.setAttribute('auto-extent', '');
         layer = kaartElement.map.getOverlayLayers()[0];
         assert.lengthOf(layer.getSource().getFeatures(), 2);
-        assert.equal(geoJSON.writeFeatures(layer.getSource().getFeatures()), kaartlaagElement.getAttribute('features'));
+        assert.deepEqual(stringToObjectSortedByKeys(geoJSON.writeFeatures(layer.getSource().getFeatures())),
+            stringToObjectSortedByKeys(kaartlaagElement.getAttribute('features')));
         assert.notDeepEqual(kaartElement.map.getView().getCenter(), [140860.69299028325, 190532.7165957574]);
       });
       
@@ -184,15 +198,15 @@
         assert.isFunction(geometryFunction);
 
         assert.isNotNull(geometryFunction(new ol.Feature({
-          geometry: new ol.geom.Point()
+          geometry: new ol.geom.Point([16, 48])
         })));
-        
+
         assert.isNull(geometryFunction(new ol.Feature({
-          geometry: new ol.geom.LineString()
+          geometry: new ol.geom.LineString([[78.65, -32.65], [-98.65, 12.65]])
         })));
-        
+
         assert.isNull(geometryFunction(new ol.Feature({
-          geometry: new ol.geom.Polygon()
+          geometry: new ol.geom.Polygon([[8623931.28, 1449016.75],[8624007.72, 1458265.63]])
         })));
       });
       

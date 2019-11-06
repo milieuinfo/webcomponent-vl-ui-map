@@ -96,7 +96,8 @@
         assert.equal(source.getLayer(), 'layername_2');
         assert.equal(source.getMatrixSet(), 'BPL72VL');
         assert.equal(source.getFormat(), 'image/png');
-        assert.deepEqual(source.getProjection(), vlMapBaseLayerElement._projection);
+        assert.deepEqual(source.getProjection().code, vlMapBaseLayerElement._projection.code);
+        assert.deepEqual(source.getProjection().extent, vlMapBaseLayerElement._projection.extent);
         assert.equal(source.getStyle(), '');
 
         const tileGrid = source.getTileGrid();
@@ -119,7 +120,7 @@
         const vlMapBaseLayerElement = element.querySelector('vl-map-baselayer');
         const source = vlMapBaseLayerElement._createVectorSource();
         assert(ol.source.Vector.calledWith(sinon.match.has('format')));
-        assert.equal(ol.source.Vector.getCall(0).args[0].format.defaultDataProjection.getCode(), 'EPSG:31370');
+        assert.equal(ol.source.Vector.getCall(0).args[0].format.dataProjection.getCode(), 'EPSG:31370');
       });
 
       test('Een WMTS source wordt maar 1x aangemaakt', () => {
