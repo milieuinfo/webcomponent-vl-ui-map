@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>vl-map voorbeeld</title>
+
+    <script type="module" src="../vl-map.js"></script>
+    <script type="module" src="demo.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="demo.css">
+</head>
+
+<body>
+    <h1>vl-ui-map-overview-map demo</h1>
+
+    <div>
+        <h2>Kaart met overview map</h2>
+        <pre>
+                <code class="line-numbers language-markup">
+                    &lt;vl-map&gt;
+                        &lt;vl-map-overview-map&gt;&lt;/vl-map-overview-map&gt;
+                        &lt;vl-map-baselayer-grb-gray&gt;&lt;/vl-map-baselayer-grb-gray&gt;
+                        &lt;vl-map-baselayer-grb&gt;&lt;/vl-map-baselayer-grb&gt;
+                        &lt;vl-map-baselayer-grb-ortho&gt;&lt;/vl-map-baselayer-grb-ortho&gt;
+                    &lt;/vl-map&gt;
+                </code>
+            </pre>
+        <div class="demo">
+            <vl-map>
+                <vl-map-overview-map></vl-map-overview-map>
+                <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
+                <vl-map-baselayer-grb></vl-map-baselayer-grb>
+                <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
+            </vl-map>
+        </div>
+    </div>
+</body>
+
+</html>
