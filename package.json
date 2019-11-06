@@ -31,14 +31,14 @@
     "bundle:build:imports": "replace '\"[../]+/node_modules' '\"/node_modules' vl-map.js"
   },
   "dependencies": {
-    "vl-mapactions": "^2.0.0",
+    "vl-mapactions": "github:milieuinfo/vl-mapactions#ol-upgrade",
     "vl-ui-core": "^2.0.0",
     "vl-ui-select": "^1.1.11"
   },
   "peerDependencies": {
     "vl-ui-core": "^2.0.0",
     "vl-ui-select": "^1.1.11",
-    "vl-mapactions": "^2.0.0"
+    "vl-mapactions": "github:milieuinfo/vl-mapactions#ol-upgrade"
   },
   "devDependencies": {
     "concurrently": "5.0.0",
