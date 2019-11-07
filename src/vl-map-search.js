@@ -18,14 +18,13 @@ export class VlMapSearch extends VlElement(HTMLElement) {
             <style>
                 @import '/node_modules/vl-ui-select/style.css';
             </style>
-            <select is="vl-select" data-vl-select data-vl-select-deletable data-vl-select-search-empty-text="Geen adres gevonden"></select>
         `);
         this._configure();
-    }
-
-    connectedCallback() {
-        this._addSearchEventListener();
-        this._addChoiceEventListener();
+        customElements.whenDefined('vl-select').then(() => {
+            this._shadow.appendChild(this._getSelectTemplate());
+            this._addSearchEventListener();
+            this._addChoiceEventListener();
+        });
     }
 
     get url() {
@@ -49,6 +48,12 @@ export class VlMapSearch extends VlElement(HTMLElement) {
             return this.parentNode.host;
         }
     }
+
+    _getSelectTemplate() {
+        return this._template(`
+            <select is="vl-select" id="test" data-vl-select data-vl-select-deletable data-vl-select-search-empty-text="Geen adres gevonden"></select>
+        `);
+    };
 
     _addSearchEventListener() {
         if (!this.__searchEventListenerRegistered) {
