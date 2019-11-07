@@ -33,11 +33,11 @@
   "dependencies": {
     "vl-mapactions": "^2.0.0",
     "vl-ui-core": "^2.0.0",
-    "vl-ui-select": "^1.1.11"
+    "vl-ui-select": "^1.2.4"
   },
   "peerDependencies": {
     "vl-ui-core": "^2.0.0",
-    "vl-ui-select": "^1.1.11",
+    "vl-ui-select": "^1.2.4",
     "vl-mapactions": "^2.0.0"
   },
   "devDependencies": {
