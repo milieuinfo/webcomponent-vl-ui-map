@@ -1160,7 +1160,7 @@ class VlMapSearch extends VlElement(HTMLElement) {
 
   _configure() {
     customElements.whenDefined('vl-map').then(() => {
-      if (this.parentNode && this.parentNode.map && (this.parentNode.tagName === 'VL-MAP' || this.parentNode.host.tagName === 'VL-MAP')) {
+      if (this.parentNode && this.parentNode.map) {
         this.parentNode._shadow.prepend(this);
         this.parentNode.host.style.setProperty('--vl-map--margin-top', "35px");
         this._map = this._parentElement;
