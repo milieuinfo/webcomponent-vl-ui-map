@@ -1,5 +1,5 @@
-import { VlElement } from '../../../../../../node_modules/vl-ui-core/vl-core.js';
-import '../../../../../../node_modules/vl-ui-select/vl-select.js';
+import { VlElement } from '../../../../../../../node_modules/vl-ui-core/vl-core.js';
+import '../../../../../../../node_modules/vl-ui-select/vl-select.js';
 
 function styleInject(css, ref) {
   if ( ref === void 0 ) ref = {};
@@ -1030,11 +1030,11 @@ class VlMapLayerCircleStyle extends VlMapLayerStyle {
 class VlMapSearch extends VlElement(HTMLElement) {
   constructor() {
     super(`
-            <style>
-                @import '/node_modules/vl-ui-select/style.css';
-            </style>
-            <select is="vl-select" data-vl-select data-vl-select-search-empty-text="Geen adres gevonden"></select>
-        `);
+      <style>
+        @import '/node_modules/vl-ui-select/style.css';
+      </style>
+      <select is="vl-select" data-vl-select data-vl-select-search-empty-text="Geen adres gevonden"></select>
+    `);
     this._configure();
   }
 
@@ -1074,8 +1074,7 @@ class VlMapSearch extends VlElement(HTMLElement) {
       this.__searchEventListenerRegistered = true;
       this._selectElement.addEventListener('search', (event) => {
         if (event && event.detail && event.detail.value) {
-          fetch(this.searchUrl + event.detail.value)
-          .then((response) => {
+          fetch(this.searchUrl + event.detail.value).then((response) => {
             return response.json();
           }).then((data) => {
             if (data && data.SuggestionResult) {
@@ -1096,37 +1095,29 @@ class VlMapSearch extends VlElement(HTMLElement) {
   _addChoiceEventListener() {
     if (!this.__choiceEventListenerRegistered) {
       this.__choiceEventListenerRegistered = true;
-      this.__choiceEventListener = this._selectElement.addEventListener(
-          'choice', (event) => {
-            if (event && event.detail && event.detail.choice) {
-              fetch(this.locationUrl + event.detail.choice.value)
-              .then((response) => {
-                return response.json();
-              }).then((data) => {
-                if (data && data.LocationResult) {
-                  if (this._onSelect) {
-                    this._onSelect(data);
-                  }
-                  this._map.zoomTo(
-                      [data.LocationResult[0].BoundingBox.LowerLeft.X_Lambert72,
-                        data.LocationResult[0].BoundingBox.LowerLeft.Y_Lambert72,
-                        data.LocationResult[0].BoundingBox.UpperRight.X_Lambert72,
-                        data.LocationResult[0].BoundingBox.UpperRight.Y_Lambert72]);
-                }
-              });
+      this.__choiceEventListener = this._selectElement.addEventListener('choice', (event) => {
+        if (event && event.detail && event.detail.choice) {
+          fetch(this.locationUrl + event.detail.choice.value).then((response) => {
+            return response.json();
+          }).then((data) => {
+            if (data && data.LocationResult) {
+              if (this._map) {
+                this._map.zoomTo(
+                  [data.LocationResult[0].BoundingBox.LowerLeft.X_Lambert72,
+                  data.LocationResult[0].BoundingBox.LowerLeft.Y_Lambert72,
+                  data.LocationResult[0].BoundingBox.UpperRight.X_Lambert72,
+                  data.LocationResult[0].BoundingBox.UpperRight.Y_Lambert72]);
+              }
             }
           });
+        }
+      });
     }
-  }
-
-  onSelect(callback) {
-    this._onSelect = callback;
   }
 
   _configure() {
     customElements.whenDefined('vl-map').then(() => {
-      if (this.parentNode && this.parentNode.map && (this.parentNode.tagName
-          === 'VL-MAP' || this.parentNode.host.tagName === 'VL-MAP')) {
+      if (this.parentNode && this.parentNode.map && (this.parentNode.tagName === 'VL-MAP' || this.parentNode.host.tagName === 'VL-MAP')) {
         this.parentNode._shadow.prepend(this);
         this.parentNode.host.style.setProperty('--vl-map--margin-top', "35px");
         this._map = this._parentElement;

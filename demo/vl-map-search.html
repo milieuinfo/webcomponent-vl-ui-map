@@ -1,61 +1,63 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>vl-map-search voorbeeld</title>
   <script type="module" src="../vl-map.js"></script>
   <script type="module" src="demo.js"></script>
+  <script type="module" src="/node_modules/vl-ui-button/vl-button.js"></script>
   <link rel="stylesheet" type="text/css" href="demo.css">
 </head>
 
 <body>
-<h1>vl-ui-map-search demo</h1>
+  <h1>vl-ui-map-search demo</h1>
 
-<div>
-  <h2>Kaart met adres zoek functionaliteit</h2>
-  <pre>
-                <code class="line-numbers language-markup">
-                    &lt;vl-map&gt;
-                        &lt;vl-map-search&gt;&lt;/vl-map-search&gt;
-                        &lt;vl-map-baselayer-grb-gray&gt;&lt;/vl-map-baselayer-grb-gray&gt;
-                        &lt;vl-map-baselayer-grb&gt;&lt;/vl-map-baselayer-grb&gt;
-                        &lt;vl-map-baselayer-grb-ortho&gt;&lt;/vl-map-baselayer-grb-ortho&gt;
-                    &lt;/vl-map&gt;
-                </code>
-            </pre>
-  <div class="demo">
-    <vl-map id="vl-map-1">
-      <vl-map-search id="vl-map-search-1"></vl-map-search>
-      <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
-      <vl-map-baselayer-grb></vl-map-baselayer-grb>
-      <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
-    </vl-map>
+  <div>
+    <h2>Kaart met adres zoek functionaliteit</h2>
+    <pre>
+      <code class="line-numbers language-markup">
+        &lt;vl-map&gt;
+          &lt;vl-map-search&gt;&lt;/vl-map-search&gt;
+          &lt;vl-map-baselayer-grb-gray&gt;&lt;/vl-map-baselayer-grb-gray&gt;
+          &lt;vl-map-baselayer-grb&gt;&lt;/vl-map-baselayer-grb&gt;
+          &lt;vl-map-baselayer-grb-ortho&gt;&lt;/vl-map-baselayer-grb-ortho&gt;
+        &lt;/vl-map&gt;
+      </code>
+    </pre>
+    <div class="demo">
+      <vl-map id="vl-map-1">
+        <vl-map-search id="vl-map-search-1"></vl-map-search>
+        <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
+        <vl-map-baselayer-grb></vl-map-baselayer-grb>
+        <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
+      </vl-map>
+    </div>
   </div>
-</div>
 
-<div>
-  <h2>Bind map</h2>
-  <p>Een vl-map-search element en een vl-map element handmatig te koppelen.</p>
-  <pre>
-    <code class="line-numbers language-markup">
-      &lt;vl-map-search id="vl-map-search-3"&gt;&lt;/vl-map-search&gt;
-      &lt;button onclick="document.querySelector('#vl-map-search-3').bindMap(document.querySelector('#vl-map-3'))"&gt;Bind&lt;/button&gt;
-      &lt;vl-map id="vl-map-3"&gt;
-        &lt;vl-map-baselayer-grb-gray&gt;&lt;/vl-map-baselayer-grb-gray&gt;
-        &lt;vl-map-baselayer-grb&gt;&lt;/vl-map-baselayer-grb&gt;
-        &lt;vl-map-baselayer-grb-ortho&gt;&lt;/vl-map-baselayer-grb-ortho&gt;
-      &lt;/vl-map&gt;
-    </code>
-  </pre>
-  <div class="demo">
-    <vl-map-search id="vl-map-search-3"></vl-map-search>
-    <button onclick="document.querySelector('#vl-map-search-3').bindMap(document.querySelector('#vl-map-3'))">Bind</button>
-    <vl-map id="vl-map-3">
-      <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
-      <vl-map-baselayer-grb></vl-map-baselayer-grb>
-      <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
-    </vl-map>
+  <div>
+    <h2>Bind map</h2>
+    <p>Een vl-map-search element en een vl-map element handmatig te koppelen.</p>
+    <pre>
+      <code class="line-numbers language-markup">
+        &lt;vl-map-search id="vl-map-search-2"&gt;&lt;/vl-map-search&gt;
+        &lt;button onclick="document.querySelector('#vl-map-search-2').bindMap(document.querySelector('#vl-map-2'))"&gt;Bind&lt;/button&gt;
+        &lt;vl-map id="vl-map-2"&gt;
+          &lt;vl-map-baselayer-grb-gray&gt;&lt;/vl-map-baselayer-grb-gray&gt;
+          &lt;vl-map-baselayer-grb&gt;&lt;/vl-map-baselayer-grb&gt;
+          &lt;vl-map-baselayer-grb-ortho&gt;&lt;/vl-map-baselayer-grb-ortho&gt;
+        &lt;/vl-map&gt;
+      </code>
+    </pre>
+    <div class="demo">
+      <button is="vl-button" type="button" onclick="document.querySelector('#vl-map-search-2').bindMap(document.querySelector('#vl-map-2'))">Koppel zoekbalk aan kaart</button>
+      <vl-map-search id="vl-map-search-2"></vl-map-search>
+      <vl-map id="vl-map-2">
+        <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
+        <vl-map-baselayer-grb></vl-map-baselayer-grb>
+        <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
+      </vl-map>
+    </div>
   </div>
-</div>
 </body>
 
 </html>
