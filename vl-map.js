@@ -1,4 +1,4 @@
-import { VlElement } from '../../../../../../../node_modules/vl-ui-core/vl-core.js';
+import { VlElement, awaitScript, define } from '../../../../../../../node_modules/vl-ui-core/vl-core.js';
 import '../../../../../../../node_modules/vl-ui-select/vl-select.js';
 
 function styleInject(css, ref) {
@@ -39,6 +39,7 @@ styleInject(css);
  * @extends VlElement
  * 
  * @property {boolean} disable-escape-key - Attribuut wordt gebruikt om ervoor te zorgen dat de escape toets niet gebruikt kan worden.
+ * @property {boolean} disable-rotation - Attribuut wordt gebruikt om ervoor te zorgen dat het niet mogelijk is om de kaart te draaien.
  * 
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
@@ -76,6 +77,10 @@ class VlMap extends VlElement(HTMLElement) {
         return this.getAttribute('disable-escape-key') != undefined;
     }
 
+    get disableRotation() {
+        return this.getAttribute('disable-rotation') != undefined;
+    }
+
     get _geoJSON() {
         if (!this.__geoJSON) {
             this.__geoJSON = new ol.format.GeoJSON();
@@ -104,6 +109,7 @@ class VlMap extends VlElement(HTMLElement) {
         this._map = new acd.ol.CustomMap({
             actions: [],
             disableEscapeKey: this.disableEscapeKey,
+            disableRotation: this.disableRotation,
             customLayers: {
                 baseLayerGroup: this.__createLayerGroup('Basis lagen', []),
                 overviewMapLayers: [],
@@ -164,6 +170,38 @@ class VlMap extends VlElement(HTMLElement) {
 
     __initializeCoordinateSystem() {
         proj4.defs('EPSG:31370', '+proj=lcc +lat_1=51.16666723333333 +lat_2=49.8333339 +lat_0=90 +lon_0=4.367486666666666 +x_0=150000.013 +y_0=5400088.438 +ellps=intl +towgs84=-106.869,52.2978,-103.724,0.3366,-0.457,1.8422,-1.2747 +units=m +no_defs');
+    }
+}
+
+/**
+ * VlMap
+ * @class
+ * @classdesc De kaart overview component.
+ *
+ * @extends VlElement
+ * 
+ * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
+ * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
+ * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map-overview-map.html|Demo}
+ */
+class VlMapOverviewMap extends VlElement(HTMLElement) {
+    connectedCallback() {
+        this._configureMap();
+    }
+
+    get _map() {
+        if (this.parentNode) {
+            return this.parentNode.map;
+        }
+    }
+
+    _configureMap() {
+        (async () => {
+            while (!(this._map && this._map.overviewMapControl)) {
+                await new Promise(resolve => setTimeout(resolve, 100));
+            }
+            this._map.addControl(this._map.overviewMapControl);
+        })();
     }
 }
 
@@ -1028,20 +1066,19 @@ class VlMapLayerCircleStyle extends VlMapLayerStyle {
  * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map-search.html|Demo}
  */
 class VlMapSearch extends VlElement(HTMLElement) {
-  constructor() {
-    super(`
-      <style>
-        @import '/node_modules/vl-ui-select/style.css';
-      </style>
-      <select is="vl-select" data-vl-select data-vl-select-search-empty-text="Geen adres gevonden"></select>
-    `);
-    this._configure();
-  }
-
-  connectedCallback() {
-    this._addSearchEventListener();
-    this._addChoiceEventListener();
-  }
+    constructor() {
+        super(`
+            <style>
+                @import '/node_modules/vl-ui-select/style.css';
+            </style>
+        `);
+        this._configure();
+        customElements.whenDefined('vl-select').then(() => {
+            this._shadow.appendChild(this._getSelectTemplate());
+            this._addSearchEventListener();
+            this._addChoiceEventListener();
+        });
+    }
 
   get url() {
     return 'https://loc.geopunt.be/v4';
@@ -1068,6 +1105,12 @@ class VlMapSearch extends VlElement(HTMLElement) {
   bindMap(map) {
     this._map = map;
   }
+  
+    _getSelectTemplate() {
+        return this._template(`
+            <select is="vl-select" id="test" data-vl-select data-vl-select-deletable data-vl-select-search-empty-text="Geen adres gevonden"></select>
+        `);
+    };
 
   _addSearchEventListener() {
     if (!this.__searchEventListenerRegistered) {
@@ -1126,34 +1169,23 @@ class VlMapSearch extends VlElement(HTMLElement) {
   }
 }
 
-(() => {
-    loadScript('VlMap-openlayers', '/node_modules/vl-mapactions/lib/openlayers/dist/ol.js');
-    loadScript('VlMap-proj4', '/node_modules/proj4/dist/proj4.js');
-    loadScript('VlMap-mapactions', '/node_modules/vl-mapactions/dist/mapactions-min.js', () => {
-        customElements.define('vl-map', VlMap);
-        customElements.define('vl-map-layer', VlMapLayer);
-        customElements.define('vl-map-baselayer', VlMapBaseLayer);
-        customElements.define('vl-map-baselayer-grb-gray', VlMapBaseLayerGRBGray);
-        customElements.define('vl-map-baselayer-grb', VlMapBaseLayerGRB);
-        customElements.define('vl-map-baselayer-grb-ortho', VlMapBaseLayerGRBOrtho);
-        customElements.define('vl-map-action', VlMapAction);
-        customElements.define('vl-map-select-action', VlMapSelectAction);
-        customElements.define('vl-map-layer-style', VlMapLayerStyle);
-        customElements.define('vl-map-layer-circle-style', VlMapLayerCircleStyle);
-        customElements.define('vl-map-search', VlMapSearch);
-    });
+Promise.all([
+    awaitScript('vl-map-openlayers', '/node_modules/vl-mapactions/lib/openlayers/dist/ol.js'),
+    awaitScript('vl-map-proj4', '/node_modules/proj4/dist/proj4.js'),
+    awaitScript('vl-map-mapactions', '/node_modules/vl-mapactions/dist/mapactions-min.js')]
+).then(() => {
+    define('vl-map', VlMap);
+    define('vl-map-overview-map', VlMapOverviewMap);
+    define('vl-map-layer', VlMapLayer);
+    define('vl-map-baselayer', VlMapBaseLayer);
+    define('vl-map-baselayer-grb-gray', VlMapBaseLayerGRBGray);
+    define('vl-map-baselayer-grb', VlMapBaseLayerGRB);
+    define('vl-map-baselayer-grb-ortho', VlMapBaseLayerGRBOrtho);
+    define('vl-map-action', VlMapAction);
+    define('vl-map-select-action', VlMapSelectAction);
+    define('vl-map-layer-style', VlMapLayerStyle);
+    define('vl-map-layer-circle-style', VlMapLayerCircleStyle);
+    define('vl-map-search', VlMapSearch);
+});
 
-    function loadScript(id, src, onload) {
-        if (!document.head.querySelector('#' + id)) {
-            const script = document.createElement('script');
-            script.setAttribute('id', id);
-            script.setAttribute('src', src);
-            script.async = false;
-            script.defer = false;
-            script.onload = onload;
-            document.head.appendChild(script);
-        }
-    }
-})();
-
-export { VlMap, VlMapAction, VlMapBaseLayer, VlMapBaseLayerGRB, VlMapBaseLayerGRBGray, VlMapBaseLayerGRBOrtho, VlMapLayer, VlMapLayerCircleStyle, VlMapLayerStyle, VlMapSearch, VlMapSelectAction };
+export { VlMap, VlMapAction, VlMapBaseLayer, VlMapBaseLayerGRB, VlMapBaseLayerGRBGray, VlMapBaseLayerGRBOrtho, VlMapLayer, VlMapLayerCircleStyle, VlMapLayerStyle, VlMapOverviewMap, VlMapSearch, VlMapSelectAction };
