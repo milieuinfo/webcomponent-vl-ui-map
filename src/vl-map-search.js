@@ -13,20 +13,19 @@ import '/node_modules/vl-ui-select/vl-select.js';
  * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map-search.html|Demo}
  */
 export class VlMapSearch extends VlElement(HTMLElement) {
-  constructor() {
-    super(`
-      <style>
-        @import '/node_modules/vl-ui-select/style.css';
-      </style>
-      <select is="vl-select" data-vl-select data-vl-select-search-empty-text="Geen adres gevonden"></select>
-    `);
-    this._configure();
-  }
-
-  connectedCallback() {
-    this._addSearchEventListener();
-    this._addChoiceEventListener();
-  }
+    constructor() {
+        super(`
+            <style>
+                @import '/node_modules/vl-ui-select/style.css';
+            </style>
+        `);
+        this._configure();
+        customElements.whenDefined('vl-select').then(() => {
+            this._shadow.appendChild(this._getSelectTemplate());
+            this._addSearchEventListener();
+            this._addChoiceEventListener();
+        });
+    }
 
   get url() {
     return 'https://loc.geopunt.be/v4';
@@ -53,6 +52,12 @@ export class VlMapSearch extends VlElement(HTMLElement) {
   bindMap(map) {
     this._map = map;
   }
+  
+    _getSelectTemplate() {
+        return this._template(`
+            <select is="vl-select" id="test" data-vl-select data-vl-select-deletable data-vl-select-search-empty-text="Geen adres gevonden"></select>
+        `);
+    };
 
   _addSearchEventListener() {
     if (!this.__searchEventListenerRegistered) {
