@@ -91,12 +91,17 @@ export class VlMapSearch extends VlElement(HTMLElement) {
             return response.json();
           }).then((data) => {
             if (data && data.LocationResult) {
-              if (this._map) {
-                this._map.zoomTo(
-                  [data.LocationResult[0].BoundingBox.LowerLeft.X_Lambert72,
-                  data.LocationResult[0].BoundingBox.LowerLeft.Y_Lambert72,
-                  data.LocationResult[0].BoundingBox.UpperRight.X_Lambert72,
-                  data.LocationResult[0].BoundingBox.UpperRight.Y_Lambert72]);
+              if (this._onSelect) {
+                this._onSelect(data);
+              }
+              else {
+                if (this._map) {
+                  this._map.zoomTo(
+                      [data.LocationResult[0].BoundingBox.LowerLeft.X_Lambert72,
+                        data.LocationResult[0].BoundingBox.LowerLeft.Y_Lambert72,
+                        data.LocationResult[0].BoundingBox.UpperRight.X_Lambert72,
+                        data.LocationResult[0].BoundingBox.UpperRight.Y_Lambert72]);
+                }
               }
             }
           });
