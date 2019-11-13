@@ -102,6 +102,9 @@ export class VlMapSearch extends VlElement(HTMLElement) {
                         data.LocationResult[0].BoundingBox.UpperRight.X_Lambert72,
                         data.LocationResult[0].BoundingBox.UpperRight.Y_Lambert72]);
                 }
+                else {
+                  console.info('Er is nog geen vl-map gedefinieerd voor dit vl-map-search element.');
+                }
               }
             }
           });
