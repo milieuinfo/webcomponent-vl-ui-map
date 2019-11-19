@@ -48,7 +48,7 @@
     "rollup": "1.27.2",
     "rollup-plugin-postcss": "2.0.3",
     "rollup-plugin-terser": "5.1.2",
-    "sass": "1.23.0",
+    "sass": "1.23.6",
     "uglify-js-es6": "2.8.9",
     "vl-ui-icon": "^2.1.0",
     "vl-ui-util": "^2.0.13",
