@@ -1,5 +1,5 @@
-import { VlElement, awaitScript, define } from '../../../../../../../node_modules/vl-ui-core/vl-core.js';
-import '../../../../../../../node_modules/vl-ui-select/vl-select.js';
+import { VlElement, awaitScript, define } from '../../../../../../node_modules/vl-ui-core/vl-core.js';
+import '../../../../../../node_modules/vl-ui-select/vl-select.js';
 
 function styleInject(css, ref) {
   if ( ref === void 0 ) ref = {};
@@ -1066,19 +1066,19 @@ class VlMapLayerCircleStyle extends VlMapLayerStyle {
  * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map-search.html|Demo}
  */
 class VlMapSearch extends VlElement(HTMLElement) {
-    constructor() {
-        super(`
+  constructor() {
+    super(`
             <style>
                 @import '/node_modules/vl-ui-select/style.css';
             </style>
         `);
-        this._configure();
-        customElements.whenDefined('vl-select').then(() => {
-            this._shadow.appendChild(this._getSelectTemplate());
-            this._addSearchEventListener();
-            this._addChoiceEventListener();
-        });
-    }
+    this._configure();
+    customElements.whenDefined('vl-select').then(() => {
+      this._shadow.appendChild(this._getSelectTemplate());
+      this._addSearchEventListener();
+      this._addChoiceEventListener();
+    });
+  }
 
   get url() {
     return 'https://loc.geopunt.be/v4';
@@ -1105,12 +1105,12 @@ class VlMapSearch extends VlElement(HTMLElement) {
   bindMap(map) {
     this._map = map;
   }
-  
-    _getSelectTemplate() {
-        return this._template(`
+
+  _getSelectTemplate() {
+    return this._template(`
             <select is="vl-select" id="test" data-vl-select data-vl-select-deletable data-vl-select-search-empty-text="Geen adres gevonden"></select>
         `);
-    };
+  };
 
   _addSearchEventListener() {
     if (!this.__searchEventListenerRegistered) {
@@ -1144,18 +1144,30 @@ class VlMapSearch extends VlElement(HTMLElement) {
             return response.json();
           }).then((data) => {
             if (data && data.LocationResult) {
-              if (this._map) {
-                this._map.zoomTo(
-                  [data.LocationResult[0].BoundingBox.LowerLeft.X_Lambert72,
-                  data.LocationResult[0].BoundingBox.LowerLeft.Y_Lambert72,
-                  data.LocationResult[0].BoundingBox.UpperRight.X_Lambert72,
-                  data.LocationResult[0].BoundingBox.UpperRight.Y_Lambert72]);
+              if (this._onSelect) {
+                this._onSelect(data);
+              }
+              else {
+                if (this._map) {
+                  this._map.zoomTo(
+                      [data.LocationResult[0].BoundingBox.LowerLeft.X_Lambert72,
+                        data.LocationResult[0].BoundingBox.LowerLeft.Y_Lambert72,
+                        data.LocationResult[0].BoundingBox.UpperRight.X_Lambert72,
+                        data.LocationResult[0].BoundingBox.UpperRight.Y_Lambert72]);
+                }
+                else {
+                  console.info('Er is nog geen vl-map gedefinieerd voor dit vl-map-search element.');
+                }
               }
             }
           });
         }
       });
     }
+  }
+
+  onSelect(callback) {
+    this._onSelect = callback;
   }
 
   _configure() {
