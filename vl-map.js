@@ -1,5 +1,5 @@
-import { VlElement, awaitScript, define } from '../../../../../../../node_modules/vl-ui-core/vl-core.js';
-import '../../../../../../../node_modules/vl-ui-select/vl-select.js';
+import { VlElement, awaitScript, define } from '../../../../../node_modules/vl-ui-core/vl-core.js';
+import '../../../../../node_modules/vl-ui-select/vl-select.js';
 
 function styleInject(css, ref) {
   if ( ref === void 0 ) ref = {};
