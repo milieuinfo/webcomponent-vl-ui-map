@@ -3,32 +3,32 @@
 
 <head>
   <meta charset="utf-8">
-  <script src="../../@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
-  <script src="../../web-component-tester/browser.js"></script>
+  <script src="../../../@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../../../web-component-tester/browser.js"></script>
 
   <script src="ol-util.js"></script>
 </head>
 
 <body>
-  <test-fixture id="vl-map-baselayer-grb-fixture">
+  <test-fixture id="vl-map-baselayer-grb-ortho-fixture">
     <template>
       <vl-map>
-        <vl-map-baselayer-grb></vl-map-baselayer-grb>
+        <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
       </vl-map>
     </template>
   </test-fixture>
   
   <script type="module">
-    import { VlMapBaseLayer } from '../vl-map.js';
+    import { VlMapBaseLayer } from '../../vl-map.js';
 
-    suite('vl-map-baselayer-grb', () => {
+    suite('vl-map-baselayer-grb-ortho', () => {
       const sandbox = sinon.sandbox.create();
       const should = chai.should();
 
       setup(() => {
         return new Promise((resolve) => {
           const wait = () => {
-            if (!!customElements.get('vl-map-baselayer-grb')) {
+            if (!!customElements.get('vl-map-baselayer-grb-ortho')) {
                 resolve();
             }
           };
@@ -41,13 +41,13 @@
       });
       
       test('De grb basiskaartlaag wordt goed geconfigureerd', () => {
-        const element = fixture('vl-map-baselayer-grb-fixture');
-        const vlMapBaseLayerElement = element.querySelector('vl-map-baselayer-grb');
+        const element = fixture('vl-map-baselayer-grb-ortho-fixture');
+        const vlMapBaseLayerElement = element.querySelector('vl-map-baselayer-grb-ortho');
         assert.isTrue(vlMapBaseLayerElement instanceof VlMapBaseLayer);
         assert.equal(vlMapBaseLayerElement.url, "https://tile.informatievlaanderen.be/ws/raadpleegdiensten/wmts");
         assert.equal(vlMapBaseLayerElement.type, "wmts");
-        assert.equal(vlMapBaseLayerElement.layer, "grb_bsk");
-        assert.equal(vlMapBaseLayerElement.title, "GRB basis laag");
+        assert.equal(vlMapBaseLayerElement.layer, "omwrgbmrvl");
+        assert.equal(vlMapBaseLayerElement.title, "GRB ortho laag");
       });
     });
   </script>
