@@ -61,6 +61,6 @@
     "rollup-plugin-terser": "^5.2.0",
     "vl-ui-button": "^2.0.0",
     "vl-ui-icon": "^2.1.0",
-    "vl-ui-util": "^3.3.0"
+    "vl-ui-util": "^3.4.1"
   }
 }
