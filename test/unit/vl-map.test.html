@@ -30,6 +30,12 @@
     </template>
 </test-fixture>
 
+<test-fixture id="vl-map-disable-mouse-wheel-zoom-fixture">
+    <template>
+        <vl-map disable-mouse-wheel-zoom></vl-map>
+    </template>
+</test-fixture>
+
 <test-fixture id="vl-map-search-fixture">
     <template>
         <vl-map>
@@ -162,6 +168,17 @@
             });
             const element = fixture('vl-map-disable-rotation-fixture');
             assert(acd.ol.CustomMap.calledWith(sinon.match.has('disableRotation', true)));
+        });
+
+        test('indien gewenst kan de mouse wheel zoom functionaliteit uitgeschakeld worden', () => {
+            sandbox.stub(acd.ol, 'CustomMap').returns({
+                initializeView: sandbox.spy(),
+                addAction: sandbox.spy(),
+                activateDefaultAction: sandbox.spy(),
+                updateSize: sandbox.spy()
+            });
+            const element = fixture('vl-map-disable-mouse-wheel-zoom-fixture');
+            assert(acd.ol.CustomMap.calledWith(sinon.match.has('disableMouseWheelZoom', true)));
         });
 
         test('wanneer de pagina volledig ingeladen is, wordt de grootte van de kaart en overview kaart geupdate', () => {
