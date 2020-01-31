@@ -50,7 +50,7 @@
   },
   "peerDependencies": {
     "vl-ui-core": "^2.0.0",
-    "vl-ui-select": "^1.2.4",
+    "vl-ui-select": " milieuinfo/webcomponent-vl-ui-select#IS-839--select-overschijft-windowCustomEvent",
     "vl-mapactions": "^2.0.0"
   },
   "devDependencies": {
