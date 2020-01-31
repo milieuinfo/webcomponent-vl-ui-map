@@ -10,7 +10,8 @@ import style from './vl-map.scss';
  * 
  * @property {boolean} disable-escape-key - Attribuut wordt gebruikt om ervoor te zorgen dat de escape toets niet gebruikt kan worden.
  * @property {boolean} disable-rotation - Attribuut wordt gebruikt om ervoor te zorgen dat het niet mogelijk is om de kaart te draaien.
- * 
+ * @property {boolean} disable-mouse-wheel-zoom - Attribuut wordt gebruikt om ervoor te zorgen dat het niet mogelijk is om de kaart in te zoomen met het muiswiel.
+ *
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
  * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map.html|Demo}
@@ -51,6 +52,10 @@ export class VlMap extends VlElement(HTMLElement) {
         return this.getAttribute('disable-rotation') != undefined;
     }
 
+    get disableMouseWheelZoom() {
+        return this.getAttribute('disable-mouse-wheel-zoom') != undefined;
+    }
+
     get _geoJSON() {
         if (!this.__geoJSON) {
             this.__geoJSON = new ol.format.GeoJSON();
@@ -80,6 +85,7 @@ export class VlMap extends VlElement(HTMLElement) {
             actions: [],
             disableEscapeKey: this.disableEscapeKey,
             disableRotation: this.disableRotation,
+            disableMouseWheelZoom: this.disableMouseWheelZoom,
             customLayers: {
                 baseLayerGroup: this.__createLayerGroup('Basis lagen', []),
                 overviewMapLayers: [],
