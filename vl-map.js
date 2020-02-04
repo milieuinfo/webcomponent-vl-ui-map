@@ -388,37 +388,47 @@ class VlMapLayer extends VlElement(HTMLElement) {
     }
 
     _auto_extentChangedCallback(oldValue, newValue) {
-        this.__zoomToExtent();
+        this.__autoZoomToExtent();
     }
 
     _featuresChangedCallback(oldValue, newValue) {
         if (newValue && this._layer) {
             this._source.clear();
             this._source.addFeatures(this.features);
-            this.__zoomToExtent();
+            this.__autoZoomToExtent();
             this.rerender();
         }
     }
 
     get __mapViewExtent() {
-        return this.__mapView.calculateExtent(this._map.getSize());
+        if (this._map) {
+            return this.__mapView.calculateExtent(this._map.getSize());
+        }
     }
 
     get __mapView() {
-        return this._map.getView();
+        if (this._map) {
+            return this._map.getView();
+        }
+    }
+
+    __autoZoomToExtent() {
+        if (this._autoExtent) {
+            const preZoomExtent = this.__mapViewExtent;
+            this.zoomToExtent();
+            const postZoomExtent = this.__mapViewExtent;
+            if (isEqual(preZoomExtent, postZoomExtent)) {
+                setTimeout(this.__autoZoomToExtent.bind(this), 100);
+            }
+        }
     }
 
     /**
-     * Zoom to all the features in this layer.
+     * Zoom naar alle features in deze layer.
      */
-    __zoomToExtent() {
-        if (this._map && this._autoExtent) {
-            const preZoomExtent = this.__mapViewExtent;
+    zoomToExtent() {
+        if (this._map) {
             this._map.zoomToExtent(this.__boundingBox);
-            const postZoomExtent = this.__mapViewExtent;
-            if (isEqual(preZoomExtent, postZoomExtent)) {
-                setTimeout(this.__zoomToExtent.bind(this), 100);
-            }
         }
     }
 
@@ -470,7 +480,7 @@ class VlMapLayer extends VlElement(HTMLElement) {
     _configureMap() {
         if (this._map) {
             this._map.getOverlayLayers().push(this._layer);
-            this.__zoomToExtent();
+            this.__autoZoomToExtent();
         }
     }
 }

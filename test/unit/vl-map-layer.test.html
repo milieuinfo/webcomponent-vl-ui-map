@@ -109,6 +109,14 @@
         kaartlaagElement = kaartElement.querySelector('vl-map-layer');
         assert.deepEqual(kaartElement.map.getView().getCenter(), [147055, 197908]);
       });
+
+      test('het aanroepen van zoomToExtent zal de kaart doen inzoomen op de bounding box', () => {
+        let kaartElement = fixture('vl-map-fixture');
+        let kaartlaagElement = kaartElement.querySelector('vl-map-layer');
+        assert.notDeepEqual(kaartElement.map.getView().getCenter(), [147055, 197908]);
+        kaartlaagElement.zoomToExtent();
+        assert.deepEqual(kaartElement.map.getView().getCenter(), [147055, 197908]);
+      });
       
       test('bij het toevoegen van een feature zal deze automatisch toegevoegd worden aan de laag en zal de kaart opnieuw zoomen naar de extent van de kaartlaag indien de auto-extent geactiveerd werd', () => {
         const kaartElement = fixture('vl-map-fixture');
