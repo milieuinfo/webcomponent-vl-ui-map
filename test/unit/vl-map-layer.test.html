@@ -163,8 +163,8 @@
         element.setAttribute('features', "{\"type\":\"FeatureCollection\",\"features\":[{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[147055,197908]},\"properties\":null},{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[157055,207908]},\"properties\":null}]}");
 
         sandbox.stub(element._source, 'getExtent').returns(extent);
-        const boundingbox = element.__getBoundingbox();
-        assert.equal(boundingbox, extent);
+        const boundingBox = element.__boundingBox;
+        assert.equal(boundingBox, extent);
       });
       
       test('de punt features op de kaart kunnen geclusterd worden en de line en polygoon features zullen ongeclusterd getoond worden', () => {

@@ -1,4 +1,5 @@
 import { VlElement } from "/node_modules/vl-ui-core/vl-core.js";
+import { isEqual } from "/node_modules/lodash-es/lodash.js";
 
 /**
  * VlMapLayer
@@ -188,9 +189,25 @@ export class VlMapLayer extends VlElement(HTMLElement) {
         }
     }
 
+    get __mapViewExtent() {
+        return this.__mapView.calculateExtent(this._map.getSize());
+    }
+
+    get __mapView() {
+        return this._map.getView();
+    }
+
+    /**
+     * Zoom to all the features in this layer.
+     */
     __zoomToExtent() {
         if (this._map && this._autoExtent) {
-            this._map.zoomToExtent(this.__getBoundingbox());
+            const preZoomExtent = this.__mapViewExtent;
+            this._map.zoomToExtent(this.__boundingBox);
+            const postZoomExtent = this.__mapViewExtent;
+            if (isEqual(preZoomExtent, postZoomExtent)) {
+                setTimeout(this.__zoomToExtent.bind(this), 100);
+            }
         }
     }
 
@@ -227,12 +244,12 @@ export class VlMapLayer extends VlElement(HTMLElement) {
         });
     }
 
-    __getBoundingbox() {
-        let boundingbox;
+    get __boundingBox() {
+        let boundingBox;
         if (this._source && this._source.getFeatures().length > 0) {
-            boundingbox = this._source.getExtent();
+            boundingBox = this._source.getExtent();
         }
-        return boundingbox;
+        return boundingBox;
     }
 
     __negeerClustering() {
