@@ -40,6 +40,19 @@
       </vl-map>
     </template>
   </test-fixture>
+
+  <test-fixture id="vl-map-auto-extent-max-zoom-fixture">
+    <template>
+      <vl-map>
+        <vl-map-layer
+                name="testlaag"
+                features='{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[147055,197908]},"properties":null}]}'
+                auto-extent
+                auto-extent-max-zoom="3">
+        </vl-map-layer>
+      </vl-map>
+    </template>
+  </test-fixture>
   
   <test-fixture id="vl-map-layers-fixture">
     <template>
@@ -102,20 +115,33 @@
       
       test('na het toevoegen van de kaartlaag zal de kaart zoomen naar de extent van de kaartlaag indien de auto-extent geactiveerd werd', () => {
         let kaartElement = fixture('vl-map-fixture');
-        let kaartlaagElement = kaartElement.querySelector('vl-map-layer');
-        assert.notDeepEqual(kaartElement.map.getView().getCenter(), [147055, 197908]);
-        
+        let view = kaartElement.map.getView();
+        assert.notDeepEqual(view.getCenter(), [147055, 197908]);
+
         kaartElement = fixture('vl-map-auto-extent-fixture');
-        kaartlaagElement = kaartElement.querySelector('vl-map-layer');
-        assert.deepEqual(kaartElement.map.getView().getCenter(), [147055, 197908]);
+        view = kaartElement.map.getView();
+        assert.deepEqual(view.getCenter(), [147055, 197908]);
+        assert.equal(view.getResolution(), 8);
+
+        kaartElement = fixture('vl-map-auto-extent-max-zoom-fixture');
+        view = kaartElement.map.getView();
+        assert.deepEqual(view.getCenter(), [147055, 197908]);
+        assert.equal(view.getResolution(), 128);
       });
 
       test('het aanroepen van zoomToExtent zal de kaart doen inzoomen op de bounding box', () => {
         let kaartElement = fixture('vl-map-fixture');
         let kaartlaagElement = kaartElement.querySelector('vl-map-layer');
-        assert.notDeepEqual(kaartElement.map.getView().getCenter(), [147055, 197908]);
+        let view = kaartElement.map.getView();
+        assert.notDeepEqual(view.getCenter(), [147055, 197908]);
+
         kaartlaagElement.zoomToExtent();
-        assert.deepEqual(kaartElement.map.getView().getCenter(), [147055, 197908]);
+        assert.deepEqual(view.getCenter(), [147055, 197908]);
+        assert.equal(view.getResolution(), 8);
+
+        kaartlaagElement.zoomToExtent(3);
+        assert.deepEqual(view.getCenter(), [147055, 197908]);
+        assert.equal(view.getResolution(), 128);
       });
       
       test('bij het toevoegen van een feature zal deze automatisch toegevoegd worden aan de laag en zal de kaart opnieuw zoomen naar de extent van de kaartlaag indien de auto-extent geactiveerd werd', () => {

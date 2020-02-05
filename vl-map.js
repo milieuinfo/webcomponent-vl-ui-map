@@ -219,6 +219,7 @@ class VlMapOverviewMap extends VlElement(HTMLElement) {
  *
  * @property {string} name - Attribuut bepaalt de kaartlaag naam.
  * @property {boolean} auto-extent - Attribuut geeft aan of er automatisch gezoomt wordt op de kaartlaag zodat al de features zichtbaar zijn.
+ * @property {number} auto-extent-zoom-level - Attribuut geeft aan tot op welk niveau er automatisch gezoomt moet worden.
  * @property {boolean} cluster - Attribuut geeft aan of de features geclusterd moeten worden of niet.
  * @property {number} cluster-distance - Attribuut geeft aan vanaf welke afstand tussen features er geclusterd mag worden.
  * @property {string[]} features - Attribuut die de kaartlaag bevat.
@@ -232,7 +233,7 @@ class VlMapOverviewMap extends VlElement(HTMLElement) {
 class VlMapLayer extends VlElement(HTMLElement) {
     static get _observedAttributes() {
         return ['auto-extent', 'features'];
-    } 
+    }
 
     constructor() {
         super();
@@ -320,6 +321,10 @@ class VlMapLayer extends VlElement(HTMLElement) {
         return this.getAttribute('auto-extent') != undefined;
     }
 
+    get _autoExtentMaxZoom() {
+        return this.getAttribute('auto-extent-max-zoom');
+    }
+
     get _cluster() {
         return this.getAttribute('cluster') != undefined;
     }
@@ -387,7 +392,18 @@ class VlMapLayer extends VlElement(HTMLElement) {
         }
     }
 
-    _auto_extentChangedCallback(oldValue, newValue) {
+    /**
+     * Zoom naar alle features in deze layer.
+     *
+     * @param {number} maxZoom - Hoe diep er maximaal ingezoomd mag worden.
+     */
+    zoomToExtent(maxZoom) {
+        if (this._map) {
+            this._map.zoomToExtent(this.__boundingBox, maxZoom);
+        }
+    }
+
+    _auto_extentChangedCallback() {
         this.__autoZoomToExtent();
     }
 
@@ -415,20 +431,11 @@ class VlMapLayer extends VlElement(HTMLElement) {
     __autoZoomToExtent() {
         if (this._autoExtent) {
             const preZoomExtent = this.__mapViewExtent;
-            this.zoomToExtent();
+            this.zoomToExtent(this._autoExtentMaxZoom);
             const postZoomExtent = this.__mapViewExtent;
             if (isEqual(preZoomExtent, postZoomExtent)) {
                 setTimeout(this.__autoZoomToExtent.bind(this), 100);
             }
-        }
-    }
-
-    /**
-     * Zoom naar alle features in deze layer.
-     */
-    zoomToExtent() {
-        if (this._map) {
-            this._map.zoomToExtent(this.__boundingBox);
         }
     }
 
