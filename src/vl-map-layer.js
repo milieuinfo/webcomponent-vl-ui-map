@@ -1,5 +1,4 @@
 import { VlElement } from "/node_modules/vl-ui-core/vl-core.js";
-import { isEqual } from "/node_modules/lodash-es/lodash.js";
 
 /**
  * VlMapLayer
@@ -123,9 +122,19 @@ export class VlMapLayer extends VlElement(HTMLElement) {
     }
 
     get _map() {
-        if (this.parentNode) {
-            return this.parentNode.map;
+        if (this._mapElement) {
+            return this._mapElement.map;
         }
+    }
+
+    get _mapReady() {
+        if (this._mapElement) {
+            return this._mapElement.ready;
+        }
+    }
+
+    get _mapElement() {
+        return this.parentNode;
     }
 
     /**
@@ -185,8 +194,10 @@ export class VlMapLayer extends VlElement(HTMLElement) {
      * Zoom naar alle features in deze layer.
      *
      * @param {number} maxZoom - Hoe diep er maximaal ingezoomd mag worden.
+     * @returns {Promise<void>}
      */
-    zoomToExtent(maxZoom) {
+    async zoomToExtent(maxZoom) {
+        await this._mapReady;
         if (this._map) {
             this._map.zoomToExtent(this.__boundingBox, maxZoom);
         }
@@ -205,26 +216,9 @@ export class VlMapLayer extends VlElement(HTMLElement) {
         }
     }
 
-    get __mapViewExtent() {
-        if (this._map) {
-            return this.__mapView.calculateExtent(this._map.getSize());
-        }
-    }
-
-    get __mapView() {
-        if (this._map) {
-            return this._map.getView();
-        }
-    }
-
     __autoZoomToExtent() {
         if (this._autoExtent) {
-            const preZoomExtent = this.__mapViewExtent;
             this.zoomToExtent(this._autoExtentMaxZoom);
-            const postZoomExtent = this.__mapViewExtent;
-            if (isEqual(preZoomExtent, postZoomExtent)) {
-                setTimeout(this.__autoZoomToExtent.bind(this), 100);
-            }
         }
     }
 

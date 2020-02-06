@@ -1,5 +1,4 @@
 import { VlElement, awaitScript, define } from '../../../../../node_modules/vl-ui-core/vl-core.js';
-import { isEqual } from '../../../../../node_modules/lodash-es/lodash.js';
 import '../../../../../node_modules/vl-ui-select/vl-select.js';
 
 function styleInject(css, ref) {
@@ -62,8 +61,22 @@ class VlMap extends VlElement(HTMLElement) {
             <div id="map"></div>
         `);
 
-        this.__updateMapSizeOnLoad();
-        this.__updateOverviewMapSizeOnLoad();
+        this.__prepareReadyPromises();
+    }
+
+    /**
+     * Geeft een Promise terug die resolved wanneer de kaart klaar is voor verder gebruik.
+     *
+     * @returns {Promise<void>}
+     */
+    get ready() {
+        return this.__ready;
+    }
+
+    __prepareReadyPromises() {
+        this.__mapReady = new Promise(resolve => this.__mapReadyResolver = resolve);
+        this.__overviewMapReady = new Promise(resolve => this.__overviewMapReadyResolver = resolve);
+        this.__ready = Promise.all([this.__mapReady, this.__overviewMapReady]);
     }
     
     /**
@@ -127,6 +140,8 @@ class VlMap extends VlElement(HTMLElement) {
         });
 
         this._map.initializeView();
+        this.__updateMapSizeOnLoad();
+        this.__updateOverviewMapSizeOnLoad();
     }
 
     /**
@@ -152,20 +167,22 @@ class VlMap extends VlElement(HTMLElement) {
         if (this._map) {
             this._map.updateSize();
         }
+        this.__mapReadyResolver();
     }
 
     __updateOverviewMapSize() {
         if (this._map.overviewMapControl) {
             this._map.overviewMapControl.getOverviewMap().updateSize();
         }
+        this.__overviewMapReadyResolver();
     }
 
     __updateOverviewMapSizeOnLoad() {
-        window.addEventListener('load', this.__updateOverviewMapSize.bind(this), { once: true });
+        VlMap.__callOnceOnLoad(this.__updateOverviewMapSize.bind(this));
     }
 
     __updateMapSizeOnLoad() {
-        window.addEventListener('load', this.__updateMapSize.bind(this), { once: true });
+        VlMap.__callOnceOnLoad(this.__updateMapSize.bind(this));
     }
 
     __createLayerGroup(title, layers) {
@@ -177,6 +194,14 @@ class VlMap extends VlElement(HTMLElement) {
 
     __initializeCoordinateSystem() {
         proj4.defs('EPSG:31370', '+proj=lcc +lat_1=51.16666723333333 +lat_2=49.8333339 +lat_0=90 +lon_0=4.367486666666666 +x_0=150000.013 +y_0=5400088.438 +ellps=intl +towgs84=-106.869,52.2978,-103.724,0.3366,-0.457,1.8422,-1.2747 +units=m +no_defs');
+    }
+
+    static __callOnceOnLoad(callback) {
+        if (document.readyState === 'complete') {
+            callback();
+        } else {
+            window.addEventListener('load', callback, { once: true });
+        }
     }
 }
 
@@ -334,9 +359,19 @@ class VlMapLayer extends VlElement(HTMLElement) {
     }
 
     get _map() {
-        if (this.parentNode) {
-            return this.parentNode.map;
+        if (this._mapElement) {
+            return this._mapElement.map;
         }
+    }
+
+    get _mapReady() {
+        if (this._mapElement) {
+            return this._mapElement.ready;
+        }
+    }
+
+    get _mapElement() {
+        return this.parentNode;
     }
 
     /**
@@ -396,8 +431,10 @@ class VlMapLayer extends VlElement(HTMLElement) {
      * Zoom naar alle features in deze layer.
      *
      * @param {number} maxZoom - Hoe diep er maximaal ingezoomd mag worden.
+     * @returns {Promise<void>}
      */
-    zoomToExtent(maxZoom) {
+    async zoomToExtent(maxZoom) {
+        await this._mapReady;
         if (this._map) {
             this._map.zoomToExtent(this.__boundingBox, maxZoom);
         }
@@ -416,26 +453,9 @@ class VlMapLayer extends VlElement(HTMLElement) {
         }
     }
 
-    get __mapViewExtent() {
-        if (this._map) {
-            return this.__mapView.calculateExtent(this._map.getSize());
-        }
-    }
-
-    get __mapView() {
-        if (this._map) {
-            return this._map.getView();
-        }
-    }
-
     __autoZoomToExtent() {
         if (this._autoExtent) {
-            const preZoomExtent = this.__mapViewExtent;
             this.zoomToExtent(this._autoExtentMaxZoom);
-            const postZoomExtent = this.__mapViewExtent;
-            if (isEqual(preZoomExtent, postZoomExtent)) {
-                setTimeout(this.__autoZoomToExtent.bind(this), 100);
-            }
         }
     }
 
