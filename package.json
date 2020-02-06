@@ -2,7 +2,13 @@
   "name": "vl-ui-map",
   "version": "2.1.0",
   "description": "De kaart webcomponent.",
-  "main": "index.js",
+  "main": "./src/index.js",
+  "exports": {
+    "require": "./index.js",
+    "import": "./src/index.js",
+    "node": "./index.js",
+    "default": "./index.js"
+  },
   "author": "DIDM",
   "license": "MIT",
   "repository": {
@@ -17,7 +23,7 @@
     "prepare": "npm update --dev vl-ui-util && npm run prepare:util",
     "prepare:util": "npm explore vl-ui-util -- npm run install:copy && npm explore vl-ui-util -- npm run install:bamboo",
     "test": "npm run test:unit && npm run test:e2e",
-    "test:unit": "wct --config-file ./wct.local.conf.json --verbose",
+    "test:unit": "wct --config-file ./wct.local.conf.json",
     "test:e2e": "npm run test:server:start && npm run test:e2e:chrome && npm run test:e2e:firefox",
     "test:e2e:grid": "npm run test:server:start && npm run test:e2e:chrome:grid && npm run test:e2e:firefox:grid",
     "test:grid": "wct --config-file ./wct.docker.conf.json && npm run test:e2e:grid",
@@ -29,13 +35,24 @@
     "test:e2e:opera": "mocha --opera",
     "test:e2e:safari": "mocha --safari",
     "test:server:start": "http-server &",
-    "release": "np",
-    "release:prepare": "npm run release:prepare:build && npm run release:prepare:css && npm run release:prepare:commit",
-    "release:prepare:build": "npm run build",
-    "release:prepare:css": "replace '\\.\\./style.css' '/node_modules/vl-ui-map/style.css' vl-map.js",
-    "release:prepare:commit": "git add -f vl-map.js && git commit --amend --no-edit && git pull",
+    "release:prepare": "npm run release:prepare:build && npm run release:prepare:commit",
+    "release:prepare:build": "npm run release:prepare:build:es6 && npm run release:prepare:build:es6:min && npm run release:prepare:build:node",
+    "release:prepare:build:es6": "npm run release:prepare:build:es6:copy && npm run release:prepare:build:es6:replace",
+    "release:prepare:build:es6:copy": "cp -R -f ./src/*.src.js ./vl-map.js",
+    "release:prepare:build:es6:replace": "replace '\\.\\./style.css' '/node_modules/vl-ui-map/style.css' vl-map.js",
+    "release:prepare:build:es6:min": "npm run release:prepare:build:es6:min:copy && npm run release:prepare:build:es6:min:explode && npm run release:prepare:build:es6:min:minify",
+    "release:prepare:build:es6:min:copy": "cp -R -f ./src/*.src.js ./vl-map.tmp.min.js",
+    "release:prepare:build:es6:min:explode": "npm explore vl-ui-util -- npm run explode -- --fileName=vl-map.tmp.min.js",
+    "release:prepare:build:es6:min:minify": "minify ./vl-map.tmp.min.js > ./vl-map.min.js && rm -rf vl-map.tmp.min.js",
+    "release:prepare:build:node": "npm run release:prepare:build:node:copy && npm run release:prepare:build:node:replace && npm run release:prepare:build:node:explode",
+    "release:prepare:build:node:copy": "cp -R -f ./src/*.src.js .",
+    "release:prepare:build:node:replace": "npm run release:prepare:build:node:replace:src && npm run release:prepare:build:node:replace:dist",
+    "release:prepare:build:node:replace:src": "replace  '/node_modules/vl-ui-(.*)/vl-(.*).js' 'vl-ui-$2' vl-map.src.js",
+    "release:prepare:build:node:replace:dist": "replace  '/node_modules/(.*)/vl-(.*).js' 'vl-ui-$2.js' vl-map.src.js",
+    "release:prepare:build:node:explode": "npm explore vl-ui-util -- npm run explode -- --fileName=vl-map.src.js",
+    "release:prepare:commit": "git add -f . && git commit --amend --no-edit && git pull",
     "release:testless": "np --yolo",
-    "demo": "npm run dev",
+    "demo": "http-server",
     "dev": "concurrently \"npm:bundle:watch\" \"http-server\"",
     "build": "npm run bundle:build && npm run bundle:build:imports",
     "bundle:watch": "rollup --config rollup.config.js --watch",
@@ -43,24 +60,23 @@
     "bundle:build:imports": "replace '\"[../]+/node_modules' '\"/node_modules' vl-map.js"
   },
   "dependencies": {
-    "chromedriver": "^79.0.0",
     "vl-mapactions": "^2.1.0",
-    "vl-ui-core": "^3.1.0",
-    "vl-ui-select": "^2.1.1"
+    "vl-ui-core": "^4.0.0",
+    "vl-ui-select": "^2.1.3"
   },
   "peerDependencies": {
-    "vl-ui-core": "^2.0.0",
+    "vl-ui-core": "^4.0.0",
     "vl-ui-select": "^2.1.1",
     "vl-mapactions": "^2.1.0"
   },
   "devDependencies": {
     "concurrently": "^5.0.2",
     "rollup": "^1.29.0",
-    "rollup-plugin-postcss": "2.0.3",
+    "rollup-plugin-postcss": "^2.0.6",
     "rollup-plugin-terser": "^5.2.0",
-    "vl-ui-button": "^2.0.0",
-    "vl-ui-icon": "^2.1.0",
-    "vl-ui-util": "^3.4.4",
-    "sass": "1.24.4"
+    "sass": "1.24.4",
+    "vl-ui-button": "^3.0.0",
+    "vl-ui-icon": "^3.0.0",
+    "vl-ui-util": "^4.0.1"
   }
 }
