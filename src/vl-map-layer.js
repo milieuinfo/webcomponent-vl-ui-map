@@ -7,7 +7,7 @@ import { VlElement } from "/node_modules/vl-ui-core/vl-core.js";
  *
  * @property {string} name - Attribuut bepaalt de kaartlaag naam.
  * @property {boolean} auto-extent - Attribuut geeft aan of er automatisch gezoomt wordt op de kaartlaag zodat al de features zichtbaar zijn.
- * @property {number} auto-extent-zoom-level - Attribuut geeft aan tot op welk niveau er automatisch gezoomt moet worden.
+ * @property {number} auto-extent-max-zoom - Attribuut geeft aan tot op welk niveau er automatisch gezoomt moet worden.
  * @property {boolean} cluster - Attribuut geeft aan of de features geclusterd moeten worden of niet.
  * @property {number} cluster-distance - Attribuut geeft aan vanaf welke afstand tussen features er geclusterd mag worden.
  * @property {string[]} features - Attribuut die de kaartlaag bevat.
