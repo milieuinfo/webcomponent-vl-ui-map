@@ -122,15 +122,11 @@ export class VlMapLayer extends VlElement(HTMLElement) {
     }
 
     get _map() {
-        if (this._mapElement) {
-            return this._mapElement.map;
-        }
+        return this._mapElement.map;
     }
 
     get _mapReady() {
-        if (this._mapElement) {
-            return this._mapElement.ready;
-        }
+        return this._mapElement.ready;
     }
 
     get _mapElement() {
@@ -198,9 +194,7 @@ export class VlMapLayer extends VlElement(HTMLElement) {
      */
     async zoomToExtent(maxZoom) {
         await this._mapReady;
-        if (this._map) {
-            this._map.zoomToExtent(this.__boundingBox, maxZoom);
-        }
+        this._map.zoomToExtent(this.__boundingBox, maxZoom);
     }
 
     _auto_extentChangedCallback() {
@@ -256,11 +250,9 @@ export class VlMapLayer extends VlElement(HTMLElement) {
     }
 
     get __boundingBox() {
-        let boundingBox;
         if (this._source && this._source.getFeatures().length > 0) {
-            boundingBox = this._source.getExtent();
+            return this._source.getExtent();
         }
-        return boundingBox;
     }
 
     __negeerClustering() {

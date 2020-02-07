@@ -119,7 +119,7 @@
       test('na het toevoegen van de kaartlaag zal de kaart zoomen naar de extent van de kaartlaag indien de auto-extent geactiveerd werd', async () => {
         let kaartElement = fixture('vl-map-fixture');
         await awaitUntil(() => {
-          return !isEqual(kaartElement.map.getView().getCenter(), [147055, 197908]);
+          return isEqual(kaartElement.map.getView().getCenter(), [140860.69299028325, 190532.7165957574]);
         });
 
         kaartElement = fixture('vl-map-auto-extent-fixture');
@@ -165,7 +165,7 @@
           layer = kaartElement.map.getOverlayLayers()[0];
           return layer.getSource().getFeatures().length === 2 &&
                   geoJSON.writeFeatures(layer.getSource().getFeatures()) === kaartlaagElement.getAttribute('features') &&
-                  !isEqual(kaartElement.map.getView().getCenter(), [140860.69299028325, 190532.7165957574]);
+                  isEqual(kaartElement.map.getView().getCenter(), [152055, 202908]);
         });
       });
       
