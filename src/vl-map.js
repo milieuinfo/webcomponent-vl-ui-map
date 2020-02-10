@@ -1,5 +1,4 @@
 import { VlElement } from "/node_modules/vl-ui-core/vl-core.js";
-import style from './vl-map.scss';
 
 /**
  * VlMap
@@ -20,12 +19,12 @@ export class VlMap extends VlElement(HTMLElement) {
     constructor() {
         super(`
             <style>
+                @import "../style.css";
+
                 :host {
                     display: none;
                     position: relative;
                 }
-                
-                ${style}
             </style>
 
             <div id="map"></div>
