@@ -1,22 +1,23 @@
-import { define, awaitScript } from '/node_modules/vl-ui-core/vl-core.js';
-import { VlMap } from "./src/vl-map";
-import { VlMapOverviewMap } from "./src/vl-map-overview-map";
-import { VlMapLayer } from "./src/vl-map-layer";
-import { VlMapBaseLayer } from "./src/vl-map-baselayer";
-import { VlMapBaseLayerGRBGray } from "./src/vl-map-baselayer-grb-gray";
-import { VlMapBaseLayerGRB } from "./src/vl-map-baselayer-grb";
-import { VlMapBaseLayerGRBOrtho } from "./src/vl-map-baselayer-grb-ortho";
-import { VlMapAction } from "./src/vl-map-action";
-import { VlMapSelectAction } from "./src/vl-map-select-action";
-import { VlMapLayerStyle } from "./src/vl-map-layer-style";
-import { VlMapLayerCircleStyle } from "./src/vl-map-layer-circle-style";
-import { VlMapSearch } from "./src/vl-map-search";
+import { define, awaitScript } from 'vl-ui-core';
+
+import { VlMap } from 'vl-ui-map/src/vl-map.js';
+import { VlMapOverviewMap } from 'vl-ui-map/src/vl-map-overview-map.js';
+import { VlMapLayer } from 'vl-ui-map/src/vl-map-layer.js';
+import { VlMapBaseLayer } from 'vl-ui-map/src/vl-map-baselayer.js';
+import { VlMapBaseLayerGRBGray } from 'vl-ui-map/src/vl-map-baselayer-grb-gray.js';
+import { VlMapBaseLayerGRB } from 'vl-ui-map/src/vl-map-baselayer-grb.js';
+import { VlMapBaseLayerGRBOrtho } from 'vl-ui-map/src/vl-map-baselayer-grb-ortho.js';
+import { VlMapAction } from 'vl-ui-map/src/vl-map-action.js';
+import { VlMapSelectAction } from 'vl-ui-map/src/vl-map-select-action.js';
+import { VlMapLayerStyle } from 'vl-ui-map/src/vl-map-layer-style.js';
+import { VlMapLayerCircleStyle } from 'vl-ui-map/src/vl-map-layer-circle-style.js';
+import { VlMapSearch } from 'vl-ui-map/src/vl-map-search.js';
 
 Promise.all([
     awaitScript('vl-map-openlayers', '/node_modules/vl-mapactions/lib/openlayers/dist/ol.js'),
     awaitScript('vl-map-proj4', '/node_modules/proj4/dist/proj4.js'),
-    awaitScript('vl-map-mapactions', '/node_modules/vl-mapactions/dist/mapactions-min.js')]
-).then(() => {
+    awaitScript('vl-map-mapactions', '/node_modules/vl-mapactions/dist/mapactions-min.js')
+]).then(() => {
     define('vl-map', VlMap);
     define('vl-map-overview-map', VlMapOverviewMap);
     define('vl-map-layer', VlMapLayer);
@@ -31,15 +32,17 @@ Promise.all([
     define('vl-map-search', VlMapSearch);
 });
 
-export * from "./src/vl-map";
-export * from "./src/vl-map-overview-map";
-export * from "./src/vl-map-layer";
-export * from "./src/vl-map-baselayer";
-export * from "./src/vl-map-baselayer-grb-gray";
-export * from "./src/vl-map-baselayer-grb";
-export * from "./src/vl-map-baselayer-grb-ortho";
-export * from "./src/vl-map-action";
-export * from "./src/vl-map-select-action";
-export * from "./src/vl-map-layer-style";
-export * from "./src/vl-map-layer-circle-style";
-export * from "./src/vl-map-search";
+export {
+    VlMap, 
+    VlMapOverviewMap, 
+    VlMapLayer, 
+    VlMapBaseLayer, 
+    VlMapBaseLayerGRBGray, 
+    VlMapBaseLayerGRB, 
+    VlMapBaseLayerGRBOrtho, 
+    VlMapAction, 
+    VlMapSelectAction, 
+    VlMapLayerStyle,
+    VlMapLayerCircleStyle,
+    VlMapSearch
+}
