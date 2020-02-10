@@ -7,6 +7,7 @@
   <script src="../../../web-component-tester/browser.js"></script>
 
   <script src="ol-util.js"></script>
+  <script type="module" src="../../src/vl-map.src.js"></script>
 </head>
 
 <body>
@@ -40,7 +41,7 @@
         sandbox.restore();
       });
       
-      test('De grb basiskaartlaag wordt goed geconfigureerd', () => {
+      test('de grb basiskaartlaag wordt goed geconfigureerd', () => {
         const element = fixture('vl-map-baselayer-grb-ortho-fixture');
         const vlMapBaseLayerElement = element.querySelector('vl-map-baselayer-grb-ortho');
         assert.isTrue(vlMapBaseLayerElement instanceof VlMapBaseLayer);

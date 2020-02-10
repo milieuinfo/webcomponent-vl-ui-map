@@ -7,8 +7,7 @@
   <script src="../../../web-component-tester/browser.js"></script>
 
   <script src="ol-util.js"></script>
-
-  <script type="module" src="../../vl-map.js"></script>
+  <script type="module" src="../../src/vl-map.src.js"></script>
 </head>
 
 <body>
@@ -63,28 +62,28 @@
         assert.equal(element.title, title);
       }
 
-      test('De basiskaartlaag wordt goed geconfigureerd wanneer de type-layer niet gezet is', () => {
+      test('de basiskaartlaag wordt goed geconfigureerd wanneer de type-layer niet gezet is', () => {
         const element = fixture('vl-map-baselayer-fixture');
         const vlMapBaseLayerElement = element.querySelector('vl-map-baselayer');
 
         assertLayerProperties(vlMapBaseLayerElement, "https://localhost", "wmts", "layername_1", "layer title 1");
       });
 
-      test('De basiskaartlaag wordt goed geconfigureerd wanneer de type-layer van het type wmts is', () => {
+      test('de basiskaartlaag wordt goed geconfigureerd wanneer de type-layer van het type wmts is', () => {
         const element = fixture('vl-map-baselayer-wmts-fixture');
         const vlMapBaseLayerElement = element.querySelector('vl-map-baselayer');
 
         assertLayerProperties(vlMapBaseLayerElement, "https://localhost/wmts", "wmts", "layername_2", "layer title 2");
       });
 
-      test('De basiskaartlaag wordt goed geconfigureerd wanneer de type-layer van het type wfs is', () => {
+      test('de basiskaartlaag wordt goed geconfigureerd wanneer de type-layer van het type wfs is', () => {
         const element = fixture('vl-map-baselayer-wfs-fixture');
         const vlMapBaseLayerElement = element.querySelector('vl-map-baselayer');
 
         assertLayerProperties(vlMapBaseLayerElement, "https://localhost/wfs", "wfs", "layername_3", "layer title 3");
       });
 
-      test('Wanneer een wmts source wordt aangemaakt wordt een WMTS source teruggegeven', () => {
+      test('wanneer een wmts source wordt aangemaakt wordt een WMTS source teruggegeven', () => {
         const element = fixture('vl-map-baselayer-wmts-fixture');
         const vlMapBaseLayerElement = element.querySelector('vl-map-baselayer');
 
@@ -106,14 +105,14 @@
         assert.deepEqual(tileGrid.getMatrixIds(), [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15])
       });
 
-      test('Wanneer een WFS source wordt aangemaakt wordt een Vector source teruggegeven', () => {
+      test('wanneer een WFS source wordt aangemaakt wordt een Vector source teruggegeven', () => {
         const element = fixture('vl-map-baselayer-wfs-fixture');
         const vlMapBaseLayerElement = element.querySelector('vl-map-baselayer');
         const source = vlMapBaseLayerElement._createVectorSource();
         assert.isTrue(source instanceof ol.source.Vector);
       });
 
-      test('Wanneer een WFS source wordt aangemaakt zal het formaat correct gedefinieerd worden', () => {
+      test('wanneer een WFS source wordt aangemaakt zal het formaat correct gedefinieerd worden', () => {
         sandbox.spy(ol.source, 'Vector');
         const element = fixture('vl-map-baselayer-wfs-fixture');
         const vlMapBaseLayerElement = element.querySelector('vl-map-baselayer');
@@ -122,14 +121,14 @@
         assert.equal(ol.source.Vector.getCall(0).args[0].format.defaultDataProjection.getCode(), 'EPSG:31370');
       });
 
-      test('Een WMTS source wordt maar 1x aangemaakt', () => {
+      test('een WMTS source wordt maar 1x aangemaakt', () => {
         sandbox.spy(ol.source, 'WMTS');
         const element = fixture('vl-map-baselayer-wmts-fixture');
         const vlMapBaseLayerElement = element.querySelector('vl-map-baselayer');
         assert.equal(ol.source.WMTS.calledOnce, true);
       });
 
-      test('Een WFS source wordt maar 1x aangemaakt', () => {
+      test('een WFS source wordt maar 1x aangemaakt', () => {
         sandbox.spy(ol.source, 'Vector');
         const element = fixture('vl-map-baselayer-wfs-fixture');
         const vlMapBaseLayerElement = element.querySelector('vl-map-baselayer');

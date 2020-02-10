@@ -1,0 +1,59 @@
+:source-highlighter: prettify
+:icons: font
+:example-caption!:
+ifndef::imagesdir[:imagesdir: images]
+ifndef::sourcedir[:sourcedir: src/main/java]
+
+Auteur: Pieter Beckers <beckep1@milieuinfo.be>
+
+= Map Actions Webjar
+
+== Inleiding
+
+Deze webjar is er gekomen naar aanleiding van de refactoring van de map.interactions.service.js. Deze was ongecontroleerd aan het uitbreiden, waardoor de code niet meer onderhoudbaar was en ook vaak moeilijk te begrijpen was.
+Nu is dit deel van de code opgesplitst, volledig herwerkt en hernoemd naar mapactions: dit is een nieuw concept en bundelt eigenlijk de openlayers map interacties in één actie.
+
+== Klasse diagram
+
+image:class-diagram.png[Diagram,title="Klasse diagram"]
+
+=== CustomMap
+
+Dit is een versie van de acd.ol.MapWithActions die nog enkele extra functies bevat zoals het zoomen naar een bepaalde extent (of bounding box), het togglen van de layers, en alle functionaliteit omtrent een overzichtskaartje (ol.control.OverviewMap).
+De view kan in het map opties object bij constructie worden meegegeven, of achteraf aangemaakt in de initializeView functie. Hieraan kan de view worden meegegeven als argument of bij geen argument wordt een standaard view aangemaakt op basis van de meegegeven projectie.
+
+==== Voorbeeld
+
+[source,javascript]
+----
+var map = new acd.ol.CustomMap({
+	actions: [
+		new acd.ol.action.SelectAction([layer], onSelectFunctie), // default activated
+		new acd.ol.action.DeleteAction([layer], onDeleteFunctie)
+	],
+	customLayers: {
+		baseLayerGroup: new ol.layer.Group({
+			title: ...
+			layers: ...
+		}),
+		overviewMapLayers: [...],
+		overlayGroup: new ol.layer.Group(...)
+	},
+    target: div,
+	projection: new ol.proj.projection(...)
+	custom: {
+		actions: {
+			selectLayer: selectLayer,
+			deleteFromLayer: deleteFromLayer
+		},
+		...
+	}
+});
+----
+
+=== MapWithActions
+
+Deze map bevat enkel de functionaliteit om de acties te behandelen. Aan het eerste argument van de constructor kan het gebruikelijke object map opties worden weergegeven die ook op de ol.Map worden gezet, samen met een extra parameter 'acties' in dat object. Deze array bevat MapActions.
+De eerste actie van de array is steeds de default actie en zal ook hierop gezet worden bij bijvoorbeeld een escape toets.
+
+Deze kaart regelt dat er maar één actie actief kan staan. Bij het activeren van een andere actie wordt namelijk de huidige actie gedeactiveerd.

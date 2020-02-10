@@ -7,7 +7,7 @@
     <script src="../../../web-component-tester/browser.js"></script>
 
     <script src="ol-util.js"></script>
-    <script src="dummy-vl-map-layer.js"></script>
+    <script type="module" src="../../src/vl-map.src.js"></script>
 </head>
 
 <body>
@@ -48,7 +48,7 @@
             sandbox.restore();
         });
 
-        test('De style wordt goed geconfigureerd met default properties', () => {
+        test('de style wordt goed geconfigureerd met default properties', () => {
             const element = fixture('vl-map-layer-style-fixture');
             const vlMapLayerStyleElement = element.querySelector('vl-map-layer-style');
             assert.isTrue(vlMapLayerStyleElement instanceof VlMapLayerStyle);
@@ -58,7 +58,7 @@
             assert.equal(vlMapLayerStyleElement.textOffsetY, 0);
         });
 
-        test('De style wordt goed geconfigureerd met aangepaste properties', () => {
+        test('de style wordt goed geconfigureerd met aangepaste properties', () => {
             const element = fixture('vl-map-layer-style-met-properties-fixture');
             const vlMapLayerStyleElement = element.querySelector('vl-map-layer-style');
             assert.isTrue(vlMapLayerStyleElement instanceof VlMapLayerStyle);
