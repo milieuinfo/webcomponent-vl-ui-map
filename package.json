@@ -75,10 +75,6 @@
     "vl-ui-select": "^3.0.0"
   },
   "devDependencies": {
-    "concurrently": "^5.0.2",
-    "rollup": "^1.29.0",
-    "rollup-plugin-postcss": "^2.0.6",
-    "rollup-plugin-terser": "^5.2.0",
     "vl-ui-button": "^3.0.0",
     "vl-ui-icon": "^3.0.0",
     "vl-ui-util": "^4.0.1"
