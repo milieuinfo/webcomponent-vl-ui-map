@@ -1,6 +1,5 @@
 const VlMap = require('../components/vl-map');
-const { Page } = require('vl-ui-core');
-const { Config } = require('vl-ui-core');
+const { Page, Config } = require('vl-ui-core').Test;
 
 class VlMapPage extends Page {
     async _getMap(selector) {

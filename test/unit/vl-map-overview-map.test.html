@@ -7,8 +7,7 @@
     <script src="../../../web-component-tester/browser.js"></script>
 
     <script src="ol-util.js"></script>
-
-    <script type="module" src="../../vl-map.js"></script>
+    <script type="module" src="../../src/vl-map.src.js"></script>
 </head>
 
 <body>
@@ -38,7 +37,7 @@
             return map.getControls().getArray().includes(map.overviewMapControl);
         }
 
-        test('De overview map wordt goed geconfigureerd', (done) => {
+        test('de overview map wordt goed geconfigureerd', (done) => {
             const element = fixture('vl-map-overview-map-fixture');
             const vlMapOverviewMapElement = element.querySelector('vl-map-overview-map');
             (async () => {

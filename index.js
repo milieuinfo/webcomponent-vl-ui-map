@@ -1,3 +1,5 @@
 module.exports = { 
-    'VlMap': require('./test/e2e/components/vl-map')
+    Test: {
+        VlMap: require('./test/e2e/components/vl-map')
+    }
 }

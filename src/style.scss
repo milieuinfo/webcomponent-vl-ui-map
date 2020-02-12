@@ -1,5 +1,5 @@
-@import '~vl-mapactions/lib/openlayers/css/ol';
-@import '~vl-mapactions/dist/mapactions';
+@import '../node_modules/vl-mapactions/lib/openlayers/css/ol';
+@import '../node_modules/vl-mapactions/dist/mapactions';
 
 :host {
     --vl-map--margin-top: 0px;

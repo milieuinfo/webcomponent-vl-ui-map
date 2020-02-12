@@ -1,5 +1,5 @@
 
-const { assert, driver } = require('vl-ui-core').Test;
+const { assert, driver } = require('vl-ui-core').Test.Setup;
 const VlMapPage = require('./pages/vl-map.page');
 
 describe('vl-map', async () => {
@@ -7,5 +7,9 @@ describe('vl-map', async () => {
 
     before(() => {
         return vlMapPage.load();
+    });
+
+    after(async () => {
+        return driver.quit();
     });
 });
