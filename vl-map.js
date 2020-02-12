@@ -244,7 +244,7 @@ class VlMapOverviewMap extends VlElement(HTMLElement) {
  *
  * @property {string} name - Attribuut bepaalt de kaartlaag naam.
  * @property {boolean} auto-extent - Attribuut geeft aan of er automatisch gezoomt wordt op de kaartlaag zodat al de features zichtbaar zijn.
- * @property {number} auto-extent-zoom-level - Attribuut geeft aan tot op welk niveau er automatisch gezoomt moet worden.
+ * @property {number} auto-extent-max-zoom - Attribuut geeft aan tot op welk niveau er maximaal automatisch gezoomd wordt bij een extent.
  * @property {boolean} cluster - Attribuut geeft aan of de features geclusterd moeten worden of niet.
  * @property {number} cluster-distance - Attribuut geeft aan vanaf welke afstand tussen features er geclusterd mag worden.
  * @property {string[]} features - Attribuut die de kaartlaag bevat.
@@ -359,15 +359,11 @@ class VlMapLayer extends VlElement(HTMLElement) {
     }
 
     get _map() {
-        if (this._mapElement) {
-            return this._mapElement.map;
-        }
+        return this._mapElement.map;
     }
 
     get _mapReady() {
-        if (this._mapElement) {
-            return this._mapElement.ready;
-        }
+        return this._mapElement.ready;
     }
 
     get _mapElement() {
@@ -435,9 +431,7 @@ class VlMapLayer extends VlElement(HTMLElement) {
      */
     async zoomToExtent(maxZoom) {
         await this._mapReady;
-        if (this._map) {
-            this._map.zoomToExtent(this.__boundingBox, maxZoom);
-        }
+        this._map.zoomToExtent(this.__boundingBox, maxZoom);
     }
 
     _auto_extentChangedCallback() {
@@ -493,11 +487,9 @@ class VlMapLayer extends VlElement(HTMLElement) {
     }
 
     get __boundingBox() {
-        let boundingBox;
         if (this._source && this._source.getFeatures().length > 0) {
-            boundingBox = this._source.getExtent();
+            return this._source.getExtent();
         }
-        return boundingBox;
     }
 
     __negeerClustering() {
