@@ -20,10 +20,53 @@ export class VlMap extends VlElement(HTMLElement) {
         super(`
             <style>
                 @import "../style.css";
-
+            </style>
+            <style>
                 :host {
                     display: none;
                     position: relative;
+                    --vl-map--margin-top: 0px;
+                }
+                
+                #map {
+                    height: calc(var(--vl-map-height, 500px) - var(--vl-map--margin-top)); 
+                    width: 100%;
+                }
+                
+                .ol-zoom, .ol-zoomslider, .ol-rotate {
+                    margin-top: var(--vl-map--margin-top) !important;
+                }
+                
+                .ol-overlaycontainer-stopevent > .ol-zoom {
+                    border-radius: 0;
+                }
+                
+                .ol-overlaycontainer-stopevent > .ol-overviewmap {
+                    border-radius: 0;
+                    width: 100px;
+                    height: 100px;
+                }
+                
+                .ol-overlaycontainer-stopevent > .ol-scale-line {
+                    border-radius: 0;
+                    background-color: white;
+                }
+                
+                .ol-overlaycontainer-stopevent > .ol-scale-line .ol-scale-line-inner {
+                    border-color: black;
+                    color: black;
+                }
+                
+                .ol-overlaycontainer-stopevent > .ol-control {
+                    margin-top: 0;
+                }
+                
+                .ol-overlaycontainer-stopevent > .ol-zoomslider {
+                    background: none;
+                }
+                
+                .ol-overlaycontainer-stopevent > .ol-zoomslider .ol-zoomslider-thumb {
+                    margin-bottom: 5px;
                 }
             </style>
 
