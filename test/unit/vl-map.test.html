@@ -183,18 +183,21 @@
         test('wanneer de pagina volledig ingeladen is, wordt de grootte van de kaart en overview kaart geupdate', () => {
             const updateMapSizeSpy = sandbox.spy();
             const updateOverviewMapSizeSpy = sandbox.spy();
-            const element = fixture('vl-map-fixture');
-            element._map = {
-                updateSize: updateMapSizeSpy,
-                overviewMapControl: {
-                    getOverviewMap: () => {
-                        return {
-                            updateSize: updateOverviewMapSizeSpy
+            sandbox.stub(acd.ol, 'CustomMap', () => {
+                return {
+                    initializeView: () => {},
+                    updateSize: updateMapSizeSpy,
+                    overviewMapControl: {
+                        getOverviewMap: () => {
+                            return {
+                                updateSize: updateOverviewMapSizeSpy
+                            }
                         }
                     }
-                }
-            };
-            window.dispatchEvent(new Event('load'));
+                };
+            });
+
+            const element = fixture('vl-map-fixture');
             assert(updateMapSizeSpy.called);
             assert(updateOverviewMapSizeSpy.called);
         });
