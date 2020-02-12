@@ -124,13 +124,13 @@
         kaartElement = fixture('vl-map-auto-extent-fixture');
         await awaitUntil(() => {
           let view = kaartElement.map.getView();
-          return isEqual(view.getCenter(), [147055, 197908]) && view.getResolution() === 8;
+          return isEqual(view.getCenter(), [147055, 197908]) && view.getZoom() > 3;
         });
 
         kaartElement = fixture('vl-map-auto-extent-max-zoom-fixture');
         await awaitUntil(() => {
           let view = kaartElement.map.getView();
-          return isEqual(view.getCenter(), [147055, 197908]) && view.getResolution() === 128;
+          return isEqual(view.getCenter(), [147055, 197908]) && view.getZoom() === 3;
         });
       });
 
@@ -142,11 +142,11 @@
 
         await kaartlaagElement.zoomToExtent();
         assert.deepEqual(view.getCenter(), [147055, 197908]);
-        assert.equal(view.getResolution(), 8);
+        assert.isAbove(view.getZoom(), 3);
 
         await kaartlaagElement.zoomToExtent(3);
         assert.deepEqual(view.getCenter(), [147055, 197908]);
-        assert.equal(view.getResolution(), 128);
+        assert.equal(view.getZoom(), 3);
       });
       
       test('bij het toevoegen van een feature zal deze automatisch toegevoegd worden aan de laag en zal de kaart opnieuw zoomen naar de extent van de kaartlaag indien de auto-extent geactiveerd werd', async () => {
