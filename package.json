@@ -73,16 +73,16 @@
   "dependencies": {
     "vl-mapactions": "^2.1.0",
     "vl-ui-core": "^4.0.0",
-    "vl-ui-select": "^3.0.0"
+    "vl-ui-select": "^3.0.2"
   },
   "peerDependencies": {
     "vl-mapactions": "^2.1.0",
     "vl-ui-core": "^4.0.0",
-    "vl-ui-select": "^3.0.0"
+    "vl-ui-select": "^3.0.2"
   },
   "devDependencies": {
-    "vl-ui-button": "^3.0.0",
-    "vl-ui-icon": "^3.0.0",
+    "vl-ui-button": "^3.0.1",
+    "vl-ui-icon": "^3.0.1",
     "vl-ui-util": "^4.0.3"
   }
 }
