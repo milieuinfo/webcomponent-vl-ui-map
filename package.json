@@ -66,7 +66,9 @@
     "release:prepare:build:node:replace:src:local": "replace \"from ['\\\"](/src|\\.)/(.*)['\\\"]\" \"from 'vl-ui-map/build/node/\\$2'\" ./build/node/*.js",
     "release:prepare:build:node:explode": "find ./build/node -type f -name \"*.js\" -exec npm explore vl-ui-util -- npm run explode -- --fileName={} \\;",
     "release:prepare:build:node:copy": "cp -R -f ./build/node/*.src.js .",
-    "release:prepare:commit": "git add -f **/vl-* && git commit --amend --no-edit && git pull",
+    "release:prepare:commit": "npm run release:prepare:commit:vl && npm run release:prepare:commit:build",
+    "release:prepare:commit:vl": "git add -f vl-* && git commit --amend --no-edit && git pull",
+    "release:prepare:commit:build": "git add -f build/** && git commit --amend --no-edit && git pull",
     "release:testless": "np --yolo",
     "demo": "http-server"
   },
