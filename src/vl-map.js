@@ -19,7 +19,7 @@ export class VlMap extends VlElement(HTMLElement) {
     constructor() {
         super(`
             <style>
-                @import "../style.css";
+                @import "/style.css";
             </style>
             <style>
                 :host {
