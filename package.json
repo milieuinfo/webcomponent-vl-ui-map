@@ -74,12 +74,12 @@
   },
   "dependencies": {
     "vl-mapactions": "^2.1.0",
-    "vl-ui-core": "^4.0.0",
+    "vl-ui-core": "github:milieuinfo/webcomponent-vl-ui-core#e2e",
     "vl-ui-select": "^3.0.2"
   },
   "peerDependencies": {
     "vl-mapactions": "^2.1.0",
-    "vl-ui-core": "^4.0.0",
+    "vl-ui-core": "github:milieuinfo/webcomponent-vl-ui-core#e2e",
     "vl-ui-select": "^3.0.2"
   },
   "devDependencies": {

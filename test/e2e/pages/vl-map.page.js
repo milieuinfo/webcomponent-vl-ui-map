@@ -6,6 +6,22 @@ class VlMapPage extends Page {
         return new VlMap(this.driver, selector);
     }
 
+    async getKaartMetVerschillendeGrbKaartlagen() {
+        return this._getMap('#map-kaartlagen');
+    }
+
+    async getKaartZonderEscapeFunctionaliteit() {
+        return this._getMap('#map-escape');
+    }
+
+    async getKaartZonderRotateFunctionaliteit() {
+        return this._getMap('#map-rotatie');
+    }
+
+    async getMapZonderMouseWheelZoomFunctionaliteit() {
+        return this._getMap('#map-mouse-zoom')
+    } 
+
     async load() {
         await super.load(Config.baseUrl + '/demo/vl-map.html');
     }
