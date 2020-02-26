@@ -1,4 +1,4 @@
-import { define, awaitScript } from '/node_modules/vl-ui-core/vl-core.js';
+import { define, awaitScript } from '/node_modules/vl-ui-core/dist/vl-core.js';
 
 import { VlMap } from "/src/vl-map.js";
 import { VlMapOverviewMap } from "/src/vl-map-overview-map.js";

@@ -1,4 +1,4 @@
-import { VlElement } from "/node_modules/vl-ui-core/vl-core.js";
+import { VlElement } from "/node_modules/vl-ui-core/dist/vl-core.js";
 
 /**
  * VlMapLayer

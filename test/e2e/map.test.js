@@ -9,7 +9,7 @@ describe('vl-map', async () => {
         return vlMapPage.load();
     });
 
-    after(async () => {
-        return driver.quit();
+    it("Dummy test om browsers te sluiten", () => {
+    	assert.isTrue(true);
     });
 });

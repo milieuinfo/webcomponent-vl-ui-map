@@ -1,5 +1,5 @@
-import { VlElement } from '/node_modules/vl-ui-core/vl-core.js';
-import '/node_modules/vl-ui-select/vl-select.js';
+import { VlElement } from '/node_modules/vl-ui-core/dist/vl-core.js';
+import '/node_modules/vl-ui-select/dist/vl-select.js';
 
 /**
  * VlMapSearch
@@ -16,7 +16,7 @@ export class VlMapSearch extends VlElement(HTMLElement) {
     constructor() {
         super(`
             <style>
-                @import '/node_modules/vl-ui-select/style.css';
+                @import '/node_modules/vl-ui-select/dist/style.css';
             </style>
         `);
         this._configure();
