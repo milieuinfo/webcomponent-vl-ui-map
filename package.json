@@ -39,52 +39,23 @@
     "test:e2e:safari": "mocha --safari",
     "test:server:start": "http-server &",
     "release": "np",
-    "release:prepare": "npm run release:prepare:build && npm run release:prepare:commit",
-    "release:prepare:build": "npm run release:prepare:build:es6 && npm run release:prepare:build:es6:min && npm run release:prepare:build:node",
-    "release:prepare:build:es6": "npm run release:prepare:build:es6:prepare && npm run release:prepare:build:es6:replace && npm run release:prepare:build:es6:explode && npm run release:prepare:build:es6:copy",
-    "release:prepare:build:es6:prepare": "mkdir -p ./build/es6 && cp -R -f ./src/*.js ./build/es6",
-    "release:prepare:build:es6:replace": "npm run release:prepare:build:es6:replace:dist && npm run release:prepare:build:es6:replace:src",
-    "release:prepare:build:es6:replace:dist": "replace \"import ['\\\"]/dist/(.*)['\\\"]\" \"import '/node_modules/vl-ui-map/dist/\\$1'\" ./build/es6/*.js",
-    "release:prepare:build:es6:replace:src": "replace \"from ['\\\"](/src|\\.)/(.*)['\\\"]\" \"from '/node_modules/vl-ui-map/build/es6/\\$2'\" ./build/es6/*.js",
-    "release:prepare:build:es6:explode": "find ./build/es6 -type f -name \"*.js\" -exec npm explore vl-ui-util -- npm run explode -- --fileName={} \\;",
-    "release:prepare:build:es6:copy": "cp -R -f ./build/es6/*.src.js ./vl-map.js",
-    "release:prepare:build:es6:min": "npm run release:prepare:build:es6:min:prepare && npm run release:prepare:build:es6:min:replace && npm run release:prepare:build:es6:min:explode && npm run release:prepare:build:es6:min:minify && npm run release:prepare:build:es6:min:copy",
-    "release:prepare:build:es6:min:prepare": "mkdir -p ./build/es6min && cp -R -f ./src/*.js ./build/es6min",
-    "release:prepare:build:es6:min:replace": "npm run release:prepare:build:es6:min:replace:dist && npm run release:prepare:build:es6:min:replace:src",
-    "release:prepare:build:es6:min:replace:dist": "replace \"import ['\\\"]/dist/(.*)['\\\"]\" \"import '/node_modules/vl-ui-map/dist/\\$1'\" ./build/es6min/*.js",
-    "release:prepare:build:es6:min:replace:src": "replace \"from ['\\\"](/src|\\.)/(.*)['\\\"]\" \"from '/node_modules/vl-ui-map/build/es6min/\\$2'\" ./build/es6min/*.js",
-    "release:prepare:build:es6:min:explode": "find ./build/es6min -type f -name \"*.js\" -exec npm explore vl-ui-util -- npm run explode -- --fileName={} \\;",
-    "release:prepare:build:es6:min:minify": "find ./build/es6min -type f -name \"*.js\" -exec sh -c 'minified=$(minify \"$0\"); printf \"%s\" \"$minified\" > \"$0\"' \"{}\" \\;",
-    "release:prepare:build:es6:min:copy": "cp -R -f ./build/es6min/*.src.js ./vl-map.min.js",
-    "release:prepare:build:node": "npm run release:prepare:build:node:prepare && npm run release:prepare:build:node:replace && npm run release:prepare:build:node:explode && npm run release:prepare:build:node:copy",
-    "release:prepare:build:node:prepare": "mkdir -p ./build/node && cp -R -f ./src/*.js ./build/node",
-    "release:prepare:build:node:replace": "npm run release:prepare:build:node:replace:src && npm run release:prepare:build:node:replace:dist",
-    "release:prepare:build:node:replace:src": "replace '/node_modules/vl-ui-(.*)/vl-(.*).js' 'vl-ui-$2' ./build/node/*.js",
-    "release:prepare:build:node:replace:dist": "npm run release:prepare:build:node:replace:dist:third-party && npm run release:prepare:build:node:replace:dist:local && npm run release:prepare:build:node:replace:src:local",
-    "release:prepare:build:node:replace:dist:third-party": "replace '/node_modules/(.+\\.js)' '$1' ./build/node/*.js",
-    "release:prepare:build:node:replace:dist:local": "replace \"import ['\\\"]/dist/(.*)['\\\"]\" \"import 'vl-ui-map/dist/\\$1'\" ./build/node/*.js",
-    "release:prepare:build:node:replace:src:local": "replace \"from ['\\\"](/src|\\.)/(.*)['\\\"]\" \"from 'vl-ui-map/build/node/\\$2'\" ./build/node/*.js",
-    "release:prepare:build:node:explode": "find ./build/node -type f -name \"*.js\" -exec npm explore vl-ui-util -- npm run explode -- --fileName={} \\;",
-    "release:prepare:build:node:copy": "cp -R -f ./build/node/*.src.js .",
-    "release:prepare:commit": "npm run release:prepare:commit:vl && npm run release:prepare:commit:build",
-    "release:prepare:commit:vl": "git add -f vl-* && git commit --amend --no-edit && git pull",
-    "release:prepare:commit:build": "git add -f build/** && git commit --amend --no-edit && git pull",
+    "release:prepare": "npm explore vl-ui-util -- npm run release-component:prepare $(pwd) map",
     "release:testless": "np --yolo",
     "demo": "http-server"
   },
   "dependencies": {
     "vl-mapactions": "^2.1.0",
-    "vl-ui-core": "^4.0.0",
-    "vl-ui-select": "^3.0.2"
+    "vl-ui-core": "^5.0.1",
+    "vl-ui-select": "^4.0.0"
   },
   "peerDependencies": {
     "vl-mapactions": "^2.1.0",
-    "vl-ui-core": "^4.0.0",
-    "vl-ui-select": "^3.0.2"
+    "vl-ui-core": "^5.0.1",
+    "vl-ui-select": "^4.0.0"
   },
   "devDependencies": {
-    "vl-ui-button": "^3.0.1",
-    "vl-ui-icon": "^3.0.1",
-    "vl-ui-util": "^4.0.3"
+    "vl-ui-button": "^4.0.0",
+    "vl-ui-icon": "^4.0.0",
+    "vl-ui-util": "^5.0.7"
   }
 }

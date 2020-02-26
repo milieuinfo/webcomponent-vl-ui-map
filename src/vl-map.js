@@ -1,4 +1,4 @@
-import { VlElement } from "/node_modules/vl-ui-core/vl-core.js";
+import { VlElement } from "/node_modules/vl-ui-core/dist/vl-core.js";
 
 /**
  * VlMap
@@ -19,7 +19,7 @@ export class VlMap extends VlElement(HTMLElement) {
     constructor() {
         super(`
             <style>
-                @import "/style.css";
+                @import "/src/style.css";
             </style>
             <style>
                 :host {
