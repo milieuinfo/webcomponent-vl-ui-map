@@ -1,3 +1,3 @@
 module.exports = { 
-    VlMap: require('../dist/vl-map.src.js').VlMap,
+    VlMap: require('../dist/vl-map-all.src.js').VlMap,
 }
