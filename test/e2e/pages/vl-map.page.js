@@ -19,7 +19,7 @@ class VlMapPage extends Page {
     }
 
     async getMapZonderMouseWheelZoomFunctionaliteit() {
-        return this._getMap('#map-mouse-zoom')
+        return this._getMap('#map-mouse-zoom');
     } 
 
     async load() {
