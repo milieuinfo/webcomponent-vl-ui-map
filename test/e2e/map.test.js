@@ -56,9 +56,9 @@ describe('vl-map-overview-map', async () => {
 
     it('ik kan tussen de kaartlagen switchen', async () => {
         const map = await vlMapPage.getMap();
-        await map.getZoomLevel();
-        await map.getActiveLayer();
-    })
+        const bla = await map.getActiveLayer();
+        console.log(bla);
+    });
 });
 
 // describe('vl-map-circle-style', async() => {

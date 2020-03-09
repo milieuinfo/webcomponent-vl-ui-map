@@ -23,7 +23,12 @@ class VlMap extends VlElement {
     }
 
     async getActiveLayer() {
-        const baseLayers = await this.driver.executeScript('return arguments[0].map', this);
+        const title = await this.driver.executeScript(`
+            return arguments[0].map.baseLayers.find((layer) => {
+                return layer.getVisible();
+            }).get('title')
+        `, this);
+        return title;
     }
 }
 
