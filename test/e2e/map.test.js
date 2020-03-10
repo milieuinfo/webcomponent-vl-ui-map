@@ -25,15 +25,13 @@ const VlMapOverviewMapPage = require('./pages/vl-map-overview-map.page');
 //         assert.include(lagen, 'vl-map-baselayer-grb-ortho');
 //     });
 
-//     it('ik kan de escape functionaliteit uitschakelen', async () => {
+//     xit('ik kan de escape functionaliteit uitschakelen', async () => {
 //         // Uitgebreidere demo nodig want de kaart moet functionaliteit bevatten zodat we 
 //         // kunnen controleren of de ESC-key effectief niets doet.
-//         assert.isTrue(false);
 //     });
     
-//     it('ik kan de rotatie functionaliteit uitschakelen', async () => {
+//     xit('ik kan de rotatie functionaliteit uitschakelen', async () => {
 //         // rotatie functionaliteit moet toegevoegd worden
-//         assert.isTrue(false);
 //     });
 
 //     xit('ik kan de mouse wheel zoom functionaiteit uitschakelen', async () => {
@@ -42,41 +40,46 @@ const VlMapOverviewMapPage = require('./pages/vl-map-overview-map.page');
 
 // });
 
-describe('vl-map-overview-map', async () => {
-    const vlMapPage = new VlMapOverviewMapPage(driver);
-
-    before(async () => {
-        return vlMapPage.load();
-    });
-
-    it('de overviewmap wordt gerendert', async () => {
-        const map = await vlMapPage.getMap();
-        await assert.eventually.isTrue(map.hasOverviewMap());
-    });
-
-    it('ik kan tussen de kaartlagen switchen', async () => {
-        const map = await vlMapPage.getMap();
-        const bla = await map.getActiveLayer();
-        console.log(bla);
-    });
-});
-
-// describe('vl-map-circle-style', async() => {
-//     const vlMapPage = new VlMapCircleStylePage(driver);
+// describe('vl-map-overview-map', async () => {
+//     const vlMapPage = new VlMapOverviewMapPage(driver);
 
 //     before(async () => {
 //         return vlMapPage.load();
 //     });
 
-//     it('ik kan een feature met standaard circle stijl definieren', async () => {
-
+//     it('de overviewmap wordt gerendert', async () => {
+//         const map = await vlMapPage.getMap();
+//         await assert.eventually.isDefined(map.getOverviewMap());
 //     });
 
-//     it('ik kan een feature met aangepaste circle stijl definieren', async () => {
-
+//     it('ik kan tussen de kaartlagen switchen', async () => {
+//         const map = await vlMapPage.getMap();
+//         const layerName = await map.getActiveLayer();
+        
+//         await map.toggleLayer();
+        
+//         const layerNameAfterUpdate = await map.getActiveLayer();
+//         assert.notEqual(layerName, layerNameAfterUpdate);
 //     });
+// });
 
-//     it('ik kan een geclusterde features definieren', async () => {
+describe('vl-map-circle-style', async() => {
+    const vlMapPage = new VlMapCircleStylePage(driver);
 
-//     });
-// })
+    before(async () => {
+        return vlMapPage.load();
+    });
+
+    it('ik kan een feature met standaard circle stijl definieren', async () => {
+        const map = await vlMapPage.getStandaardCircleStyleMap();
+        const features = await map.getFeatures();
+    });
+
+    it('ik kan een feature met aangepaste circle stijl definieren', async () => {
+
+    });
+
+    it('ik kan een geclusterde features definieren', async () => {
+
+    });
+})
