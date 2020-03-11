@@ -56,6 +56,6 @@
   "devDependencies": {
     "vl-ui-button": "^4.0.0",
     "vl-ui-icon": "^4.0.0",
-    "vl-ui-util": "^5.0.7"
+    "vl-ui-util": "^5.0.9"
   }
 }
