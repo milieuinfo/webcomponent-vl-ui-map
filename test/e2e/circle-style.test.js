@@ -8,13 +8,13 @@ describe('vl-map-circle-style', async() => {
         return vlMapPage.load();
     });
 
-    it('ik kan een layer met circle stijl definieren', async () => {
+    it('Als gebruiker kan ik een layer met circle stijl definieren', async () => {
         const layer = await vlMapPage.getStandaardLayer();
 
         await assert.eventually.isTrue(layer.hasCircleStyle());
     });
 
-    it('ik kan een layer met circle stijl definiëren met aangepaste stijl', async () => {
+    it('Als gebruiker kan ik een layer met circle stijl definiëren met aangepaste stijl', async () => {
         const layer = await vlMapPage.getAangepasteCircleStyleLayer();
 
         await assert.eventually.isTrue(layer.hasCircleStyle());

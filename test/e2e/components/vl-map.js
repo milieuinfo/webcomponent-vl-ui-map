@@ -1,6 +1,7 @@
 const { VlElement } = require('vl-ui-core').Test;
 const { By } = require('vl-ui-core').Test.Setup;
-const VlMapBaseLayer = require('./vl-map-baselayer.js');
+const VlMapBaseLayer = require('./vl-map-baselayer');
+const VlMapSearch = require('./vl-map-search');
 
 class VlMap extends VlElement {
 	async _getMap() {
@@ -47,6 +48,16 @@ class VlMap extends VlElement {
 		const overviewMap = await this.getOverviewMap();
 		return overviewMap.click();
 	}
+
+    async hasSearch() {
+        const search = await this.driver.executeScript(`return arguments[0].shadowRoot.querySelector('vl-map-search')`, this);
+        return search != null;
+    }
+
+    async getSearch() {
+        const search = await this.driver.executeScript(`return arguments[0].shadowRoot.querySelector('vl-map-search')`, this);
+        return new VlMapSearch(this.driver, search);
+    }
 }
 
 module.exports = VlMap;

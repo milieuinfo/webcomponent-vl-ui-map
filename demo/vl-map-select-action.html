@@ -10,9 +10,9 @@
     <script>
         window.onload = () => {
             const kaartlaag1 = document.querySelector('#kaartlaag_1');
-            const selectActie1 = document.querySelector('#select_actie_1');
+            const selectActie1 = document.querySelector('#select-action');
             const kaartlaag2 = document.querySelector('#kaartlaag_2');
-            const selectActie2 = document.querySelector('#select_actie_2');
+            const selectActie2 = document.querySelector('#select-action-cluster');
 
             selectActie1.layer = kaartlaag1.layer;
             selectActie1.activateAction();
@@ -110,7 +110,7 @@
                             }]
                         }'>
                 </vl-map-layer>
-                <vl-map-select-action id="select_actie_1">
+                <vl-map-select-action id="select-action">
                     <vl-map-layer-circle-style color="#fff" border-color="yellow"></vl-map-layer-circle-style>
                 </vl-map-select-action>
             </vl-map>
@@ -192,7 +192,7 @@
                             }]
                         }'>
                 </vl-map-layer>
-                <vl-map-select-action id="select_actie_2" cluster>
+                <vl-map-select-action id="select-action-cluster" cluster>
                     <vl-map-layer-circle-style color="#fff" border-color="yellow"></vl-map-layer-circle-style>
                 </vl-map-select-action>
             </vl-map>
