@@ -58,6 +58,13 @@ class VlMap extends VlElement {
         const search = await this.driver.executeScript(`return arguments[0].shadowRoot.querySelector('vl-map-search')`, this);
         return new VlMapSearch(this.driver, search);
     }
+
+    async hasZoom(zoom) {
+        return this.driver.wait(async () => {
+            const currentZoom = await this.driver.executeScript(`return arguments[0].map.getView().getZoom()`, this);
+            return currentZoom === zoom;
+        }, 2000).then(() => true).catch(() => false);
+    }
 }
 
 module.exports = VlMap;

@@ -13,4 +13,18 @@ describe('vl-map-search', async() => {
 
         await assert.eventually.isTrue(map.hasSearch());
     });
+
+    it('Als gebruiker kan ik de zoekfunctionaliteit gebruiken en zal de kaart zoomen', async () => {
+        const map = await vlMapPage.getMap();
+        const search = await map.getSearch();
+        await assert.eventually.isTrue(map.hasZoom(2));
+
+        await search.open();
+        await search.search('Tems');
+        await search.waitForValues();
+        await search.selectByIndex(0);
+
+        await assert.eventually.equal(search.getSelectedValue(), 'Temse');
+        await assert.eventually.isTrue(map.hasZoom(5));
+    });
 });
