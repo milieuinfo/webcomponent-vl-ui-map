@@ -13,7 +13,7 @@ class VlMap extends VlElement {
 		const childElements = await this.findElements(By.css(':scope > *'));
 		const tagNames = await Promise.all(childElements.map(element => element.getTagName()));
 		const baseLayerElements = childElements.filter((element, index) => tagNames[index].startsWith('vl-map-baselayer'));
-		return Promise.all(baseLayerElements.map(async element => await new VlMapBaseLayer(this.driver, element)));
+		return Promise.all(baseLayerElements.map(element => new VlMapBaseLayer(this.driver, element)));
 	}
 	
 	async isEscapeKeyDisabled() {
