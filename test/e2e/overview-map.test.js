@@ -19,7 +19,8 @@ const VlMapOverviewMapPage = require('./pages/vl-map-overview-map.page');
          const map = await vlMapPage.getMap();
          await assert.eventually.equal(map.getActiveBaseLayerTitle(), 'GRB basis laag grijs');
 
-         await map.toggleBaseLayer();
+         const overviewMap = await map.getOverviewMap();
+         await overviewMap.toggleBaseLayer();
 
          await assert.eventually.equal(map.getActiveBaseLayerTitle(), 'GRB basis laag');
      });

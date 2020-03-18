@@ -25,6 +25,7 @@ class VlMapSearch extends VlElement {
         await this.driver.executeScript(`arguments[0].value='${text}'`, input);
         const select = await this._getSelect();
         await this.driver.executeScript(`arguments[0].dispatchEvent(new CustomEvent('search', {detail: {value: '${text}'}}))`, select);
+        await this.waitForValues();
     }
 
     async selectByIndex(index) {

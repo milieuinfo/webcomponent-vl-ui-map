@@ -2,6 +2,7 @@ const { VlElement } = require('vl-ui-core').Test;
 const { By } = require('vl-ui-core').Test.Setup;
 const VlMapBaseLayer = require('./vl-map-baselayer');
 const VlMapSearch = require('./vl-map-search');
+const VlMapOverviewMap = require('./vl-map-overview-map');
 
 class VlMap extends VlElement {
 	async _getMap() {
@@ -9,9 +10,9 @@ class VlMap extends VlElement {
 	}
 
 	async getBaseLayers() {
-		const childElements = await this.findElements(By.css(this.selector + ' *'));
+		const childElements = await this.findElements(By.css(':scope > *'));
 		const tagNames = await Promise.all(childElements.map(element => element.getTagName()));
-		const baseLayerElements = childElements.filter((element, index) => tagNames[index].indexOf('vl-map-baselayer') > -1);
+		const baseLayerElements = childElements.filter((element, index) => tagNames[index].startsWith('vl-map-baselayer'));
 		return Promise.all(baseLayerElements.map(async element => await new VlMapBaseLayer(this.driver, element)));
 	}
 	
@@ -33,7 +34,8 @@ class VlMap extends VlElement {
             const overviewMaps = await map.findElements(By.css('.ol-overviewmap'));
 			return overviewMaps.length > 0;
 		});
-		return await map.findElement(By.css('.ol-overviewmap'));
+		const overviewMap = await map.findElement(By.css('.ol-overviewmap'));
+		return new VlMapOverviewMap(this.driver, overviewMap);
 	}
 
 	async getActiveBaseLayerTitle() {
@@ -44,18 +46,17 @@ class VlMap extends VlElement {
 				`, this);
     }
 
-	async toggleBaseLayer() {
-		const overviewMap = await this.getOverviewMap();
-		return overviewMap.click();
+    async _getSearchElement() {
+		return this.driver.executeScript(`return arguments[0].shadowRoot.querySelector('vl-map-search')`, this);
 	}
 
     async hasSearch() {
-        const search = await this.driver.executeScript(`return arguments[0].shadowRoot.querySelector('vl-map-search')`, this);
+        const search = await this._getSearchElement();
         return search != null;
     }
 
     async getSearch() {
-        const search = await this.driver.executeScript(`return arguments[0].shadowRoot.querySelector('vl-map-search')`, this);
+        const search = await this._getSearchElement();
         return new VlMapSearch(this.driver, search);
     }
 

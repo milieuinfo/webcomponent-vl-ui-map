@@ -21,7 +21,6 @@ describe('vl-map-search', async() => {
 
         await search.open();
         await search.search('Tems');
-        await search.waitForValues();
         await search.selectByIndex(0);
 
         await assert.eventually.equal(search.getSelectedValue(), 'Temse');

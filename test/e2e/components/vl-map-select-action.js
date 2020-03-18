@@ -7,12 +7,16 @@ class VlMapSelectAction extends VlMapAction {
         return this.hasAttribute('cluster');
     }
 
+    async _getCircleStyleElement() {
+        return this.findElement(By.css('vl-map-layer-circle-style'));
+    }
+
     async hasCircleStyle() {
-        return (await this.findElements(By.css('vl-map-layer-circle-style'))).length > 0;
+        return this._getCircleStyleElement().then(() => true).catch(() => false);
     }
 
     async getCircleStyle() {
-        const style = await this.findElement(By.css('vl-map-layer-circle-style'));
+        const style = await this._getCircleStyleElement();
         return new VlMapLayerCircleStyle(this.driver, style);
     }
 }
