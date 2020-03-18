@@ -31,9 +31,17 @@ class VlMapSearch extends VlElement {
     async _waitForValues() {
         const select = await this._getSelect();
         await this.driver.wait(async () => {
+            if (await this.hasNoResults()) {
+                return true;
+            }
             const values = await select.values();
             return values.filter(value => value != null).length > 0;
         }, 3000);
+    }
+
+    async hasNoResults() {
+        const search = await this._getSearch();
+        return search.findElement(By.css('.vl-select__list > .has-no-results')).then(() => true).catch(() => false);
     }
 
     async selectByIndex(index) {

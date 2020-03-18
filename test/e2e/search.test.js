@@ -26,4 +26,26 @@ describe('vl-map-search', async() => {
         await assert.eventually.equal(search.getSelectedValue(), 'Temse');
         await assert.eventually.isTrue(map.hasZoom(5));
     });
+
+    //todo fix
+    it('Als gebruiker kan ik zoeken met de zoekfunctionaliteit maar als er niets gevonden werd zijn er geen opties', async () => {
+        const map = await vlMapPage.getMap();
+        const search = await map.getSearch();
+        await assert.eventually.isTrue(map.hasZoom(2));
+
+        await search.open();
+        await search.search('Foobar');
+
+        await assert.eventually.isTrue(search.hasNoResults());
+    });
+
+    //todo fix
+    it('Als gebruiker kan ik zien dat de zoekfunctionaliteit beschikbaar nadat die gekoppeld is aan de kaart', async () => {
+        const map = await vlMapPage.getBindMap();
+        await assert.eventually.isFalse(map.hasSearch());
+
+        await vlMapPage.clickBindMapButton();
+
+        await assert.eventually.isTrue(map.hasSearch());
+    });
 });
