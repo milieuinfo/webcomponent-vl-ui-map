@@ -25,20 +25,20 @@ class VlMapSearch extends VlElement {
         await this.driver.executeScript(`arguments[0].value='${text}'`, input);
         const select = await this._getSelect();
         await this.driver.executeScript(`arguments[0].dispatchEvent(new CustomEvent('search', {detail: {value: '${text}'}}))`, select);
-        await this.waitForValues();
+        await this._waitForValues();
     }
 
-    async selectByIndex(index) {
-        const select = await this._getSelect();
-        await select.selectByIndex(index);
-    }
-
-    async waitForValues() {
+    async _waitForValues() {
         const select = await this._getSelect();
         await this.driver.wait(async () => {
             const values = await select.values();
             return values.filter(value => value != null).length > 0;
         }, 3000);
+    }
+
+    async selectByIndex(index) {
+        const select = await this._getSelect();
+        await select.selectByIndex(index);
     }
 
     async getSelectedValue() {
