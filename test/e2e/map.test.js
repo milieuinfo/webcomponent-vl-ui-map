@@ -57,4 +57,18 @@ describe('vl-map', async () => {
 		await assert.eventually.isFalse(mapMouseWheelZoomEnabled.isMouseWheelZoomDisabled());
 		await assert.eventually.isTrue(mapMouseWheelZoomDisabled.isMouseWheelZoomDisabled());
 	});
+
+	it('Als gebruiker kan ik de kaart zoomen', async () => {
+		const map = await vlMapPage.getKaartMetVerschillendeGrbKaartlagen();
+        await assert.eventually.isTrue(map.hasZoom(2));
+
+        await map.zoomIn();
+        await map.zoomIn();
+
+        await assert.eventually.isTrue(map.hasZoom(4));
+
+        await map.zoomOut();
+
+        await assert.eventually.isTrue(map.hasZoom(3));
+    });
 });

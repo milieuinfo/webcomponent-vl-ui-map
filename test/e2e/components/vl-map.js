@@ -60,6 +60,18 @@ class VlMap extends VlElement {
         return new VlMapSearch(this.driver, search);
     }
 
+    async zoomIn() {
+        const map = await this._getMap();
+        const zoomOutButton = await map.findElement(By.css('button.ol-zoom-in'));
+        await zoomOutButton.click();
+    }
+
+    async zoomOut() {
+        const map = await this._getMap();
+        const zoomOutButton = await map.findElement(By.css('button.ol-zoom-out'));
+        await zoomOutButton.click();
+    }
+
     async hasZoom(zoom) {
         return this.driver.wait(async () => {
             const currentZoom = await this.driver.executeScript(`return arguments[0].map.getView().getZoom()`, this);
