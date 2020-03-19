@@ -39,13 +39,17 @@ describe('vl-map-search', async() => {
         await assert.eventually.isTrue(search.hasNoResults());
     });
 
-    //todo fix
-    it('Als gebruiker kan ik zien dat de zoekfunctionaliteit beschikbaar nadat die gekoppeld is aan de kaart', async () => {
+    it('Als gebruiker zie ik dat de kaart gezoomd is nadat ik de zoekfunctionaliteit gebruik waarbij die pas achteraf gekoppeld werd met de kaart', async () => {
         const map = await vlMapPage.getBindMap();
-        await assert.eventually.isFalse(map.hasSearch());
+        const search = await vlMapPage.getBindMapSearch();
+        await assert.eventually.isTrue(map.hasZoom(2));
 
         await vlMapPage.clickBindMapButton();
+        await search.open();
+        await search.search('Tems');
+        await search.selectByIndex(0);
 
-        await assert.eventually.isTrue(map.hasSearch());
+        await assert.eventually.equal(search.getSelectedValue(), 'Temse');
+        await assert.eventually.isTrue(map.hasZoom(5));
     });
 });

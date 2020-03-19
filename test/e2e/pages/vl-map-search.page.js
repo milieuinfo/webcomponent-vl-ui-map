@@ -1,4 +1,5 @@
 const VlMap = require('../components/vl-map');
+const VlMapSearch = require('../components/vl-map-search');
 const { Page, Config } = require('vl-ui-core').Test;
 const { By } = require('vl-ui-core').Test.Setup;
 
@@ -8,12 +9,20 @@ class VlMapSearchPage extends Page {
         return new VlMap(this.driver, selector);
     }
 
+    async _getSearch(selector) {
+        return new VlMapSearch(this.driver, selector);
+    }
+
     async getMap() {
         return this._getMap('#map-with-search');
     }
 
     async getBindMap() {
         return this._getMap('#bind-map');
+    }
+
+    async getBindMapSearch() {
+        return this._getSearch('#bind-map-search');
     }
 
     async clickBindMapButton() {
