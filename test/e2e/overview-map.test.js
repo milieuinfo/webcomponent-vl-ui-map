@@ -18,11 +18,12 @@ const VlMapOverviewMapPage = require('./pages/vl-map-overview-map.page');
      it('Als gebruiker kan ik kan tussen de basiskaartlagen switchen', async () => {
          const map = await vlMapPage.getMap();
          await assert.eventually.equal(map.getActiveBaseLayerTitle(), 'GRB basis laag grijs');
-
          const overviewMap = await map.getOverviewMap();
-         await overviewMap.toggleBaseLayer();
 
-         await assert.eventually.equal(map.getActiveBaseLayerTitle(), 'GRB basis laag');
+         for (const layerName of ['GRB basis laag', 'GRB ortho laag', 'GRB basis laag grijs']) {
+             await overviewMap.toggleBaseLayer();
+             await assert.eventually.equal(map.getActiveBaseLayerTitle(), layerName);
+         }
      });
  });
 
