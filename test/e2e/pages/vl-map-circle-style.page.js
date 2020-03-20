@@ -1,18 +1,18 @@
-const VlMapLayer = require('../components/vl-map-layer');
+const VlMapLayerCircleStyle = require('../components/vl-map-layer-circle-style');
 const { Page, Config } = require('vl-ui-core').Test;
 
 class VlMapCircleStylePage extends Page {
 
-    async _getLayer(selector) {
-        return new VlMapLayer(this.driver, selector);
+    async _getStyle(selector) {
+        return new VlMapLayerCircleStyle(this.driver, selector);
     }
 
-    async getStandaardLayer() {
-        return this._getLayer('#map-standaard-layer');
+    async getStandaardCircleStyle() {
+        return this._getStyle('#map-standaard-circle-style');
     }
 
-    async getAangepasteCircleStyleLayer() {
-        return this._getLayer('#map-aangepast-layer');
+    async getAangepasteCircleStyle() {
+        return this._getStyle('#map-aangepast-circle-style');
     }
     
     async load() {

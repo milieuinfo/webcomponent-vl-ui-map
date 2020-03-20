@@ -20,19 +20,6 @@ class VlMapLayer extends VlElement {
 			);`, this, id);
     }
 
-    async _getCircleStyleElement() {
-	    return this.findElement(By.css('vl-map-layer-circle-style'));
-    }
-
-    async hasCircleStyle() {
-        return this._getCircleStyleElement().then(() => true).catch(() => false);
-    }
-
-    async getCircleStyle() {
-	    const style = await this._getCircleStyleElement();
-	    return new VlMapLayerCircleStyle(this.driver, style);
-    }
-
     async isClustered() {
 	    return this.hasAttribute('cluster');
     }

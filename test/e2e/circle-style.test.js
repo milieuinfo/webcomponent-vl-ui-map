@@ -8,17 +8,21 @@ describe('vl-map-circle-style', async() => {
         return vlMapPage.load();
     });
 
-    it('Als gebruiker kan ik een layer met circle stijl definieren', async () => {
-        const layer = await vlMapPage.getStandaardLayer();
+    it('Als gebruiker kan ik een layer met circle stijl definiëren met standaard stijl', async () => {
+        const style = await vlMapPage.getStandaardCircleStyle();
 
-        await assert.eventually.isTrue(layer.hasCircleStyle());
+        await assert.eventually.equal(style.getColor(), 'rgba(255, 255, 255, 1)');
+        await assert.eventually.equal(style.getSize(), '5');
+        await assert.eventually.isNull(style.getBorderColor());
+        await assert.eventually.isNull(style.getBorderSize());
+        await assert.eventually.isNull(style.getTextColor());
+        await assert.eventually.isNull(style.getTextOffsetX());
+        await assert.eventually.isNull(style.getTextOffsetY());
     });
 
     it('Als gebruiker kan ik een layer met circle stijl definiëren met aangepaste stijl', async () => {
-        const layer = await vlMapPage.getAangepasteCircleStyleLayer();
+        const style = await vlMapPage.getAangepasteCircleStyle();
 
-        await assert.eventually.isTrue(layer.hasCircleStyle());
-        const style = await layer.getCircleStyle();
         await assert.eventually.equal(style.getColor(), '#fff');
         await assert.eventually.equal(style.getSize(), '10');
         await assert.eventually.equal(style.getBorderColor(), '#000');
