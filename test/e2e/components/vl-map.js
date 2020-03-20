@@ -81,7 +81,7 @@ class VlMap extends VlElement {
 
     async clickOnCoordinates(coordinates) {
         const pixels = await this.driver.executeScript(
-            `return arguments[0]._map.getPixelFromCoordinate(${JSON.stringify(coordinates)})`, this);
+            `return arguments[0].map.getPixelFromCoordinate(${JSON.stringify(coordinates)})`, this);
         const rect = await this.getRect();
         await this.driver.actions().move({
             origin: this,
