@@ -9,26 +9,23 @@
 
     <script>
         window.onload = () => {
-            const kaartlaag1 = document.querySelector('#kaartlaag_1');
-            const selectActie1 = document.querySelector('#select-action');
-            const kaartlaag2 = document.querySelector('#kaartlaag_2');
-            const selectActie2 = document.querySelector('#select-action-cluster');
+            const showLogOnSelect = (layerSelector, selectActionSelector, logSelector) => {
+                const layer = document.querySelector(layerSelector);
+                const selectAction = document.querySelector(selectActionSelector);
 
-            selectActie1.layer = kaartlaag1.layer;
-            selectActie1.activateAction();
-            selectActie1.onSelect((feature) => {
-                if (feature) {
-                    console.log('feature met id ' + feature.getId() + ' werd geselecteerd!');
-                }
-            });
-
-            selectActie2.layer = kaartlaag2.layer;
-            selectActie2.activateAction();
-            selectActie2.onSelect((feature) => {
-                if (feature) {
-                    console.log('feature met id ' + feature.getId() + ' werd geselecteerd!');
-                }
-            });
+                selectAction.layer = layer.layer;
+                selectAction.activateAction();
+                selectAction.onSelect((feature) => {
+                    if (feature) {
+                        document.querySelector(logSelector).innerText =
+                            'Feature' +
+                            (feature.getId() != null ? ' met id ' + feature.getId() : '') +
+                            ' werd geselecteerd!';
+                    }
+                });
+            };
+            showLogOnSelect('#map-layer', '#select-action', '#select-action-log');
+            showLogOnSelect('#map-layer-cluster', '#select-action-cluster', '#select-action-cluster-log');
         };
     </script>
 </head>
@@ -80,11 +77,11 @@
                 </code>
             </pre>
         <div class="demo">
-            <vl-map>
+            <vl-map id="map-with-select-action">
                 <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
                 <vl-map-baselayer-grb></vl-map-baselayer-grb>
                 <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
-                <vl-map-layer id="kaartlaag_1" name="laag" features='{
+                <vl-map-layer id="map-layer" name="laag" features='{
                             "type": "FeatureCollection",
                             "features": [{
                                 "type": "Feature",
@@ -115,6 +112,7 @@
                 </vl-map-select-action>
             </vl-map>
         </div>
+        <div id="select-action-log"></div>
     </div>
 
     <div>
@@ -166,7 +164,7 @@
                 <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
                 <vl-map-baselayer-grb></vl-map-baselayer-grb>
                 <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
-                <vl-map-layer id="kaartlaag_2" name="laag" cluster cluster-distance="100" features='{
+                <vl-map-layer id="map-layer-cluster" name="laag" cluster cluster-distance="100" features='{
                             "type": "FeatureCollection",
                             "features": [{
                                 "type": "Feature",
@@ -197,6 +195,7 @@
                 </vl-map-select-action>
             </vl-map>
         </div>
+        <div id="select-action-cluster-log"></div>
     </div>
 </body>
 

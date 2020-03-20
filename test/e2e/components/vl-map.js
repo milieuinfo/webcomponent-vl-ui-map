@@ -78,6 +78,17 @@ class VlMap extends VlElement {
             return currentZoom === zoom;
         }, 2000).then(() => true).catch(() => false);
     }
+
+    async clickOnCoordinates(coordinates) {
+        const pixels = await this.driver.executeScript(
+            `return arguments[0]._map.getPixelFromCoordinate(${JSON.stringify(coordinates)})`, this);
+        const rect = await this.getRect();
+        await this.driver.actions().move({
+            origin: this,
+            x: Math.round(pixels[0] - (rect.width / 2)),
+            y: Math.round(pixels[1] - (rect.height / 2))
+        }).click().perform();
+    }
 }
 
 module.exports = VlMap;

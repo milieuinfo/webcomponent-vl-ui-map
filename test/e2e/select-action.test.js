@@ -21,4 +21,10 @@ describe('vl-map-select-action', async() => {
 
         await assert.eventually.isTrue(selectAction.isActive());
     });
+
+    it('Als gebruiker kan ik een feature selecteren', async () => {
+        await vlMapPage.clickPointFeature(1);
+
+        await assert.eventually.equal(vlMapPage.getLogText(), 'Feature met id 1 werd geselecteerd!');
+    });
 });
