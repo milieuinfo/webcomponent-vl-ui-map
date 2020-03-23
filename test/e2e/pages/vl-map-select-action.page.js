@@ -47,7 +47,6 @@ class VlMapSelectActionPage extends Page {
 
     async getLogText() {
         const log = await this.driver.findElement(By.css('#select-action-log'));
-        console.log(await log.getText());
         return log.getText();
     }
     
