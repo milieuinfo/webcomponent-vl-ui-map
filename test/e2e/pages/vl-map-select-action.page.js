@@ -31,6 +31,7 @@ class VlMapSelectActionPage extends Page {
         const feature = await layer.getFeature(id);
         const {coordinates} = JSON.parse(feature).geometry;
         const map = await this._getMap('#map-with-select-action');
+        await map.scrollIntoView();
         await map.clickOnCoordinates(coordinates);
         return this._waitForFeatureToBeSelected(id);
     }
