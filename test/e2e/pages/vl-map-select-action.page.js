@@ -28,11 +28,8 @@ class VlMapSelectActionPage extends Page {
 
     async clickPointFeature(id) {
         const layer =  await this._getLayer('#map-layer');
-        const feature = await layer.getFeature(id);
-        const {coordinates} = JSON.parse(feature).geometry;
         const map = await this._getMap('#map-with-select-action');
-        await map.scrollIntoView();
-        await map.clickOnCoordinates(coordinates);
+        await layer.clickPointFeatureOnMap(id, map);
         return this._waitForFeatureToBeSelected(id);
     }
 

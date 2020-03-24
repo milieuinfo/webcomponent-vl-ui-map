@@ -35,6 +35,13 @@ class VlMapLayer extends VlElement {
     async getAutoExtentMaxZoom() {
 	    return this.getAttribute('auto-extent-max-zoom');
     }
+
+    async clickPointFeatureOnMap(id, map) {
+        const feature = await this.getFeature(id);
+        const {coordinates} = JSON.parse(feature).geometry;
+        await map.scrollIntoView();
+        await map.clickOnCoordinates(coordinates);
+    }
 }
 
 module.exports = VlMapLayer;
