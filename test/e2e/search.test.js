@@ -19,9 +19,7 @@ describe('vl-map-search', async() => {
         const search = await map.getSearch();
         await assert.eventually.isTrue(map.hasZoom(2));
 
-        await search.open();
-        await search.search('Tems');
-        await search.selectByIndex(0);
+        await zoomTo('Tems');
 
         await assert.eventually.equal(search.getSelectedValue(), 'Temse');
         await assert.eventually.isTrue(map.hasZoom(5));
@@ -45,11 +43,15 @@ describe('vl-map-search', async() => {
         await assert.eventually.isTrue(map.hasZoom(2));
 
         await vlMapPage.clickBindMapButton();
-        await search.open();
-        await search.search('Tems');
-        await search.selectByIndex(0);
+        await zoomTo('Tems');
 
         await assert.eventually.equal(search.getSelectedValue(), 'Temse');
         await assert.eventually.isTrue(map.hasZoom(5));
     });
+
+    async function zoomTo(searchString) {
+        await search.open();
+        await search.search(searchString);
+        await search.selectByIndex(0);
+    }
 });
