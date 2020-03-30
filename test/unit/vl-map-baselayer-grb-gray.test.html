@@ -20,21 +20,15 @@
   </test-fixture>
   
   <script type="module">
-    import { VlMapBaseLayer } from '../vl-map.js';
+    import { VlMapBaseLayer } from '../../src/vl-map-baselayer.js';
+    import { VlMapBaseLayerGRBGray } from '../../src/vl-map-baselayer-grb-gray.js';
 
     suite('vl-map-baselayer-grb-gray', () => {
       const sandbox = sinon.sandbox.create();
       const should = chai.should();
 
-      setup(() => {
-        return new Promise((resolve) => {
-          const wait = () => {
-            if (!!customElements.get('vl-map-baselayer-grb-gray')) {
-                resolve();
-            }
-          };
-          setInterval(wait, 500);
-        });
+      setup((done) => {
+        customElements.whenDefined('vl-map-baselayer-grb-gray').then(() => done());
       });
       
       teardown(() => {
@@ -44,7 +38,6 @@
       test('de grb basiskaartlaag wordt goed geconfigureerd', () => {
         const element = fixture('vl-map-baselayer-grb-gray-fixture');
         const vlMapBaseLayerElement = element.querySelector('vl-map-baselayer-grb-gray');
-        assert.isTrue(vlMapBaseLayerElement instanceof VlMapBaseLayer);
         assert.equal(vlMapBaseLayerElement.url, "https://tile.informatievlaanderen.be/ws/raadpleegdiensten/wmts");
         assert.equal(vlMapBaseLayerElement.type, "wmts");
         assert.equal(vlMapBaseLayerElement.layer, "grb_bsk_grijs");
