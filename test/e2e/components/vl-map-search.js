@@ -54,6 +54,12 @@ class VlMapSearch extends VlElement {
         return this.driver.executeScript(`return arguments[0].value`, select);
     }
 
+    async zoomTo(text) {
+        await this.open();
+        await this.search(text);
+        await this.selectByIndex(0);
+    }
+
 }
 
 module.exports = VlMapSearch;
