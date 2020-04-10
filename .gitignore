@@ -3,4 +3,7 @@ node_modules
 .gitconfig
 .npmrc
 package-lock.json
-.idea
+/.idea
+/*.iml
+/docker-compose-performance-chrome.yml
+/docker-compose-performance-firefox.yml
