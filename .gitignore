@@ -2,7 +2,6 @@ node_modules
 .git-credentials
 .gitconfig
 .npmrc
-package-lock.json
 /.idea
 /*.iml
 /docker-compose-performance-chrome.yml
