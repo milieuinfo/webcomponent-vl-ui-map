@@ -1,17 +1,17 @@
 import { define, awaitScript } from 'vl-ui-core';
 
-import { VlMap } from 'vl-ui-map/dist/vl-map.js';
-import { VlMapOverviewMap } from 'vl-ui-map/dist/vl-map-overview-map.js';
-import { VlMapLayer } from 'vl-ui-map/dist/vl-map-layer.js';
-import { VlMapBaseLayer } from 'vl-ui-map/dist/vl-map-baselayer.js';
-import { VlMapBaseLayerGRBGray } from 'vl-ui-map/dist/vl-map-baselayer-grb-gray.js';
-import { VlMapBaseLayerGRB } from 'vl-ui-map/dist/vl-map-baselayer-grb.js';
-import { VlMapBaseLayerGRBOrtho } from 'vl-ui-map/dist/vl-map-baselayer-grb-ortho.js';
-import { VlMapAction } from 'vl-ui-map/dist/vl-map-action.js';
-import { VlMapSelectAction } from 'vl-ui-map/dist/vl-map-select-action.js';
-import { VlMapLayerStyle } from 'vl-ui-map/dist/vl-map-layer-style.js';
-import { VlMapLayerCircleStyle } from 'vl-ui-map/dist/vl-map-layer-circle-style.js';
-import { VlMapSearch } from 'vl-ui-map/dist/vl-map-search.js';
+import { VlMap } from 'vl-ui-map/dist/vl-map.src.js';
+import { VlMapOverviewMap } from 'vl-ui-map/dist/vl-map-overview-map.src.js';
+import { VlMapLayer } from 'vl-ui-map/dist/vl-map-layer.src.js';
+import { VlMapBaseLayer } from 'vl-ui-map/dist/vl-map-baselayer.src.js';
+import { VlMapBaseLayerGRBGray } from 'vl-ui-map/dist/vl-map-baselayer-grb-gray.src.js';
+import { VlMapBaseLayerGRB } from 'vl-ui-map/dist/vl-map-baselayer-grb.src.js';
+import { VlMapBaseLayerGRBOrtho } from 'vl-ui-map/dist/vl-map-baselayer-grb-ortho.src.js';
+import { VlMapAction } from 'vl-ui-map/dist/vl-map-action.src.js';
+import { VlMapSelectAction } from 'vl-ui-map/dist/vl-map-select-action.src.js';
+import { VlMapLayerStyle } from 'vl-ui-map/dist/vl-map-layer-style.src.js';
+import { VlMapLayerCircleStyle } from 'vl-ui-map/dist/vl-map-layer-circle-style.src.js';
+import { VlMapSearch } from 'vl-ui-map/dist/vl-map-search.src.js';
 
 Promise.all([
     awaitScript('vl-map-openlayers', 'vl-mapactions/lib/openlayers/dist/ol.js'),
@@ -46,3 +46,4 @@ export {
     VlMapLayerCircleStyle,
     VlMapSearch
 }
+
