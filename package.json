@@ -45,13 +45,15 @@
   },
   "dependencies": {
     "vl-mapactions": "^2.1.0",
-    "vl-ui-core": "^5.1.2",
-    "vl-ui-select": "^4.0.1"
+    "vl-ui-core": "^5.5.0",
+    "vl-ui-select": "milieuinfo/webcomponent-vl-ui-select#slot-attribute",
+    "vl-ui-search": "milieuinfo/webcomponent-vl-ui-search#ZEND-1954__met-input-slot"
   },
   "peerDependencies": {
     "vl-mapactions": "^2.1.0",
-    "vl-ui-core": "^5.1.2",
-    "vl-ui-select": "^4.0.1"
+    "vl-ui-core": "^5.5.0",
+    "vl-ui-select": "milieuinfo/webcomponent-vl-ui-select#slot-attribute",
+    "vl-ui-search": "milieuinfo/webcomponent-vl-ui-search#ZEND-1954__met-input-slot"
   },
   "devDependencies": {
     "vl-ui-button": "^5.0.1",
