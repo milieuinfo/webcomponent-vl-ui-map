@@ -1,11 +1,11 @@
-import { VlElement } from 'vl-ui-core';
+import { vlElement } from 'vl-ui-core';
 
 /**
  * VlMap
  * @class
  * @classdesc De kaart component.
  *
- * @extends VlElement
+ * @extends vlElement
  * 
  * @property {boolean} disable-escape-key - Attribuut wordt gebruikt om ervoor te zorgen dat de escape toets niet gebruikt kan worden.
  * @property {boolean} disable-rotation - Attribuut wordt gebruikt om ervoor te zorgen dat het niet mogelijk is om de kaart te draaien.
@@ -15,7 +15,7 @@ import { VlElement } from 'vl-ui-core';
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
  * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map.html|Demo}
  */
-export class VlMap extends VlElement(HTMLElement) {
+export class VlMap extends vlElement(HTMLElement) {
     constructor() {
         super(`
             <style>

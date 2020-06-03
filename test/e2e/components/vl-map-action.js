@@ -1,10 +1,9 @@
-const { VlElement } = require('vl-ui-core').Test;
+const {VlElement} = require('vl-ui-core').Test;
 
 class VlMapAction extends VlElement {
-
-    async isActive() {
-        return this.hasAttribute('active');
-    }
+  async isActive() {
+    return this.hasAttribute('active');
+  }
 }
 
 module.exports = VlMapAction;

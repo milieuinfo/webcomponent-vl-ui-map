@@ -44,13 +44,13 @@
         return new Promise((resolve) => {
           const wait = () => {
             if (!!customElements.get('vl-map-baselayer')) {
-                resolve();
+              resolve();
             }
           };
           setInterval(wait, 500);
         });
       });
-      
+    
       teardown(() => {
         sandbox.restore();
       });
@@ -66,21 +66,21 @@
         const element = fixture('vl-map-baselayer-fixture');
         const vlMapBaseLayerElement = element.querySelector('vl-map-baselayer');
 
-        assertLayerProperties(vlMapBaseLayerElement, "https://localhost", "wmts", "layername_1", "layer title 1");
+        assertLayerProperties(vlMapBaseLayerElement, 'https://localhost', 'wmts', 'layername_1', 'layer title 1');
       });
 
       test('de basiskaartlaag wordt goed geconfigureerd wanneer de type-layer van het type wmts is', () => {
         const element = fixture('vl-map-baselayer-wmts-fixture');
         const vlMapBaseLayerElement = element.querySelector('vl-map-baselayer');
 
-        assertLayerProperties(vlMapBaseLayerElement, "https://localhost/wmts", "wmts", "layername_2", "layer title 2");
+        assertLayerProperties(vlMapBaseLayerElement, 'https://localhost/wmts', 'wmts', 'layername_2', 'layer title 2');
       });
 
       test('de basiskaartlaag wordt goed geconfigureerd wanneer de type-layer van het type wfs is', () => {
         const element = fixture('vl-map-baselayer-wfs-fixture');
         const vlMapBaseLayerElement = element.querySelector('vl-map-baselayer');
 
-        assertLayerProperties(vlMapBaseLayerElement, "https://localhost/wfs", "wfs", "layername_3", "layer title 3");
+        assertLayerProperties(vlMapBaseLayerElement, 'https://localhost/wfs', 'wfs', 'layername_3', 'layer title 3');
       });
 
       test('wanneer een wmts source wordt aangemaakt wordt een WMTS source teruggegeven', () => {
@@ -102,7 +102,7 @@
         assert.isTrue(tileGrid instanceof ol.tilegrid.WMTS);
         assert.deepEqual(tileGrid.getOrigin(), [9928, 329072]);
         assert.deepEqual(tileGrid.getResolutions(), [1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1, 0.5, 0.25, 0.125, 0.0625, 0.03125]);
-        assert.deepEqual(tileGrid.getMatrixIds(), [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15])
+        assert.deepEqual(tileGrid.getMatrixIds(), [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
       });
 
       test('wanneer een WFS source wordt aangemaakt wordt een Vector source teruggegeven', () => {

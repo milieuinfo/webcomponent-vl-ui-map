@@ -1,4 +1,4 @@
-import { VlElement } from 'vl-ui-core';
+import { vlElement } from 'vl-ui-core';
 import 'vl-ui-select';
 
 /**
@@ -6,13 +6,13 @@ import 'vl-ui-select';
  * @class
  * @classdesc De kaart zoek op adres component.
  *
- * @extends VlElement
+ * @extends vlElement
  *
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
  * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map-search.html|Demo}
  */
-export class VlMapSearch extends VlElement(HTMLElement) {
+export class VlMapSearch extends vlElement(HTMLElement) {
     constructor() {
         super(`
             <style>

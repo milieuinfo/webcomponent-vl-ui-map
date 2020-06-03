@@ -30,13 +30,13 @@
   </test-fixture>
 
   <script type="module">
-    import { VlMapSelectAction } from '../../src/vl-map-select-action.js';
+    import {VlMapSelectAction} from '../../src/vl-map-select-action.js';
 
     suite('selecteer-actie', () => {
       const sandbox = sinon.sandbox.create();
       const should = chai.should();
       let kaartlaag;
-      
+    
       setup(() => {
         const kaartElement = fixture('vl-map-fixture');
 
@@ -51,15 +51,15 @@
           setInterval(wait, 500);
         });
       });
-      
+    
       teardown(() => {
         sandbox.restore();
       });
-      
+    
       test('een selecteer actie is een map actie', () => {
         assert.isTrue(VlMapSelectAction.isVlMapAction());
       });
-      
+    
       test('controle van de selecteer actie configuratie', () => {
         sandbox.spy(acd.ol.action, 'SelectAction');
 
@@ -74,7 +74,7 @@
         assert.deepEqual(args[0], kaartlaag);
         assert.deepEqual(args[2].style(), styleElement.style());
       });
-      
+    
       test('er kunnen features op de kaart gemarkeerd worden', () => {
         const kaartElement = fixture('vl-map-select-action-fixture');
         const actionElement = kaartElement.querySelector('vl-map-select-action');
@@ -85,7 +85,7 @@
         actionElement.mark(id);
         assert(actionElement.action.markFeatureWithId.calledWith(id));
       });
-      
+    
       test('de gemarkeerde features op de kaart kunnen gedemarkeerd worden', () => {
         const kaartElement = fixture('vl-map-select-action-fixture');
         const actionElement = kaartElement.querySelector('vl-map-select-action');
@@ -95,7 +95,7 @@
         actionElement.removeMarks();
         assert(actionElement.action.demarkAllFeatures.called);
       });
-      
+    
       test('er kan een feature op de kaart geselecteerd worden', () => {
         const kaartElement = fixture('vl-map-select-action-fixture');
         const actionElement = kaartElement.querySelector('vl-map-select-action');
