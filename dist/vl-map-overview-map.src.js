@@ -1,17 +1,17 @@
-import { VlElement } from 'vl-ui-core';
+import { vlElement } from 'vl-ui-core';
 
 /**
  * VlMap
  * @class
  * @classdesc De kaart overview component.
  *
- * @extends VlElement
+ * @extends vlElement
  * 
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
  * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map-overview-map.html|Demo}
  */
-export class VlMapOverviewMap extends VlElement(HTMLElement) {
+export class VlMapOverviewMap extends vlElement(HTMLElement) {
     connectedCallback() {
         this._configureMap();
     }

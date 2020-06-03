@@ -69,7 +69,7 @@
       test('wanneer de gebruiker zoekt zullen bij geopunt de suggesties opgehaald worden', () => {
         const value = 'straat';
         const response = new Promise((resolve, reject) => {
-          resolve(new Response(JSON.stringify({}), { status: 200 }));
+          resolve(new Response(JSON.stringify({}), {status: 200}));
         });
         const fetchStub = sandbox.stub(window, 'fetch');
         fetchStub.withArgs('https://loc.geopunt.be/v4/Suggestion?q=' + value).returns(response);
@@ -78,8 +78,8 @@
           const selectElement = element.shadowRoot.querySelector('vl-map-search').shadowRoot.querySelector('select');
           selectElement.dispatchEvent(new CustomEvent('search', {
             detail: {
-              value: value
-            }
+              value: value,
+            },
           }));
           return new Promise((resolve) => {
             (async () => {
@@ -98,18 +98,18 @@
             BoundingBox: {
               LowerLeft: {
                 X_Lambert72: 0,
-                Y_Lambert72: 1
+                Y_Lambert72: 1,
               },
               UpperRight: {
                 X_Lambert72: 0,
-                Y_Lambert72: 1
-              }
-            }
-          }]
+                Y_Lambert72: 1,
+              },
+            },
+          }],
         };
         const value = 'straat';
         const response = new Promise((resolve, reject) => {
-          resolve(new Response(JSON.stringify(location), { status: 200 }));
+          resolve(new Response(JSON.stringify(location), {status: 200}));
         });
         const fetchStub = sandbox.stub(window, 'fetch');
         fetchStub.withArgs('https://loc.geopunt.be/v4/Location?q=' + value).returns(response);
@@ -120,11 +120,11 @@
           selectElement.dispatchEvent(new CustomEvent('choice', {
             detail: {
               choice: {
-                value: value
-              }
+                value: value,
+              },
             },
             bubbles: false,
-            composed: false
+            composed: false,
           }));
           return new Promise((resolve) => {
             (async () => {

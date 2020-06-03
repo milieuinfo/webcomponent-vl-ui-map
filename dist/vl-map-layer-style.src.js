@@ -1,11 +1,11 @@
-import { VlElement } from 'vl-ui-core';
+import { vlElement } from 'vl-ui-core';
 
 /**
  * VlMapLayerStyle
  * @class
  * @classdesc De abstracte kaart laag style klasse.
  *
- * @extends VlElement
+ * @extends vlElement
  *
  * @property {string} color - Attribuut wordt gebruikt om aan te geven wat de kleur is van de kaartlaagstijl.
  * @property {string} text-color - Attribuut wordt gebruikt om aan te geven wat de kleur is van de tekst.
@@ -15,7 +15,7 @@ import { VlElement } from 'vl-ui-core';
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
  */
-export class VlMapLayerStyle extends VlElement(HTMLElement) {
+export class VlMapLayerStyle extends vlElement(HTMLElement) {
     connectedCallback() {
         this._setStyleOnParent();
     }

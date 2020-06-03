@@ -1,4 +1,4 @@
-import { VlElement } from "/node_modules/vl-ui-core/dist/vl-core.js";
+import { vlElement } from "/node_modules/vl-ui-core/dist/vl-core.js";
 
 /**
  * VlMapLayer
@@ -12,13 +12,13 @@ import { VlElement } from "/node_modules/vl-ui-core/dist/vl-core.js";
  * @property {number} cluster-distance - Attribuut geeft aan vanaf welke afstand tussen features er geclusterd mag worden.
  * @property {string[]} features - Attribuut die de kaartlaag bevat.
  * 
- * @extends VlElement
+ * @extends vlElement
  * 
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
  * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map-layer.html|Demo}
  */
-export class VlMapLayer extends VlElement(HTMLElement) {
+export class VlMapLayer extends vlElement(HTMLElement) {
     static get _observedAttributes() {
         return ['auto-extent', 'features'];
     }
