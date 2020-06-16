@@ -28,266 +28,264 @@
 </test-fixture>
 
 <script type="module">
-    import { VlMapLayerCircleStyle } from '../../src/vl-map-circle-style.js';
+    import {VlMapLayerCircleStyle} from '../../src/vl-map-circle-style.js';
 
     suite('vl-map-layer-circle-style', () => {
-        const sandbox = sinon.sandbox.create();
-        const should = chai.should();
+      const sandbox = sinon.sandbox.create();
 
-        setup(() => {
-            return new Promise((resolve) => {
-                const wait = () => {
-                    if (!!customElements.get('vl-map-layer-circle-style')) {
-                        resolve();
-                    }
-                };
-                setInterval(wait, 500);
-            });
-        });
-
-        teardown(() => {
-            sandbox.restore();
-        });
-
-        test('de style wordt goed geconfigureerd met default properties', () => {
-            const element = fixture('vl-map-layer-circle-style-fixture');
-            const vlMapLayerCircleStyleElement = element.querySelector('vl-map-layer-circle-style');
-            assert.isTrue(vlMapLayerCircleStyleElement instanceof VlMapLayerCircleStyle);
-            assert.equal(vlMapLayerCircleStyleElement.color, 'rgba(255, 255, 255, 1)');
-            assert.equal(vlMapLayerCircleStyleElement.textColor, "#FFF");
-            assert.equal(vlMapLayerCircleStyleElement.textOffsetX, 0);
-            assert.equal(vlMapLayerCircleStyleElement.textOffsetY, 0);
-            assert.equal(vlMapLayerCircleStyleElement.size, 5);
-            assert.equal(vlMapLayerCircleStyleElement.borderColor, 'rgba(0, 0, 0, 1)');
-            assert.equal(vlMapLayerCircleStyleElement.borderSize, 1);
-            assert.equal(vlMapLayerCircleStyleElement.clusterTextColor, '#FFF');
-            assert.equal(vlMapLayerCircleStyleElement.clusterColor, 'rgba(0, 0, 0, 0)');
-        });
-
-        test('de style wordt goed geconfigureerd met aangepaste properties', () => {
-            const element = fixture('vl-map-layer-circle-style-met-properties-fixture');
-            const vlMapLayerCircleStyleElement = element.querySelector('vl-map-layer-circle-style');
-            assert.isTrue(vlMapLayerCircleStyleElement instanceof VlMapLayerCircleStyle);
-            assert.equal(vlMapLayerCircleStyleElement.color, "#fff");
-            assert.equal(vlMapLayerCircleStyleElement.textColor, "#000");
-            assert.equal(vlMapLayerCircleStyleElement.textOffsetX, 2);
-            assert.equal(vlMapLayerCircleStyleElement.textOffsetY, 3);
-            assert.equal(vlMapLayerCircleStyleElement.size, 1);
-            assert.equal(vlMapLayerCircleStyleElement.borderColor, "#123");
-            assert.equal(vlMapLayerCircleStyleElement.borderSize, 4);
-            assert.equal(vlMapLayerCircleStyleElement.clusterTextColor, '#456');
-            assert.equal(vlMapLayerCircleStyleElement.clusterColor, '#789');
-        });
-
-        test('de gegenereerde style komt overeen met de ingestelde properties', () => {
-            const element = fixture('vl-map-layer-circle-style-met-properties-fixture');
-            const vlMapLayerCircleStyleElement = element.querySelector('vl-map-layer-circle-style');
-            const style = vlMapLayerCircleStyleElement.style();
-            const imageStyle = style.getImage();
-            const fill = imageStyle.getFill();
-            const stroke = imageStyle.getStroke();
-            const text = style.getText();
-            assert.equal(imageStyle.getFill().getColor(), "#fff");
-            assert.equal(text.getFill().getColor(), "#000");
-            assert.equal(text.getOffsetX(), 2);
-            assert.equal(text.getOffsetY(), 3);
-            assert.equal(imageStyle.getRadius(), 1);
-            assert.equal(stroke.getColor(), "#123");
-            assert.equal(stroke.getWidth(), 4);
-            assert.isTrue(imageStyle instanceof ol.style.Circle);
-        });
-
-        test('de style wordt gezet bij het parent element', () => {
-            const element = fixture('vl-map-layer-circle-style-fixture');
-            const vlMapLayerCircleStyleElement = element.querySelector('vl-map-layer-circle-style');
-            assert.equal(element.style.toString(), vlMapLayerCircleStyleElement.style.toString());
-        });
-
-        test('indien er meerdere features binnen een bepaalde afstand liggen van elkaar zullen ze geclusterd weergegeven worden en zal het aantal features in de cluster weergegeven worden', () => {
-            const vlMapLayerCircleStyleElement = fixture('vl-map-layer-circle-style-fixture');
-            const feature1 = new ol.Feature({
-                geometry: new ol.geom.Point([109100, 204175])
-            });
-            const feature2 = new ol.Feature({
-                geometry: new ol.geom.Point([109101, 204176])
-            });
-            const features = OpenLayersUtil.createClusterFeaturesObject([feature1, feature2]);
-            const style = vlMapLayerCircleStyleElement.style(features);
-            const textStyle = style.getText();
-            assert.equal(textStyle.getText(), features.get('features').length);
-        });
-
-        test('de cluster grootte is afhankelijk van het aantal features in de cluster', () => {
-            const vlMapLayerCircleStyleElement = fixture('vl-map-layer-circle-style-met-properties-fixture');
-            const feature = new ol.Feature({
-                geometry: new ol.geom.Point([109100, 204175])
-            });
-
-            function generateFeaturesArray(feature, quantity) {
-                const features = [];
-                for (let i = 0; i < quantity; i++) {
-                    features.push(feature);
-                }
-                return features;
+      setup(() => {
+        return new Promise((resolve) => {
+          const wait = () => {
+            if (!!customElements.get('vl-map-layer-circle-style')) {
+              resolve();
             }
+          };
+          setInterval(wait, 500);
+        });
+      });
 
-            let style = vlMapLayerCircleStyleElement.style(OpenLayersUtil.createClusterFeaturesObject([feature]));
-            assert.equal(style.getImage().getRadius(), 1);
+      teardown(() => {
+        sandbox.restore();
+      });
 
-            style = vlMapLayerCircleStyleElement.style(OpenLayersUtil.createClusterFeaturesObject(generateFeaturesArray(feature, 10)));
-            assert.equal(style.getImage().getRadius(), 2);
+      test('de style wordt goed geconfigureerd met default properties', () => {
+        const element = fixture('vl-map-layer-circle-style-fixture');
+        const vlMapLayerCircleStyleElement = element.querySelector('vl-map-layer-circle-style');
+        assert.isTrue(vlMapLayerCircleStyleElement instanceof VlMapLayerCircleStyle);
+        assert.equal(vlMapLayerCircleStyleElement.color, 'rgba(255, 255, 255, 1)');
+        assert.equal(vlMapLayerCircleStyleElement.textColor, '#FFF');
+        assert.equal(vlMapLayerCircleStyleElement.textOffsetX, 0);
+        assert.equal(vlMapLayerCircleStyleElement.textOffsetY, 0);
+        assert.equal(vlMapLayerCircleStyleElement.size, 5);
+        assert.equal(vlMapLayerCircleStyleElement.borderColor, 'rgba(0, 0, 0, 1)');
+        assert.equal(vlMapLayerCircleStyleElement.borderSize, 1);
+        assert.equal(vlMapLayerCircleStyleElement.clusterTextColor, '#FFF');
+        assert.equal(vlMapLayerCircleStyleElement.clusterColor, 'rgba(0, 0, 0, 0)');
+      });
 
-            style = vlMapLayerCircleStyleElement.style(OpenLayersUtil.createClusterFeaturesObject(generateFeaturesArray(feature, 100)));
-            assert.equal(style.getImage().getRadius(), 3);
+      test('de style wordt goed geconfigureerd met aangepaste properties', () => {
+        const element = fixture('vl-map-layer-circle-style-met-properties-fixture');
+        const vlMapLayerCircleStyleElement = element.querySelector('vl-map-layer-circle-style');
+        assert.isTrue(vlMapLayerCircleStyleElement instanceof VlMapLayerCircleStyle);
+        assert.equal(vlMapLayerCircleStyleElement.color, '#fff');
+        assert.equal(vlMapLayerCircleStyleElement.textColor, '#000');
+        assert.equal(vlMapLayerCircleStyleElement.textOffsetX, 2);
+        assert.equal(vlMapLayerCircleStyleElement.textOffsetY, 3);
+        assert.equal(vlMapLayerCircleStyleElement.size, 1);
+        assert.equal(vlMapLayerCircleStyleElement.borderColor, '#123');
+        assert.equal(vlMapLayerCircleStyleElement.borderSize, 4);
+        assert.equal(vlMapLayerCircleStyleElement.clusterTextColor, '#456');
+        assert.equal(vlMapLayerCircleStyleElement.clusterColor, '#789');
+      });
+
+      test('de gegenereerde style komt overeen met de ingestelde properties', () => {
+        const element = fixture('vl-map-layer-circle-style-met-properties-fixture');
+        const vlMapLayerCircleStyleElement = element.querySelector('vl-map-layer-circle-style');
+        const style = vlMapLayerCircleStyleElement.style();
+        const imageStyle = style.getImage();
+        const stroke = imageStyle.getStroke();
+        const text = style.getText();
+        assert.equal(imageStyle.getFill().getColor(), '#fff');
+        assert.equal(text.getFill().getColor(), '#000');
+        assert.equal(text.getOffsetX(), 2);
+        assert.equal(text.getOffsetY(), 3);
+        assert.equal(imageStyle.getRadius(), 1);
+        assert.equal(stroke.getColor(), '#123');
+        assert.equal(stroke.getWidth(), 4);
+        assert.isTrue(imageStyle instanceof ol.style.Circle);
+      });
+
+      test('de style wordt gezet bij het parent element', () => {
+        const element = fixture('vl-map-layer-circle-style-fixture');
+        const vlMapLayerCircleStyleElement = element.querySelector('vl-map-layer-circle-style');
+        assert.equal(element.style.toString(), vlMapLayerCircleStyleElement.style.toString());
+      });
+
+      test('indien er meerdere features binnen een bepaalde afstand liggen van elkaar zullen ze geclusterd weergegeven worden en zal het aantal features in de cluster weergegeven worden', () => {
+        const vlMapLayerCircleStyleElement = fixture('vl-map-layer-circle-style-fixture');
+        const feature1 = new ol.Feature({
+          geometry: new ol.geom.Point([109100, 204175]),
+        });
+        const feature2 = new ol.Feature({
+          geometry: new ol.geom.Point([109101, 204176]),
+        });
+        const features = OpenLayersUtil.createClusterFeaturesObject([feature1, feature2]);
+        const style = vlMapLayerCircleStyleElement.style(features);
+        const textStyle = style.getText();
+        assert.equal(textStyle.getText(), features.get('features').length);
+      });
+
+      test('de cluster grootte is afhankelijk van het aantal features in de cluster', () => {
+        const vlMapLayerCircleStyleElement = fixture('vl-map-layer-circle-style-met-properties-fixture');
+        const feature = new ol.Feature({
+          geometry: new ol.geom.Point([109100, 204175]),
         });
 
-        test('indien al de features binnen een cluster een identieke cirkel custom style hebben, zal de cluster deze style overnemen', () => {
-            const element = fixture('vl-map-layer-circle-style-met-properties-fixture');
-            const vlMapLayerCircleStyleElement = element.querySelector('vl-map-layer-circle-style');
-            const featureFillColor = 'rgba(1, 2, 3, 1)';
-            const featureStrokeColor = 'rgba(2, 3, 4, 1)';
-            const featureStrokeWidth = 10;
-            const featureRadius = 5;
-            const featureRadius2 = 6;
-            const featurePoints = 15;
-            const featureStyle = new ol.style.Style({
-                image: new ol.style.Circle({
-                    fill: new ol.style.Fill({
-                        color: featureFillColor
-                    }),
-                    stroke: new ol.style.Stroke({
-                        color: featureStrokeColor,
-                        width: featureStrokeWidth
-                    }),
-                    radius: featureRadius,
-                    radius2: featureRadius2,
-                    points: featurePoints
-                })
-            });
-            const feature1 = new ol.Feature({
-                geometry: new ol.geom.Point([109100, 204175])
-            });
-            const feature2 = new ol.Feature({
-                geometry: new ol.geom.Point([109101, 204176])
-            });
-            feature1.setStyle(featureStyle);
-            feature2.setStyle(featureStyle);
-            const features = [feature1, feature2];
-            element.cluster = true;
+        function generateFeaturesArray(feature, quantity) {
+          const features = [];
+          for (let i = 0; i < quantity; i++) {
+            features.push(feature);
+          }
+          return features;
+        }
 
-            const style = vlMapLayerCircleStyleElement.style(OpenLayersUtil.createClusterFeaturesObject(features));
-            const clusterMultiplier = Math.max(1.5, features.length.toString().length);
-            const styleImage = style.getImage();
-            const styleImageFill = styleImage.getFill();
-            const styleImageStroke = styleImage.getStroke();
-            assert.equal(styleImageFill.getColor(), featureFillColor);
-            assert.equal(styleImageStroke.getColor(), featureStrokeColor);
-            assert.equal(styleImage.getRadius(), featureRadius * clusterMultiplier);
-            assert.isTrue(styleImage instanceof ol.style.Circle);
+        let style = vlMapLayerCircleStyleElement.style(OpenLayersUtil.createClusterFeaturesObject([feature]));
+        assert.equal(style.getImage().getRadius(), 1);
+
+        style = vlMapLayerCircleStyleElement.style(OpenLayersUtil.createClusterFeaturesObject(generateFeaturesArray(feature, 10)));
+        assert.equal(style.getImage().getRadius(), 2);
+
+        style = vlMapLayerCircleStyleElement.style(OpenLayersUtil.createClusterFeaturesObject(generateFeaturesArray(feature, 100)));
+        assert.equal(style.getImage().getRadius(), 3);
+      });
+
+      test('indien al de features binnen een cluster een identieke cirkel custom style hebben, zal de cluster deze style overnemen', () => {
+        const element = fixture('vl-map-layer-circle-style-met-properties-fixture');
+        const vlMapLayerCircleStyleElement = element.querySelector('vl-map-layer-circle-style');
+        const featureFillColor = 'rgba(1, 2, 3, 1)';
+        const featureStrokeColor = 'rgba(2, 3, 4, 1)';
+        const featureStrokeWidth = 10;
+        const featureRadius = 5;
+        const featureRadius2 = 6;
+        const featurePoints = 15;
+        const featureStyle = new ol.style.Style({
+          image: new ol.style.Circle({
+            fill: new ol.style.Fill({
+              color: featureFillColor,
+            }),
+            stroke: new ol.style.Stroke({
+              color: featureStrokeColor,
+              width: featureStrokeWidth,
+            }),
+            radius: featureRadius,
+            radius2: featureRadius2,
+            points: featurePoints,
+          }),
+        });
+        const feature1 = new ol.Feature({
+          geometry: new ol.geom.Point([109100, 204175]),
+        });
+        const feature2 = new ol.Feature({
+          geometry: new ol.geom.Point([109101, 204176]),
+        });
+        feature1.setStyle(featureStyle);
+        feature2.setStyle(featureStyle);
+        const features = [feature1, feature2];
+        element.cluster = true;
+
+        const style = vlMapLayerCircleStyleElement.style(OpenLayersUtil.createClusterFeaturesObject(features));
+        const clusterMultiplier = Math.max(1.5, features.length.toString().length);
+        const styleImage = style.getImage();
+        const styleImageFill = styleImage.getFill();
+        const styleImageStroke = styleImage.getStroke();
+        assert.equal(styleImageFill.getColor(), featureFillColor);
+        assert.equal(styleImageStroke.getColor(), featureStrokeColor);
+        assert.equal(styleImage.getRadius(), featureRadius * clusterMultiplier);
+        assert.isTrue(styleImage instanceof ol.style.Circle);
+      });
+
+      test('indien de features binnen een cluster een verschillende cirkel style hebben, zal de cluster de gedefinieerde cluster kleur krijgen', () => {
+        const element = fixture('vl-map-layer-circle-style-met-properties-fixture');
+        const vlMapLayerCircleStyleElement = element.querySelector('vl-map-layer-circle-style');
+        const clusterKleur = '#789';
+        const clusterTekstKleur = '#456';
+        vlMapLayerCircleStyleElement.clusterKleur = clusterKleur;
+        vlMapLayerCircleStyleElement.clusterTekstKleur = clusterTekstKleur;
+        const feature1 = new ol.Feature({
+          geometry: new ol.geom.Point([109100, 204175]),
+        });
+        const feature2 = new ol.Feature({
+          geometry: new ol.geom.Point([109101, 204176]),
         });
 
-        test('indien de features binnen een cluster een verschillende cirkel style hebben, zal de cluster de gedefinieerde cluster kleur krijgen', () => {
-            const element = fixture('vl-map-layer-circle-style-met-properties-fixture');
-            const vlMapLayerCircleStyleElement = element.querySelector('vl-map-layer-circle-style');
-            const clusterKleur = '#789';
-            const clusterTekstKleur = '#456';
-            vlMapLayerCircleStyleElement.clusterKleur = clusterKleur;
-            vlMapLayerCircleStyleElement.clusterTekstKleur = clusterTekstKleur;
-            const feature1 = new ol.Feature({
-                geometry: new ol.geom.Point([109100, 204175])
-            });
-            const feature2 = new ol.Feature({
-                geometry: new ol.geom.Point([109101, 204176])
-            });
+        feature1.setStyle(new ol.style.Style({
+          image: new ol.style.Circle({
+            fill: new ol.style.Fill({
+              color: 'rgba(1, 2, 3, 1)',
+            }),
+            stroke: new ol.style.Stroke({
+              color: 'rgba(2, 3, 4, 1)',
+              width: 10,
+            }),
+            radius: 5,
+            radius2: 6,
+            points: 15,
+          }),
+        }));
 
-            feature1.setStyle(new ol.style.Style({
-                image: new ol.style.Circle({
-                    fill: new ol.style.Fill({
-                        color: 'rgba(1, 2, 3, 1)'
-                    }),
-                    stroke: new ol.style.Stroke({
-                        color: 'rgba(2, 3, 4, 1)',
-                        width: 10
-                    }),
-                    radius: 5,
-                    radius2: 6,
-                    points: 15
-                })
-            }));
+        feature2.setStyle(new ol.style.Style({
+          image: new ol.style.Circle({
+            fill: new ol.style.Fill({
+              color: 'rgba(2, 3, 4, 1)',
+            }),
+            stroke: new ol.style.Stroke({
+              color: 'rgba(3, 4, 5, 1)',
+              width: 11,
+            }),
+            radius: 6,
+            radius2: 7,
+            points: 16,
+          }),
+        }));
+        const features = [feature1, feature2];
+        element.cluster = true;
 
-            feature2.setStyle(new ol.style.Style({
-                image: new ol.style.Circle({
-                    fill: new ol.style.Fill({
-                        color: 'rgba(2, 3, 4, 1)'
-                    }),
-                    stroke: new ol.style.Stroke({
-                        color: 'rgba(3, 4, 5, 1)',
-                        width: 11
-                    }),
-                    radius: 6,
-                    radius2: 7,
-                    points: 16
-                })
-            }));
-            const features = [feature1, feature2];
-            element.cluster = true;
+        const style = vlMapLayerCircleStyleElement.style(OpenLayersUtil.createClusterFeaturesObject(features));
+        const clusterMultiplier = Math.max(1.5, features.length.toString().length);
+        const styleImage = style.getImage();
+        const styleImageFill = styleImage.getFill();
+        const styleImageStroke = styleImage.getStroke();
+        const styleText = style.getText();
+        const styleTextFill = styleText.getFill();
+        assert.equal(styleImageFill.getColor(), clusterKleur);
+        assert.equal(styleImageStroke.getColor(), vlMapLayerCircleStyleElement.borderColor);
+        assert.equal(styleImage.getRadius(), vlMapLayerCircleStyleElement.size * clusterMultiplier);
+        assert.equal(styleTextFill.getColor(), clusterTekstKleur);
+        assert.isTrue(styleImage instanceof ol.style.Circle);
+      });
 
-            const style = vlMapLayerCircleStyleElement.style(OpenLayersUtil.createClusterFeaturesObject(features));
-            const clusterMultiplier = Math.max(1.5, features.length.toString().length);
-            const styleImage = style.getImage();
-            const styleImageFill = styleImage.getFill();
-            const styleImageStroke = styleImage.getStroke();
-            const styleText = style.getText();
-            const styleTextFill = styleText.getFill();
-            assert.equal(styleImageFill.getColor(), clusterKleur);
-            assert.equal(styleImageStroke.getColor(), vlMapLayerCircleStyleElement.borderColor);
-            assert.equal(styleImage.getRadius(), vlMapLayerCircleStyleElement.size * clusterMultiplier);
-            assert.equal(styleTextFill.getColor(), clusterTekstKleur);
-            assert.isTrue(styleImage instanceof ol.style.Circle);
+      test('indien de features binnen een cluster geen cirkel custom style hebben, zal de cluster de standaard laag style krijgen', () => {
+        const element = fixture('vl-map-layer-circle-style-fixture');
+        const vlMapLayerCircleStyleElement = element.querySelector('vl-map-layer-circle-style');
+        const feature1 = new ol.Feature({
+          geometry: new ol.geom.Point([109100, 204175]),
+        });
+        const feature2 = new ol.Feature({
+          geometry: new ol.geom.Point([109101, 204176]),
         });
 
-        test('indien de features binnen een cluster geen cirkel custom style hebben, zal de cluster de standaard laag style krijgen', () => {
-            const element = fixture('vl-map-layer-circle-style-fixture');
-            const vlMapLayerCircleStyleElement = element.querySelector('vl-map-layer-circle-style');
-            const feature1 = new ol.Feature({
-                geometry: new ol.geom.Point([109100, 204175])
-            });
-            const feature2 = new ol.Feature({
-                geometry: new ol.geom.Point([109101, 204176])
-            });
+        const features = [feature1, feature2];
 
-            const features = [feature1, feature2];
+        const style = vlMapLayerCircleStyleElement.style(OpenLayersUtil.createClusterFeaturesObject(features));
+        const clusterMultiplier = Math.max(1.5, features.length.toString().length);
+        const styleImage = style.getImage();
+        const styleImageFill = styleImage.getFill();
+        const styleImageStroke = styleImage.getStroke();
+        const styleText = style.getText();
+        const styleTextFill = styleText.getFill();
+        assert.equal(styleImageFill.getColor(), vlMapLayerCircleStyleElement.color);
+        assert.equal(styleImageStroke.getColor(), vlMapLayerCircleStyleElement.borderColor);
+        assert.equal(styleImage.getRadius(), vlMapLayerCircleStyleElement.size * clusterMultiplier);
+        assert.equal(styleTextFill.getColor(), vlMapLayerCircleStyleElement.clusterTextColor);
+        assert.isTrue(styleImage instanceof ol.style.Circle);
+      });
 
-            const style = vlMapLayerCircleStyleElement.style(OpenLayersUtil.createClusterFeaturesObject(features));
-            const clusterMultiplier = Math.max(1.5, features.length.toString().length);
-            const styleImage = style.getImage();
-            const styleImageFill = styleImage.getFill();
-            const styleImageStroke = styleImage.getStroke();
-            const styleText = style.getText();
-            const styleTextFill = styleText.getFill();
-            assert.equal(styleImageFill.getColor(), vlMapLayerCircleStyleElement.color);
-            assert.equal(styleImageStroke.getColor(), vlMapLayerCircleStyleElement.borderColor);
-            assert.equal(styleImage.getRadius(), vlMapLayerCircleStyleElement.size * clusterMultiplier);
-            assert.equal(styleTextFill.getColor(), vlMapLayerCircleStyleElement.clusterTextColor);
-            assert.isTrue(styleImage instanceof ol.style.Circle);
-        });
+      test('wanneer als feature een niet-feature object wordt meegegeven, kan de style functie er mee om', () => {
+        const element = fixture('vl-map-layer-circle-style-fixture');
+        const vlMapLayerCircleStyleElement = element.querySelector('vl-map-layer-circle-style');
 
-        test('wanneer als feature een niet-feature object wordt meegegeven, kan de style functie er mee om', () => {
-            const element = fixture('vl-map-layer-circle-style-fixture');
-            const vlMapLayerCircleStyleElement = element.querySelector('vl-map-layer-circle-style');
-
-            const style = vlMapLayerCircleStyleElement.style(1);
-            const styleImage = style.getImage();
-            const styleImageFill = styleImage.getFill();
-            const styleImageStroke = styleImage.getStroke();
-            const styleText = style.getText();
-            const styleTextFill = styleText.getFill();
-            assert.equal(styleImageFill.getColor(), vlMapLayerCircleStyleElement.color);
-            assert.equal(styleImageStroke.getColor(), vlMapLayerCircleStyleElement.borderColor);
-            assert.equal(styleImage.getRadius(), vlMapLayerCircleStyleElement.size);
-            assert.equal(styleTextFill.getColor(), vlMapLayerCircleStyleElement.clusterTextColor);
-            assert.isTrue(styleImage instanceof ol.style.Circle);
-        });
+        const style = vlMapLayerCircleStyleElement.style(1);
+        const styleImage = style.getImage();
+        const styleImageFill = styleImage.getFill();
+        const styleImageStroke = styleImage.getStroke();
+        const styleText = style.getText();
+        const styleTextFill = styleText.getFill();
+        assert.equal(styleImageFill.getColor(), vlMapLayerCircleStyleElement.color);
+        assert.equal(styleImageStroke.getColor(), vlMapLayerCircleStyleElement.borderColor);
+        assert.equal(styleImage.getRadius(), vlMapLayerCircleStyleElement.size);
+        assert.equal(styleTextFill.getColor(), vlMapLayerCircleStyleElement.clusterTextColor);
+        assert.isTrue(styleImage instanceof ol.style.Circle);
+      });
     });
 </script>
 </body>

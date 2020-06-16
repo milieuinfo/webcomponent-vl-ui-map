@@ -22,31 +22,30 @@
 
 <script>
     suite('vl-map-overview-map', () => {
-        const sandbox = sinon.sandbox.create();
-        const should = chai.should();
+      const sandbox = sinon.sandbox.create();
 
-        setup((done) => {
-            customElements.whenDefined('vl-map-overview-map').then(done);
-        });
+      setup((done) => {
+        customElements.whenDefined('vl-map-overview-map').then(done);
+      });
 
-        teardown(() => {
-            sandbox.restore();
-        });
+      teardown(() => {
+        sandbox.restore();
+      });
 
-        function bevatOverviewMap(map) {
-            return map.getControls().getArray().includes(map.overviewMapControl);
-        }
+      function bevatOverviewMap(map) {
+        return map.getControls().getArray().includes(map.overviewMapControl);
+      }
 
-        test('de overview map wordt goed geconfigureerd', (done) => {
-            const element = fixture('vl-map-overview-map-fixture');
-            const vlMapOverviewMapElement = element.querySelector('vl-map-overview-map');
-            (async () => {
-                while (!bevatOverviewMap(vlMapOverviewMapElement._map)) {
-                    await new Promise(resolve => setTimeout(resolve, 100));
-                }
-                done();
-            })();
-        });
+      test('de overview map wordt goed geconfigureerd', (done) => {
+        const element = fixture('vl-map-overview-map-fixture');
+        const vlMapOverviewMapElement = element.querySelector('vl-map-overview-map');
+        (async () => {
+          while (!bevatOverviewMap(vlMapOverviewMapElement._map)) {
+            await new Promise((resolve) => setTimeout(resolve, 100));
+          }
+          done();
+        })();
+      });
     });
 </script>
 </body>

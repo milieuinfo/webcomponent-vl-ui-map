@@ -9,23 +9,23 @@
 
     <script>
         window.onload = () => {
-            const showLogOnSelect = (layerSelector, selectActionSelector, logSelector) => {
-                const layer = document.querySelector(layerSelector);
-                const selectAction = document.querySelector(selectActionSelector);
+          const showLogOnSelect = (layerSelector, selectActionSelector, logSelector) => {
+            const layer = document.querySelector(layerSelector);
+            const selectAction = document.querySelector(selectActionSelector);
 
-                selectAction.layer = layer.layer;
-                selectAction.activateAction();
-                selectAction.onSelect((feature) => {
-                    if (feature) {
-                        document.querySelector(logSelector).innerText =
+            selectAction.layer = layer.layer;
+            selectAction.activateAction();
+            selectAction.onSelect((feature) => {
+              if (feature) {
+                document.querySelector(logSelector).innerText =
                             'Feature' +
                             (feature.getId() != null ? ' met id ' + feature.getId() : '') +
                             ' werd geselecteerd!';
-                    }
-                });
-            };
-            showLogOnSelect('#map-layer', '#select-action', '#select-action-log');
-            showLogOnSelect('#map-layer-cluster', '#select-action-cluster', '#select-action-cluster-log');
+              }
+            });
+          };
+          showLogOnSelect('#map-layer', '#select-action', '#select-action-log');
+          showLogOnSelect('#map-layer-cluster', '#select-action-cluster', '#select-action-cluster-log');
         };
     </script>
 </head>
