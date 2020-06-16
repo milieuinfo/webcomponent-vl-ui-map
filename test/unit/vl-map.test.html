@@ -78,7 +78,8 @@
         stub.onCall(0).returns(dummyLayerGroup1);
         stub.onCall(1).returns(dummyLayerGroup2);
 
-
+        fixture('vl-map-fixture');
+    
         assert(acd.ol.CustomMap.calledWith(sandbox.match.has('actions', sinon.match.array)));
         assert(acd.ol.CustomMap.calledWith(sinon.match.has('disableEscapeKey', false)));
         assert(acd.ol.CustomMap.calledWith(sinon.match.has('projection', sinon.match.object)));
