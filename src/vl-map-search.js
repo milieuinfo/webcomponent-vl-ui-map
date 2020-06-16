@@ -19,10 +19,7 @@ export class VlMapSearch extends vlElement(HTMLElement) {
             <style>
                 @import '/node_modules/vl-ui-select/dist/style.css';
                 @import '/node_modules/vl-ui-search/dist/style.css';
-
-                #search {
-                  --vl-search-width: 100%;
-                }
+                @import '/src/style.css';
             </style>
         `);
     this._configure();
