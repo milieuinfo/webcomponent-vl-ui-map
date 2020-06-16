@@ -1,6 +1,4 @@
 const {VlElement} = require('vl-ui-core').Test;
-// const VlMapLayerCircleStyle = require('./vl-map-layer-circle-style');
-// const {By} = require('vl-ui-core').Test.Setup;
 
 class VlMapLayer extends VlElement {
   async getName() {

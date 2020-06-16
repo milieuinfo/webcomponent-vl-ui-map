@@ -5,7 +5,7 @@ import {vlElement} from '/node_modules/vl-ui-core/dist/vl-core.js';
  * @class
  * @classdesc De kaart overview component.
  *
- * @extends VlElement
+ * @extends vlElement
  *
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}

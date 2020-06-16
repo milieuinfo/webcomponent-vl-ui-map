@@ -57,6 +57,6 @@
   },
   "devDependencies": {
     "vl-ui-button": "^5.0.1",
-    "vl-ui-util": "^5.1.9"
+    "vl-ui-util": "github:milieuinfo/webcomponent-vl-ui-util"
   }
 }

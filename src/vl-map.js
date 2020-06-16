@@ -5,7 +5,7 @@ import {vlElement} from '/node_modules/vl-ui-core/dist/vl-core.js';
  * @class
  * @classdesc De kaart component.
  *
- * @extends VlElement
+ * @extends vlElement
  *
  * @property {boolean} disable-escape-key - Attribuut wordt gebruikt om ervoor te zorgen dat de escape toets niet gebruikt kan worden.
  * @property {boolean} disable-rotation - Attribuut wordt gebruikt om ervoor te zorgen dat het niet mogelijk is om de kaart te draaien.

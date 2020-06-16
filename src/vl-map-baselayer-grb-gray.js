@@ -5,7 +5,7 @@ import {VlMapBaseLayer} from './vl-map-baselayer.js';
  * @class
  * @classdesc De kaart basis laag component voor GRB grijstinten.
  *
- * @extends VlElement
+ * @extends vlElement
  *
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}

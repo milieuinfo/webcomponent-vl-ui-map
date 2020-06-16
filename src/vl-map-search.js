@@ -7,7 +7,7 @@ import '/node_modules/vl-ui-search/dist/vl-search.js';
  * @class
  * @classdesc De kaart zoek op adres component.
  *
- * @extends VlElement
+ * @extends vlElement
  *
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
