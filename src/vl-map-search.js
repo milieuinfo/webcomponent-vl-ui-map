@@ -19,6 +19,10 @@ export class VlMapSearch extends vlElement(HTMLElement) {
             <style>
                 @import '/node_modules/vl-ui-select/dist/style.css';
                 @import '/node_modules/vl-ui-search/dist/style.css';
+
+                #search {
+                  --vl-search-width: 100%;
+                }
             </style>
         `);
     this._configure();
@@ -58,7 +62,7 @@ export class VlMapSearch extends vlElement(HTMLElement) {
   _getSelectTemplate() {
     return this._template(`
           <vl-search id="search" data-vl-inline >
-            <select is="vl-select" id="test" data-vl-select block data-vl-select-deletable data-vl-select-search-empty-text="Geen adres gevonden" slot="input"></select>
+            <select is="vl-select" data-vl-select block data-vl-select-deletable data-vl-select-search-empty-text="Geen adres gevonden" slot="input"></select>
           </vl-search>
     `);
   };
