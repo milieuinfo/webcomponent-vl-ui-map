@@ -153,11 +153,11 @@ export class VlMapLayer extends vlElement(HTMLElement) {
     }
   }
 
-  // eslint-disable-next-line valid-jsdoc
   /**
      * Geeft de feature terug op basis van het id attribuut.
      *
      * @param {number} id
+     * @return {feature}
      */
   getFeature(id) {
     if (this._source && this._source.getFeatures()) {
@@ -167,11 +167,11 @@ export class VlMapLayer extends vlElement(HTMLElement) {
     }
   }
 
-  // eslint-disable-next-line valid-jsdoc
   /**
      * Geeft de cluster terug op basis van het id attribuut.
      *
      * @param {number} id
+     * @return {boolean}
      */
   getCluster(id) {
     if (this._layer) {
