@@ -40,8 +40,10 @@
     <p>Een vl-map-search element en een vl-map element handmatig te koppelen.</p>
     <pre>
       <code class="line-numbers language-markup">
+        &lt;div&gt;
+          &lt;button onclick="document.querySelector('#vl-map-search-2').bindMap(document.querySelector('#vl-map-2'))"&gt;Bind&lt;/button&gt;
+          &lt;/div&gt;
         &lt;vl-map-search&gt;&lt;/vl-map-search&gt;
-        &lt;button onclick="document.querySelector('#vl-map-search-2').bindMap(document.querySelector('#vl-map-2'))"&gt;Bind&lt;/button&gt;
         &lt;vl-map&gt;
           &lt;vl-map-baselayer-grb-gray&gt;&lt;/vl-map-baselayer-grb-gray&gt;
           &lt;vl-map-baselayer-grb&gt;&lt;/vl-map-baselayer-grb&gt;
@@ -50,8 +52,11 @@
       </code>
     </pre>
     <div class="demo">
-      <button id="bind-map-button" is="vl-button" type="button" onclick="document.querySelector('#bind-map-search').bindMap(document.querySelector('#bind-map'))">Koppel zoekbalk aan kaart</button>
-      <vl-map-search id="bind-map-search"></vl-map-search>
+      <div>
+        <button id="bind-map-button" is="vl-button" type="button" onclick="document.querySelector('#bind-map-search').bindMap(document.querySelector('#bind-map'))">Koppel zoekbalk aan kaart</button>
+      </div>
+      <vl-map-search id="bind-map-search">
+      </vl-map-search>
       <vl-map id="bind-map">
         <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
         <vl-map-baselayer-grb></vl-map-baselayer-grb>
