@@ -19,4 +19,7 @@
     @media screen and (min-width: $vl-bp-medium) and (max-width: $vl-bp-large) {
         --vl-search-width: 30%;
     }
+    @media screen and (min-width: $vl-bp-large)  {
+        --vl-search-width: 30%;
+    }
 }
