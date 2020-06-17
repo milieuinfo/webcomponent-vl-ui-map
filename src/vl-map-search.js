@@ -16,18 +16,18 @@ import '/node_modules/vl-ui-search/dist/vl-search.js';
 export class VlMapSearch extends vlElement(HTMLElement) {
   constructor() {
     super(`
-            <style>
-                @import '/node_modules/vl-ui-select/dist/style.css';
-                @import '/node_modules/vl-ui-search/dist/style.css';
-                @import '/src/style.css';
-            </style>
-        `);
+      <style>
+        @import '/node_modules/vl-ui-select/dist/style.css';
+        @import '/node_modules/vl-ui-search/dist/style.css';
+        @import '/src/style.css';
+      </style>
+      <vl-search id="search" data-vl-inline>
+        <select is="vl-select" data-vl-select block data-vl-select-search-empty-text="Geen adres gevonden" slot="input"></select>
+      </vl-search>
+    `);
     this._configure();
-    customElements.whenDefined('vl-search').then(() => {
-      this._shadow.appendChild(this._getSelectTemplate());
-      this._addSearchEventListener();
-      this._addChoiceEventListener();
-    });
+    this._addSearchEventListener();
+    this._addChoiceEventListener();
   }
 
   get url() {
@@ -55,14 +55,6 @@ export class VlMapSearch extends vlElement(HTMLElement) {
   bindMap(map) {
     this._map = map;
   }
-
-  _getSelectTemplate() {
-    return this._template(`
-          <vl-search id="search" data-vl-inline >
-            <select is="vl-select" data-vl-select block data-vl-select-deletable data-vl-select-search-empty-text="Geen adres gevonden" slot="input"></select>
-          </vl-search>
-    `);
-  };
 
   _addSearchEventListener() {
     if (!this.__searchEventListenerRegistered) {
