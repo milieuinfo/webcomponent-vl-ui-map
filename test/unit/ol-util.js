@@ -1,5 +1,4 @@
-// eslint-disable-next-line no-unused-vars
-class OpenLayersUtil {
+export class OpenLayersUtil {
   static createDummyLayer(id, source) {
     return {
       id: id,
