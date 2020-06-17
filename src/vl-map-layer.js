@@ -199,8 +199,7 @@ export class VlMapLayer extends vlElement(HTMLElement) {
     this._map.zoomToExtent(this.__boundingBox, maxZoom);
   }
 
-  // eslint-disable-next-line camelcase
-  _auto_extentChangedCallback() {
+  _autoExtentChangedCallback() {
     this.__autoZoomToExtent();
   }
 
