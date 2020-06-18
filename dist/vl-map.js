@@ -18,71 +18,86 @@ import {vlElement} from '/node_modules/vl-ui-core/dist/vl-core.js';
 export class VlMap extends vlElement(HTMLElement) {
   constructor() {
     super(`
-            <style>
-                @import '/node_modules/vl-ui-map/dist/style.css';
-            </style>
-            <style>
-                :host {
-                    display: none;
-                    position: relative;
-                    --vl-map--margin-top: 0px;
-                }
-                
-                #map {
-                    height: calc(var(--vl-map-height, 500px) - var(--vl-map--margin-top)); 
-                    width: 100%;
-                }
-                
-                .ol-zoom, .ol-zoomslider, .ol-rotate {
-                    margin-top: var(--vl-map--margin-top) !important;
-                }
-                
-                .ol-overlaycontainer-stopevent > .ol-zoom {
-                    border-radius: 0;
-                }
-                
-                .ol-overlaycontainer-stopevent > .ol-overviewmap {
-                    border-radius: 0;
-                    width: 100px;
-                    height: 100px;
-                }
-                
-                .ol-overlaycontainer-stopevent > .ol-scale-line {
-                    border-radius: 0;
-                    background-color: white;
-                }
-                
-                .ol-overlaycontainer-stopevent > .ol-scale-line .ol-scale-line-inner {
-                    border-color: black;
-                    color: black;
-                }
-                
-                .ol-overlaycontainer-stopevent > .ol-control {
-                    margin-top: 0;
-                }
-                
-                .ol-overlaycontainer-stopevent > .ol-zoomslider {
-                    background: none;
-                }
-                
-                .ol-overlaycontainer-stopevent > .ol-zoomslider .ol-zoomslider-thumb {
-                    margin-bottom: 5px;
-                }
-            </style>
+      <style>
+        @import '/node_modules/vl-ui-map/dist/style.css';
+      </style>
+      <style>
+        :host {
+          display: none;
+          position: relative;
+        }
+        
+        #map {
+          height: var(--vl-map-height, 500px); 
+          width: 100%;
+        }
+        
+        .ol-overlaycontainer-stopevent > .ol-zoom {
+          border-radius: 0;
+        }
+        
+        .ol-overlaycontainer-stopevent > .ol-overviewmap {
+          border-radius: 0;
+          width: 100px;
+          height: 100px;
+        }
+        
+        .ol-overlaycontainer-stopevent > .ol-scale-line {
+          border-radius: 0;
+          background-color: white;
+        }
+        
+        .ol-overlaycontainer-stopevent > .ol-scale-line .ol-scale-line-inner {
+          border-color: black;
+          color: black;
+        }
+        
+        .ol-overlaycontainer-stopevent > .ol-control {
+          margin-top: 0;
+        }
+        
+        .ol-overlaycontainer-stopevent > .ol-zoomslider {
+          background: none;
+        }
+        
+        .ol-overlaycontainer-stopevent > vl-map-search {
+          position: absolute;
+          top: .5em;
+          left: .5em;
+          width: 100%;
+        }
 
-            <div id="map"></div>
-        `);
+        .ol-overlaycontainer-stopevent > vl-map-search ~ .ol-control {
+          top: 3.5em;
+        }
+
+        .ol-overlaycontainer-stopevent > vl-map-search ~ .ol-control.ol-zoomslider {
+          top: 5.3em;
+        }
+      </style>
+
+      <div id="map"></div>
+    `);
 
     this.__prepareReadyPromises();
   }
 
   /**
-     * Geeft een Promise terug die resolved wanneer de kaart klaar is voor verder gebruik.
-     *
-     * @return {Promise<void>}
-     */
+   * Geeft een Promise terug die resolved wanneer de kaart klaar is voor verder gebruik.
+   *
+   * @return {Promise<void>}
+   */
   get ready() {
     return this.__ready;
+  }
+
+  /**
+   * Geeft het overlay container element terug.
+   *
+   * @return {HTMLElement}
+   */
+  get overlayContainerElement() {
+    return this._shadow.querySelector('.ol-overlaycontainer-stopevent');
   }
 
   __prepareReadyPromises() {
@@ -92,10 +107,10 @@ export class VlMap extends vlElement(HTMLElement) {
   }
 
   /**
-     * Geeft de OpenLayers map terug.
-     *
-     * @Return {acd.ol.CustomMap}
-     */
+   * Geeft de OpenLayers map terug.
+   *
+   * @Return {acd.ol.CustomMap}
+   */
   get map() {
     return this._map;
   }
@@ -157,19 +172,19 @@ export class VlMap extends vlElement(HTMLElement) {
   }
 
   /**
-     * Voegt een kaartactie toe aan de kaart.
-     *
-     * @param {ol.interaction} action
-     */
+   * Voegt een kaartactie toe aan de kaart.
+   *
+   * @param {ol.interaction} action
+   */
   addAction(action) {
     this._map.addAction(action);
   }
 
   /**
-     * Zoomt op de kaart naar de bounding box.
-     *
-     * @param {Number[]} boundingbox
-     */
+   * Zoomt op de kaart naar de bounding box.
+   *
+   * @param {Number[]} boundingbox
+   */
   zoomTo(boundingbox) {
     this._map.zoomToExtent(boundingbox);
   }
