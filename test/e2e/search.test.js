@@ -14,7 +14,7 @@ describe('vl-map-search', async () => {
     await assert.eventually.isTrue(map.hasSearch());
   });
 
-  it.only('Als gebruiker kan ik de zoekfunctionaliteit gebruiken en zal de kaart zoomen', async () => {
+  it('Als gebruiker kan ik de zoekfunctionaliteit gebruiken en zal de kaart zoomen', async () => {
     const map = await vlMapPage.getMap();
     const search = await map.getSearch();
     await assert.eventually.isTrue(map.hasZoom(2));
@@ -25,11 +25,9 @@ describe('vl-map-search', async () => {
     await assert.eventually.isTrue(map.hasZoom(5));
   });
 
-  // todo fix
   it('Als gebruiker kan ik zoeken met de zoekfunctionaliteit maar als er niets gevonden werd zijn er geen opties', async () => {
     const map = await vlMapPage.getMap();
     const search = await map.getSearch();
-    await assert.eventually.isTrue(map.hasZoom(2));
 
     await search.open();
     await search.search('Foobar');
