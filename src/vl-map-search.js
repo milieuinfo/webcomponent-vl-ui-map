@@ -105,9 +105,8 @@ export class VlMapSearch extends vlElement(HTMLElement) {
   _configure() {
     customElements.whenDefined('vl-map').then(() => {
       if (this.parentNode && this.parentNode.map) {
-        this.parentNode._shadow.host.style.setProperty('--vl-map--margin-top', '45px');
+        this._map = this.parentNode._shadow.host;
         this.parentNode.overlayContainerElement.prepend(this);
-        this._map = this._parentElement;
       }
     });
   }
