@@ -1,10 +1,14 @@
 const {VlElement} = require('vl-ui-core').Test;
 const {VlSelect} = require('vl-ui-select').Test;
+// const {VlSearch} = require('vl-ui-search').Test;
 const {By} = require('vl-ui-core').Test.Setup;
 
 class VlMapSearch extends VlElement {
-  async _getSearch() {
-    return this.shadowRoot;
+  async _getSelectSearch() {
+    // const select = await this.shadowRoot.findElements(By.css('vl-search select'));
+    const select = await this.shadowRoot.findElement(By.css('select[is="vl-select"]'));
+    debugger;
+    return new VlSelect(this.driver, select);
   }
 
   async _getSelect() {
@@ -19,12 +23,19 @@ class VlMapSearch extends VlElement {
   }
 
   async search(text) {
-    const search = await this._getSearch();
-    const input = await search.findElement(By.css('.vl-select__list > input'));
-    await this.driver.executeScript(`arguments[0].value='${text}'`, input);
-    const select = await this._getSelect();
-    await this.driver.executeScript(`arguments[0].dispatchEvent(new CustomEvent('search', {detail: {value: '${text}'}}))`, select);
-    await this._waitForValues();
+    const selectSearch = await this._getSelectSearch();
+    debugger;
+    // await selectSearch.open();
+    console.log(text);
+    await selectSearch.search(text);
+    // await search.setValue(text);
+    // await search.submit();
+
+    // const input = await search.findElement(By.css('.vl-select__list > input'));
+    // await this.driver.executeScript(`arguments[0].value='${text}'`, input);
+    // const select = await this._getSelect();
+    // await this.driver.executeScript(`arguments[0].dispatchEvent(new CustomEvent('search', {detail: {value: '${text}'}}))`, select);
+    // await this._waitForValues();
   }
 
   async _waitForValues() {
@@ -54,7 +65,7 @@ class VlMapSearch extends VlElement {
   }
 
   async zoomTo(text) {
-    await this.open();
+    // await this.open();
     await this.search(text);
     await this.selectByIndex(0);
   }
