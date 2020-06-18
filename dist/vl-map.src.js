@@ -68,7 +68,7 @@ export class VlMap extends vlElement(HTMLElement) {
           width: 100%;
         }
 
-        .ol-overlaycontainer-stopevent > vl-map-search ~ .ol-zoom, .ol-rotate] {
+        .ol-overlaycontainer-stopevent > vl-map-search ~ .ol-zoom {
           top: 3.5em;
         }
 
