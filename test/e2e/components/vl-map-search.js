@@ -4,9 +4,6 @@ const {By} = require('vl-ui-core').Test.Setup;
 
 class VlMapSearch extends VlElement {
   async _getSearch() {
-    await this.driver.wait(async () => {
-      return await this.shadowRoot;
-    });
     return this.shadowRoot;
   }
 
