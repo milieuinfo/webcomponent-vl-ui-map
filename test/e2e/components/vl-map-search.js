@@ -19,14 +19,22 @@ class VlMapSearch extends VlElement {
   }
 
   async search(text) {
+    await this.sendText(text);
+    await this.dispatchSearchEvent(text);
+    await this._waitForValues();
+  }
+
+  async sendText(text) {
     const search = await this._getSearch();
     const input = await search.findElement(By.css('.vl-select__list > input'));
     await this.driver.executeScript(`arguments[0].focus()`, input);
     await this.driver.executeScript(`arguments[0].value='${text}'`, input);
     await this.driver.executeScript(`arguments[0].dispatchEvent(new CustomEvent('keyup', {composed: true, bubbles: true}))`, input);
+  }
+
+  async dispatchSearchEvent(text) {
     const select = await this._getSelect();
     await this.driver.executeScript(`arguments[0].dispatchEvent(new CustomEvent('search', {detail: {value: '${text}'}}))`, select);
-    await this._waitForValues();
   }
 
   async _waitForValues() {
