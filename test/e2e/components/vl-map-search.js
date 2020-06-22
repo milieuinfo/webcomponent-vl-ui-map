@@ -24,21 +24,19 @@ class VlMapSearch extends VlElement {
   async search(text) {
     const search = await this._getSearch();
     const input = await search.findElement(By.css('.vl-select__list > input'));
+    await this.driver.executeScript(`arguments[0].focus()`, input);
     await this.driver.executeScript(`arguments[0].value='${text}'`, input);
-    const select = await this._getSelect();
-    await this.driver.executeScript(`arguments[0].dispatchEvent(new CustomEvent('search', {detail: {value: '${text}'}}))`, select);
+    await this.driver.executeScript(`arguments[0].dispatchEvent(new CustomEvent('keyup', {composed: true, bubbles: true}))`, input);
     await this._waitForValues();
   }
 
   async _waitForValues() {
     const select = await this._getSelect();
     await this.driver.wait(async () => {
-      if (await this.hasNoResults()) {
-        return true;
-      }
-      const values = await select.values();
-      return values.filter((value) => value != null).length > 0;
-    }, 3000);
+      return (await this.hasNoResults());
+    });
+    const values = await select.values();
+    return values.filter((value) => value != null).length > 0;
   }
 
   async hasNoResults() {
@@ -48,11 +46,7 @@ class VlMapSearch extends VlElement {
     try {
       return !!(await search.findElement(By.css('.has-no-results')));
     } catch (error) {
-      try {
-        return !!(await search.findElement(By.css('.has-no-choices')));
-      } catch (error) {
-        return false;
-      }
+      return false;
     }
   }
 
