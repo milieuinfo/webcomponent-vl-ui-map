@@ -27,23 +27,24 @@ class VlMapSearch extends VlElement {
     await this.driver.executeScript(`arguments[0].focus()`, input);
     await this.driver.executeScript(`arguments[0].value='${text}'`, input);
     await this.driver.executeScript(`arguments[0].dispatchEvent(new CustomEvent('keyup', {composed: true, bubbles: true}))`, input);
+    const select = await this._getSelect();
+    await this.driver.executeScript(`arguments[0].dispatchEvent(new CustomEvent('search', {detail: {value: '${text}'}}))`, select);
     await this._waitForValues();
   }
 
   async _waitForValues() {
     const select = await this._getSelect();
-    await this.driver.wait(async () => {
-      return (await this.hasNoResults());
-    });
-    const values = await select.values();
-    return values.filter((value) => value != null).length > 0;
+    try {
+      await this.driver.wait(async () => !(await this.hasNoResults()), 3000);
+    } catch (error) {
+      const values = await select.values();
+      return values.filter((value) => value != null).length > 0;
+    }
   }
 
   async hasNoResults() {
-    const search = await this._getSearch();
-    const html = await search.getInnerHTML();
-    console.log(html);
     try {
+      const search = await this._getSearch();
       return !!(await search.findElement(By.css('.has-no-results')));
     } catch (error) {
       return false;
