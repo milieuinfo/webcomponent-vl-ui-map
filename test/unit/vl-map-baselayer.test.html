@@ -38,7 +38,6 @@
   <script>
     suite('vl-map-baselayer', () => {
       const sandbox = sinon.sandbox.create();
-      const should = chai.should();
 
       setup(() => {
         return new Promise((resolve) => {
@@ -114,24 +113,20 @@
 
       test('wanneer een WFS source wordt aangemaakt zal het formaat correct gedefinieerd worden', () => {
         sandbox.spy(ol.source, 'Vector');
-        const element = fixture('vl-map-baselayer-wfs-fixture');
-        const vlMapBaseLayerElement = element.querySelector('vl-map-baselayer');
-        const source = vlMapBaseLayerElement._createVectorSource();
+        fixture('vl-map-baselayer-wfs-fixture');
         assert(ol.source.Vector.calledWith(sinon.match.has('format')));
         assert.equal(ol.source.Vector.getCall(0).args[0].format.defaultDataProjection.getCode(), 'EPSG:31370');
       });
 
       test('een WMTS source wordt maar 1x aangemaakt', () => {
         sandbox.spy(ol.source, 'WMTS');
-        const element = fixture('vl-map-baselayer-wmts-fixture');
-        const vlMapBaseLayerElement = element.querySelector('vl-map-baselayer');
+        fixture('vl-map-baselayer-wmts-fixture');
         assert.equal(ol.source.WMTS.calledOnce, true);
       });
 
       test('een WFS source wordt maar 1x aangemaakt', () => {
         sandbox.spy(ol.source, 'Vector');
-        const element = fixture('vl-map-baselayer-wfs-fixture');
-        const vlMapBaseLayerElement = element.querySelector('vl-map-baselayer');
+        fixture('vl-map-baselayer-wfs-fixture');
         assert.equal(ol.source.Vector.calledOnce, true);
       });
     });

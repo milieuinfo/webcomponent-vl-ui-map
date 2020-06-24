@@ -42,7 +42,7 @@ export class VlMapAction extends vlElement(HTMLElement) {
   /**
      * Zet de kaartlaag.
      *
-     * @param {ol.layer.Layer}
+     * @param {ol.layer.Layer} layer
      */
   set layer(layer) {
     this._layer = layer;

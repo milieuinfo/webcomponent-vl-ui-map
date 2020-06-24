@@ -20,12 +20,8 @@
   </test-fixture>
   
   <script type="module">
-    import {VlMapBaseLayer} from '../../src/vl-map-baselayer.js';
-    import {VlMapBaseLayerGRBGray} from '../../src/vl-map-baselayer-grb-gray.js';
-
     suite('vl-map-baselayer-grb-gray', () => {
       const sandbox = sinon.sandbox.create();
-      const should = chai.should();
 
       setup((done) => {
         customElements.whenDefined('vl-map-baselayer-grb-gray').then(() => done());

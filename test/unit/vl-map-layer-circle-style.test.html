@@ -32,7 +32,6 @@
 
     suite('vl-map-layer-circle-style', () => {
       const sandbox = sinon.sandbox.create();
-      const should = chai.should();
 
       setup(() => {
         return new Promise((resolve) => {
@@ -84,7 +83,6 @@
         const vlMapLayerCircleStyleElement = element.querySelector('vl-map-layer-circle-style');
         const style = vlMapLayerCircleStyleElement.style();
         const imageStyle = style.getImage();
-        const fill = imageStyle.getFill();
         const stroke = imageStyle.getStroke();
         const text = style.getText();
         assert.equal(imageStyle.getFill().getColor(), '#fff');
