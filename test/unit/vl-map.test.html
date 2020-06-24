@@ -46,7 +46,6 @@
 <script>
     suite('vl-map', () => {
       const sandbox = sinon.sandbox.create();
-      const should = chai.should();
 
       setup(() => {
         return new Promise((resolve) => {
@@ -79,7 +78,7 @@
         stub.onCall(0).returns(dummyLayerGroup1);
         stub.onCall(1).returns(dummyLayerGroup2);
 
-        const element = fixture('vl-map-fixture');
+        fixture('vl-map-fixture');
 
         assert(acd.ol.CustomMap.calledWith(sandbox.match.has('actions', sinon.match.array)));
         assert(acd.ol.CustomMap.calledWith(sinon.match.has('disableEscapeKey', false)));
@@ -108,7 +107,7 @@
 
       test('de Lambert 31370 projectie wordt correct gedefinieerd', () => {
         sandbox.spy(proj4, 'defs');
-        const element = fixture('vl-map-fixture');
+        fixture('vl-map-fixture');
         assert(proj4.defs.calledWith('EPSG:31370', '+proj=lcc +lat_1=51.16666723333333 +lat_2=49.8333339 +lat_0=90 +lon_0=4.367486666666666 +x_0=150000.013 +y_0=5400088.438 +ellps=intl +towgs84=-106.869,52.2978,-103.724,0.3366,-0.457,1.8422,-1.2747 +units=m +no_defs'));
       });
 
@@ -154,7 +153,7 @@
           activateDefaultAction: sandbox.spy(),
           updateSize: sandbox.spy(),
         });
-        const element = fixture('vl-map-disable-escape-key-fixture');
+        fixture('vl-map-disable-escape-key-fixture');
         assert(acd.ol.CustomMap.calledWith(sinon.match.has('disableEscapeKey', true)));
       });
 
@@ -165,7 +164,7 @@
           activateDefaultAction: sandbox.spy(),
           updateSize: sandbox.spy(),
         });
-        const element = fixture('vl-map-disable-rotation-fixture');
+        fixture('vl-map-disable-rotation-fixture');
         assert(acd.ol.CustomMap.calledWith(sinon.match.has('disableRotation', true)));
       });
 
@@ -176,7 +175,7 @@
           activateDefaultAction: sandbox.spy(),
           updateSize: sandbox.spy(),
         });
-        const element = fixture('vl-map-disable-mouse-wheel-zoom-fixture');
+        fixture('vl-map-disable-mouse-wheel-zoom-fixture');
         assert(acd.ol.CustomMap.calledWith(sinon.match.has('disableMouseWheelZoom', true)));
       });
 
@@ -197,7 +196,7 @@
           };
         });
 
-        const element = fixture('vl-map-fixture');
+        fixture('vl-map-fixture');
         assert(updateMapSizeSpy.called);
         assert(updateOverviewMapSizeSpy.called);
       });

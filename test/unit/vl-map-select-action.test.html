@@ -34,7 +34,6 @@
 
     suite('selecteer-actie', () => {
       const sandbox = sinon.sandbox.create();
-      const should = chai.should();
       let kaartlaag;
     
       setup(() => {
@@ -122,8 +121,6 @@
 
         const kaartElement = fixture('vl-map-select-action-fixture');
         const actionElement = kaartElement.querySelector('vl-map-select-action');
-        const styleElement = kaartElement.querySelector('vl-map-layer-circle-style');
-        const onSelectie = sandbox.spy();
 
         actionElement.setAttribute('cluster', '');
         actionElement.layer = kaartlaag;

@@ -193,13 +193,13 @@
         const element = fixture('vl-map-layer-fixture');
         const title = 'title';
         sandbox.spy(ol.layer, 'Vector');
-        const layer = element.__createLayer(title, []);
+        element.__createLayer(title, []);
         assert(ol.layer.Vector.calledWith(sinon.match.has('updateWhileAnimating', true).and(sinon.match.has('updateWhileInteracting', true))));
       });
     
       test('kan de boundingbox opvragen van de features op de laag', () => {
         const element = fixture('vl-map-layer-fixture');
-        const feature = new ol.Feature();
+        new ol.Feature();
         const extent = sandbox.spy();
         element.setAttribute('features', '{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[147055,197908]},"properties":null},{"type":"Feature","geometry":{"type":"Point","coordinates":[157055,207908]},"properties":null}]}');
 

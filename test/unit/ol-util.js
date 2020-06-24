@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 class OpenLayersUtil {
   static createDummyLayer(id, source) {
     return {
@@ -25,7 +26,7 @@ class OpenLayersUtil {
     return {
       addEventListener: () => {},
       getExtent: () => {},
-      getFeatures: () => {
+      getFeatures: () =>{
         return features;
       },
       clear: () => {},
