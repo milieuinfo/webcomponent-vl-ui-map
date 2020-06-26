@@ -46,14 +46,14 @@
   "dependencies": {
     "vl-mapactions": "^2.1.0",
     "vl-ui-core": "^5.5.0",
-    "vl-ui-search": "github:milieuinfo/webcomponent-vl-ui-search#width",
-    "vl-ui-select": "github:milieuinfo/webcomponent-vl-ui-select"
+    "vl-ui-search": "^1.1.0",
+    "vl-ui-select": "^4.1.0"
   },
   "peerDependencies": {
     "vl-mapactions": "^2.1.0",
     "vl-ui-core": "^5.5.0",
-    "vl-ui-select": "github:milieuinfo/webcomponent-vl-ui-select",
-    "vl-ui-search": "milieuinfo/webcomponent-vl-ui-search#width"
+    "vl-ui-select": "^4.1.0",
+    "vl-ui-search": "^1.1.0"
   },
   "devDependencies": {
     "vl-ui-button": "^5.0.1",
