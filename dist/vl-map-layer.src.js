@@ -44,47 +44,47 @@ export class VlMapLayer extends vlElement(HTMLElement) {
   }
 
   /**
-     * Geeft de OpenLayers kaartlaag.
-     *
-     * @return {ol.layer.Layer}
-     */
+   * Geeft de OpenLayers kaartlaag.
+   *
+   * @return {ol.layer.Layer}
+   */
   get layer() {
     return this._layer;
   }
 
   /**
-     * Geeft de OpenLayers kaartlaag source.
-     *
-     * @return {ol.source}
-     */
+   * Geeft de OpenLayers kaartlaag source.
+   *
+   * @return {ol.source}
+   */
   get source() {
     return this._source;
   }
 
   /**
-     * Geeft de OpenLayers features collectie van de kaartlaag terug.
-     *
-     * @return {object}
-     */
+   * Geeft de OpenLayers features collectie van de kaartlaag terug.
+   *
+   * @return {object}
+   */
   get features() {
     const features = this.getAttribute('features');
     return features ? this.__geoJSON.readFeatures(features) : [];
   }
 
   /**
-     * Zet de OpenLayers features collectie op de kaartlaag.
-     *
-     * @param {object} features
-     */
+   * Zet de OpenLayers features collectie op de kaartlaag.
+   *
+   * @param {object} features
+   */
   set features(features) {
     this.setAttribute('features', JSON.stringify(features));
   }
 
   /**
-     * Geeft de OpenLayers kaartlaag stijl.
-     *
-     * @return {ol.style}
-     */
+   * Geeft de OpenLayers kaartlaag stijl.
+   *
+   * @return {ol.style}
+   */
   get style() {
     if (this._layer) {
       return this._layer.getStyle();
@@ -92,10 +92,10 @@ export class VlMapLayer extends vlElement(HTMLElement) {
   }
 
   /**
-     * Zet de OpenLayers kaartlaag stijl.
-     *
-     * @param {ol.style} style
-     */
+   * Zet de OpenLayers kaartlaag stijl.
+   *
+   * @param {ol.style} style
+   */
   set style(style) {
     this._style = style;
     this._layer.setStyle(style);
@@ -134,8 +134,8 @@ export class VlMapLayer extends vlElement(HTMLElement) {
   }
 
   /**
-     * Verwijdert de stijl van al de kaartlaag features.
-     */
+   * Verwijdert de stijl van al de kaartlaag features.
+   */
   verwijderFeatureStijlen() {
     if (this._source && this._source.getFeatures()) {
       this._source.getFeatures().forEach((feature) => {
@@ -145,8 +145,8 @@ export class VlMapLayer extends vlElement(HTMLElement) {
   }
 
   /**
-     * Rendert de kaart opnieuw.
-     */
+   * Rendert de kaart opnieuw.
+   */
   rerender() {
     if (this._map) {
       this._map.render();
@@ -154,10 +154,11 @@ export class VlMapLayer extends vlElement(HTMLElement) {
   }
 
   /**
-     * Geeft de feature terug op basis van het id attribuut.
-     *
-     * @param {number} id
-     */
+   * Geeft de feature terug op basis van het id attribuut.
+   *
+   * @param {number} id
+   * @return {boolean}
+   */
   getFeature(id) {
     if (this._source && this._source.getFeatures()) {
       return this._source.getFeatures().filter((feature) => {
@@ -167,10 +168,11 @@ export class VlMapLayer extends vlElement(HTMLElement) {
   }
 
   /**
-     * Geeft de cluster terug op basis van het id attribuut.
-     *
-     * @param {number} id
-     */
+   * Geeft de cluster terug op basis van het id attribuut.
+   *
+   * @param {number} id
+   * @return {boolean}
+   */
   getCluster(id) {
     if (this._layer) {
       return this._layer.getSource().getFeatures().filter((cluster) => {
@@ -187,11 +189,11 @@ export class VlMapLayer extends vlElement(HTMLElement) {
   }
 
   /**
-     * Zoom naar alle features in deze layer.
-     *
-     * @param {number} maxZoom - Hoe diep er maximaal ingezoomd mag worden.
-     * @return {Promise<void>}
-     */
+   * Zoom naar alle features in deze layer.
+   *
+   * @param {number} maxZoom - Hoe diep er maximaal ingezoomd mag worden.
+   * @return {Promise<void>}
+   */
   async zoomToExtent(maxZoom) {
     await this._mapReady;
     this._map.zoomToExtent(this.__boundingBox, maxZoom);

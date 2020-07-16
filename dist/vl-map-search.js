@@ -15,10 +15,10 @@ import '/node_modules/vl-ui-select/dist/vl-select.js';
 export class VlMapSearch extends vlElement(HTMLElement) {
   constructor() {
     super(`
-            <style>
-                @import '/node_modules/vl-ui-select/dist/style.css';
-            </style>
-        `);
+      <style>
+        @import '/node_modules/vl-ui-select/dist/style.css';
+      </style>
+    `);
     this._configure();
     customElements.whenDefined('vl-select').then(() => {
       this._shadow.appendChild(this._getSelectTemplate());
@@ -55,8 +55,8 @@ export class VlMapSearch extends vlElement(HTMLElement) {
 
   _getSelectTemplate() {
     return this._template(`
-            <select is="vl-select" id="test" data-vl-select data-vl-select-deletable data-vl-select-search-empty-text="Geen adres gevonden"></select>
-        `);
+      <select is="vl-select" id="test" data-vl-select data-vl-select-deletable data-vl-select-search-empty-text="Geen adres gevonden"></select>
+    `);
   };
 
   _addSearchEventListener() {

@@ -1,17 +1,17 @@
 import {define, awaitScript} from '/node_modules/vl-ui-core/dist/vl-core.js';
 
-import {VlMap} from '/node_modules/vl-ui-accordion/dist/vl-map.js';
-import {VlMapOverviewMap} from '/node_modules/vl-ui-accordion/dist/vl-map-overview-map.js';
-import {VlMapLayer} from '/node_modules/vl-ui-accordion/dist/vl-map-layer.js';
-import {VlMapBaseLayer} from '/node_modules/vl-ui-accordion/dist/vl-map-baselayer.js';
-import {VlMapBaseLayerGRBGray} from '/node_modules/vl-ui-accordion/dist/vl-map-baselayer-grb-gray.js';
-import {VlMapBaseLayerGRB} from '/node_modules/vl-ui-accordion/dist/vl-map-baselayer-grb.js';
-import {VlMapBaseLayerGRBOrtho} from '/node_modules/vl-ui-accordion/dist/vl-map-baselayer-grb-ortho.js';
-import {VlMapAction} from '/node_modules/vl-ui-accordion/dist/vl-map-action.js';
-import {VlMapSelectAction} from '/node_modules/vl-ui-accordion/dist/vl-map-select-action.js';
-import {VlMapLayerStyle} from '/node_modules/vl-ui-accordion/dist/vl-map-layer-style.js';
-import {VlMapLayerCircleStyle} from '/node_modules/vl-ui-accordion/dist/vl-map-layer-circle-style.js';
-import {VlMapSearch} from '/node_modules/vl-ui-accordion/dist/vl-map-search.js';
+import {VlMap} from '/node_modules/vl-ui-map/dist/vl-map.js';
+import {VlMapOverviewMap} from '/node_modules/vl-ui-map/dist/vl-map-overview-map.js';
+import {VlMapLayer} from '/node_modules/vl-ui-map/dist/vl-map-layer.js';
+import {VlMapBaseLayer} from '/node_modules/vl-ui-map/dist/vl-map-baselayer.js';
+import {VlMapBaseLayerGRBGray} from '/node_modules/vl-ui-map/dist/vl-map-baselayer-grb-gray.js';
+import {VlMapBaseLayerGRB} from '/node_modules/vl-ui-map/dist/vl-map-baselayer-grb.js';
+import {VlMapBaseLayerGRBOrtho} from '/node_modules/vl-ui-map/dist/vl-map-baselayer-grb-ortho.js';
+import {VlMapAction} from '/node_modules/vl-ui-map/dist/vl-map-action.js';
+import {VlMapSelectAction} from '/node_modules/vl-ui-map/dist/vl-map-select-action.js';
+import {VlMapLayerStyle} from '/node_modules/vl-ui-map/dist/vl-map-layer-style.js';
+import {VlMapLayerCircleStyle} from '/node_modules/vl-ui-map/dist/vl-map-layer-circle-style.js';
+import {VlMapSearch} from '/node_modules/vl-ui-map/dist/vl-map-search.js';
 
 Promise.all([
   awaitScript('vl-map-openlayers', '/node_modules/vl-mapactions/lib/openlayers/dist/ol.js'),

@@ -22,37 +22,37 @@ export class VlMapBaseLayer extends vlElement(HTMLElement) {
   }
 
   /**
-     * Geeft het kaartlaag type terug.
-     *
-     * @Return {string}
-     */
+   * Geeft het kaartlaag type terug.
+   *
+   * @Return {string}
+   */
   get type() {
     return this.getAttribute('type') || 'wmts';
   }
 
   /**
-     * Geeft de kaartlaag URL terug.
-     *
-     * @Return {string}
-     */
+   * Geeft de kaartlaag URL terug.
+   *
+   * @Return {string}
+   */
   get url() {
     return this.getAttribute('url');
   }
 
   /**
-     * Geeft de kaartlaag identifier terug.
-     *
-     * @Return {string}
-     */
+   * Geeft de kaartlaag identifier terug.
+   *
+   * @Return {string}
+   */
   get layer() {
     return this.getAttribute('layer');
   }
 
   /**
-     * Geeft de kaartlaag titel terug.
-     *
-     * @Return {string}
-     */
+   * Geeft de kaartlaag titel terug.
+   *
+   * @Return {string}
+   */
   get title() {
     return this.getAttribute('title');
   }

@@ -21,46 +21,46 @@ export class VlMapLayerStyle extends vlElement(HTMLElement) {
   }
 
   /**
-     * Geeft de color van de stijl terug.
-     *
-     * @Return {string}
-     */
+   * Geeft de color van de stijl terug.
+   *
+   * @Return {string}
+   */
   get color() {
     return this.getAttribute('color') || 'rgba(255, 255, 255, 1)';
   }
 
   /**
-     * Geeft de tekstkleur van de stijl terug.
-     *
-     * @Return {string}
-     */
+   * Geeft de tekstkleur van de stijl terug.
+   *
+   * @Return {string}
+   */
   get textColor() {
     return this.getAttribute('text-color') || '#FFF';
   }
 
   /**
-     * Geeft de offset op de x-as van de tekst terug.
-     *
-     * @Return {number}
-     */
+   * Geeft de offset op de x-as van de tekst terug.
+   *
+   * @Return {number}
+   */
   get textOffsetX() {
     return this.getAttribute('text-offset-x') || 0;
   }
 
   /**
-     * Geeft de offset op de y-as van de tekst terug.
-     *
-     * @Return {number}
-     */
+   * Geeft de offset op de y-as van de tekst terug.
+   *
+   * @Return {number}
+   */
   get textOffsetY() {
     return this.getAttribute('text-offset-y') || 0;
   }
 
   /**
-     * Geeft de stijl terug.
-     *
-     * @Return {string}
-     */
+   * Geeft de stijl terug.
+   *
+   * @Return {string}
+   */
   get style() {
     console.info('opgelet vl-map-layer-style is abstract en zal geen stijl toevoegen aan de kaartlaag');
     return null;

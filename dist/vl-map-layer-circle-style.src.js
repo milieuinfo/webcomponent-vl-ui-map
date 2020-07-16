@@ -19,55 +19,55 @@ import {VlMapLayerStyle} from './vl-map-layer-style.js';
  */
 export class VlMapLayerCircleStyle extends VlMapLayerStyle {
   /**
-     * Geeft de grootte van de cirkels terug.
-     *
-     * @Return {number}
-     */
+   * Geeft de grootte van de cirkels terug.
+   *
+   * @Return {number}
+   */
   get size() {
     return this.getAttribute('size') || 5;
   }
 
   /**
-     * Geeft de randkleur van de cirkels terug.
-     *
-     * @Return {string}
-     */
+   * Geeft de randkleur van de cirkels terug.
+   *
+   * @Return {string}
+   */
   get borderColor() {
     return this.getAttribute('border-color') || 'rgba(0, 0, 0, 1)';
   }
 
   /**
-     * Geeft de size van de rand van de cirkels terug.
-     *
-     * @Return {number}
-     */
+   * Geeft de size van de rand van de cirkels terug.
+   *
+   * @Return {number}
+   */
   get borderSize() {
     return this.getAttribute('border-size') || 1;
   }
 
   /**
-     * Geeft de kleur van de tekst bij het clusteren van features terug.
-     *
-     * @Return {string}
-     */
+   * Geeft de kleur van de tekst bij het clusteren van features terug.
+   *
+   * @Return {string}
+   */
   get clusterTextColor() {
     return this.getAttribute('cluster-text-color') || '#FFF';
   }
 
   /**
-     * Geeft de kleur bij het clusteren van features terug.
-     *
-     * @Return {string}
-     */
+   * Geeft de kleur bij het clusteren van features terug.
+   *
+   * @Return {string}
+   */
   get clusterColor() {
     return this.getAttribute('cluster-color') || 'rgba(0, 0, 0, 0)';
   }
 
   /**
-     * Geeft de stijl terug.
-     *
-     * @Return {string}
-     */
+   * Geeft de stijl terug.
+   *
+   * @Return {string}
+   */
   get style() {
     return (feature, resolution) => {
       const features = feature && feature.get ? (feature.get('features') || []) : [];
