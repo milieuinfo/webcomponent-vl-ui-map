@@ -22,38 +22,38 @@ export class VlMapAction extends vlElement(HTMLElement) {
   }
 
   /**
-     * Geeft de event naam die gebruikt wordt wanneer een nieuwe actie toegevoegd wordt aan de kaart
-     *
-     * @return {string}
-     */
+   * Geeft de event naam die gebruikt wordt wanneer een nieuwe actie toegevoegd wordt aan de kaart
+   *
+   * @return {string}
+   */
   static get NEW_ACTION_EVENT_NAME() {
     return 'new-action-activated';
   }
 
   /**
-     * Geeft de kaartlaag.
-     *
-     * @return {ol.layer.Layer}
-     */
+   * Geeft de kaartlaag.
+   *
+   * @return {ol.layer.Layer}
+   */
   get layer() {
     return this._layer;
   }
 
   /**
-     * Zet de kaartlaag.
-     *
-     * @param {ol.layer.Layer} layer
-     */
+   * Zet de kaartlaag.
+   *
+   * @param {ol.layer.Layer} layer
+   */
   set layer(layer) {
     this._layer = layer;
     this._layerChangedCallback();
   }
 
   /**
-     * Geeft de kaart actie.
-     *
-     * @return {ol.interaction}
-     */
+   * Geeft de kaart actie.
+   *
+   * @return {ol.interaction}
+   */
   get action() {
     return this._action;
   }
@@ -65,8 +65,8 @@ export class VlMapAction extends vlElement(HTMLElement) {
   }
 
   /**
-     * Activeer de kaart actie op de kaart.
-     */
+   * Activeer de kaart actie op de kaart.
+   */
   activateAction() {
     if (this._action) {
       this._map.activateAction(this._action);
@@ -75,8 +75,8 @@ export class VlMapAction extends vlElement(HTMLElement) {
   }
 
   /**
-     * Stuurt een event om te laten weten dat de actieve kaart actie gewijzigd werd
-     */
+   * Stuurt een event om te laten weten dat de actieve kaart actie gewijzigd werd
+   */
   actionChanged() {
     const event = new Event(VlMapAction.NEW_ACTION_EVENT_NAME);
     this.parentElement.dispatchEvent(event);
