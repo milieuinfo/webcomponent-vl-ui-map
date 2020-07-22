@@ -4,7 +4,7 @@ const VlMapSelectActionPage = require('./pages/vl-map-select-action.page');
 describe('vl-map-select-action', async () => {
   const vlMapPage = new VlMapSelectActionPage(driver);
 
-  before(() => {
+  before(async () => {
     return vlMapPage.load();
   });
 

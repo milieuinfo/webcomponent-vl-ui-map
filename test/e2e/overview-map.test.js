@@ -5,7 +5,7 @@ const VlMapOverviewMapPage = require('./pages/vl-map-overview-map.page');
 describe('vl-map-overview-map', async () => {
   const vlMapPage = new VlMapOverviewMapPage(driver);
 
-  before(() => {
+  before(async () => {
     return vlMapPage.load();
   });
 

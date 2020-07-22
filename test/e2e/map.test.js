@@ -4,7 +4,7 @@ const VlMapPage = require('./pages/vl-map.page');
 describe('vl-map', async () => {
   const vlMapPage = new VlMapPage(driver);
 
-  before(() => {
+  before(async () => {
     return vlMapPage.load();
   });
 

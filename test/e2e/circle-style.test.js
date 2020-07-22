@@ -4,7 +4,7 @@ const VlMapCircleStylePage = require('./pages/vl-map-circle-style.page');
 describe('vl-map-circle-style', async () => {
   const vlMapPage = new VlMapCircleStylePage(driver);
 
-  before(() => {
+  before(async () => {
     return vlMapPage.load();
   });
 
