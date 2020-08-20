@@ -98,7 +98,9 @@
       test('er kan een feature op de kaart geselecteerd worden', () => {
         const kaartElement = fixture('vl-map-select-action-fixture');
         const actionElement = kaartElement.querySelector('vl-map-select-action');
-        const feature = new ol.Feature({});
+        const feature = new ol.Feature({
+          geometry: new ol.geom.Point([1, 1]),
+        });
 
         actionElement.layer = kaartlaag;
         sandbox.spy(actionElement.action, 'selectFeature');
