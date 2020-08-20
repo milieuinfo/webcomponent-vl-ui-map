@@ -35,6 +35,7 @@
 <body is="vl-body">
     <vl-demo-page data-vl-webcomponent="vl-map-select-action">
         <vl-demo data-vl-title="Kaart met kaartlaag met selecteer actie">
+            <div id="select-action-log"></div>
             <vl-map id="map-with-select-action">
                 <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
                 <vl-map-baselayer-grb></vl-map-baselayer-grb>
@@ -73,6 +74,7 @@
 
         <vl-demo data-vl-title="Kaart met kaartlaag met selecteer actie en clustering">
             <vl-map>
+                <div id="select-action-cluster-log"></div>
                 <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
                 <vl-map-baselayer-grb></vl-map-baselayer-grb>
                 <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
@@ -105,7 +107,6 @@
                 <vl-map-select-action id="select-action-cluster" cluster>
                     <vl-map-layer-circle-style color="#fff" border-color="yellow"></vl-map-layer-circle-style>
                 </vl-map-select-action>
-                <div id="select-action-cluster-log"></div>
             </vl-map>
         </vl-demo>
     </vl-demo-page>

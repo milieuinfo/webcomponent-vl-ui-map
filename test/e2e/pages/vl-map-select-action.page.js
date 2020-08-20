@@ -36,8 +36,7 @@ class VlMapSelectActionPage extends Page {
     const selectAction = await this.getSelectAction();
     return this.driver.wait(async () => {
       const selectedId = await this.driver.executeScript(
-          `return arguments[0]._action.selectedFeature && arguments[0]._action.selectedFeature.getId()`,
-          selectAction);
+          `return arguments[0]._action.selectedFeature && arguments[0]._action.selectedFeature.getId()`, selectAction);
       return selectedId === id;
     }, 5000);
   }
