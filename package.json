@@ -38,16 +38,17 @@
   },
   "dependencies": {
     "vl-mapactions": "^2.1.0",
-    "vl-ui-core": "^5.6.2",
-    "vl-ui-select": "^4.1.1"
+    "vl-ui-core": "^6.0.0",
+    "vl-ui-select": "^4.1.3"
   },
   "peerDependencies": {
     "vl-mapactions": "^2.1.0",
-    "vl-ui-core": "^5.6.2",
-    "vl-ui-select": "^4.1.1"
+    "vl-ui-core": "^6.0.0",
+    "vl-ui-select": "^4.1.3"
   },
   "devDependencies": {
-    "vl-ui-button": "^5.0.1",
-    "vl-ui-util": "^5.2.10"
+    "vl-ui-button": "^5.0.6",
+    "vl-ui-body": "^1.0.4",
+    "vl-ui-util": "^5.2.13"
   }
 }
