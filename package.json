@@ -47,8 +47,8 @@
     "vl-ui-select": "^4.1.3"
   },
   "devDependencies": {
-    "vl-ui-button": "^5.0.6",
     "vl-ui-body": "^1.0.4",
-    "vl-ui-util": "^5.2.13"
+    "vl-ui-button": "^5.0.6",
+    "vl-ui-util": "^5.2.14"
   }
 }
