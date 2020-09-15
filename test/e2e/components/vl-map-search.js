@@ -3,16 +3,6 @@ const {VlSelect} = require('vl-ui-select').Test;
 const {By} = require('vl-ui-core').Test.Setup;
 
 class VlMapSearch extends VlElement {
-  async _getSearch() {
-    return this.shadowRoot;
-  }
-
-  async _getSelect() {
-    const search = await this._getSearch();
-    const select = await search.findElement(By.css('select[is="vl-select"]'));
-    return new VlSelect(this.driver, select);
-  }
-
   async open() {
     const select = await this._getSelect();
     await select.open();
@@ -27,20 +17,14 @@ class VlMapSearch extends VlElement {
     await this._waitForValues();
   }
 
-  async _waitForValues() {
-    const select = await this._getSelect();
-    await this.driver.wait(async () => {
-      if (await this.hasNoResults()) {
-        return true;
-      }
-      const values = await select.values();
-      return values.filter((value) => value != null).length > 0;
-    }, 3000);
-  }
-
   async hasNoResults() {
     const search = await this._getSearch();
-    return search.findElement(By.css('.vl-select__list > .has-no-results')).then(() => true).catch(() => false);
+    try {
+      await search.findElement(By.css('.vl-select__list > .has-no-results'));
+      return true;
+    } catch (error) {
+      return false;
+    }
   }
 
   async selectByIndex(index) {
@@ -57,6 +41,30 @@ class VlMapSearch extends VlElement {
     await this.open();
     await this.search(text);
     await this.selectByIndex(0);
+  }
+
+  async _getSearch() {
+    return this.shadowRoot;
+  }
+
+  async _getSelect() {
+    const search = await this._getSearch();
+    const select = await search.findElement(By.css('select[is="vl-select"]'));
+    return new VlSelect(this.driver, select);
+  }
+
+  async _waitForValues() {
+    const select = await this._getSelect();
+    try {
+      await this.driver.wait(async () => {
+        if (await this.hasNoResults()) {
+          return true;
+        } else {
+          const values = await select.values();
+          return values.filter((value) => value != null).length > 0;
+        }
+      }, 3000);
+    } catch (error) {}
   }
 }
 
