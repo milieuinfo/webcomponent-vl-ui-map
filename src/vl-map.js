@@ -34,12 +34,8 @@ export class VlMap extends vlElement(HTMLElement) {
           width: 100%;
         }
         
-        .ol-zoom, .ol-zoomslider, .ol-rotate {
+        .ol-zoom, .ol-rotate {
           margin-top: var(--vl-map--margin-top) !important;
-        }
-        
-        .ol-overlaycontainer-stopevent > .ol-zoom {
-          border-radius: 0;
         }
         
         .ol-overlaycontainer-stopevent > .ol-overviewmap {
@@ -60,14 +56,6 @@ export class VlMap extends vlElement(HTMLElement) {
         
         .ol-overlaycontainer-stopevent > .ol-control {
           margin-top: 0;
-        }
-        
-        .ol-overlaycontainer-stopevent > .ol-zoomslider {
-          background: none;
-        }
-        
-        .ol-overlaycontainer-stopevent > .ol-zoomslider .ol-zoomslider-thumb {
-          margin-bottom: 5px;
         }
       </style>
 
