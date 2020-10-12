@@ -71,7 +71,7 @@ class VlMap extends VlElement {
   async hasZoom(zoom) {
     return this.driver.wait(async () => {
       const currentZoom = await this.driver.executeScript(`return arguments[0].map.getView().getZoom()`, this);
-      return currentZoom === zoom;
+      return currentZoom >= zoom && currentZoom <= zoom + 1;
     }, 2000).then(() => true).catch(() => false);
   }
 

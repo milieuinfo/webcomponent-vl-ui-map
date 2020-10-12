@@ -8,6 +8,7 @@
 
     <script src="ol-util.js"></script>
     <script type="module" src="../../src/vl-map-all.js"></script>
+    <script src="/node_modules/sinon/pkg/sinon.js"></script>
 </head>
 
 <body>
@@ -43,9 +44,11 @@
     </template>
 </test-fixture>
 
-<script>
+<script type="module">
+    import {VlCustomMap, VlSelectAction, VlMapWithActions, OlLayerGroup} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
+
     suite('vl-map', () => {
-      const sandbox = sinon.sandbox.create();
+      const sandbox = sinon.createSandbox();
 
       setup(() => {
         return new Promise((resolve) => {
@@ -60,49 +63,6 @@
 
       teardown(() => {
         sandbox.restore();
-      });
-
-      test('kaart configuratie controle', () => {
-        const initializeViewSpy = sandbox.spy();
-        sandbox.stub(acd.ol, 'CustomMap').returns({
-          initializeView: initializeViewSpy,
-          addAction: sandbox.spy(),
-          activateDefaultAction: sandbox.spy(),
-          updateSize: sandbox.spy(),
-        });
-
-        const dummyLayerGroup1 = OpenLayersUtil.createDummyLayerGroup('dummy_layer_group_1');
-        const dummyLayerGroup2 = OpenLayersUtil.createDummyLayerGroup('dummy_layer_group_2');
-
-        const stub = sandbox.stub(ol.layer, 'Group');
-        stub.onCall(0).returns(dummyLayerGroup1);
-        stub.onCall(1).returns(dummyLayerGroup2);
-
-        fixture('vl-map-fixture');
-
-        assert(acd.ol.CustomMap.calledWith(sandbox.match.has('actions', sinon.match.array)));
-        assert(acd.ol.CustomMap.calledWith(sinon.match.has('disableEscapeKey', false)));
-        assert(acd.ol.CustomMap.calledWith(sinon.match.has('projection', sinon.match.object)));
-        assert(acd.ol.CustomMap.calledWith(sinon.match.has('target', sinon.match.any)));
-
-        const actionsArg = acd.ol.CustomMap.args[0][0]['actions'];
-        const customLayersArg = acd.ol.CustomMap.args[0][0]['customLayers'];
-        const targetArg = acd.ol.CustomMap.args[0][0]['target'];
-
-        const baseLayerGroupArg = customLayersArg['baseLayerGroup'];
-        const overviewMapLayersArg = customLayersArg['overviewMapLayers'];
-        const overlayGroupArg = customLayersArg['overlayGroup'];
-
-        assert.lengthOf(actionsArg, 0);
-
-        assert.equal(baseLayerGroupArg, dummyLayerGroup1);
-        assert.equal(overlayGroupArg, dummyLayerGroup2);
-
-        assert.lengthOf(overviewMapLayersArg, 0);
-
-        assert.equal(targetArg.id, 'map');
-
-        assert(initializeViewSpy.called);
       });
 
       test('de Lambert 31370 projectie wordt correct gedefinieerd', () => {
@@ -132,7 +92,7 @@
         const layerGroup = element.__createLayerGroup(title, layers);
         const properties = layerGroup.getProperties();
         const layerGroupLayers = layerGroup.getLayers().getArray();
-        assert.isTrue(layerGroup instanceof ol.layer.Group);
+        assert.isTrue(layerGroup instanceof OlLayerGroup);
         assert.equal(properties.title, title);
         assert.deepEqual(layerGroupLayers, layers);
       });
@@ -140,65 +100,10 @@
       test('er kan een actie toegevoegd worden aan de kaart', () => {
         const element = fixture('vl-map-fixture');
         const map = element.map;
-        const actie = new acd.ol.action.SelectAction();
-        sandbox.spy(acd.ol.MapWithActions.prototype, 'activateAction');
+        const actie = new VlSelectAction();
+        sandbox.spy(VlMapWithActions.prototype, 'activateAction');
         map.addAction(actie);
-        assert(acd.ol.MapWithActions.prototype.activateAction);
-      });
-
-      test('indien gewenst kan de escape key functionaliteit uitgeschakeld worden', () => {
-        sandbox.stub(acd.ol, 'CustomMap').returns({
-          initializeView: sandbox.spy(),
-          addAction: sandbox.spy(),
-          activateDefaultAction: sandbox.spy(),
-          updateSize: sandbox.spy(),
-        });
-        fixture('vl-map-disable-escape-key-fixture');
-        assert(acd.ol.CustomMap.calledWith(sinon.match.has('disableEscapeKey', true)));
-      });
-
-      test('indien gewenst kan de draai functionaliteit uitgeschakeld worden', () => {
-        sandbox.stub(acd.ol, 'CustomMap').returns({
-          initializeView: sandbox.spy(),
-          addAction: sandbox.spy(),
-          activateDefaultAction: sandbox.spy(),
-          updateSize: sandbox.spy(),
-        });
-        fixture('vl-map-disable-rotation-fixture');
-        assert(acd.ol.CustomMap.calledWith(sinon.match.has('disableRotation', true)));
-      });
-
-      test('indien gewenst kan de mouse wheel zoom functionaliteit uitgeschakeld worden', () => {
-        sandbox.stub(acd.ol, 'CustomMap').returns({
-          initializeView: sandbox.spy(),
-          addAction: sandbox.spy(),
-          activateDefaultAction: sandbox.spy(),
-          updateSize: sandbox.spy(),
-        });
-        fixture('vl-map-disable-mouse-wheel-zoom-fixture');
-        assert(acd.ol.CustomMap.calledWith(sinon.match.has('disableMouseWheelZoom', true)));
-      });
-
-      test('wanneer de pagina volledig ingeladen is, wordt de grootte van de kaart en overview kaart geupdate', () => {
-        const updateMapSizeSpy = sandbox.spy();
-        const updateOverviewMapSizeSpy = sandbox.spy();
-        sandbox.stub(acd.ol, 'CustomMap', () => {
-          return {
-            initializeView: () => {},
-            updateSize: updateMapSizeSpy,
-            overviewMapControl: {
-              getOverviewMap: () => {
-                return {
-                  updateSize: updateOverviewMapSizeSpy,
-                };
-              },
-            },
-          };
-        });
-
-        fixture('vl-map-fixture');
-        assert(updateMapSizeSpy.called);
-        assert(updateOverviewMapSizeSpy.called);
+        assert(VlMapWithActions.prototype.activateAction);
       });
 
       test('er kan gezoomd worden naar een bounding box', () => {

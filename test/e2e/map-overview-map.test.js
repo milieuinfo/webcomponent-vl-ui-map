@@ -9,13 +9,13 @@ describe('vl-map-overview-map', async () => {
     return vlMapPage.load();
   });
 
-  it('Als gebruiker zie ik dat de overviewmap wordt gerenderd', async () => {
+  it('als gebruiker zie ik dat de overviewmap wordt gerenderd', async () => {
     const map = await vlMapPage.getMap();
 
     await assert.eventually.isDefined(map.getOverviewMap());
   });
 
-  it('Als gebruiker kan ik kan tussen de basiskaartlagen switchen', async () => {
+  it('als gebruiker kan ik kan tussen de basiskaartlagen switchen', async () => {
     const map = await vlMapPage.getMap();
     await assert.eventually.equal(map.getActiveBaseLayerTitle(), 'GRB basis laag grijs');
     const overviewMap = await map.getOverviewMap();
