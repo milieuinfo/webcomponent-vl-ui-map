@@ -8,6 +8,7 @@
 
   <script src="ol-util.js"></script>
   <script type="module" src="../../src/vl-map-all.js"></script>
+  <script src="/node_modules/sinon/pkg/sinon.js"></script>
 </head>
 
 <body>
@@ -80,7 +81,7 @@
     import {isEqual} from '/node_modules/lodash-es/lodash.js';
 
     suite('vl-map-layer', () => {
-      const sandbox = sinon.sandbox.create();
+      const sandbox = sinon.createSandbox();
       const should = chai.should();
       let geoJSON;
 

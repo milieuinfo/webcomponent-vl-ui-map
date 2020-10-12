@@ -1,4 +1,5 @@
 import {vlElement} from '/node_modules/vl-ui-core/dist/vl-core.js';
+import {OlWMTSSource, OlWMTSTileGrid, OlVectorSource, OlVectorLayer, OlTileLayer, OlGeoJSON, OlStyle, OlStyleStroke, OlStyleFill, OlExtent, OlLoadingstrategy} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
 
 /**
  * VlMapBaseLayer
@@ -86,7 +87,7 @@ export class VlMapBaseLayer extends vlElement(HTMLElement) {
   }
 
   _createWMTSSource() {
-    const size = ol.extent.getWidth(this._projection.getExtent()) / 256;
+    const size = OlExtent.getWidth(this._projection.getExtent()) / 256;
     const resolutions = new Array(16);
     const matrixIds = new Array(16);
     for (let z = 0; z < 16; ++z) {
@@ -94,15 +95,15 @@ export class VlMapBaseLayer extends vlElement(HTMLElement) {
       matrixIds[z] = z;
     }
 
-    return new ol.source.WMTS({
+    return new OlWMTSSource({
       url: this.url,
       layer: this.layer,
       matrixSet: 'BPL72VL',
       format: 'image/png',
       projection: this._projection,
-      tileGrid: new ol.tilegrid.WMTS({
+      tileGrid: new OlWMTSTileGrid({
         extent: this._projection.getExtent(),
-        origin: ol.extent.getTopLeft(this._projection.getExtent()),
+        origin: OlExtent.getTopLeft(this._projection.getExtent()),
         resolutions: resolutions,
         matrixIds: matrixIds,
       }),
@@ -112,34 +113,34 @@ export class VlMapBaseLayer extends vlElement(HTMLElement) {
 
   _createVectorSource() {
     const self = this;
-    return new ol.source.Vector({
-      format: new ol.format.GeoJSON({
+    return new OlVectorSource({
+      format: new OlGeoJSON({
         defaultDataProjection: self._projection,
       }),
       url: function() {
         return self.url + '&typeName=' + self.layer;
       },
-      strategy: ol.loadingstrategy.bbox,
+      strategy: OlLoadingstrategy.bbox,
     });
   }
 
   _createBaseLayer() {
     switch (this.type) {
       case 'wmts':
-        return new ol.layer.Tile({
+        return new OlTileLayer({
           title: this.title,
           type: 'base',
           source: this._WMTSSource,
         });
       case 'wfs':
-        return new ol.layer.Vector({
+        return new OlVectorLayer({
           source: this._vectorSource,
-          style: new ol.style.Style({
-            stroke: new ol.style.Stroke({
+          style: new OlStyle({
+            stroke: new OlStyleStroke({
               color: 'rgba(0, 0, 0, 1.0)',
               width: 1,
             }),
-            fill: new ol.style.Fill({
+            fill: new OlStyleFill({
               color: 'rgba(255, 0, 0, 1.0)',
             }),
           }),

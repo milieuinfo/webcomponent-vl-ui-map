@@ -1,4 +1,5 @@
 import {vlElement} from '/node_modules/vl-ui-core/dist/vl-core.js';
+import {OlGeoJSON, OlVectorLayer, OlVectorSource, OlClusterSource, OlPoint} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
 
 /**
  * VlMapLayer
@@ -26,7 +27,7 @@ export class VlMapLayer extends vlElement(HTMLElement) {
   constructor() {
     super();
     VlMapLayer._counter = 0;
-    this.__geoJSON = new ol.format.GeoJSON();
+    this.__geoJSON = new OlGeoJSON();
     this.__counter = ++VlMapLayer._counter;
   }
 
@@ -219,7 +220,7 @@ export class VlMapLayer extends vlElement(HTMLElement) {
   }
 
   __createLayer(title, features) {
-    const layer = new ol.layer.Vector({
+    const layer = new OlVectorLayer({
       title: title,
       source: this.__createSource(features),
       updateWhileAnimating: true,
@@ -230,19 +231,19 @@ export class VlMapLayer extends vlElement(HTMLElement) {
   }
 
   __createSource(features) {
-    this._source = new ol.source.Vector({
+    this._source = new OlVectorSource({
       features: features,
     });
     return this._cluster ? this.__createClusterSource(this._source) : this._source;
   }
 
   __createClusterSource(source) {
-    return new ol.source.Cluster({
+    return new OlClusterSource({
       distance: this._clusterDistance,
       source: source,
       geometryFunction: (feature) => {
         const geometry = feature.getGeometry();
-        if (geometry instanceof ol.geom.Point) {
+        if (geometry instanceof OlPoint) {
           return geometry;
         } else {
           return this.__negeerClustering();
