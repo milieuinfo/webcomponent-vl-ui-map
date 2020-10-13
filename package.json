@@ -37,14 +37,14 @@
     "demo": "http-server"
   },
   "dependencies": {
-    "vl-mapactions": "github:milieuinfo/vl-mapactions#map-search",
-    "vl-ui-core": "^6.0.0",
+    "vl-mapactions": "milieuinfo/vl-mapactions#map-search",
+    "vl-ui-core": "milieuinfo/vl-ui-core#i18n",
     "vl-ui-search": "^1.1.0",
     "vl-ui-select": "^4.1.4"
   },
   "peerDependencies": {
     "vl-mapactions": "milieuinfo/vl-mapactions#map-search",
-    "vl-ui-core": "^6.0.0",
+    "vl-ui-core": "milieuinfo/vl-ui-core#i18n",
     "vl-ui-search": "^1.1.0",
     "vl-ui-select": "^4.1.3"
   },
