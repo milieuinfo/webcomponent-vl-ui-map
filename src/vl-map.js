@@ -21,6 +21,12 @@ export class VlMap extends vlElement(HTMLElement) {
     super(`
       <style>
         @import "/src/style.css";
+
+        :host {
+          display: none;
+          position: relative;
+          --vl-map--margin-top: 0px;
+        }
       </style>
       <div id="map"></div>
     `);
@@ -35,6 +41,15 @@ export class VlMap extends vlElement(HTMLElement) {
    */
   get ready() {
     return this.__ready;
+  }
+
+  /**
+   * Geeft het overlay container element terug.
+   *
+   * @return {HTMLElement}
+   */
+  get overlayContainerElement() {
+    return this._shadow.querySelector('.ol-overlaycontainer-stopevent');
   }
 
   __prepareReadyPromises() {

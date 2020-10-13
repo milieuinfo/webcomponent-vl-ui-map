@@ -6,7 +6,6 @@
   <script src="../../../@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
   <script src="../../../web-component-tester/browser.js"></script>
 
-  <script src="ol-util.js"></script>
   <script type="module" src="../../src/vl-map-all.js"></script>
   <script src="/node_modules/sinon/pkg/sinon.js"></script>
 </head>
@@ -97,7 +96,7 @@
         assert.equal(source.getLayer(), 'layername_2');
         assert.equal(source.getMatrixSet(), 'BPL72VL');
         assert.equal(source.getFormat(), 'image/png');
-        assert.deepEqual(source.getProjection(), vlMapBaseLayerElement._projection);
+        assert.equal(JSON.stringify(source.getProjection()), JSON.stringify(vlMapBaseLayerElement._projection));
         assert.equal(source.getStyle(), '');
 
         const tileGrid = source.getTileGrid();

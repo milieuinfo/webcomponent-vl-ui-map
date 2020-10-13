@@ -158,7 +158,7 @@ export class VlMapLayer extends vlElement(HTMLElement) {
    * Geeft de feature terug op basis van het id attribuut.
    *
    * @param {number} id
-   * @return {boolean}
+   * @return {Object}
    */
   getFeature(id) {
     if (this._source && this._source.getFeatures()) {

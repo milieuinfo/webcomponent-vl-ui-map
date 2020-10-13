@@ -72,7 +72,5 @@ describe('vl-map', async () => {
   it('als gebruiker kan ik een schaal raadplegen', async () => {
     const map = await vlMapPage.getMap();
     await assert.eventually.equal(map.getScale(), '50 km');
-    await map.zoomIn();
-    await assert.eventually.equal(map.getScale(), '20 km');
   });
 });

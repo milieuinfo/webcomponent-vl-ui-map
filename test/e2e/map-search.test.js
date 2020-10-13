@@ -29,6 +29,16 @@ describe('vl-map-search', async () => {
     await assert.eventually.isTrue(map.hasZoom(5));
   });
 
+  it('als gebruiker kan ik zoeken met de zoekfunctionaliteit maar als er niets gevonden werd zijn er geen opties', async () => {
+    const map = await vlMapPage.getMap();
+    const search = await map.getSearch();
+
+    await search.open();
+    await search.search('Foobar');
+
+    await assert.eventually.isTrue(search.hasNoResults());
+  });
+
   it('als gebruiker zie ik dat de kaart gezoomd is nadat ik de zoekfunctionaliteit gebruik waarbij die pas achteraf gekoppeld werd met de kaart', async () => {
     const map = await vlMapPage.getBindMap();
     const search = await vlMapPage.getBindMapSearch();

@@ -1,5 +1,6 @@
 import {vlElement} from '/node_modules/vl-ui-core/dist/vl-core.js';
 import '/node_modules/vl-ui-select/dist/vl-select.js';
+import '/node_modules/vl-ui-search/dist/vl-search.js';
 
 /**
  * VlMapSearch

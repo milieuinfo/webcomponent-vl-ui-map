@@ -6,7 +6,6 @@
   <script src="../../../@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
   <script src="../../../web-component-tester/browser.js"></script>
 
-  <script src="ol-util.js"></script>
   <script type="module" src="../../src/vl-map-all.js"></script>
   <script src="/node_modules/sinon/pkg/sinon.js"></script>
 </head>
@@ -54,10 +53,14 @@
         sandbox.restore();
       });
 
-      test('bevat een select element met correcte configuratie', (done) => {
+      test('bevat een search element met correct geconfigureerd select element als input slot in', (done) => {
         const element = fixture('vl-map-search-fixture');
-        customElements.whenDefined('vl-select').then(() => {
-          const selectElement = element.shadowRoot.querySelector('select');
+        customElements.whenDefined('vl-search').then(() => {
+          const searchElement = element.shadowRoot.querySelector('vl-search');
+          should.exist(searchElement);
+          assert.isDefined(searchElement.getAttribute('data-vl-inline'));
+
+          const selectElement = searchElement.querySelector('select');
           should.exist(selectElement);
           assert.equal(selectElement.getAttribute('is'), 'vl-select');
           assert.isDefined(selectElement.getAttribute('data-vl-select'));

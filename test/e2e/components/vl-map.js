@@ -35,7 +35,10 @@ class VlMap extends VlElement {
   }
 
   async getActiveBaseLayerTitle() {
-    return this.driver.executeScript(`return arguments[0].map.baseLayers.find((layer) => { return layer.getVisible(); }).get('title')`, this);
+    return this.driver.executeScript(`
+        return arguments[0].map.baseLayers.find((layer) => {
+            return layer.getVisible();
+        }).get('title')`, this);
   }
 
   async hasSearch() {
@@ -68,7 +71,8 @@ class VlMap extends VlElement {
   }
 
   async clickOnCoordinates(coordinates) {
-    const pixels = await this.driver.executeScript(`return arguments[0].map.getPixelFromCoordinate(${JSON.stringify(coordinates)})`, this);
+    const pixels = await this.driver.executeScript(
+        `return arguments[0].map.getPixelFromCoordinate(${JSON.stringify(coordinates)})`, this);
     const rect = await this.getRect();
     await this.driver.actions().move({
       origin: this,

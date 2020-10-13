@@ -1,5 +1,7 @@
 import {vlElement} from '/node_modules/vl-ui-core/dist/vl-core.js';
 import '/node_modules/vl-ui-select/dist/vl-select.js';
+import '/node_modules/vl-ui-search/dist/vl-search.js';
+import {OlOverlay} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
 
 /**
  * VlMapSearch
@@ -17,14 +19,15 @@ export class VlMapSearch extends vlElement(HTMLElement) {
     super(`
       <style>
         @import '/node_modules/vl-ui-select/dist/style.css';
+        @import '/node_modules/vl-ui-search/dist/style.css';
       </style>
+      <vl-search id="search" data-vl-inline>
+        <select is="vl-select" data-vl-select block data-vl-select-search-empty-text="Geen adres gevonden" slot="input"></select>
+      </vl-search>
     `);
     this._configure();
-    customElements.whenDefined('vl-select').then(() => {
-      this._shadow.appendChild(this._getSelectTemplate());
-      this._addSearchEventListener();
-      this._addChoiceEventListener();
-    });
+    this._addSearchEventListener();
+    this._addChoiceEventListener();
   }
 
   get url() {
@@ -52,12 +55,6 @@ export class VlMapSearch extends vlElement(HTMLElement) {
   bindMap(map) {
     this._map = map;
   }
-
-  _getSelectTemplate() {
-    return this._template(`
-      <select is="vl-select" id="test" data-vl-select data-vl-select-deletable data-vl-select-search-empty-text="Geen adres gevonden"></select>
-    `);
-  };
 
   _addSearchEventListener() {
     if (!this.__searchEventListenerRegistered) {
@@ -108,9 +105,11 @@ export class VlMapSearch extends vlElement(HTMLElement) {
   _configure() {
     customElements.whenDefined('vl-map').then(() => {
       if (this.parentNode && this.parentNode.map) {
-        this.parentNode._shadow.prepend(this);
-        this.parentNode.host.style.setProperty('--vl-map--margin-top', '35px');
-        this._map = this._parentElement;
+        this._map = this.parentNode._shadow.host;
+        this._map.map.addOverlay(new OlOverlay({
+          className: 'vl-map-search__overlaycontainer',
+          element: this,
+        }));
       }
     });
   }
