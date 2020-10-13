@@ -178,6 +178,43 @@
           element.shadowRoot.querySelector('vl-map-search')._selectElement.dispatchEvent(new CustomEvent('choice', {detail: {choice: {value: 'test'}}}));
         });
       });
+
+      test('er zijn default placeholders voor het zoek adres select element', () => {
+        const element = fixture('vl-map-search-fixture');
+        assert.equal(element._placeholderElement.innerText, 'Lokaliseer adres');
+        assert.equal(element.getTranslation('select.search_placeholder_value'), 'Gemeente, straat en huisnummer');
+        assert.equal(element._selectElement.getAttribute('data-vl-select-search-empty-text'), 'Geen adres gevonden');
+        assert.equal(element.getTranslation('select.no_more_options'), 'Geen adres gevonden');
+      });
+
+      test('de default placeholders van het zoek adres select element kunnen gewijzigd worden', () => {
+        const element = fixture('vl-map-search-fixture');
+        let text1 = 'Nieuwe tekst 1';
+        let text2 = 'Nieuwe tekst 2';
+        let text3 = 'Nieuwe tekst 3';
+        let text4 = 'Nieuwe tekst 4';
+        element.setAttribute('data-vl-placeholder', text1);
+        element.setAttribute('data-vl-search-placeholder', text2);
+        element.setAttribute('data-vl-search-empty-text', text3);
+        element.setAttribute('data-vl-search-no-results-text', text4);
+        assert.equal(element._placeholderElement.innerText, text1);
+        assert.equal(element.getTranslation('select.search_placeholder_value'), text2);
+        assert.equal(element._selectElement.getAttribute('data-vl-select-search-empty-text'), text3);
+        assert.equal(element.getTranslation('select.no_more_options'), text4);
+
+        text1 = 'Splinternieuwe tekst 1';
+        text2 = 'Splinternieuwe tekst 2';
+        text3 = 'Splinternieuwe tekst 3';
+        text4 = 'Splinternieuwe tekst 4';
+        element.placeholder = text1;
+        element.searchPlaceholder = text2;
+        element.searchEmptyText = text3;
+        element.searchNoResultsText = text4;
+        assert.equal(element._placeholderElement.innerText, text1);
+        assert.equal(element.getTranslation('select.search_placeholder_value'), text2);
+        assert.equal(element._selectElement.getAttribute('data-vl-select-search-empty-text'), text3);
+        assert.equal(element.getTranslation('select.no_more_options'), text4);
+      });
     });
   </script>
 </body>
