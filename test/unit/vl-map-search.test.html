@@ -165,6 +165,19 @@
           });
         });
       });
+
+      test('on select callback wordt aangeroepen', (done) => {
+        const response = new Promise((resolve, reject) => {
+          resolve(new Response(JSON.stringify({LocationResult: [1, 2, 3, 4]}), {status: 200}));
+        });
+        const stub = sandbox.stub(window, 'fetch');
+        stub.returns(response);
+        const element = fixture('vl-map-with-search-fixture');
+        Promise.all([customElements.whenDefined('vl-map-search'), customElements.whenDefined('vl-select')]).then(() => {
+          element.shadowRoot.querySelector('vl-map-search').onSelect(() => done());
+          element.shadowRoot.querySelector('vl-map-search')._selectElement.dispatchEvent(new CustomEvent('choice', {detail: {choice: {value: 'test'}}}));
+        });
+      });
     });
   </script>
 </body>

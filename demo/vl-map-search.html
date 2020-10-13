@@ -24,7 +24,7 @@
       </vl-map>
     </vl-demo>
 
-    <vl-demo data-vl-title="Een vl-map-search element en een vl-map element handmatig te koppelen.">
+    <vl-demo data-vl-title="Handmatige koppeling afzonderlijke adres zoek functionaliteit">
       <vl-map-search id="bind-map-search"></vl-map-search>
       <br/>
       <br/>
@@ -34,6 +34,29 @@
         <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
       </vl-map>
       <button id="bind-map-button" is="vl-button" type="button" onclick="document.querySelector('#bind-map-search').bindMap(document.querySelector('#bind-map'))" slot="actions">Koppel zoekbalk aan kaart</button>
+    </vl-demo>
+
+    <vl-demo data-vl-title="Callback bij adres selectie">
+      <vl-map id="vl-map-select-callback">
+        <vl-map-search id="vl-map-search-select-callback"></vl-map-search>
+          <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
+          <vl-map-baselayer-grb></vl-map-baselayer-grb>
+          <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
+        </vl-map>
+        <script>
+          Promise.all([
+            customElements.whenDefined('vl-map'),
+            customElements.whenDefined('vl-map-search')]).then(() => {
+            document.querySelector('#vl-map-search-select-callback').onSelect((data) => {
+              document.querySelector('#vl-map-select-callback').zoomTo([
+                data.LocationResult[0].BoundingBox.LowerLeft.X_Lambert72,
+                data.LocationResult[0].BoundingBox.LowerLeft.Y_Lambert72,
+                data.LocationResult[0].BoundingBox.UpperRight.X_Lambert72,
+                data.LocationResult[0].BoundingBox.UpperRight.Y_Lambert72,
+              ]);
+            });
+          });
+        </script>
     </vl-demo>
   </vl-demo-page>
 </body>
