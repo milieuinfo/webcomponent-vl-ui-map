@@ -13,10 +13,7 @@
     "npm": true,
     "plugins": {
       "local": false,
-      "sauce": false,    
-        "xunit-reporter": {
-            "output": "../../test/wct-results.xml"
-          }
+      "sauce": false
     },
     "suites": ["test/unit/*.test.html"],
     "webserver": {

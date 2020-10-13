@@ -96,7 +96,7 @@
         assert.equal(source.getLayer(), 'layername_2');
         assert.equal(source.getMatrixSet(), 'BPL72VL');
         assert.equal(source.getFormat(), 'image/png');
-        assert.deepEqual(source.getProjection(), vlMapBaseLayerElement._projection);
+        assert.equal(JSON.stringify(source.getProjection()), JSON.stringify(vlMapBaseLayerElement._projection));
         assert.equal(source.getStyle(), '');
 
         const tileGrid = source.getTileGrid();

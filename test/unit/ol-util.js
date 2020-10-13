@@ -1,4 +1,4 @@
-class OpenLayersUtil {
+export class OpenLayersUtil {
   static createDummyLayer(id, source) {
     return {
       id: id,

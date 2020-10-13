@@ -44,21 +44,11 @@
 </test-fixture>
 
 <script type="module">
-    import {VlSelectAction, VlMapWithActions, OlLayerGroup} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
+  import {VlSelectAction, VlMapWithActions, OlLayerGroup} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
+  import {OpenLayersUtil} from './ol-util.js';
 
-    suite('vl-map', () => {
-      const sandbox = sinon.createSandbox();
-
-      setup(() => {
-        return new Promise((resolve) => {
-          const wait = () => {
-            if (!!customElements.get('vl-map')) {
-              resolve();
-            }
-          };
-          setInterval(wait, 500);
-        });
-      });
+  suite('vl-map', () => {
+    const sandbox = sinon.createSandbox();
 
     setup(() => {
       return new Promise((resolve) => {
@@ -71,11 +61,11 @@
       });
     });
 
-      test('de Lambert 31370 projectie wordt correct gedefinieerd', () => {
-        sandbox.spy(proj4, 'defs');
-        fixture('vl-map-fixture');
-        assert(proj4.defs.calledWith('EPSG:31370', '+proj=lcc +lat_1=51.16666723333333 +lat_2=49.8333339 +lat_0=90 +lon_0=4.367486666666666 +x_0=150000.013 +y_0=5400088.438 +ellps=intl +towgs84=-106.869,52.2978,-103.724,0.3366,-0.457,1.8422,-1.2747 +units=m +no_defs'));
-      });
+    test('de Lambert 31370 projectie wordt correct gedefinieerd', () => {
+      sandbox.spy(proj4, 'defs');
+      fixture('vl-map-fixture');
+      assert(proj4.defs.calledWith('EPSG:31370', '+proj=lcc +lat_1=51.16666723333333 +lat_2=49.8333339 +lat_0=90 +lon_0=4.367486666666666 +x_0=150000.013 +y_0=5400088.438 +ellps=intl +towgs84=-106.869,52.2978,-103.724,0.3366,-0.457,1.8422,-1.2747 +units=m +no_defs'));
+    });
 
     test('de extent bevat Vlaanderen', () => {
       const element = fixture('vl-map-fixture');
@@ -89,32 +79,27 @@
       assert.deepEqual(element._map.getView().getCenter(), [140860.69299028325, 190532.7165957574]);
     });
 
-      test('kan een lagen groep aanmaken', () => {
-        const element = fixture('vl-map-fixture');
-        const title = 'title';
-        const layer1 = OpenLayersUtil.createDummyLayer('layer 1');
-        const layer2 = OpenLayersUtil.createDummyLayer('layer 2');
-        const layers = [layer1, layer2];
-        const layerGroup = element.__createLayerGroup(title, layers);
-        const properties = layerGroup.getProperties();
-        const layerGroupLayers = layerGroup.getLayers().getArray();
-        assert.isTrue(layerGroup instanceof OlLayerGroup);
-        assert.equal(properties.title, title);
-        assert.deepEqual(layerGroupLayers, layers);
-      });
+    test('kan een lagen groep aanmaken', () => {
+      const element = fixture('vl-map-fixture');
+      const title = 'title';
+      const layer1 = OpenLayersUtil.createDummyLayer('layer 1');
+      const layer2 = OpenLayersUtil.createDummyLayer('layer 2');
+      const layers = [layer1, layer2];
+      const layerGroup = element.__createLayerGroup(title, layers);
+      const properties = layerGroup.getProperties();
+      const layerGroupLayers = layerGroup.getLayers().getArray();
+      assert.isTrue(layerGroup instanceof OlLayerGroup);
+      assert.equal(properties.title, title);
+      assert.deepEqual(layerGroupLayers, layers);
+    });
 
-      test('er kan een actie toegevoegd worden aan de kaart', () => {
-        const element = fixture('vl-map-fixture');
-        const map = element.map;
-        const actie = new VlSelectAction();
-        sandbox.spy(VlMapWithActions.prototype, 'activateAction');
-        map.addAction(actie);
-        assert(VlMapWithActions.prototype.activateAction);
-      });
-
-      fixture('vl-map-fixture');
-      assert(updateMapSizeSpy.called);
-      assert(updateOverviewMapSizeSpy.called);
+    test('er kan een actie toegevoegd worden aan de kaart', () => {
+      const element = fixture('vl-map-fixture');
+      const map = element.map;
+      const actie = new VlSelectAction();
+      sandbox.spy(VlMapWithActions.prototype, 'activateAction');
+      map.addAction(actie);
+      assert(VlMapWithActions.prototype.activateAction);
     });
 
     test('er kan gezoomd worden naar een bounding box', () => {
