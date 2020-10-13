@@ -1,6 +1,7 @@
 import {vlElement} from '/node_modules/vl-ui-core/dist/vl-core.js';
 import '/node_modules/vl-ui-select/dist/vl-select.js';
 import '/node_modules/vl-ui-search/dist/vl-search.js';
+import {OlOverlay} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
 
 /**
  * VlMapSearch
@@ -19,7 +20,6 @@ export class VlMapSearch extends vlElement(HTMLElement) {
       <style>
         @import '/node_modules/vl-ui-select/dist/style.css';
         @import '/node_modules/vl-ui-search/dist/style.css';
-        @import '/src/style.css';
       </style>
       <vl-search id="search" data-vl-inline>
         <select is="vl-select" data-vl-select block data-vl-select-search-empty-text="Geen adres gevonden" slot="input"></select>
@@ -106,7 +106,10 @@ export class VlMapSearch extends vlElement(HTMLElement) {
     customElements.whenDefined('vl-map').then(() => {
       if (this.parentNode && this.parentNode.map) {
         this._map = this.parentNode._shadow.host;
-        this.parentNode.overlayContainerElement.prepend(this);
+        this._map.map.addOverlay(new OlOverlay({
+          className: 'vl-map-search__overlaycontainer',
+          element: this,
+        }));
       }
     });
   }

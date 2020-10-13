@@ -14,32 +14,36 @@
         margin-top: var(--vl-map--margin-top) !important;
     }
 
-    .ol-overlaycontainer-stopevent > vl-map-search {
-        position: absolute;
-        top: .5em;
-        left: .5em;
+    .vl-map-search__overlaycontainer {
+        display: initial !important;
         width: 100%;
-    }
 
-    .ol-overlaycontainer-stopevent > vl-map-search ~ .ol-zoom {
-        top: 3.5em;
-    }
-}
+        vl-map-search {
+            --vl-search-width: 100%;
+            
+            position: absolute;
+            margin: .5em;
+            box-sizing: border-box;
 
-#search {
-    @media screen and (max-width: $vl-bp-xsmall) {
-        --vl-search-width: 100%;
-    }
-    @media screen and (min-width: $vl-bp-xsmall) and (max-width: $vl-bp-small) {
-        --vl-search-width: 100%;
-    }
-    @media screen and (min-width: $vl-bp-small) and (max-width: $vl-bp-medium) {
-        --vl-search-width: 50%;
-    }
-    @media screen and (min-width: $vl-bp-medium) and (max-width: $vl-bp-large) {
-        --vl-search-width: 30%;
-    }
-    @media screen and (min-width: $vl-bp-large) {
-        --vl-search-width: 30%;
+            @media screen and (max-width: $vl-bp-xsmall) {
+                width: 100%;
+            }
+            @media screen and (min-width: $vl-bp-xsmall) and (max-width: $vl-bp-small) {
+                width: 100%;
+            }
+            @media screen and (min-width: $vl-bp-small) and (max-width: $vl-bp-medium) {
+                width: 50%;
+            }
+            @media screen and (min-width: $vl-bp-medium) and (max-width: $vl-bp-large) {
+                width: 50%;
+            }
+            @media screen and (min-width: $vl-bp-large) {
+                width: 50%;
+            }
+        }
+
+        ~ .ol-zoom {
+            top: 3.5em;
+        }
     }
 }
