@@ -14,9 +14,7 @@ import {VlMapLayerCircleStyle} from 'vl-ui-map/dist/vl-map-layer-circle-style.sr
 import {VlMapSearch} from 'vl-ui-map/dist/vl-map-search.src.js';
 
 Promise.all([
-  awaitScript('vl-map-openlayers', 'vl-mapactions/lib/openlayers/dist/ol.js'),
   awaitScript('vl-map-proj4', 'proj4/dist/proj4.js'),
-  awaitScript('vl-map-mapactions', 'vl-mapactions/dist/mapactions-min.js'),
 ]).then(() => {
   define('vl-map', VlMap);
   define('vl-map-overview-map', VlMapOverviewMap);

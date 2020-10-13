@@ -7,6 +7,7 @@
   <script src="../../../web-component-tester/browser.js"></script>
 
   <script type="module" src="../../src/vl-map-all.js"></script>
+  <script src="/node_modules/sinon/pkg/sinon.js"></script>
 </head>
 
 <body>
@@ -19,9 +20,8 @@
   </test-fixture>
   
   <script type="module">
-
     suite('vl-map-baselayer-grb-gray', () => {
-      const sandbox = sinon.sandbox.create();
+      const sandbox = sinon.createSandbox();
 
       setup((done) => {
         customElements.whenDefined('vl-map-baselayer-grb-gray').then(() => done());

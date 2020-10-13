@@ -7,6 +7,7 @@
   <script src="../../../web-component-tester/browser.js"></script>
 
   <script type="module" src="../../src/vl-map-all.js"></script>
+  <script src="/node_modules/sinon/pkg/sinon.js"></script>
 </head>
 
 <body>
@@ -79,7 +80,7 @@
     import {isEqual} from '/node_modules/lodash-es/lodash.js';
 
     suite('vl-map-layer', () => {
-      const sandbox = sinon.sandbox.create();
+      const sandbox = sinon.createSandbox();
       const should = chai.should();
       let geoJSON;
 
@@ -198,6 +199,7 @@
     
       test('kan de boundingbox opvragen van de features op de laag', () => {
         const element = fixture('vl-map-layer-fixture');
+        new ol.Feature();
         const extent = sandbox.spy();
         element.setAttribute('features', '{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[147055,197908]},"properties":null},{"type":"Feature","geometry":{"type":"Point","coordinates":[157055,207908]},"properties":null}]}');
 

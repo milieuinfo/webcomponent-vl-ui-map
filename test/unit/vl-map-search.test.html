@@ -7,6 +7,7 @@
   <script src="../../../web-component-tester/browser.js"></script>
 
   <script type="module" src="../../src/vl-map-all.js"></script>
+  <script src="/node_modules/sinon/pkg/sinon.js"></script>
 </head>
 
 <body>
@@ -34,7 +35,7 @@
 
   <script>
     suite('vl-map-search', () => {
-      const sandbox = sinon.sandbox.create();
+      const sandbox = sinon.createSandbox();
       const should = chai.should();
 
       setup(() => {

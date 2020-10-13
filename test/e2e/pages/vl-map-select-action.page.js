@@ -5,18 +5,6 @@ const {Page, Config} = require('vl-ui-core').Test;
 const {By} = require('vl-ui-core').Test.Setup;
 
 class VlMapSelectActionPage extends Page {
-  async _getSelectAction(selector) {
-    return new VlMapSelectAction(this.driver, selector);
-  }
-
-  async _getLayer(selector) {
-    return new VlMapLayer(this.driver, selector);
-  }
-
-  async _getMap(selector) {
-    return new VlMap(this.driver, selector);
-  }
-
   async getSelectAction() {
     return this._getSelectAction('#select-action');
   }
@@ -36,8 +24,7 @@ class VlMapSelectActionPage extends Page {
     const selectAction = await this.getSelectAction();
     return this.driver.wait(async () => {
       const selectedId = await this.driver.executeScript(
-          `return arguments[0]._action.selectedFeature && arguments[0]._action.selectedFeature.getId()`,
-          selectAction);
+          `return arguments[0]._action.selectedFeature && arguments[0]._action.selectedFeature.getId()`, selectAction);
       return selectedId === id;
     }, 5000);
   }
@@ -49,6 +36,18 @@ class VlMapSelectActionPage extends Page {
 
   async load() {
     await super.load(Config.baseUrl + '/demo/vl-map-select-action.html');
+  }
+
+  async _getSelectAction(selector) {
+    return new VlMapSelectAction(this.driver, selector);
+  }
+
+  async _getLayer(selector) {
+    return new VlMapLayer(this.driver, selector);
+  }
+
+  async _getMap(selector) {
+    return new VlMap(this.driver, selector);
   }
 }
 
