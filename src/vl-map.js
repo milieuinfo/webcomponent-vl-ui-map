@@ -6,7 +6,8 @@ import {VlCustomMap, OlLayerGroup, OlProjection, OlGeoJSON} from '/node_modules/
  * @class
  * @classdesc De kaart component.
  *
- * @extends vlElement
+ * @extends HTMLElement
+ * @mixes vlElement
  *
  * @property {boolean} disable-escape-key - Attribuut wordt gebruikt om ervoor te zorgen dat de escape toets niet gebruikt kan worden.
  * @property {boolean} disable-rotation - Attribuut wordt gebruikt om ervoor te zorgen dat het niet mogelijk is om de kaart te draaien.
