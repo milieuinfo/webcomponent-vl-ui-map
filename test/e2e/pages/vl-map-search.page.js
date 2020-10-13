@@ -4,14 +4,6 @@ const {Page, Config} = require('vl-ui-core').Test;
 const {By} = require('vl-ui-core').Test.Setup;
 
 class VlMapSearchPage extends Page {
-  async _getMap(selector) {
-    return new VlMap(this.driver, selector);
-  }
-
-  async _getSearch(selector) {
-    return new VlMapSearch(this.driver, selector);
-  }
-
   async getMap() {
     return this._getMap('#map-with-search');
   }
@@ -31,6 +23,14 @@ class VlMapSearchPage extends Page {
 
   async load() {
     await super.load(Config.baseUrl + '/demo/vl-map-search.html');
+  }
+
+  async _getMap(selector) {
+    return new VlMap(this.driver, selector);
+  }
+
+  async _getSearch(selector) {
+    return new VlMapSearch(this.driver, selector);
   }
 }
 

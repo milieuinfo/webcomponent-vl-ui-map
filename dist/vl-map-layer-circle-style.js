@@ -1,4 +1,5 @@
 import {VlMapLayerStyle} from './vl-map-layer-style.js';
+import {OlStyle, OlStyleCircle, OlStyleStroke, OlStyleText, OlStyleFill} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
 
 /**
  * VlMapLayerCircleStyle
@@ -99,21 +100,21 @@ export class VlMapLayerCircleStyle extends VlMapLayerStyle {
         }
       }
 
-      return new ol.style.Style({
-        image: new ol.style.Circle({
-          fill: new ol.style.Fill({
+      return new OlStyle({
+        image: new OlStyleCircle({
+          fill: new OlStyleFill({
             color: kleur,
           }),
-          stroke: new ol.style.Stroke({
+          stroke: new OlStyleStroke({
             color: randKleur,
             width: randGrootte,
           }),
           radius: radius,
         }),
-        text: new ol.style.Text({
+        text: new OlStyleText({
           text: text,
           font: '12px Flanders Art',
-          fill: new ol.style.Fill({
+          fill: new OlStyleFill({
             color: textColor,
           }),
           offsetX: this.textOffsetX,

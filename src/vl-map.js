@@ -1,4 +1,5 @@
 import {vlElement} from '/node_modules/vl-ui-core/dist/vl-core.js';
+import {VlCustomMap, OlLayerGroup, OlProjection, OlGeoJSON} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
 
 /**
  * VlMap
@@ -21,55 +22,6 @@ export class VlMap extends vlElement(HTMLElement) {
       <style>
         @import "/src/style.css";
       </style>
-      <style>
-        :host {
-          display: none;
-          position: relative;
-          --vl-map--margin-top: 0px;
-        }
-        
-        #map {
-          height: calc(var(--vl-map-height, 500px) - var(--vl-map--margin-top)); 
-          width: 100%;
-        }
-        
-        .ol-zoom, .ol-zoomslider, .ol-rotate {
-          margin-top: var(--vl-map--margin-top) !important;
-        }
-        
-        .ol-overlaycontainer-stopevent > .ol-zoom {
-          border-radius: 0;
-        }
-        
-        .ol-overlaycontainer-stopevent > .ol-overviewmap {
-          border-radius: 0;
-          width: 100px;
-          height: 100px;
-        }
-        
-        .ol-overlaycontainer-stopevent > .ol-scale-line {
-          border-radius: 0;
-          background-color: white;
-        }
-        
-        .ol-overlaycontainer-stopevent > .ol-scale-line .ol-scale-line-inner {
-          border-color: black;
-          color: black;
-        }
-        
-        .ol-overlaycontainer-stopevent > .ol-control {
-          margin-top: 0;
-        }
-        
-        .ol-overlaycontainer-stopevent > .ol-zoomslider {
-          background: none;
-        }
-        
-        .ol-overlaycontainer-stopevent > .ol-zoomslider .ol-zoomslider-thumb {
-          margin-bottom: 5px;
-        }
-      </style>
-
       <div id="map"></div>
     `);
 
@@ -94,7 +46,7 @@ export class VlMap extends vlElement(HTMLElement) {
   /**
    * Geeft de OpenLayers map terug.
    *
-   * @Return {acd.ol.CustomMap}
+   * @Return {VlCustomMap}
    */
   get map() {
     return this._map;
@@ -114,7 +66,7 @@ export class VlMap extends vlElement(HTMLElement) {
 
   get _geoJSON() {
     if (!this.__geoJSON) {
-      this.__geoJSON = new ol.format.GeoJSON();
+      this.__geoJSON = new OlGeoJSON();
     }
     return this.__geoJSON;
   }
@@ -124,9 +76,10 @@ export class VlMap extends vlElement(HTMLElement) {
   }
 
   get _projection() {
-    return new ol.proj.Projection({
+    return new OlProjection({
       code: 'EPSG:31370',
       extent: this._extent,
+      getPointResolution: (r) => r,
     });
   }
 
@@ -137,7 +90,7 @@ export class VlMap extends vlElement(HTMLElement) {
   connectedCallback() {
     this.__initializeCoordinateSystem();
 
-    this._map = new acd.ol.CustomMap({
+    this._map = new VlCustomMap({
       actions: [],
       disableEscapeKey: this.disableEscapeKey,
       disableRotation: this.disableRotation,
@@ -198,7 +151,7 @@ export class VlMap extends vlElement(HTMLElement) {
   }
 
   __createLayerGroup(title, layers) {
-    return new ol.layer.Group({
+    return new OlLayerGroup({
       title: title,
       layers: layers,
     });

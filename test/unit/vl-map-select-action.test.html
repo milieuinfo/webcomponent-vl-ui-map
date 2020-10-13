@@ -8,6 +8,7 @@
 
   <script src="ol-util.js"></script>
   <script type="module" src="../../src/vl-map-all.js"></script>
+  <script src="/node_modules/sinon/pkg/sinon.js"></script>
 </head>
 
 <body>
@@ -30,10 +31,11 @@
   </test-fixture>
 
   <script type="module">
+    import {OlFeature, OlPoint} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
     import {VlMapSelectAction} from '../../src/vl-map-select-action.js';
 
     suite('selecteer-actie', () => {
-      const sandbox = sinon.sandbox.create();
+      const sandbox = sinon.createSandbox();
       let kaartlaag;
     
       setup(() => {
@@ -60,8 +62,6 @@
       });
     
       test('controle van de selecteer actie configuratie', () => {
-        sandbox.spy(acd.ol.action, 'SelectAction');
-
         const kaartElement = fixture('vl-map-select-action-fixture');
         const actionElement = kaartElement.querySelector('vl-map-select-action');
         const styleElement = kaartElement.querySelector('vl-map-layer-circle-style');
@@ -69,9 +69,9 @@
 
         actionElement.onSelect = onSelectie;
         actionElement.layer = kaartlaag;
-        const args = acd.ol.action.SelectAction.getCall(0).args;
-        assert.deepEqual(args[0], kaartlaag);
-        assert.deepEqual(args[2].style(), styleElement.style());
+        const action = kaartElement.map.actions[0];
+        assert.deepEqual(action.layer, kaartlaag);
+        assert.deepEqual(action.style(), styleElement.style());
       });
     
       test('er kunnen features op de kaart gemarkeerd worden', () => {
@@ -98,8 +98,8 @@
       test('er kan een feature op de kaart geselecteerd worden', () => {
         const kaartElement = fixture('vl-map-select-action-fixture');
         const actionElement = kaartElement.querySelector('vl-map-select-action');
-        const feature = new ol.Feature({
-          geometry: new ol.geom.Point([1, 1]),
+        const feature = new OlFeature({
+          geometry: new OlPoint([1, 1]),
         });
 
         actionElement.layer = kaartlaag;
@@ -119,16 +119,14 @@
       });
 
       test('het cluster attribuut wordt doorgegeven aan de select actie', () => {
-        sandbox.spy(acd.ol.action, 'SelectAction');
-
         const kaartElement = fixture('vl-map-select-action-fixture');
         const actionElement = kaartElement.querySelector('vl-map-select-action');
 
         actionElement.setAttribute('cluster', '');
         actionElement.layer = kaartlaag;
-        const args = acd.ol.action.SelectAction.getCall(0).args;
-        assert.deepEqual(args[0], kaartlaag);
-        assert.equal(args[2].cluster, true);
+        const action = kaartElement.map.actions[0];
+        assert.deepEqual(action.layer, kaartlaag);
+        assert.equal(action.cluster, true);
       });
     });
   </script>

@@ -8,6 +8,7 @@
 
   <script src="ol-util.js"></script>
   <script type="module" src="../../src/vl-map-all.js"></script>
+  <script src="/node_modules/sinon/pkg/sinon.js"></script>
 </head>
 
 <body>
@@ -35,9 +36,11 @@
     </template>
   </test-fixture>
 
-  <script>
+  <script type="module">
+    import {OlWMTSSource, OlVectorSource, OlWMTSTileGrid} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
+
     suite('vl-map-baselayer', () => {
-      const sandbox = sinon.sandbox.create();
+      const sandbox = sinon.createSandbox();
 
       setup(() => {
         return new Promise((resolve) => {
@@ -87,7 +90,7 @@
         const vlMapBaseLayerElement = element.querySelector('vl-map-baselayer');
 
         const source = vlMapBaseLayerElement._createWMTSSource();
-        assert.isTrue(source instanceof ol.source.WMTS);
+        assert.isTrue(source instanceof OlWMTSSource);
 
         assert.lengthOf(source.urls, 1);
         assert.equal(source.urls[0], 'https://localhost/wmts');
@@ -98,7 +101,7 @@
         assert.equal(source.getStyle(), '');
 
         const tileGrid = source.getTileGrid();
-        assert.isTrue(tileGrid instanceof ol.tilegrid.WMTS);
+        assert.isTrue(tileGrid instanceof OlWMTSTileGrid);
         assert.deepEqual(tileGrid.getOrigin(), [9928, 329072]);
         assert.deepEqual(tileGrid.getResolutions(), [1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1, 0.5, 0.25, 0.125, 0.0625, 0.03125]);
         assert.deepEqual(tileGrid.getMatrixIds(), [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
@@ -108,26 +111,22 @@
         const element = fixture('vl-map-baselayer-wfs-fixture');
         const vlMapBaseLayerElement = element.querySelector('vl-map-baselayer');
         const source = vlMapBaseLayerElement._createVectorSource();
-        assert.isTrue(source instanceof ol.source.Vector);
+        assert.isTrue(source instanceof OlVectorSource);
       });
 
       test('wanneer een WFS source wordt aangemaakt zal het formaat correct gedefinieerd worden', () => {
-        sandbox.spy(ol.source, 'Vector');
-        fixture('vl-map-baselayer-wfs-fixture');
-        assert(ol.source.Vector.calledWith(sinon.match.has('format')));
-        assert.equal(ol.source.Vector.getCall(0).args[0].format.defaultDataProjection.getCode(), 'EPSG:31370');
+        const element = fixture('vl-map-baselayer-wfs-fixture');
+        assert.equal(element.map.baseLayers[0].getSource().getFormat().dataProjection.getCode(), 'EPSG:31370');
       });
 
       test('een WMTS source wordt maar 1x aangemaakt', () => {
-        sandbox.spy(ol.source, 'WMTS');
-        fixture('vl-map-baselayer-wmts-fixture');
-        assert.equal(ol.source.WMTS.calledOnce, true);
+        const element = fixture('vl-map-baselayer-wmts-fixture');
+        assert.lengthOf(element.map.baseLayers, 1);
       });
 
       test('een WFS source wordt maar 1x aangemaakt', () => {
-        sandbox.spy(ol.source, 'Vector');
-        fixture('vl-map-baselayer-wfs-fixture');
-        assert.equal(ol.source.Vector.calledOnce, true);
+        const element = fixture('vl-map-baselayer-wfs-fixture');
+        assert.lengthOf(element.map.baseLayers, 1);
       });
     });
   </script>

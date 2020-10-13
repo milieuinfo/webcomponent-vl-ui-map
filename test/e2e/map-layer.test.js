@@ -8,30 +8,30 @@ describe('vl-map-layer', async () => {
     return page.load();
   });
 
-  it('Als gebruiker zie ik het verschil tussen een clustered layer en niet geclusterde layer', async () => {
-    const standaardLayer = await page.getStandaardLayer();
+  it('als gebruiker zie ik het verschil tussen een clustered layer en niet geclusterde layer', async () => {
+    const standardLayer = await page.getStandardLayer();
     const clusteredLayer = await page.getClusteredLayer();
 
-    await assert.eventually.isFalse(standaardLayer.isClustered());
-    await assert.eventually.isNull(standaardLayer.getClusterDistance());
+    await assert.eventually.isFalse(standardLayer.isClustered());
+    await assert.eventually.isNull(standardLayer.getClusterDistance());
     await assert.eventually.isTrue(clusteredLayer.isClustered());
     await assert.eventually.equal(clusteredLayer.getClusterDistance(), 100);
   });
 
-  it('Als gebruiker zie ik het verschil tussen een auto extent layer en niet auto extent layer', async () => {
-    const standaardLayer = await page.getStandaardLayer();
+  it('als gebruiker zie ik het verschil tussen een auto extent layer en niet auto extent layer', async () => {
+    const standardLayer = await page.getStandardLayer();
     const autoExtentLayer = await page.getAutoExtentLayer();
 
-    await assert.eventually.isFalse(standaardLayer.hasAutoExtent());
-    await assert.eventually.isNull(standaardLayer.getAutoExtentMaxZoom());
+    await assert.eventually.isFalse(standardLayer.hasAutoExtent());
+    await assert.eventually.isNull(standardLayer.getAutoExtentMaxZoom());
     await assert.eventually.isTrue(autoExtentLayer.hasAutoExtent());
     await assert.eventually.equal(autoExtentLayer.getAutoExtentMaxZoom(), '3');
   });
 
-  it('Als gebruiker kan ik het aantal features opvragen', async () => {
-    const standaardLayer = await page.getStandaardLayer();
+  it('als gebruiker kan ik het aantal features opvragen', async () => {
+    const standardLayer = await page.getStandardLayer();
 
-    const features = await standaardLayer.getFeatures();
+    const features = await standardLayer.getFeatures();
     assert.equal(features.length, 3);
   });
 });

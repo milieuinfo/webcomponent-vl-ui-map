@@ -1,4 +1,5 @@
 import {VlMapAction} from './vl-map-action.js';
+import {VlSelectAction} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
 
 /**
  * VlMapSelectAction
@@ -62,7 +63,7 @@ export class VlMapSelectAction extends VlMapAction {
   }
 
   _createAction(layer) {
-    return new acd.ol.action.SelectAction(layer, (args) => {
+    return new VlSelectAction(layer, (args) => {
       this._onSelect(args);
     }, {
       style: this._style,

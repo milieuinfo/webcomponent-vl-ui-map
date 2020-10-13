@@ -17,10 +17,7 @@
             selectAction.activateAction();
             selectAction.onSelect((feature) => {
               if (feature) {
-                document.querySelector(logSelector).innerText =
-                            'Feature' +
-                            (feature.getId() != null ? ' met id ' + feature.getId() : '') +
-                            ' werd geselecteerd!';
+                document.querySelector(logSelector).innerText = 'Feature' + (feature.getId() != null ? ' met id ' + feature.getId() : '') + ' werd geselecteerd!';
               }
             });
           };
@@ -40,31 +37,32 @@
                 <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
                 <vl-map-baselayer-grb></vl-map-baselayer-grb>
                 <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
-                <vl-map-layer id="map-layer" name="laag" features='{
-                            "type": "FeatureCollection",
-                            "features": [{
-                                "type": "Feature",
-                                "id": 1,
-                                "geometry": {
-                                    "type": "Point",
-                                    "coordinates": [147055.0,197908.0]
-                                }
-                            }, {
-                                "type": "Feature",
-                                "id": 2,
-                                "geometry": {
-                                    "type": "Point",
-                                    "coordinates": [149055.0,199908.0]
-                                }
-                            }, {
-                                "type": "Feature",
-                                "id": 3,
-                                "geometry": {
-                                    "type": "Point",
-                                    "coordinates": [151055.0,201908.0]
-                                }
-                            }]
-                        }'>
+                <vl-map-layer id="map-layer" name="laag" features='
+                {
+                    "type": "FeatureCollection",
+                    "features": [{
+                        "type": "Feature",
+                        "id": 1,
+                        "geometry": {
+                            "type": "Point",
+                            "coordinates": [147055.0,197908.0]
+                        }
+                    }, {
+                        "type": "Feature",
+                        "id": 2,
+                        "geometry": {
+                            "type": "Point",
+                            "coordinates": [149055.0,199908.0]
+                        }
+                    }, {
+                        "type": "Feature",
+                        "id": 3,
+                        "geometry": {
+                            "type": "Point",
+                            "coordinates": [151055.0,201908.0]
+                        }
+                    }]
+                }'>
                 </vl-map-layer>
                 <vl-map-select-action id="select-action">
                     <vl-map-layer-circle-style color="#fff" border-color="yellow"></vl-map-layer-circle-style>
@@ -78,31 +76,32 @@
                 <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
                 <vl-map-baselayer-grb></vl-map-baselayer-grb>
                 <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
-                <vl-map-layer id="map-layer-cluster" name="laag" cluster cluster-distance="100" features='{
-                            "type": "FeatureCollection",
-                            "features": [{
-                                "type": "Feature",
-                                "id": 1,
-                                "geometry": {
-                                    "type": "Point",
-                                    "coordinates": [147055.0,197908.0]
-                                }
-                            }, {
-                                "type": "Feature",
-                                "id": 2,
-                                "geometry": {
-                                    "type": "Point",
-                                    "coordinates": [149055.0,199908.0]
-                                }
-                            }, {
-                                "type": "Feature",
-                                "id": 3,
-                                "geometry": {
-                                    "type": "Point",
-                                    "coordinates": [151055.0,201908.0]
-                                }
-                            }]
-                        }'>
+                <vl-map-layer id="map-layer-cluster" name="laag" cluster cluster-distance="100" features='
+                {
+                    "type": "FeatureCollection",
+                    "features": [{
+                        "type": "Feature",
+                        "id": 1,
+                        "geometry": {
+                            "type": "Point",
+                            "coordinates": [147055.0,197908.0]
+                        }
+                    }, {
+                        "type": "Feature",
+                        "id": 2,
+                        "geometry": {
+                            "type": "Point",
+                            "coordinates": [149055.0,199908.0]
+                        }
+                    }, {
+                        "type": "Feature",
+                        "id": 3,
+                        "geometry": {
+                            "type": "Point",
+                            "coordinates": [151055.0,201908.0]
+                        }
+                    }]
+                }'>
                 </vl-map-layer>
                 <vl-map-select-action id="select-action-cluster" cluster>
                     <vl-map-layer-circle-style color="#fff" border-color="yellow"></vl-map-layer-circle-style>
