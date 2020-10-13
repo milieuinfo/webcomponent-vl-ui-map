@@ -115,7 +115,7 @@ export class VlMapBaseLayer extends vlElement(HTMLElement) {
     const self = this;
     return new OlVectorSource({
       format: new OlGeoJSON({
-        defaultDataProjection: self._projection,
+        dataProjection: self._projection,
       }),
       url: function() {
         return self.url + '&typeName=' + self.layer;

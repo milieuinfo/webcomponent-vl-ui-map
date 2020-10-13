@@ -116,7 +116,7 @@
 
       test('wanneer een WFS source wordt aangemaakt zal het formaat correct gedefinieerd worden', () => {
         const element = fixture('vl-map-baselayer-wfs-fixture');
-        assert.equal(element.map.baseLayers[0].getSource().getFormat().dataProjection.getCode(), 'EPSG:4326');
+        assert.equal(element.map.baseLayers[0].getSource().getFormat().dataProjection.getCode(), 'EPSG:31370');
       });
 
       test('een WMTS source wordt maar 1x aangemaakt', () => {
