@@ -11,78 +11,43 @@
 </head>
 
 <body>
-<test-fixture id="vl-map-search-fixture">
-  <template>
-    <vl-map-search></vl-map-search>
-  </template>
-</test-fixture>
-
-<test-fixture id="vl-map-with-search-fixture">
-  <template>
-    <vl-map>
+  <test-fixture id="vl-map-search-fixture">
+    <template>
       <vl-map-search></vl-map-search>
-    </vl-map>
-  </template>
-</test-fixture>
+    </template>
+  </test-fixture>
 
-<test-fixture id="standalone-vl-map-search-fixture">
-  <template>
-    <vl-map></vl-map>
-    <vl-map-search></vl-map-search>
-  </template>
-</test-fixture>
+  <test-fixture id="vl-map-with-search-fixture">
+    <template>
+      <vl-map>
+        <vl-map-search></vl-map-search>
+      </vl-map>
+    </template>
+  </test-fixture>
 
+  <test-fixture id="standalone-vl-map-search-fixture">
+    <template>
+      <vl-map></vl-map>
+      <vl-map-search></vl-map-search>
+    </template>
+  </test-fixture>
 
-<script>
-  suite('vl-map-search', () => {
-    const sandbox = sinon.sandbox.create();
-    const should = chai.should();
-
-    setup(() => {
-      return new Promise((resolve) => {
-        const wait = () => {
-          if (!!customElements.get('vl-map')) {
-            resolve();
-          }
-        };
-        setInterval(wait, 500);
-      });
-    });
-
-    teardown(() => {
-      sandbox.restore();
-    });
 
   <script>
     suite('vl-map-search', () => {
       const sandbox = sinon.createSandbox();
       const should = chai.should();
 
-    test('wanneer de gebruiker zoekt zullen bij geopunt de suggesties opgehaald worden', () => {
-      const value = 'straat';
-      const response = new Promise((resolve, reject) => {
-        resolve(new Response(JSON.stringify({}), {status: 200}));
-      });
-      const fetchStub = sandbox.stub(window, 'fetch');
-      fetchStub.withArgs('https://loc.geopunt.be/v4/Suggestion?q=' + value).returns(response);
-      const element = fixture('vl-map-with-search-fixture');
-      customElements.whenDefined('vl-map').then(() => {
-        const selectElement = element.shadowRoot.querySelector('vl-map-search').shadowRoot.querySelector('select');
-        selectElement.dispatchEvent(new CustomEvent('search', {
-          detail: {
-            value: value
-          }
-        }));
+      setup(() => {
         return new Promise((resolve) => {
-          (async () => {
-            while (!fetchStub.called) {
-              await new Promise((resolve) => setTimeout(resolve, 100));
+          const wait = () => {
+            if (!!customElements.get('vl-map')) {
+              resolve();
             }
-            resolve();
-          })();
+          };
+          setInterval(wait, 500);
         });
       });
-    });
 
       teardown(() => {
         sandbox.restore();
@@ -130,7 +95,6 @@
           });
         });
       });
-    });
 
       test('wanneer de gebruiker een suggestie selecteert zal bij geopunt de locatie opgehaald worden', () => {
         const location = {
@@ -176,36 +140,46 @@
           });
         });
       });
-    });
 
-    test('indien vl-map-search element niet binnen een vl-map element zit, kunnen dit element met een vl-map element nog handmatige te koppelen', () => {
-      const element = fixture('standalone-vl-map-search-fixture');
-      customElements.whenDefined('vl-map').then(() => {
-        customElements.whenDefined('vl-map-search').then(() => {
-          const mapElement = element[0];
-          const searchElement = element[1];
-          searchElement.bindMap(mapElement);
-          assert.equal(searchElement._map === mapElement);
+      test('indien vl-map-search element binnen een vl-map element zit, zal dit element toegevoegd worden aan de shadow dom en zal een stijl variabele gewijzigd worden', () => {
+        const element = fixture('vl-map-with-search-fixture');
+        should.not.exist(element.shadowRoot.querySelector('vl-map-search'));
+        assert.equal(element.style.getPropertyValue('--vl-map--margin-top'), '');
+        customElements.whenDefined('vl-map').then(() => {
+          should.exist(element.shadowRoot.querySelector('vl-map-search'));
+          assert.equal(element.style.getPropertyValue('--vl-map--margin-top'), '35px');
+          return new Promise((resolve) => {
+            resolve();
+          });
+        });
+      });
+
+      test('indien vl-map-search element niet binnen een vl-map element zit, kunnen dit element met een vl-map element nog handmatige te koppelen', () => {
+        const element = fixture('standalone-vl-map-search-fixture');
+        customElements.whenDefined('vl-map').then(() => {
+          customElements.whenDefined('vl-map-search').then(() => {
+            const mapElement = element[0];
+            const searchElement = element[1];
+            searchElement.bindMap(mapElement);
+            assert.equal(searchElement._map === mapElement);
+          });
+        });
+      });
+
+      test('on select callback wordt aangeroepen', (done) => {
+        const response = new Promise((resolve, reject) => {
+          resolve(new Response(JSON.stringify({LocationResult: [1, 2, 3, 4]}), {status: 200}));
+        });
+        const stub = sandbox.stub(window, 'fetch');
+        stub.returns(response);
+        const element = fixture('vl-map-with-search-fixture');
+        Promise.all([customElements.whenDefined('vl-map-search'), customElements.whenDefined('vl-select')]).then(() => {
+          element.shadowRoot.querySelector('vl-map-search').onSelect(() => done());
+          element.shadowRoot.querySelector('vl-map-search')._selectElement.dispatchEvent(new CustomEvent('choice', {detail: {choice: {value: 'test'}}}));
         });
       });
     });
-
-    test('onSelectCallback wordt aangeroept', (done) => {
-      const response = new Promise((resolve, reject) => {
-        resolve(new Response(JSON.stringify({LocationResult: [1,2,3,4]}), {status: 200}));
-      });
-      const fetchStub = sandbox.stub(window, 'fetch');
-      fetchStub.returns(response);
-      const element = fixture('vl-map-with-search-fixture');
-      Promise.all([customElements.whenDefined('vl-map-search'),customElements.whenDefined('vl-select')]).then(() => {
-        element.shadowRoot.querySelector('vl-map-search').onSelect(() => {
-          done();
-        });
-        element.shadowRoot.querySelector('vl-map-search')._selectElement.dispatchEvent(new CustomEvent('choice', {detail: {choice: {value: 'test'}}}));
-      });
-    })
-  });
-</script>
+  </script>
 </body>
 
 </html>
