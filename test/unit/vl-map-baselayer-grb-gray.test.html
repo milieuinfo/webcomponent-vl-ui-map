@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="../../../@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../../../web-component-tester/browser.js"></script>
+
+  <script type="module" src="../../src/vl-map-all.js"></script>
+  <script src="/node_modules/sinon/pkg/sinon.js"></script>
+</head>
+
+<body>
+  <test-fixture id="vl-map-baselayer-grb-gray-fixture">
+    <template>
+      <vl-map>
+        <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
+      </vl-map>
+    </template>
+  </test-fixture>
+  
+  <script type="module">
+    suite('vl-map-baselayer-grb-gray', () => {
+      const sandbox = sinon.createSandbox();
+
+      setup((done) => {
+        customElements.whenDefined('vl-map-baselayer-grb-gray').then(() => done());
+      });
+    
+      teardown(() => {
+        sandbox.restore();
+      });
+    
+      test('de grb basiskaartlaag wordt goed geconfigureerd', () => {
+        const element = fixture('vl-map-baselayer-grb-gray-fixture');
+        const vlMapBaseLayerElement = element.querySelector('vl-map-baselayer-grb-gray');
+        assert.equal(vlMapBaseLayerElement.url, 'https://tile.informatievlaanderen.be/ws/raadpleegdiensten/wmts');
+        assert.equal(vlMapBaseLayerElement.type, 'wmts');
+        assert.equal(vlMapBaseLayerElement.layer, 'grb_bsk_grijs');
+        assert.equal(vlMapBaseLayerElement.title, 'GRB basis laag grijs');
+      });
+    });
+  </script>
+</body>
+
+</html>

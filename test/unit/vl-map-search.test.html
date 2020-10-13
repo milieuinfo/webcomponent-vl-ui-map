@@ -1,0 +1,211 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="../../../@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../../../web-component-tester/browser.js"></script>
+
+  <script type="module" src="../../src/vl-map-all.js"></script>
+  <script src="/node_modules/sinon/pkg/sinon.js"></script>
+</head>
+
+<body>
+<test-fixture id="vl-map-search-fixture">
+  <template>
+    <vl-map-search></vl-map-search>
+  </template>
+</test-fixture>
+
+<test-fixture id="vl-map-with-search-fixture">
+  <template>
+    <vl-map>
+      <vl-map-search></vl-map-search>
+    </vl-map>
+  </template>
+</test-fixture>
+
+<test-fixture id="standalone-vl-map-search-fixture">
+  <template>
+    <vl-map></vl-map>
+    <vl-map-search></vl-map-search>
+  </template>
+</test-fixture>
+
+
+<script>
+  suite('vl-map-search', () => {
+    const sandbox = sinon.sandbox.create();
+    const should = chai.should();
+
+    setup(() => {
+      return new Promise((resolve) => {
+        const wait = () => {
+          if (!!customElements.get('vl-map')) {
+            resolve();
+          }
+        };
+        setInterval(wait, 500);
+      });
+    });
+
+    teardown(() => {
+      sandbox.restore();
+    });
+
+  <script>
+    suite('vl-map-search', () => {
+      const sandbox = sinon.createSandbox();
+      const should = chai.should();
+
+    test('wanneer de gebruiker zoekt zullen bij geopunt de suggesties opgehaald worden', () => {
+      const value = 'straat';
+      const response = new Promise((resolve, reject) => {
+        resolve(new Response(JSON.stringify({}), {status: 200}));
+      });
+      const fetchStub = sandbox.stub(window, 'fetch');
+      fetchStub.withArgs('https://loc.geopunt.be/v4/Suggestion?q=' + value).returns(response);
+      const element = fixture('vl-map-with-search-fixture');
+      customElements.whenDefined('vl-map').then(() => {
+        const selectElement = element.shadowRoot.querySelector('vl-map-search').shadowRoot.querySelector('select');
+        selectElement.dispatchEvent(new CustomEvent('search', {
+          detail: {
+            value: value
+          }
+        }));
+        return new Promise((resolve) => {
+          (async () => {
+            while (!fetchStub.called) {
+              await new Promise((resolve) => setTimeout(resolve, 100));
+            }
+            resolve();
+          })();
+        });
+      });
+    });
+
+      teardown(() => {
+        sandbox.restore();
+      });
+
+      test('bevat een search element met correct geconfigureerd select element als input slot in', (done) => {
+        const element = fixture('vl-map-search-fixture');
+        customElements.whenDefined('vl-search').then(() => {
+          const searchElement = element.shadowRoot.querySelector('vl-search');
+          should.exist(searchElement);
+          assert.isDefined(searchElement.getAttribute('data-vl-inline'));
+
+          const selectElement = searchElement.querySelector('select');
+          should.exist(selectElement);
+          assert.equal(selectElement.getAttribute('is'), 'vl-select');
+          assert.isDefined(selectElement.getAttribute('data-vl-select'));
+          assert.isDefined(selectElement.getAttribute('data-vl-select-deletable'));
+          assert.equal(selectElement.getAttribute('data-vl-select-search-empty-text'), 'Geen adres gevonden');
+          done();
+        });
+      });
+
+      test('wanneer de gebruiker zoekt zullen bij geopunt de suggesties opgehaald worden', () => {
+        const value = 'straat';
+        const response = new Promise((resolve, reject) => {
+          resolve(new Response(JSON.stringify({}), {status: 200}));
+        });
+        const fetchStub = sandbox.stub(window, 'fetch');
+        fetchStub.withArgs('https://loc.geopunt.be/v4/Suggestion?q=' + value).returns(response);
+        const element = fixture('vl-map-with-search-fixture');
+        customElements.whenDefined('vl-map').then(() => {
+          const selectElement = element.shadowRoot.querySelector('vl-map-search').shadowRoot.querySelector('select');
+          selectElement.dispatchEvent(new CustomEvent('search', {
+            detail: {
+              value: value,
+            },
+          }));
+          return new Promise((resolve) => {
+            (async () => {
+              while (!fetchStub.called) {
+                await new Promise((resolve) => setTimeout(resolve, 100));
+              }
+              resolve();
+            })();
+          });
+        });
+      });
+    });
+
+      test('wanneer de gebruiker een suggestie selecteert zal bij geopunt de locatie opgehaald worden', () => {
+        const location = {
+          LocationResult: [{
+            BoundingBox: {
+              LowerLeft: {
+                X_Lambert72: 0,
+                Y_Lambert72: 1,
+              },
+              UpperRight: {
+                X_Lambert72: 0,
+                Y_Lambert72: 1,
+              },
+            },
+          }],
+        };
+        const value = 'straat';
+        const response = new Promise((resolve, reject) => {
+          resolve(new Response(JSON.stringify(location), {status: 200}));
+        });
+        const fetchStub = sandbox.stub(window, 'fetch');
+        fetchStub.withArgs('https://loc.geopunt.be/v4/Location?q=' + value).returns(response);
+        const map = fixture('vl-map-with-search-fixture');
+        customElements.whenDefined('vl-map').then(() => {
+          sandbox.spy(map, 'zoomTo');
+          const selectElement = map.shadowRoot.querySelector('vl-map-search').shadowRoot.querySelector('select');
+          selectElement.dispatchEvent(new CustomEvent('choice', {
+            detail: {
+              choice: {
+                value: value,
+              },
+            },
+            bubbles: false,
+            composed: false,
+          }));
+          return new Promise((resolve) => {
+            (async () => {
+              while (!map.zoomTo.calledWith([location.LocationResult[0].BoundingBox.LowerLeft.X_Lambert72, location.LocationResult[0].BoundingBox.LowerLeft.Y_Lambert72, location.LocationResult[0].BoundingBox.UpperRight.X_Lambert72, location.LocationResult[0].BoundingBox.UpperRight.Y_Lambert72])) {
+                await new Promise((resolve) => setTimeout(resolve, 100));
+              }
+              resolve();
+            })();
+          });
+        });
+      });
+    });
+
+    test('indien vl-map-search element niet binnen een vl-map element zit, kunnen dit element met een vl-map element nog handmatige te koppelen', () => {
+      const element = fixture('standalone-vl-map-search-fixture');
+      customElements.whenDefined('vl-map').then(() => {
+        customElements.whenDefined('vl-map-search').then(() => {
+          const mapElement = element[0];
+          const searchElement = element[1];
+          searchElement.bindMap(mapElement);
+          assert.equal(searchElement._map === mapElement);
+        });
+      });
+    });
+
+    test('onSelectCallback wordt aangeroept', (done) => {
+      const response = new Promise((resolve, reject) => {
+        resolve(new Response(JSON.stringify({LocationResult: [1,2,3,4]}), {status: 200}));
+      });
+      const fetchStub = sandbox.stub(window, 'fetch');
+      fetchStub.returns(response);
+      const element = fixture('vl-map-with-search-fixture');
+      Promise.all([customElements.whenDefined('vl-map-search'),customElements.whenDefined('vl-select')]).then(() => {
+        element.shadowRoot.querySelector('vl-map-search').onSelect(() => {
+          done();
+        });
+        element.shadowRoot.querySelector('vl-map-search')._selectElement.dispatchEvent(new CustomEvent('choice', {detail: {choice: {value: 'test'}}}));
+      });
+    })
+  });
+</script>
+</body>
+
+</html>

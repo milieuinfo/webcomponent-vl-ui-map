@@ -3,75 +3,48 @@
 
 <head>
     <title>vl-map voorbeeld</title>
+    <script type="module" src="/node_modules/vl-ui-demo/dist/vl-demo-all.js"></script>
+    <script type="module" src="/node_modules/vl-ui-body/dist/vl-body.js"></script>
 
-    <script type="module" src="../vl-map.js"></script>
-    <script type="module" src="demo.js"></script>
+    <script type="module" src="/src/vl-map-all.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="demo.css">
+    <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-body/dist/style.css" />
 </head>
 
-<body>
-    <h1>vl-ui-map demo</h1>
+<body is="vl-body">
+    <vl-demo-page data-vl-webcomponent="vl-map">
+        <vl-demo data-vl-title="Kaart met verschillende GRB kaartlagen">
+            <vl-map id="map">
+                <vl-map-baselayer-grb-gray id="baselayer-grb-gray"></vl-map-baselayer-grb-gray>
+                <vl-map-baselayer-grb id="baselayer-grb"></vl-map-baselayer-grb>
+                <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
+            </vl-map>
+        </vl-demo>
 
-    <div>
-        <h2>Kaart met verschillende GRB kaartlagen</h2>
-        <pre>
-            <code class="line-numbers language-markup">
-                &lt;vl-map&gt;
-                    &lt;vl-map-baselayer-grb-gray&gt;&lt;/vl-map-baselayer-grb-gray&gt;
-                    &lt;vl-map-baselayer-grb&gt;&lt;/vl-map-baselayer-grb&gt;
-                    &lt;vl-map-baselayer-grb-ortho&gt;&lt;/vl-map-baselayer-grb-ortho&gt;
-                &lt;/vl-map&gt;
-            </code>
-        </pre>
-        <div class="demo">
-            <vl-map>
+        <vl-demo data-vl-title="Kaart waar de escape toets functionaliteit uitgeschakeld werd">
+            <vl-map id="map-escape" disable-escape-key>
                 <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
                 <vl-map-baselayer-grb></vl-map-baselayer-grb>
                 <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
             </vl-map>
-        </div>
-    </div>
+        </vl-demo>
 
-    <div>
-        <h2>Kaart waar de escape toets functionaliteit uitgeschakeld werd</h2>
-        <pre>
-            <code class="line-numbers language-markup">
-                &lt;vl-map disable-escape-key&gt;
-                    &lt;vl-map-baselayer-grb-gray&gt;&lt;/vl-map-baselayer-grb-gray&gt;
-                    &lt;vl-map-baselayer-grb&gt;&lt;/vl-map-baselayer-grb&gt;
-                    &lt;vl-map-baselayer-grb-ortho&gt;&lt;/vl-map-baselayer-grb-ortho&gt;
-                &lt;/vl-map&gt;
-            </code>
-        </pre>
-        <div class="demo">
-            <vl-map disable-escape-key>
+        <vl-demo data-vl-title="Kaart waar de rotatie functionaliteit uitgeschakeld werd">
+            <vl-map id="map-rotation" disable-rotation>
                 <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
                 <vl-map-baselayer-grb></vl-map-baselayer-grb>
                 <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
             </vl-map>
-        </div>
-    </div>
+        </vl-demo>
 
-    <div>
-        <h2>Kaart waar de rotatie functionaliteit uitgeschakeld werd</h2>
-        <pre>
-            <code class="line-numbers language-markup">
-                &lt;vl-map disable-rotation&gt;
-                    &lt;vl-map-baselayer-grb-gray&gt;&lt;/vl-map-baselayer-grb-gray&gt;
-                    &lt;vl-map-baselayer-grb&gt;&lt;/vl-map-baselayer-grb&gt;
-                    &lt;vl-map-baselayer-grb-ortho&gt;&lt;/vl-map-baselayer-grb-ortho&gt;
-                &lt;/vl-map&gt;
-            </code>
-        </pre>
-        <div class="demo">
-            <vl-map disable-rotation>
+        <vl-demo data-vl-title="Kaart waar de mouse wheel zoom functionaliteit uitgeschakeld werd">
+            <vl-map id="map-mouse-zoom" disable-mouse-wheel-zoom>
                 <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
                 <vl-map-baselayer-grb></vl-map-baselayer-grb>
                 <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
             </vl-map>
-        </div>
-    </div>
+        </vl-demo>
+    </vl-demo-page>
 </body>
 
 </html>

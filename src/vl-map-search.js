@@ -1,30 +1,33 @@
-import { VlElement } from '/node_modules/vl-ui-core/vl-core.js';
-import '/node_modules/vl-ui-select/vl-select.js';
+import {vlElement} from '/node_modules/vl-ui-core/dist/vl-core.js';
+import '/node_modules/vl-ui-select/dist/vl-select.js';
+import '/node_modules/vl-ui-search/dist/vl-search.js';
+import {OlOverlay} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
 
 /**
  * VlMapSearch
  * @class
  * @classdesc De kaart zoek op adres component.
  *
- * @extends VlElement
+ * @extends vlElement
  *
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
  * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map-search.html|Demo}
  */
-export class VlMapSearch extends VlElement(HTMLElement) {
+export class VlMapSearch extends vlElement(HTMLElement) {
   constructor() {
     super(`
-            <style>
-                @import '/node_modules/vl-ui-select/style.css';
-            </style>
-        `);
+      <style>
+        @import '/node_modules/vl-ui-select/dist/style.css';
+        @import '/node_modules/vl-ui-search/dist/style.css';
+      </style>
+      <vl-search id="search" data-vl-inline>
+        <select is="vl-select" data-vl-select block data-vl-select-search-empty-text="Geen adres gevonden" slot="input"></select>
+      </vl-search>
+    `);
     this._configure();
-    customElements.whenDefined('vl-select').then(() => {
-      this._shadow.appendChild(this._getSelectTemplate());
-      this._addSearchEventListener();
-      this._addChoiceEventListener();
-    });
+    this._addSearchEventListener();
+    this._addChoiceEventListener();
   }
 
   get url() {
@@ -53,12 +56,6 @@ export class VlMapSearch extends VlElement(HTMLElement) {
     this._map = map;
   }
 
-  _getSelectTemplate() {
-    return this._template(`
-            <select is="vl-select" id="test" data-vl-select data-vl-select-deletable data-vl-select-search-empty-text="Geen adres gevonden"></select>
-        `);
-  };
-
   _addSearchEventListener() {
     if (!this.__searchEventListenerRegistered) {
       this.__searchEventListenerRegistered = true;
@@ -71,8 +68,8 @@ export class VlMapSearch extends VlElement(HTMLElement) {
               const resultaten = data.SuggestionResult.map((resultaat) => {
                 return {
                   value: resultaat,
-                  label: resultaat
-                }
+                  label: resultaat,
+                };
               });
               this._selectElement.choices = resultaten;
             }
@@ -91,20 +88,12 @@ export class VlMapSearch extends VlElement(HTMLElement) {
             return response.json();
           }).then((data) => {
             if (data && data.LocationResult) {
-              if (this._onSelect) {
-                this._onSelect(data);
-              }
-              else {
-                if (this._map) {
-                  this._map.zoomTo(
-                      [data.LocationResult[0].BoundingBox.LowerLeft.X_Lambert72,
-                        data.LocationResult[0].BoundingBox.LowerLeft.Y_Lambert72,
-                        data.LocationResult[0].BoundingBox.UpperRight.X_Lambert72,
-                        data.LocationResult[0].BoundingBox.UpperRight.Y_Lambert72]);
-                }
-                else {
-                  console.info('Er is nog geen vl-map gedefinieerd voor dit vl-map-search element.');
-                }
+              if (this._map) {
+                this._map.zoomTo(
+                    [data.LocationResult[0].BoundingBox.LowerLeft.X_Lambert72,
+                      data.LocationResult[0].BoundingBox.LowerLeft.Y_Lambert72,
+                      data.LocationResult[0].BoundingBox.UpperRight.X_Lambert72,
+                      data.LocationResult[0].BoundingBox.UpperRight.Y_Lambert72]);
               }
             }
           });
@@ -120,9 +109,11 @@ export class VlMapSearch extends VlElement(HTMLElement) {
   _configure() {
     customElements.whenDefined('vl-map').then(() => {
       if (this.parentNode && this.parentNode.map) {
-        this.parentNode._shadow.prepend(this);
-        this.parentNode.host.style.setProperty('--vl-map--margin-top', "35px");
-        this._map = this._parentElement;
+        this._map = this.parentNode._shadow.host;
+        this._map.map.addOverlay(new OlOverlay({
+          className: 'vl-map-search__overlaycontainer',
+          element: this,
+        }));
       }
     });
   }

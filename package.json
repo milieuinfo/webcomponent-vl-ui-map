@@ -1,59 +1,57 @@
 {
   "name": "vl-ui-map",
-  "version": "2.0.1",
+  "version": "4.0.6",
   "description": "De kaart webcomponent.",
-  "main": "vl-map.js",
   "author": "DIDM",
   "license": "MIT",
+  "main": "./src/index.js",
+  "exports": {
+    "require": "./index.js",
+    "import": "./src/index.js",
+    "node": "./index.js",
+    "default": "./index.js"
+  },
+  "homepage": "https://github.com/milieuinfo/webcomponent-vl-ui-map#readme",
+  "bugs": {
+    "url": "https://github.com/milieuinfo/webcomponent-vl-ui-map/issues"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/milieuinfo/webcomponent-vl-ui-map.git"
   },
-  "homepage": "https://github.com/milieuinfo/webcomponent-vl-ui-map#readme",
   "publishConfig": {
     "registry": "http://artifactory-pr-build.lb.cumuli.be:8081/artifactory/api/npm/acd-npm/"
   },
   "scripts": {
     "prepare": "npm update --dev vl-ui-util && npm run prepare:util",
-    "prepare:util": "npm explore vl-ui-util -- npm run install:copy && npm explore vl-ui-util -- npm run install:bamboo",
-    "test": "wct -l chrome,firefox --npm",
-    "release": "np",
-    "release:prepare": "npm run release:prepare:build && npm run release:prepare:css && npm run release:prepare:commit",
-    "release:prepare:build": "npm run build",
-    "release:prepare:css": "replace '\\.\\./style.css' '/node_modules/vl-ui-map/style.css' vl-map.js",
-    "release:prepare:commit": "git add -f vl-map.js && git commit --amend --no-edit && git pull",
+    "prepare:util": "npm explore vl-ui-util -- npm run util",
+    "test": "npm explore vl-ui-util -- npm run test:component",
+    "test:grid": "npm explore vl-ui-util -- npm run test:component:grid",
+    "test:unit": "npm explore vl-ui-util -- npm run test:component:unit",
+    "test:unit:grid": "npm explore vl-ui-util -- npm run test:component:unit:grid",
+    "test:e2e": "npm explore vl-ui-util -- npm run test:component:e2e",
+    "test:e2e:grid": "npm explore vl-ui-util -- npm run test:coŒmponent:e2e:grid",
+    "release": "npm explore vl-ui-util -- npm run release",
+    "release:prepare": "npm explore vl-ui-util -- npm run release-component:prepare $(pwd) map",
     "release:testless": "np --yolo",
-    "demo": "npm run dev",
-    "dev": "concurrently \"npm:bundle:watch\" \"http-server\"",
-    "build": "npm run bundle:build && npm run bundle:build:imports",
-    "bundle:watch": "rollup --config rollup.config.js --watch",
-    "bundle:build": "rollup --config rollup.config.js",
-    "bundle:build:imports": "replace '\"[../]+/node_modules' '\"/node_modules' vl-map.js"
+    "demo": "http-server"
   },
   "dependencies": {
-    "vl-mapactions": "^2.0.0",
-    "vl-ui-core": "^2.0.0",
-    "vl-ui-select": "^1.2.4"
+    "vl-mapactions": "github:milieuinfo/vl-mapactions#map-search",
+    "vl-ui-core": "^6.0.0",
+    "vl-ui-search": "^1.1.0",
+    "vl-ui-select": "^4.1.4"
   },
   "peerDependencies": {
-    "vl-ui-core": "^2.0.0",
-    "vl-ui-select": "^1.2.4",
-    "vl-mapactions": "^2.0.0"
+    "vl-mapactions": "milieuinfo/vl-mapactions#map-search",
+    "vl-ui-core": "^6.0.0",
+    "vl-ui-search": "^1.1.0",
+    "vl-ui-select": "^4.1.3"
   },
   "devDependencies": {
-    "concurrently": "5.0.0",
-    "http-server": "0.11.1",
-    "np": "3.1.0",
-    "replace": "1.1.1",
-    "rollup": "1.25.1",
-    "rollup-plugin-postcss": "2.0.3",
-    "rollup-plugin-terser": "5.1.2",
-    "sass": "1.23.0",
-    "uglify-js-es6": "2.8.9",
-    "vl-ui-icon": "^2.1.0",
-    "vl-ui-util": "^2.0.13",
-    "vl-ui-button": "^1.3.0",
-    "wct-browser-legacy": "1.0.2",
-    "web-component-tester": "6.9.2"
+    "@govflanders/vl-ui-core": "^4.0.5",
+    "vl-ui-body": "^1.0.5",
+    "vl-ui-button": "^5.0.6",
+    "vl-ui-util": "^5.2.14"
   }
 }
