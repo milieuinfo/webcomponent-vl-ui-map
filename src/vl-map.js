@@ -127,7 +127,7 @@ export class VlMap extends vlElement(HTMLElement) {
   /**
    * Voegt een kaartactie toe aan de kaart.
    *
-   * @param {ol.interaction} action
+   * @param {VlMapAction} action
    */
   addAction(action) {
     this._map.addAction(action);
