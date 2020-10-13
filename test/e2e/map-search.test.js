@@ -29,7 +29,7 @@ describe('vl-map-search', async () => {
     await assert.eventually.isTrue(map.hasZoom(5));
   });
 
-  it('Als gebruiker kan ik zoeken met de zoekfunctionaliteit maar als er niets gevonden werd zijn er geen opties', async () => {
+  it('als gebruiker kan ik zoeken met de zoekfunctionaliteit maar als er niets gevonden werd zijn er geen opties', async () => {
     const map = await vlMapPage.getMap();
     const search = await map.getSearch();
 
