@@ -79,6 +79,7 @@ export class VlMap extends vlElement(HTMLElement) {
     return new OlProjection({
       code: 'EPSG:31370',
       extent: this._extent,
+      getPointResolution: (r) => r,
     });
   }
 

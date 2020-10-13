@@ -5,10 +5,6 @@ const VlMapSearch = require('./vl-map-search');
 const VlMapOverviewMap = require('./vl-map-overview-map');
 
 class VlMap extends VlElement {
-  async _getMap() {
-    return this.shadowRoot;
-  }
-
   async getBaseLayers() {
     const childElements = await this.findElements(By.css(':scope > *'));
     const tagNames = await Promise.all(childElements.map((element) => element.getTagName()));
@@ -40,10 +36,6 @@ class VlMap extends VlElement {
 
   async getActiveBaseLayerTitle() {
     return this.driver.executeScript(`return arguments[0].map.baseLayers.find((layer) => { return layer.getVisible(); }).get('title')`, this);
-  }
-
-  async _getSearchElement() {
-    return this.driver.executeScript(`return arguments[0].shadowRoot.querySelector('vl-map-search')`, this);
   }
 
   async hasSearch() {
@@ -83,6 +75,20 @@ class VlMap extends VlElement {
       x: Math.round(pixels[0] - (rect.width / 2)),
       y: Math.round(pixels[1] - (rect.height / 2)),
     }).click().perform();
+  }
+
+  async getScale() {
+    const map = await this._getMap();
+    const scale = await map.findElement(By.css('.ol-scale-line-inner'));
+    return scale.getText();
+  }
+
+  async _getMap() {
+    return this.shadowRoot;
+  }
+
+  async _getSearchElement() {
+    return this.driver.executeScript(`return arguments[0].shadowRoot.querySelector('vl-map-search')`, this);
   }
 }
 

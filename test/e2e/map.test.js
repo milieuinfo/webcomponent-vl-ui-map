@@ -9,7 +9,7 @@ describe('vl-map', async () => {
   });
 
   it('als gebruiker kan ik verschillende basis kaartlagen definieren voor een map', async () => {
-    const map = await vlMapPage.getKaartMetVerschillendeGrbKaartlagen();
+    const map = await vlMapPage.getMap();
     await assert.eventually.isTrue(map.isDisplayed());
     const baseLayers = await map.getBaseLayers();
     await assert.eventually.equal(baseLayers[0].getTitle(), 'GRB basis laag grijs');
@@ -35,31 +35,31 @@ describe('vl-map', async () => {
   });
 
   it('als gebruiker zie ik het verschil tussen een map waar de escape key enabled en disabled is', async () => {
-    const mapEscapeEnabled = await vlMapPage.getKaartMetVerschillendeGrbKaartlagen();
-    const mapEscapeDisabled = await vlMapPage.getKaartZonderEscapeFunctionaliteit();
+    const mapEscapeEnabled = await vlMapPage.getMap();
+    const mapEscapeDisabled = await vlMapPage.getMapWithoutEscape();
 
     await assert.eventually.isFalse(mapEscapeEnabled.isEscapeKeyDisabled());
     await assert.eventually.isTrue(mapEscapeDisabled.isEscapeKeyDisabled());
   });
 
   it('als gebruiker zie ik het verschil tussen een map waar de rotation enabled en disabled is', async () => {
-    const mapRotationEnabled = await vlMapPage.getKaartMetVerschillendeGrbKaartlagen();
-    const mapRotationDisabled = await vlMapPage.getKaartZonderRotateFunctionaliteit();
+    const mapRotationEnabled = await vlMapPage.getMap();
+    const mapRotationDisabled = await vlMapPage.getMapWithoutRotation();
 
     await assert.eventually.isFalse(mapRotationEnabled.isRotationDisabled());
     await assert.eventually.isTrue(mapRotationDisabled.isRotationDisabled());
   });
 
   it('als gebruiker zie ik het verschil tussen een map waar de mouse wheel zoom enabled en disabled is', async () => {
-    const mapMouseWheelZoomEnabled = await vlMapPage.getKaartMetVerschillendeGrbKaartlagen();
-    const mapMouseWheelZoomDisabled = await vlMapPage.getMapZonderMouseWheelZoomFunctionaliteit();
+    const mapMouseWheelZoomEnabled = await vlMapPage.getMap();
+    const mapMouseWheelZoomDisabled = await vlMapPage.getMapWithoutMouseZoom();
 
     await assert.eventually.isFalse(mapMouseWheelZoomEnabled.isMouseWheelZoomDisabled());
     await assert.eventually.isTrue(mapMouseWheelZoomDisabled.isMouseWheelZoomDisabled());
   });
 
   it('als gebruiker kan ik de kaart zoomen', async () => {
-    const map = await vlMapPage.getKaartMetVerschillendeGrbKaartlagen();
+    const map = await vlMapPage.getMap();
     await assert.eventually.isTrue(map.hasZoom(2));
 
     await map.zoomIn();
@@ -67,5 +67,12 @@ describe('vl-map', async () => {
 
     await map.zoomOut();
     await assert.eventually.isTrue(map.hasZoom(2));
+  });
+
+  it('als gebruiker kan ik een schaal raadplegen', async () => {
+    const map = await vlMapPage.getMap();
+    await assert.eventually.equal(map.getScale(), '50 km');
+    await map.zoomIn();
+    await assert.eventually.equal(map.getScale(), '20 km');
   });
 });
