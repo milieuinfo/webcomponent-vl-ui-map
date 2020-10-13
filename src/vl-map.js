@@ -21,6 +21,12 @@ export class VlMap extends vlElement(HTMLElement) {
     super(`
       <style>
         @import "/src/style.css";
+
+        :host {
+          display: none;
+          position: relative;
+          --vl-map--margin-top: 0px;
+        }
       </style>
       <div id="map"></div>
     `);
