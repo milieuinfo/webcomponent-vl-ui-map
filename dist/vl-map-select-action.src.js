@@ -8,7 +8,7 @@ import {VlSelectAction} from 'vl-mapactions/dist/vl-mapactions.js';
  *
  * @property {boolean} cluster - Attribuut geeft aan of de features geclusterd zijn of niet.
  *
- * @extends vlElement
+ * @extends VlMapAction
  *
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}

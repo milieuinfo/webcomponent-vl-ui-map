@@ -6,7 +6,8 @@ import {OlWMTSSource, OlWMTSTileGrid, OlVectorSource, OlVectorLayer, OlTileLayer
  * @class
  * @classdesc De kaart basis laag component.
  *
- * @extends vlElement
+ * @extends HTMLElement
+ * @mixes vlElement
  *
  * @property {(wmts | wfs )} type - Attribuut wordt gebruikt om aan te geven wat het type is van de kaartlaag.
  * @property {string} url - Attribuut geeft aan via welke URL gebruikt wordt om de kaartlaag op te halen.
@@ -115,7 +116,7 @@ export class VlMapBaseLayer extends vlElement(HTMLElement) {
     const self = this;
     return new OlVectorSource({
       format: new OlGeoJSON({
-        defaultDataProjection: self._projection,
+        dataProjection: self._projection,
       }),
       url: function() {
         return self.url + '&typeName=' + self.layer;

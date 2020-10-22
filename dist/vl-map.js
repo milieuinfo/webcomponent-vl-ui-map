@@ -6,7 +6,8 @@ import {VlCustomMap, OlLayerGroup, OlProjection, OlGeoJSON} from '/node_modules/
  * @class
  * @classdesc De kaart component.
  *
- * @extends vlElement
+ * @extends HTMLElement
+ * @mixes vlElement
  *
  * @property {boolean} disable-escape-key - Attribuut wordt gebruikt om ervoor te zorgen dat de escape toets niet gebruikt kan worden.
  * @property {boolean} disable-rotation - Attribuut wordt gebruikt om ervoor te zorgen dat het niet mogelijk is om de kaart te draaien.
@@ -21,6 +22,12 @@ export class VlMap extends vlElement(HTMLElement) {
     super(`
       <style>
         @import '/node_modules/vl-ui-map/dist/style.css';
+
+        :host {
+          display: none;
+          position: relative;
+          --vl-map--margin-top: 0px;
+        }
       </style>
       <div id="map"></div>
     `);
@@ -35,6 +42,15 @@ export class VlMap extends vlElement(HTMLElement) {
    */
   get ready() {
     return this.__ready;
+  }
+
+  /**
+   * Geeft het overlay container element terug.
+   *
+   * @return {HTMLElement}
+   */
+  get overlayContainerElement() {
+    return this._shadow.querySelector('.ol-overlaycontainer-stopevent');
   }
 
   __prepareReadyPromises() {
@@ -79,6 +95,7 @@ export class VlMap extends vlElement(HTMLElement) {
     return new OlProjection({
       code: 'EPSG:31370',
       extent: this._extent,
+      getPointResolution: (r) => r,
     });
   }
 
@@ -111,7 +128,7 @@ export class VlMap extends vlElement(HTMLElement) {
   /**
    * Voegt een kaartactie toe aan de kaart.
    *
-   * @param {ol.interaction} action
+   * @param {VlMapAction} action
    */
   addAction(action) {
     this._map.addAction(action);
