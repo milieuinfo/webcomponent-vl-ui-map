@@ -38,15 +38,8 @@
       const sandbox = sinon.createSandbox();
       const should = chai.should();
 
-      setup(() => {
-        return new Promise((resolve) => {
-          const wait = () => {
-            if (!!customElements.get('vl-map')) {
-              resolve();
-            }
-          };
-          setInterval(wait, 500);
-        });
+      setup((done) => {
+        customElements.whenDefined('vl-map').then(() => done());
       });
 
       teardown(() => {
@@ -78,7 +71,7 @@
         const fetchStub = sandbox.stub(window, 'fetch');
         fetchStub.withArgs('https://loc.geopunt.be/v4/Suggestion?q=' + value).returns(response);
         const element = fixture('vl-map-with-search-fixture');
-        customElements.whenDefined('vl-map').then(() => {
+        return customElements.whenDefined('vl-map').then(() => {
           const selectElement = element.shadowRoot.querySelector('vl-map-search').shadowRoot.querySelector('select');
           selectElement.dispatchEvent(new CustomEvent('search', {
             detail: {
@@ -118,7 +111,7 @@
         const fetchStub = sandbox.stub(window, 'fetch');
         fetchStub.withArgs('https://loc.geopunt.be/v4/Location?q=' + value).returns(response);
         const map = fixture('vl-map-with-search-fixture');
-        customElements.whenDefined('vl-map').then(() => {
+        return customElements.whenDefined('vl-map').then(() => {
           sandbox.spy(map, 'zoomTo');
           const selectElement = map.shadowRoot.querySelector('vl-map-search').shadowRoot.querySelector('select');
           selectElement.dispatchEvent(new CustomEvent('choice', {
@@ -141,27 +134,23 @@
         });
       });
 
-      test('indien vl-map-search element binnen een vl-map element zit, zal dit element toegevoegd worden aan de shadow dom en zal een stijl variabele gewijzigd worden', () => {
+      test('indien vl-map-search element binnen een vl-map element zit, zal dit element toegevoegd worden aan de shadow dom', (done) => {
         const element = fixture('vl-map-with-search-fixture');
         should.not.exist(element.shadowRoot.querySelector('vl-map-search'));
-        assert.equal(element.style.getPropertyValue('--vl-map--margin-top'), '');
         customElements.whenDefined('vl-map').then(() => {
           should.exist(element.shadowRoot.querySelector('vl-map-search'));
-          assert.equal(element.style.getPropertyValue('--vl-map--margin-top'), '35px');
-          return new Promise((resolve) => {
-            resolve();
-          });
+          done();
         });
       });
 
-      test('indien vl-map-search element niet binnen een vl-map element zit, kunnen dit element met een vl-map element nog handmatige te koppelen', () => {
+      test('indien vl-map-search element niet binnen een vl-map element zit, kan de koppeling nadien manueel gebeuren', () => {
         const element = fixture('standalone-vl-map-search-fixture');
-        customElements.whenDefined('vl-map').then(() => {
-          customElements.whenDefined('vl-map-search').then(() => {
+        return customElements.whenDefined('vl-map').then(() => {
+          return customElements.whenDefined('vl-map-search').then(() => {
             const mapElement = element[0];
             const searchElement = element[1];
             searchElement.bindMap(mapElement);
-            assert.equal(searchElement._map === mapElement);
+            assert.equal(searchElement._map, mapElement);
           });
         });
       });
@@ -173,7 +162,7 @@
         const stub = sandbox.stub(window, 'fetch');
         stub.returns(response);
         const element = fixture('vl-map-with-search-fixture');
-        Promise.all([customElements.whenDefined('vl-map-search'), customElements.whenDefined('vl-select')]).then(() => {
+        customElements.whenDefined('vl-map-search').then(() => {
           element.shadowRoot.querySelector('vl-map-search').onSelect(() => done());
           element.shadowRoot.querySelector('vl-map-search')._selectElement.dispatchEvent(new CustomEvent('choice', {detail: {choice: {value: 'test'}}}));
         });
