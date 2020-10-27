@@ -34,7 +34,7 @@ export class VlMapLayerCircleStyle extends VlMapLayerStyle {
    * @Return {string}
    */
   get borderColor() {
-    return this.getAttribute('border-color') || 'rgba(0, 0, 0, 1)';
+    return this.getAttribute('border-color') || 'rgba(0, 0, 0, 0)';
   }
 
   /**
@@ -61,7 +61,7 @@ export class VlMapLayerCircleStyle extends VlMapLayerStyle {
    * @Return {string}
    */
   get clusterColor() {
-    return this.getAttribute('cluster-color') || 'rgba(0, 0, 0, 0)';
+    return this.getAttribute('cluster-color') || 'rgba(2, 85, 204, 1)';
   }
 
   /**
@@ -73,12 +73,12 @@ export class VlMapLayerCircleStyle extends VlMapLayerStyle {
     return (feature, resolution) => {
       const features = feature && feature.get ? (feature.get('features') || []) : [];
       const size = features.length || 1;
-      const clusterMultiplier = size == 1 ? 1 : Math.max(1.5, size.toString().length);
+      const clusterMultiplier = size == 1 ? 1 : Math.max(3, size.toString().length);
       const text = size > 1 ? size.toString() : '';
       let textColor = this.textColor;
-      let kleur = this.color;
-      let randKleur = this.borderColor;
-      let randGrootte = this.borderSize;
+      let color = this.color;
+      let borderColor = this.borderColor;
+      let borderSize = this.borderSize;
       let radius = size > 1 ? this.size * clusterMultiplier : this.size;
 
       if (this.parentElement && this.parentElement.cluster) {
@@ -88,12 +88,12 @@ export class VlMapLayerCircleStyle extends VlMapLayerStyle {
             style = style();
           }
           const styleImage = style.getImage();
-          kleur = styleImage.getFill().getColor();
-          randKleur = styleImage.getStroke().getColor();
-          randGrootte = styleImage.getStroke().getWidth();
+          color = styleImage.getFill().getColor();
+          borderColor = styleImage.getStroke().getColor();
+          borderSize = styleImage.getStroke().getWidth();
           radius = size > 1 ? styleImage.getRadius() * clusterMultiplier : styleImage.getRadius();
         } else if (this._containsStyle(features)) {
-          kleur = this.clusterColor;
+          color = this.clusterColor;
           textColor = this.clusterTextColor;
         } else {
           // default options zijn goed
@@ -103,17 +103,16 @@ export class VlMapLayerCircleStyle extends VlMapLayerStyle {
       return new OlStyle({
         image: new OlStyleCircle({
           fill: new OlStyleFill({
-            color: kleur,
+            color: color,
           }),
           stroke: new OlStyleStroke({
-            color: randKleur,
-            width: randGrootte,
+            color: borderColor,
+            width: borderSize,
           }),
           radius: radius,
         }),
         text: new OlStyleText({
           text: text,
-          font: '12px Flanders Art',
           fill: new OlStyleFill({
             color: textColor,
           }),
