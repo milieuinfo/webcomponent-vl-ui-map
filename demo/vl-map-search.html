@@ -5,11 +5,13 @@
   <title>vl-map-search voorbeeld</title>
   <script type="module" src="/node_modules/vl-ui-demo/dist/vl-demo-all.js"></script>
   <script type="module" src="/node_modules/vl-ui-body/dist/vl-body.js"></script>
+  <script type="module" src="/node_modules/vl-ui-form-message/dist/vl-form-message.js"></script>
   <script type="module" src="/node_modules/vl-ui-button/dist/vl-button.js"></script>
 
   <script type="module" src="/src/vl-map-all.js"></script>
 
   <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-body/dist/style.css" />
+  <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-form-message/dist/style.css" />
   <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-button/dist/style.css" />
 </head>
 
@@ -25,6 +27,7 @@
     </vl-demo>
 
     <vl-demo data-vl-title="Handmatige koppeling afzonderlijke adres zoek functionaliteit">
+      <label is="vl-form-label" data-vl-block>Zoek op adres</label>
       <vl-map-search id="bind-map-search"></vl-map-search>
       <br/>
       <br/>
