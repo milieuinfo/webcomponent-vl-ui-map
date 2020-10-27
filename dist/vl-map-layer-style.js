@@ -5,7 +5,8 @@ import {vlElement} from '/node_modules/vl-ui-core/dist/vl-core.js';
  * @class
  * @classdesc De abstracte kaart laag style klasse.
  *
- * @extends vlElement
+ * @extends HTMLElement
+ * @mixes vlElement
  *
  * @property {string} color - Attribuut wordt gebruikt om aan te geven wat de kleur is van de kaartlaagstijl.
  * @property {string} text-color - Attribuut wordt gebruikt om aan te geven wat de kleur is van de tekst.

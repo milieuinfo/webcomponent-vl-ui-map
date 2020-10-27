@@ -65,10 +65,14 @@ class VlMapSearch extends VlElement {
 
   async _waitForValues() {
     const select = await this._getSelect();
+    const counter = 0;
     try {
       await this.driver.wait(async () => {
         if (await this.hasNoResults()) {
-          return true;
+          counter++;
+          if (counter == 5) {
+            return true;
+          }
         } else {
           const values = await select.values();
           return values.filter((value) => value != null).length > 0;
