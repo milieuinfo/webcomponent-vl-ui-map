@@ -37,13 +37,15 @@
     "demo": "http-server"
   },
   "dependencies": {
-    "vl-mapactions": "milieuinfo/vl-mapactions",
+    "vl-mapactions": "github:milieuinfo/vl-mapactions#style",
+    "vl-ui-checkbox": "^3.2.1",
     "vl-ui-core": "^6.1.0",
+    "vl-ui-grid": "^3.1.4",
     "vl-ui-search": "^1.1.0",
-    "vl-ui-select": "^4.1.4"
+    "vl-ui-select": "^4.1.4",
+    "vl-ui-side-sheet": "github:milieuinfo/webcomponent-vl-ui-side-sheet"
   },
   "peerDependencies": {
-    "vl-mapactions": "milieuinfo/vl-mapactions",
     "vl-ui-core": "^6.1.0",
     "vl-ui-search": "^1.1.0",
     "vl-ui-select": "^4.1.4"
@@ -53,6 +55,6 @@
     "vl-ui-body": "^1.0.5",
     "vl-ui-button": "^5.0.6",
     "vl-ui-form-message": "^5.0.5",
-    "vl-ui-util": "^5.2.17"
+    "vl-ui-util": "^5.2.19"
   }
 }

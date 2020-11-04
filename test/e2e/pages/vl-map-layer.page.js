@@ -1,25 +1,25 @@
-const VlMapLayer = require('../components/vl-map-layer');
+const VlMap = require('../components/vl-map');
 const {Page, Config} = require('vl-ui-core').Test;
 
 class VlMapLayerPage extends Page {
-  async getStandardLayer() {
-    return this._getLayer('#standard-layer');
+  async getMapWithStandardLayer() {
+    return this._getMap('#map-with-standard-layer');
   }
 
-  async getClusteredLayer() {
-    return this._getLayer('#clustered-layer');
+  async getMapWithClusteredLayer() {
+    return this._getMap('#map-with-clustered-layer');
   }
 
-  async getAutoExtentLayer() {
-    return this._getLayer('#auto-extent-layer');
+  async getMapWithAutoExtentLayer() {
+    return this._getMap('#map-with-auto-extent-layer');
   }
 
   async load() {
     await super.load(Config.baseUrl + '/demo/vl-map-layer.html');
   }
 
-  async _getLayer(selector) {
-    return new VlMapLayer(this.driver, selector);
+  async _getMap(selector) {
+    return new VlMap(this.driver, selector);
   }
 }
 

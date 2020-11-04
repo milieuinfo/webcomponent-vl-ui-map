@@ -30,6 +30,10 @@ export class VlMapSearch extends vlElement(HTMLElement) {
       <style>
         @import '/node_modules/vl-ui-select/dist/style.css';
         @import '/node_modules/vl-ui-search/dist/style.css';
+
+        :host {
+          display: block;
+        }
       </style>
       <vl-search id="search" data-vl-inline>
         <select is="vl-select" data-vl-select data-vl-block slot="input">

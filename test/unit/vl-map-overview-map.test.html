@@ -7,7 +7,6 @@
     <script src="../../../web-component-tester/browser.js"></script>
 
     <script type="module" src="../../src/vl-map-all.js"></script>
-    <script src="/node_modules/sinon/pkg/sinon.js"></script>
 </head>
 
 <body>
@@ -22,14 +21,8 @@
 
 <script>
     suite('vl-map-overview-map', () => {
-      const sandbox = sinon.createSandbox();
-
       setup((done) => {
         customElements.whenDefined('vl-map-overview-map').then(() => done());
-      });
-
-      teardown(() => {
-        sandbox.restore();
       });
 
       test('de overview map wordt goed geconfigureerd', (done) => {

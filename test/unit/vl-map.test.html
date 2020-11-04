@@ -50,15 +50,8 @@
   suite('vl-map', () => {
     const sandbox = sinon.createSandbox();
 
-    setup(() => {
-      return new Promise((resolve) => {
-        const wait = () => {
-          if (!!customElements.get('vl-map')) {
-            resolve();
-          }
-        };
-        setInterval(wait, 500);
-      });
+    setup((done) => {
+      customElements.whenDefined('vl-map').then(() => done());
     });
 
     test('de Lambert 31370 projectie wordt correct gedefinieerd', () => {

@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="../../../@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../../../web-component-tester/browser.js"></script>
+
+  <script type="module" src="/node_modules/vl-ui-checkbox/dist/vl-checkbox.js"></script>
+
+  <script type="module" src="../../src/vl-map-all.js"></script>
+</head>
+
+<body>
+  <test-fixture id="vl-map-layer-switcher-fixture">
+    <template>
+      <vl-map>
+        <vl-map-side-sheet>
+          <vl-map-layer-switcher>
+            <vl-checkbox data-vl-label="Optie 1" data-vl-layer="layer"></vl-checkbox>
+          </vl-map-layer-switcher>
+        </vl-map-side-sheet>
+        <vl-map-layer name="layer"></vl-map-layer>
+      </vl-map>
+    </template>
+  </test-fixture>
+
+  <script>
+    suite('vl-map-layer-switcher', () => {
+      setup((done) => {
+        customElements.whenDefined('vl-map-layer-switcher').then(() => done());
+      });
+
+      test('een klik op een element met een layer attribuut zal de zichtbaarheid van de gekoppelde laag wijzigen', (done) => {
+        const map = fixture('vl-map-layer-switcher-fixture');
+        const checkbox = map.querySelector('vl-map-layer-switcher vl-checkbox');
+        const layers = map._map.getOverlayLayers();
+        const layer = layers[0];
+        assert.lengthOf(layers, 1);
+        assert.isTrue(layer.getVisible());
+        checkbox.addEventListener('click', () => {
+          assert.isFalse(layer.getVisible());
+          done();
+        });
+        checkbox.click();
+      });
+    });
+  </script>
+</body>
+
+</html>
