@@ -13,7 +13,7 @@ describe('vl-map-search', async () => {
     await assert.eventually.isTrue(map.hasSearch());
   });
 
-  it('als gebruiker kan ik zoeken met de zoekfunctionaliteit maar als er niets gevonden werd zijn er geen opties', async () => {
+  it('als gebruiker kan ik zoeken met de zoekfunctionaliteit', async () => {
     const map = await vlMapPage.getMap();
     const search = await map.getSearch();
     await search.open();
@@ -25,6 +25,7 @@ describe('vl-map-search', async () => {
     const map = await vlMapPage.getMap();
     const search = await map.getSearch();
     await assert.eventually.isTrue(map.hasZoom(2));
+    await search.open();
     await search.zoomTo('Tems');
     await assert.eventually.isTrue(map.hasZoom(5));
   });

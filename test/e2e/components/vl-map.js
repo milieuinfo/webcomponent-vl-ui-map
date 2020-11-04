@@ -110,7 +110,7 @@ class VlMap extends VlElement {
   }
 
   async _getSearchElement() {
-    return this.shadowRoot.querySelector('vl-map-search');
+    return this.shadowRoot.findElement(By.css('vl-map-search'));
   }
 }
 
