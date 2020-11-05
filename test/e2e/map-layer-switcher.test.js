@@ -35,5 +35,21 @@ describe('vl-map-layer-switcher', async () => {
     await checkbox.click();
     await assert.eventually.isTrue(layer.isVisible());
   });
+
+  it('als gebruiker kan ik een kaartlaag met resoluties tonen en verbergen op het juiste zoom niveau', async () => {
+    const map = await vlMapPage.getMap();
+    const sideSheet = await map.getSideSheet();
+    const layerSwitcher = await map.getLayerSwitcher();
+    await sideSheet.open();
+    const checkbox = await layerSwitcher.getCheckboxForLayer('resolution-layer');
+    for (let i = 0; i < 6; i++) {
+      await map.zoomIn();
+      await assert.eventually.isTrue(checkbox.isDisabled());
+    }
+    await map.zoomIn();
+    await driver.wait(async () => !(await checkbox.isDisabled()));
+    await map.zoomIn();
+    await driver.wait(async () => checkbox.isDisabled());
+  });
 });
 
