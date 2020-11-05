@@ -37,7 +37,8 @@ export class VlMapLayerSwitcher extends vlElement(HTMLElement) {
   }
 
   connectedCallback() {
-    this._addClickListeners();
+    this._registerClickListeners();
+    this._registerMapListener();
   }
 
   get _slot() {
@@ -54,11 +55,19 @@ export class VlMapLayerSwitcher extends vlElement(HTMLElement) {
     }
   }
 
-  _addClickListeners() {
+  _registerClickListeners() {
     if (this._map) {
       this._layerInputs.forEach((input) => {
         this._initializeInput(input);
         input.addEventListener('click', () => this._setLayerVisibility(input));
+      });
+    }
+  }
+
+  _registerMapListener() {
+    if (this._map) {
+      this._map.on('change', () => {
+        console.log('map change!');
       });
     }
   }
