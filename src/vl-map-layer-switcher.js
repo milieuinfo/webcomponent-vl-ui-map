@@ -55,6 +55,10 @@ export class VlMapLayerSwitcher extends vlElement(HTMLElement) {
     }
   }
 
+  get _layers() {
+    return this._map.getOverlayLayers();
+  }
+
   _registerClickListeners() {
     if (this._map) {
       this._layerInputs.forEach((input) => {
@@ -66,8 +70,18 @@ export class VlMapLayerSwitcher extends vlElement(HTMLElement) {
 
   _registerMapListener() {
     if (this._map) {
-      this._map.on('change', () => {
-        console.log('map change!');
+      this._map.on('moveend', () => {
+        const resolution = this._map.getView().getResolution();
+        this._layerInputs.forEach((input) => {
+          const layer = this._getLayer(input);
+          if (layer) {
+            if (resolution > layer.getMaxResolution() || resolution < layer.getMinResolution()) {
+              input.setAttribute('disabled', '');
+            } else {
+              input.removeAttribute('disabled');
+            }
+          }
+        });
       });
     }
   }
@@ -88,6 +102,6 @@ export class VlMapLayerSwitcher extends vlElement(HTMLElement) {
   }
 
   _getLayer(input) {
-    return this._map.getOverlayLayers().find((layer) => layer.get('title') == input.dataset.vlLayer);
+    return this._layers.find((layer) => layer.get('title') == input.dataset.vlLayer);
   }
 }
