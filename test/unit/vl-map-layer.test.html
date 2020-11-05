@@ -271,7 +271,7 @@
         const features = [feature1, feature2];
         element.setAttribute('features', geoJSON.writeFeatures(features));
     
-        element.verwijderFeatureStijlen();
+        element.removeFeatureStyle();
         assert.isNull(element.features[0].getStyle());
         assert.isNull(element.features[1].getStyle());
       });

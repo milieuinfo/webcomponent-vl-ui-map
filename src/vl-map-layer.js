@@ -138,7 +138,7 @@ export class VlMapLayer extends vlElement(HTMLElement) {
   /**
    * Verwijdert de stijl van al de kaartlaag features.
    */
-  verwijderFeatureStijlen() {
+  removeFeatureStyle() {
     if (this._source && this._source.getFeatures()) {
       this._source.getFeatures().forEach((feature) => {
         feature.setStyle(null);
@@ -247,7 +247,7 @@ export class VlMapLayer extends vlElement(HTMLElement) {
         if (geometry instanceof OlPoint) {
           return geometry;
         } else {
-          return this.__negeerClustering();
+          return this.__ignoreClustering();
         }
       },
     });
@@ -259,7 +259,7 @@ export class VlMapLayer extends vlElement(HTMLElement) {
     }
   }
 
-  __negeerClustering() {
+  __ignoreClustering() {
     return null;
   }
 
