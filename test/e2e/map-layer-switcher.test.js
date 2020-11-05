@@ -42,14 +42,13 @@ describe('vl-map-layer-switcher', async () => {
     const layerSwitcher = await map.getLayerSwitcher();
     await sideSheet.open();
     const checkbox = await layerSwitcher.getCheckboxForLayer('resolution-layer');
-    for (let i = 0; i < 6; i++) {
-      await map.zoomIn();
-      await assert.eventually.isTrue(checkbox.isDisabled());
-    }
+    await assert.eventually.isTrue(checkbox.isDisabled());
     await map.zoomIn();
     await driver.wait(async () => !(await checkbox.isDisabled()));
+    await assert.eventually.isFalse(checkbox.isDisabled());
     await map.zoomIn();
-    await driver.wait(async () => checkbox.isDisabled());
+    await driver.wait(async () => await checkbox.isDisabled());
+    await assert.eventually.isTrue(checkbox.isDisabled());
   });
 });
 

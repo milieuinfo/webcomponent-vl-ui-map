@@ -77,7 +77,7 @@ export class VlMapLayerSwitcher extends vlElement(HTMLElement) {
           if (layer) {
             const maxResolution = parseFloat(layer.getMaxResolution());
             const minResolution = parseFloat(layer.getMinResolution());
-            if (resolution > maxResolution || resolution <= minResolution) {
+            if (resolution >= maxResolution || resolution < minResolution) {
               input.setAttribute('disabled', '');
             } else {
               input.removeAttribute('disabled');
