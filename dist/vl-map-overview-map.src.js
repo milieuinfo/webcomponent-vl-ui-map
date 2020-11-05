@@ -1,7 +1,7 @@
 import {vlElement} from 'vl-ui-core';
 
 /**
- * VlMap
+ * VlMapOverviewMap
  * @class
  * @classdesc De kaart overview component.
  *
