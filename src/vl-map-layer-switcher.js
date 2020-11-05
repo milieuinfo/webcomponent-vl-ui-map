@@ -57,22 +57,28 @@ export class VlMapLayerSwitcher extends vlElement(HTMLElement) {
   _addClickListeners() {
     if (this._map) {
       this._layerInputs.forEach((input) => {
-        const layer = this._getLayer(input.dataset.vlLayer);
-        if (layer) {
-          input.checked = layer.getVisible();
-        }
-        input.addEventListener('click', () => {
-          const layer = this._getLayer(input.dataset.vlLayer);
-          if (layer) {
-            layer.setVisible(input.checked);
-            this._map.render();
-          }
-        });
+        this._initializeInput(input);
+        input.addEventListener('click', () => this._setLayerVisibility(input));
       });
     }
   }
 
-  _getLayer(title) {
-    return this._map.getOverlayLayers().find((layer) => layer.get('title') == title);
+  _initializeInput(input) {
+    const layer = this._getLayer(input);
+    if (layer) {
+      input.checked = layer.getVisible();
+    }
+  }
+
+  _setLayerVisibility(input) {
+    const layer = this._getLayer(input);
+    if (layer) {
+      layer.setVisible(input.checked);
+      this._map.render();
+    }
+  }
+
+  _getLayer(input) {
+    return this._map.getOverlayLayers().find((layer) => layer.get('title') == input.dataset.vlLayer);
   }
 }
