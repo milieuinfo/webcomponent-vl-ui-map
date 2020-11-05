@@ -37,13 +37,13 @@
     "demo": "http-server"
   },
   "dependencies": {
-    "vl-mapactions": "github:milieuinfo/vl-mapactions#map-search",
+    "vl-mapactions": "github:milieuinfo/vl-mapactions#c5f7d84",
     "vl-ui-core": "^6.0.0",
     "vl-ui-search": "^1.1.0",
     "vl-ui-select": "^4.1.4"
   },
   "peerDependencies": {
-    "vl-mapactions": "milieuinfo/vl-mapactions#map-search",
+    "vl-mapactions": "milieuinfo/vl-mapactions#c5f7d84h",
     "vl-ui-core": "^6.0.0",
     "vl-ui-search": "^1.1.0",
     "vl-ui-select": "^4.1.3"
@@ -52,6 +52,6 @@
     "@govflanders/vl-ui-core": "^4.0.5",
     "vl-ui-body": "^1.0.5",
     "vl-ui-button": "^5.0.6",
-    "vl-ui-util": "^5.2.14"
+    "vl-ui-util": "^5.2.19"
   }
 }
