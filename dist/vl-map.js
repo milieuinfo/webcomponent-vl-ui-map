@@ -1,5 +1,5 @@
 import {vlElement} from '/node_modules/vl-ui-core/dist/vl-core.js';
-import {VlCustomMap, OlLayerGroup, OlProjection, OlGeoJSON} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
+import {VlCustomMap, OlLayerGroup, OlProjection} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
 
 /**
  * VlMap
@@ -22,14 +22,10 @@ export class VlMap extends vlElement(HTMLElement) {
     super(`
       <style>
         @import '/node_modules/vl-ui-map/dist/style.css';
-
-        :host {
-          display: none;
-          position: relative;
-          --vl-map--margin-top: 0px;
-        }
       </style>
-      <div id="map"></div>
+      <div id="map">
+        <slot></slot>
+      </div>
     `);
 
     this.__prepareReadyPromises();
@@ -42,15 +38,6 @@ export class VlMap extends vlElement(HTMLElement) {
    */
   get ready() {
     return this.__ready;
-  }
-
-  /**
-   * Geeft het overlay container element terug.
-   *
-   * @return {HTMLElement}
-   */
-  get overlayContainerElement() {
-    return this._shadow.querySelector('.ol-overlaycontainer-stopevent');
   }
 
   __prepareReadyPromises() {
@@ -78,13 +65,6 @@ export class VlMap extends vlElement(HTMLElement) {
 
   get disableMouseWheelZoom() {
     return this.getAttribute('disable-mouse-wheel-zoom') != undefined;
-  }
-
-  get _geoJSON() {
-    if (!this.__geoJSON) {
-      this.__geoJSON = new OlGeoJSON();
-    }
-    return this.__geoJSON;
   }
 
   get _mapElement() {

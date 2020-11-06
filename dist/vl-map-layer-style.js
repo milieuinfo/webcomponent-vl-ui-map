@@ -27,7 +27,7 @@ export class VlMapLayerStyle extends vlElement(HTMLElement) {
    * @Return {string}
    */
   get color() {
-    return this.getAttribute('color') || 'rgba(255, 255, 255, 1)';
+    return this.getAttribute('color') || 'rgba(2, 85, 204, 1)';
   }
 
   /**

@@ -1,5 +1,5 @@
 import {vlElement} from '/node_modules/vl-ui-core/dist/vl-core.js';
-import {VlCustomMap, OlLayerGroup, OlProjection, OlGeoJSON} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
+import {VlCustomMap, OlLayerGroup, OlProjection} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
 
 /**
  * VlMap
@@ -38,15 +38,6 @@ export class VlMap extends vlElement(HTMLElement) {
    */
   get ready() {
     return this.__ready;
-  }
-
-  /**
-   * Geeft het overlay container element terug.
-   *
-   * @return {HTMLElement}
-   */
-  get overlayContainerElement() {
-    return this._shadow.querySelector('.ol-overlaycontainer-stopevent');
   }
 
   __prepareReadyPromises() {

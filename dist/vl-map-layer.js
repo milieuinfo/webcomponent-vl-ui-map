@@ -33,7 +33,7 @@ export class VlMapLayer extends vlElement(HTMLElement) {
   }
 
   connectedCallback() {
-    this._layer = this.__createLayer(this._name, this.features);
+    this._layer = this.__createLayer();
     this._configureMap();
   }
 
@@ -123,6 +123,14 @@ export class VlMapLayer extends vlElement(HTMLElement) {
     return this.getAttribute('cluster-distance');
   }
 
+  get _minResolution() {
+    return this.getAttribute('min-resolution') || 0;
+  }
+
+  get _maxResolution() {
+    return this.getAttribute('max-resolution') || Infinity;
+  }
+
   get _map() {
     return this._mapElement.map;
   }
@@ -138,7 +146,7 @@ export class VlMapLayer extends vlElement(HTMLElement) {
   /**
    * Verwijdert de stijl van al de kaartlaag features.
    */
-  verwijderFeatureStijlen() {
+  removeFeaturesStyle() {
     if (this._source && this._source.getFeatures()) {
       this._source.getFeatures().forEach((feature) => {
         feature.setStyle(null);
@@ -220,12 +228,14 @@ export class VlMapLayer extends vlElement(HTMLElement) {
     }
   }
 
-  __createLayer(title, features) {
+  __createLayer() {
     const layer = new OlVectorLayer({
-      title: title,
-      source: this.__createSource(features),
+      title: this._name,
+      source: this.__createSource(this.features),
       updateWhileAnimating: true,
       updateWhileInteracting: true,
+      minResolution: this._minResolution,
+      maxResolution: this._maxResolution,
     });
     layer.set('id', this.__counter);
     return layer;
@@ -247,7 +257,7 @@ export class VlMapLayer extends vlElement(HTMLElement) {
         if (geometry instanceof OlPoint) {
           return geometry;
         } else {
-          return this.__negeerClustering();
+          return this.__ignoreClustering();
         }
       },
     });
@@ -259,7 +269,7 @@ export class VlMapLayer extends vlElement(HTMLElement) {
     }
   }
 
-  __negeerClustering() {
+  __ignoreClustering() {
     return null;
   }
 
