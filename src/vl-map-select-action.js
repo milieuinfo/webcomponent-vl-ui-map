@@ -15,48 +15,31 @@ import {VlSelectAction} from '/node_modules/vl-mapactions/dist/vl-mapactions.js'
  * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map-select-action.html|Demo}
  */
 export class VlMapSelectAction extends VlMapAction {
-  constructor() {
-    super();
-    this._onSelect = () => {
-      console.info('er is geen onSelect functie gedefinieerd!');
-    };
-  }
-
-  get style() {
-    return this._style;
-  }
-
-  set style(style) {
-    this._style = style;
-  }
-
   get _cluster() {
     return this.getAttribute('cluster');
   }
 
   select(feature) {
-    if (this._action && feature) {
-      this._action.selectFeature(feature);
+    if (this.action && feature) {
+      this.action.selectFeature(feature);
     }
   }
 
   onSelect(callback) {
-    this._onSelect = callback;
+    this.__callback = callback;
   }
 
   reset() {
-    if (this._action) {
-      this._action.clearFeatures();
+    if (this.action) {
+      this.action.clearFeatures();
     }
   }
 
   _createAction(layer) {
-    const callback = (args) => this._onSelect(args);
     const options = {
-      style: this._style,
+      style: this.style,
       cluster: (this._cluster != undefined),
     };
-    const select = new VlSelectAction(layer, callback, options);
-    return select;
+    return new VlSelectAction(layer, this._callback, options);
   }
 }

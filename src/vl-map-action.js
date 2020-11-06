@@ -32,9 +32,27 @@ export class VlMapAction extends vlElement(HTMLElement) {
   }
 
   /**
+   * Geeft de kaartlaag stijl.
+   *
+   * @return {Object}
+   */
+  get style() {
+    return this._style;
+  }
+
+  /**
+   * Zet de kaartlaag stijl.
+   *
+   * @param {Object} style
+   */
+  set style(style) {
+    this._style = style;
+  }
+
+  /**
    * Geeft de kaartlaag.
    *
-   * @return {ol.layer.Layer}
+   * @return {Object}
    */
   get layer() {
     return this._layer;
@@ -43,7 +61,7 @@ export class VlMapAction extends vlElement(HTMLElement) {
   /**
    * Zet de kaartlaag.
    *
-   * @param {ol.layer.Layer} layer
+   * @param {Object} layer
    */
   set layer(layer) {
     this._layer = layer;
@@ -53,7 +71,7 @@ export class VlMapAction extends vlElement(HTMLElement) {
   /**
    * Geeft de kaart actie.
    *
-   * @return {ol.interaction}
+   * @return {Object}
    */
   get action() {
     return this._action;
@@ -65,12 +83,16 @@ export class VlMapAction extends vlElement(HTMLElement) {
     }
   }
 
+  get _callback() {
+    return (args) => this.__callback ? this.__callback(args) : null;
+  }
+
   /**
    * Activeer de kaart actie op de kaart.
    */
   activateAction() {
-    if (this._action) {
-      this._map.activateAction(this._action);
+    if (this.action) {
+      this._map.activateAction(this.action);
       this.actionChanged();
     }
   }
@@ -103,7 +125,7 @@ export class VlMapAction extends vlElement(HTMLElement) {
 
   __registerMapActionChangedCallback() {
     this.parentElement.addEventListener(VlMapAction.NEW_ACTION_EVENT_NAME, () => {
-      this.setAttribute('active', (this._map && this._map.currentAction == this._action));
+      this.setAttribute('active', (this._map && this._map.currentAction == this.action));
     });
   }
 }
