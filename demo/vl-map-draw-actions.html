@@ -14,19 +14,19 @@
 <body is="vl-body">
     <vl-demo-page data-vl-webcomponent="vl-map-draw-action">
         <vl-demo data-vl-title="Kaart met punt teken actie">
-            <vl-map id="map-with-draw-action">
+            <vl-map id="map-with-draw-point-action">
                 <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
                 <vl-map-baselayer-grb></vl-map-baselayer-grb>
                 <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
-                <vl-map-layer id="layer">
+                <vl-map-layer id="point-layer">
                     <vl-map-layer-circle-style></vl-map-layer-circle-style>
                 </vl-map-layer>
-                <vl-map-draw-action id="draw-action"></vl-map-draw-action>
+                <vl-map-draw-point-action id="draw-point-action"></vl-map-draw-point-action>
             </vl-map>
             <script>
                 customElements.whenDefined('vl-map').then(() => {
-                  const layer = document.getElementById('layer');
-                  const action = document.getElementById('draw-action');
+                  const layer = document.getElementById('point-layer');
+                  const action = document.getElementById('draw-point-action');
                   action.layer = layer.layer;
                   action.activateAction();
                 });

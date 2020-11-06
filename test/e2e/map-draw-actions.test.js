@@ -1,16 +1,16 @@
 const {assert, driver} = require('vl-ui-core').Test.Setup;
-const VlMapDrawActionPage = require('./pages/vl-map-draw-action.page');
+const VlMapDrawActionsPage = require('./pages/vl-map-draw-actions.page');
 
 describe('vl-map-draw-action', async () => {
-  const vlMapPage = new VlMapDrawActionPage(driver);
+  const vlMapPage = new VlMapDrawActionsPage(driver);
 
   before(() => {
     return vlMapPage.load();
   });
 
   it('als gebruiker kan ik punten tekenen op een kaart', async () => {
-    const map = await vlMapPage.getMapWithDrawAction();
-    const action = await vlMapPage.getDrawAction();
+    const map = await vlMapPage.getMapWithDrawPointAction();
+    const action = await vlMapPage.getDrawPointAction();
     const layers = await map.getLayers();
     const layer = layers[0];
     let features = await layer.getFeatures();
