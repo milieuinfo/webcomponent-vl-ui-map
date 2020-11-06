@@ -10,11 +10,7 @@ class VlMapLayer extends VlElement {
   }
 
   async getFeatures() {
-    return this.driver.executeScript(`return arguments[0].features.map((f) => arguments[0].__geoJSON.writeFeature(f));`, this);
-  }
-
-  async getFeature(id) {
-    return this.driver.executeScript(`return arguments[0].__geoJSON.writeFeature(arguments[0].features.find((f) => f.getId() === arguments[1]));`, this, id);
+    return this.driver.executeScript(`return arguments[0].layer.getSource().getFeatures();`, this);
   }
 
   async isClustered() {

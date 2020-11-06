@@ -113,10 +113,10 @@ export class VlMapAction extends vlElement(HTMLElement) {
     console.log('implementatie van de _createAction ontbreekt');
   }
 
-  _computeAction(map, kaartlaag) {
+  _computeAction(map, layer) {
     let action;
-    if (map && kaartlaag) {
-      action = this._createAction(kaartlaag);
+    if (map && layer) {
+      action = this._createAction(layer);
       this.parentElement.addAction(action);
       this.actionChanged();
     }
