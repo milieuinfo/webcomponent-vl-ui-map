@@ -13,6 +13,11 @@ class VlMapLayer extends VlElement {
     return this.driver.executeScript(`return arguments[0].layer.getSource().getFeatures();`, this);
   }
 
+  async getFeature(id) {
+    const features = await this.getFeatures();
+    return features.find((feature) => feature.getId() === id);
+  }
+
   async isClustered() {
     return this.hasAttribute('cluster');
   }
