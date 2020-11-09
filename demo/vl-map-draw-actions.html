@@ -32,17 +32,9 @@
                 <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
                 <vl-map-layer id="line-layer">
                     <vl-map-layer-style></vl-map-layer-style>
+                    <vl-map-draw-line-action id="draw-line-action" data-vl-default-active></vl-map-draw-line-action>
                 </vl-map-layer>
-                <vl-map-draw-line-action id="draw-line-action"></vl-map-draw-line-action>
             </vl-map>
-            <script>
-                customElements.whenDefined('vl-map').then(() => {
-                  const layer = document.getElementById('line-layer');
-                  const action = document.getElementById('draw-line-action');
-                  action.layer = layer.layer;
-                  action.activateAction();
-                });
-            </script>
         </vl-demo>
     </vl-demo-page>
 </body>
