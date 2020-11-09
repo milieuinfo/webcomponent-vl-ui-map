@@ -1,5 +1,5 @@
 import {vlElement} from '/node_modules/vl-ui-core/dist/vl-core.js';
-import {VlCustomMap, OlLayerGroup, OlProjection} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
+import {VlCustomMap, OlLayerGroup, OlProjection, OlGeoJSON} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
 
 /**
  * VlMap
@@ -65,6 +65,13 @@ export class VlMap extends vlElement(HTMLElement) {
 
   get disableMouseWheelZoom() {
     return this.getAttribute('disable-mouse-wheel-zoom') != undefined;
+  }
+
+  get geoJSON() {
+    if (!this.__geoJSON) {
+      this.__geoJSON = new OlGeoJSON();
+    }
+    return this.__geoJSON;
   }
 
   get _mapElement() {

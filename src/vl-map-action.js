@@ -10,11 +10,14 @@ import {vlElement} from '/node_modules/vl-ui-core/dist/vl-core.js';
  * @extends HTMLElement
  * @mixes vlElement
  *
+ * @property {boolean} data-vl-default-active - Attribuut wordt gebruikt om de actie standaard te activeren.
+ *
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
  */
 export class VlMapAction extends vlElement(HTMLElement) {
   connectedCallback() {
+    this.__defineLayer();
     this.__registerMapActionChangedCallback();
   }
 
@@ -77,9 +80,21 @@ export class VlMapAction extends vlElement(HTMLElement) {
     return this._action;
   }
 
+  get _mapElement() {
+    return this.closest('vl-map');
+  }
+
+  get _layerElement() {
+    return this.closest('vl-map-layer');
+  }
+
+  get _active() {
+    return this.hasAttribute('default-active');
+  }
+
   get _map() {
-    if (this.parentNode) {
-      return this.parentNode.map;
+    if (this._mapElement) {
+      return this._mapElement.map;
     }
   }
 
@@ -90,7 +105,7 @@ export class VlMapAction extends vlElement(HTMLElement) {
   /**
    * Activeer de kaart actie op de kaart.
    */
-  activateAction() {
+  activate() {
     if (this.action) {
       this._map.activateAction(this.action);
       this.actionChanged();
@@ -102,30 +117,38 @@ export class VlMapAction extends vlElement(HTMLElement) {
    */
   actionChanged() {
     const event = new Event(VlMapAction.NEW_ACTION_EVENT_NAME);
-    this.parentElement.dispatchEvent(event);
+    this._mapElement.dispatchEvent(event);
   }
 
   _layerChangedCallback() {
-    this._computeAction(this._map, this.layer);
+    this._mapElement.ready.then(() => {
+      if (this.layer) {
+        const action = this._createAction(this.layer);
+        if (action) {
+          this._mapElement.addAction(action);
+          this.actionChanged();
+          if (this._active) {
+            action.activate();
+          }
+          this._action = action;
+        }
+      }
+    });
   }
 
   _createAction() {
-    console.log('implementatie van de _createAction ontbreekt');
-  }
-
-  _computeAction(map, layer) {
-    let action;
-    if (map && layer) {
-      action = this._createAction(layer);
-      this.parentElement.addAction(action);
-      this.actionChanged();
-    }
-    this._action = action;
+    console.log('implementatie van _createAction ontbreekt');
   }
 
   __registerMapActionChangedCallback() {
-    this.parentElement.addEventListener(VlMapAction.NEW_ACTION_EVENT_NAME, () => {
+    this._mapElement.addEventListener(VlMapAction.NEW_ACTION_EVENT_NAME, () => {
       this.setAttribute('active', (this._map && this._map.currentAction == this.action));
     });
+  }
+
+  __defineLayer() {
+    if (this._layerElement) {
+      this.layer = this._layerElement.layer;
+    }
   }
 }
