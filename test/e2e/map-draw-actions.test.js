@@ -37,4 +37,19 @@ describe('vl-map-draw-action', async () => {
     features = await layer.getFeatures();
     assert.lengthOf(features, 2);
   });
+
+  it('als gebruiker kan ik polygonen tekenen op een kaart', async () => {
+    const map = await vlMapPage.getMapWithDrawPolygonAction();
+    const action = await vlMapPage.getDrawPolygonAction();
+    const layers = await map.getLayers();
+    const layer = layers[0];
+    let features = await layer.getFeatures();
+    assert.lengthOf(features, 0);
+    await action.draw();
+    features = await layer.getFeatures();
+    assert.lengthOf(features, 1);
+    await action.draw({x: 300, y: 300}, {x: 300, y: 400}, {x: 400, y: 400}, {x: 400, y: 300});
+    features = await layer.getFeatures();
+    assert.lengthOf(features, 2);
+  });
 });
