@@ -14,7 +14,7 @@ class VlMapLayer extends VlElement {
   }
 
   async getFeature(id) {
-    const feature = await this.driver.executeScript(`return arguments[0]._mapElement.geoJSON.writeFeature(arguments[0].layer.getSource().getFeatures().find((feature) => feature.getId() === ${id}));`, this);
+    const feature = await this.driver.executeScript(`return arguments[0].mapElement.geoJSON.writeFeature(arguments[0].layer.getSource().getFeatures().find((feature) => feature.getId() === ${id}));`, this);
     return JSON.parse(feature);
   }
 
