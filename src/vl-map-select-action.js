@@ -6,7 +6,7 @@ import {VlSelectAction} from '/node_modules/vl-mapactions/dist/vl-mapactions.js'
  * @class
  * @classdesc De kaart selecteer actie component.
  *
- * @property {boolean} cluster - Attribuut geeft aan of de features geclusterd zijn of niet.
+ * @property {boolean} data-vl-cluster - Attribuut geeft aan of de features geclusterd zijn of niet.
  *
  * @extends VlMapAction
  *

@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="../../../@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../../../web-component-tester/browser.js"></script>
+
+  <script type="module" src="../../src/vl-map-all.js"></script>
+  <script src="/node_modules/sinon/pkg/sinon.js"></script>
+</head>
+
+<body>
+  <test-fixture id="vl-map-action-fixture">
+    <template>
+      <vl-map>
+        <vl-map-layer>
+          <vl-map-action></vl-map-action>
+        </vl-map-layer>
+      </vl-map>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="vl-map-action-default-active-fixture">
+    <template>
+      <vl-map>
+        <vl-map-layer>
+          <vl-map-action data-vl-default-active></vl-map-action>
+        </vl-map-layer>
+      </vl-map>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="vl-map-action-layer-fixture">
+    <template>
+      <vl-map>
+        <vl-map-layer></vl-map-layer>
+        <vl-map-action></vl-map-action>
+      </vl-map>
+    </template>
+  </test-fixture>
+
+  <script>
+    suite('vl-map-action', () => {
+      const sandbox = sinon.createSandbox();
+    
+      setup((done) => {
+        customElements.whenDefined('vl-map-action').then(() => done());
+      });
+
+      teardown(() => {
+        sandbox.restore();
+      });
+    
+      test('de actie wordt standaard niet geactiveerd', () => {
+        const map = fixture('vl-map-action-fixture');
+        assert.lengthOf(map._map.actions, 0);
+      });
+
+      test('de actie kan standaard geactiveerd worden via het default active attribuut', (done) => {
+        const map = fixture('vl-map-action-default-active-fixture');
+        const actionElement = map.querySelector('vl-map-action');
+        const action = {};
+        sandbox.stub(actionElement, '_createAction').returns(action);
+        map.ready.then(() => {
+          assert.lengthOf(map._map.actions, 1);
+          assert.deepEqual(map._map.actions[0], action);
+          done();
+        });
+      });
+
+      test('de actie kaartlaag kan gezet worden zodat één actie voor meerdere kaartlagen gebruikt kan worden', (done) => {
+        debugger;
+        const map = fixture('vl-map-action-layer-fixture');
+        const layerElement = map.querySelector('vl-map-layer');
+        const actionElement = map.querySelector('vl-map-action');
+        const action = {
+          activate: sinon.spy(),
+        };
+        sandbox.stub(actionElement, '_createAction').returns(action);
+        map.ready.then(() => {
+          assert.lengthOf(map._map.actions, 0);
+          actionElement.layer = layerElement.layer;
+          setTimeout(() => {
+            assert.lengthOf(map._map.actions, 1);
+            assert.deepEqual(map._map.actions[0], action);
+            done();
+          });
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>
