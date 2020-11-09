@@ -73,7 +73,7 @@ export class VlMapLayerCircleStyle extends VlMapLayerStyle {
     return (feature, resolution) => {
       const features = feature && feature.get ? (feature.get('features') || []) : [];
       const size = features.length || 1;
-      const clusterMultiplier = size == 1 ? 1 : Math.max(3, size.toString().length);
+      const clusterMultiplier = size == 1 ? 1 : Math.max(1.5, size.toString().length);
       const text = size > 1 ? size.toString() : '';
       let textColor = this.textColor;
       let color = this.color;

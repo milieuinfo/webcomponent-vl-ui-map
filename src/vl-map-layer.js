@@ -110,6 +110,10 @@ export class VlMapLayer extends vlElement(HTMLElement) {
     return this.parentNode;
   }
 
+  get cluster() {
+    return this.getAttribute('cluster') != undefined;
+  }
+
   get ready() {
     return this.mapElement.ready;
   }
@@ -124,10 +128,6 @@ export class VlMapLayer extends vlElement(HTMLElement) {
 
   get _autoExtentMaxZoom() {
     return this.getAttribute('auto-extent-max-zoom');
-  }
-
-  get _cluster() {
-    return this.getAttribute('cluster') != undefined;
   }
 
   get _clusterDistance() {
@@ -244,7 +244,7 @@ export class VlMapLayer extends vlElement(HTMLElement) {
     this._source = new OlVectorSource({
       features: features,
     });
-    return this._cluster ? this.__createClusterSource(this._source) : this._source;
+    return this.cluster ? this.__createClusterSource(this._source) : this._source;
   }
 
   __createClusterSource(source) {
