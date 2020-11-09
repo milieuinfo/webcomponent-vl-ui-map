@@ -14,8 +14,8 @@ class VlMapLayer extends VlElement {
   }
 
   async getFeature(id) {
-    const features = await this.getFeatures();
-    return features.find((feature) => feature.getId() === id);
+    const feature = await this.driver.executeScript(`return arguments[0]._mapElement.geoJSON.writeFeature(arguments[0].layer.getSource().getFeatures().find((feature) => feature.getId() === ${id}));`, this);
+    return JSON.parse(feature);
   }
 
   async isClustered() {
@@ -36,7 +36,7 @@ class VlMapLayer extends VlElement {
 
   async clickPointFeatureOnMap(id, map) {
     const feature = await this.getFeature(id);
-    const {coordinates} = JSON.parse(feature).geometry;
+    const {coordinates} = feature.geometry;
     await map.scrollIntoView();
     await map.clickOnCoordinates(coordinates);
   }

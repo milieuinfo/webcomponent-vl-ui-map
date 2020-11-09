@@ -1,5 +1,5 @@
 import {vlElement} from '/node_modules/vl-ui-core/dist/vl-core.js';
-import {OlGeoJSON, OlVectorLayer, OlVectorSource, OlClusterSource, OlPoint} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
+import {OlVectorLayer, OlVectorSource, OlClusterSource, OlPoint} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
 
 /**
  * VlMapLayer
@@ -28,7 +28,6 @@ export class VlMapLayer extends vlElement(HTMLElement) {
   constructor() {
     super();
     VlMapLayer._counter = 0;
-    this.__geoJSON = new OlGeoJSON();
     this.__counter = ++VlMapLayer._counter;
   }
 
@@ -70,7 +69,7 @@ export class VlMapLayer extends vlElement(HTMLElement) {
    */
   get features() {
     const features = this.getAttribute('features');
-    return features ? this.__geoJSON.readFeatures(features) : [];
+    return features ? this._mapElement.geoJSON.readFeatures(features) : [];
   }
 
   /**
