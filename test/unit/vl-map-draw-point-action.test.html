@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="../../../@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../../../web-component-tester/browser.js"></script>
+
+  <script type="module" src="../../src/vl-map-all.js"></script>
+  <script src="/node_modules/sinon/pkg/sinon.js"></script>
+</head>
+
+<body>
+  <test-fixture id="vl-map-draw-point-action-fixture">
+    <template>
+      <vl-map>
+        <vl-map-draw-point-action></vl-map-draw-point-action>
+      </vl-map>
+    </template>
+  </test-fixture>
+
+  <script type="module">
+    import {VlMapDrawPointAction} from '../../src/vl-map-draw-point-action.js';
+
+    suite('vl-map-draw-point-action', () => {
+      setup((done) => {
+        customElements.whenDefined('vl-map-draw-point-action').then(() => done());
+      });
+    
+      test('een punt teken actie is een map actie', () => {
+        assert.isTrue(VlMapDrawPointAction.isVlMapAction());
+      });
+    });
+  </script>
+</body>
+
+</html>

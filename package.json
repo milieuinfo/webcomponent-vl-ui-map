@@ -37,7 +37,7 @@
     "demo": "http-server"
   },
   "dependencies": {
-    "vl-mapactions": "github:milieuinfo/vl-mapactions#geometry-type",
+    "vl-mapactions": "github:milieuinfo/vl-mapactions#draw-line-action",
     "vl-ui-core": "^6.1.0",
     "vl-ui-form-message": "^5.0.5",
     "vl-ui-search": "^1.1.0",
@@ -45,7 +45,7 @@
     "vl-ui-side-sheet": "github:milieuinfo/webcomponent-vl-ui-side-sheet"
   },
   "peerDependencies": {
-    "vl-mapactions": "milieuinfo/vl-mapactions#geometry-type",
+    "vl-mapactions": "milieuinfo/vl-mapactions#draw-line-action",
     "vl-ui-core": "^6.1.0",
     "vl-ui-form-message": "^5.0.5",
     "vl-ui-search": "^1.1.0",

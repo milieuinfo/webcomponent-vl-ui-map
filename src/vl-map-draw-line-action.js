@@ -1,10 +1,10 @@
 import {VlMapAction} from './vl-map-action.js';
-import {VlDrawAction, OlGeometryType} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
+import {VlDrawLineAction} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
 
 /**
- * VlMapDrawPointAction
+ * VlMapDrawLineAction
  * @class
- * @classdesc De kaart punt teken actie component.
+ * @classdesc De kaart lijn teken actie component.
  *
  * @extends VlMapAction
  *
@@ -12,8 +12,8 @@ import {VlDrawAction, OlGeometryType} from '/node_modules/vl-mapactions/dist/vl-
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
  * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map-draw-actions.html|Demo}
  */
-export class VlMapDrawPointAction extends VlMapAction {
+export class VlMapDrawLineAction extends VlMapAction {
   _createAction(layer) {
-    return new VlDrawAction(layer, OlGeometryType.POINT, this._callback);
+    return new VlDrawLineAction(layer, this._callback);
   }
 }

@@ -22,4 +22,19 @@ describe('vl-map-draw-action', async () => {
     features = await layer.getFeatures();
     assert.lengthOf(features, 2);
   });
+
+  it('als gebruiker kan ik lijnen tekenen op een kaart', async () => {
+    const map = await vlMapPage.getMapWithDrawLineAction();
+    const action = await vlMapPage.getDrawLineAction();
+    const layers = await map.getLayers();
+    const layer = layers[0];
+    let features = await layer.getFeatures();
+    assert.lengthOf(features, 0);
+    await action.draw();
+    features = await layer.getFeatures();
+    assert.lengthOf(features, 1);
+    await action.draw({x: 100, y: 100}, {x: 200, y: 200});
+    features = await layer.getFeatures();
+    assert.lengthOf(features, 2);
+  });
 });

@@ -10,6 +10,7 @@ import {VlMapBaseLayerGRBOrtho} from '/src/vl-map-baselayer-grb-ortho.js';
 import {VlMapAction} from '/src/vl-map-action.js';
 import {VlMapSelectAction} from '/src/vl-map-select-action.js';
 import {VlMapDrawPointAction} from '/src/vl-map-draw-point-action.js';
+import {VlMapDrawLineAction} from '/src/vl-map-draw-line-action.js';
 import {VlMapLayerStyle} from '/src/vl-map-layer-style.js';
 import {VlMapLayerCircleStyle} from '/src/vl-map-layer-circle-style.js';
 import {VlMapSearch} from '/src/vl-map-search.js';
@@ -29,6 +30,7 @@ Promise.all([
   define('vl-map-action', VlMapAction);
   define('vl-map-select-action', VlMapSelectAction);
   define('vl-map-draw-point-action', VlMapDrawPointAction);
+  define('vl-map-draw-line-action', VlMapDrawLineAction);
   define('vl-map-layer-style', VlMapLayerStyle);
   define('vl-map-layer-circle-style', VlMapLayerCircleStyle);
   define('vl-map-search', VlMapSearch);
@@ -47,6 +49,7 @@ export {
   VlMapAction,
   VlMapSelectAction,
   VlMapDrawPointAction,
+  VlMapDrawLineAction,
   VlMapLayerStyle,
   VlMapLayerCircleStyle,
   VlMapSearch,
