@@ -70,21 +70,7 @@ export class VlMapLayerSwitcher extends vlElement(HTMLElement) {
 
   _registerMapListener() {
     if (this._map) {
-      this._map.on('moveend', () => {
-        const resolution = this._map.getView().getResolution();
-        this._layerInputs.forEach((input) => {
-          const layer = this._getLayer(input);
-          if (layer) {
-            const maxResolution = parseFloat(layer.getMaxResolution());
-            const minResolution = parseFloat(layer.getMinResolution());
-            if (resolution >= maxResolution || resolution < minResolution) {
-              input.setAttribute('disabled', '');
-            } else {
-              input.removeAttribute('disabled');
-            }
-          }
-        });
-      });
+      this._map.on('moveend', () => this._computeInputsDisabledAttributes());
     }
   }
 
@@ -105,5 +91,23 @@ export class VlMapLayerSwitcher extends vlElement(HTMLElement) {
 
   _getLayer(input) {
     return this._layers.find((layer) => layer.get('title') == input.dataset.vlLayer);
+  }
+
+  _computeInputsDisabledAttribute() {
+    const resolution = this._map.getView().getResolution();
+    this._layerInputs.forEach((input) => this._computeInputDisabledAttribute(input, resolution));
+  }
+
+  _computeInputDisabledAttribute(input, resolution) {
+    const layer = this._getLayer(input);
+    if (layer) {
+      const maxResolution = parseFloat(layer.getMaxResolution());
+      const minResolution = parseFloat(layer.getMinResolution());
+      if (resolution >= maxResolution || resolution < minResolution) {
+        input.setAttribute('disabled', '');
+      } else {
+        input.removeAttribute('disabled');
+      }
+    }
   }
 }
