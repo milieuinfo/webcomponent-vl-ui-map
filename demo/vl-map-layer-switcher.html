@@ -24,24 +24,18 @@
 
 <body is="vl-body">
     <vl-demo-page data-vl-webcomponent="vl-map-layer-switcher">
-        <vl-demo data-vl-title="Kaart met optie om kaartlagen te tonen en verbergen">
+        <vl-demo data-vl-title="Kaart met standaard optie om kaartlagen te tonen en verbergen">
             <div is="vl-grid" data-vl-is-stacked>
-                <div is="vl-column" data-vl-size="12" data-vl-medium-size="12">
-                    <div><label is="vl-form-label">Zoek op adres</label></div>
-                    <vl-map-search></vl-map-search>
-                </div>
                 <div is="vl-column" data-vl-size="12" data-vl-medium-size="12">
                     <vl-map id="map-with-layer-switcher">
                         <vl-map-side-sheet>
-                            <vl-map-layer-switcher>
-                                <vl-checkbox data-vl-label="Kaartlaag" data-vl-layer="layer"></vl-checkbox>
-                            </vl-map-layer-switcher>
+                            <vl-map-layer-switcher></vl-map-layer-switcher>
                         </vl-map-side-sheet>
                         <vl-map-overview-map></vl-map-overview-map>
                         <vl-map-baselayer-grb-gray id="baselayer-grb-gray"></vl-map-baselayer-grb-gray>
                         <vl-map-baselayer-grb id="baselayer-grb"></vl-map-baselayer-grb>
                         <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
-                        <vl-map-layer name="layer" features='
+                        <vl-map-layer data-vl-name="Kaartlaag 1" data-vl-features='
                             {
                                 "type": "FeatureCollection",
                                 "features": [{
@@ -52,16 +46,94 @@
                                     }
                                 }]
                             }'>
-                            <vl-map-layer-circle-style></vl-map-layer-circle-style>
+                            <vl-map-layer-circle-style data-vl-color="black"></vl-map-layer-circle-style>
+                        </vl-map-layer>
+                        <vl-map-layer data-vl-name="Kaartlaag 2" data-vl-features='
+                            {
+                                "type": "FeatureCollection",
+                                "features": [{
+                                    "type": "Feature",
+                                    "geometry": {
+                                        "type": "Point",
+                                        "coordinates": [154055.0,199908.0]
+                                    }
+                                }]
+                            }'>
+                            <vl-map-layer-circle-style data-vl-color="yellow"></vl-map-layer-circle-style>
+                        </vl-map-layer>
+                        <vl-map-layer data-vl-name="Kaartlaag 3" data-vl-features='
+                            {
+                                "type": "FeatureCollection",
+                                "features": [{
+                                    "type": "Feature",
+                                    "geometry": {
+                                        "type": "Point",
+                                        "coordinates": [159055.0,199908.0]
+                                    }
+                                }]
+                            }'>
+                            <vl-map-layer-circle-style data-vl-color="red"></vl-map-layer-circle-style>
                         </vl-map-layer>
                     </vl-map>
                 </div>
             </div>
-            <script>
-                customElements.whenDefined('vl-map-search').then(() => {
-                  document.querySelector('vl-map-search').bindMap(document.querySelector('vl-map'));
-                });
-            </script>
+        </vl-demo>
+
+        <vl-demo data-vl-title="Kaart met gepersonaliseerde optie om kaartlagen te tonen en verbergen">
+            <div is="vl-grid" data-vl-is-stacked>
+                <div is="vl-column" data-vl-size="12" data-vl-medium-size="12">
+                    <vl-map id="map-with-custom-layer-switcher">
+                        <vl-map-side-sheet>
+                            <vl-map-layer-switcher>
+                                <vl-checkbox data-vl-label="Kaartlaag" data-vl-layer="layer-1"></vl-checkbox>
+                            </vl-map-layer-switcher>
+                        </vl-map-side-sheet>
+                        <vl-map-overview-map></vl-map-overview-map>
+                        <vl-map-baselayer-grb-gray id="baselayer-grb-gray"></vl-map-baselayer-grb-gray>
+                        <vl-map-baselayer-grb id="baselayer-grb"></vl-map-baselayer-grb>
+                        <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
+                        <vl-map-layer data-vl-name="layer-1" data-vl-features='
+                            {
+                                "type": "FeatureCollection",
+                                "features": [{
+                                    "type": "Feature",
+                                    "geometry": {
+                                        "type": "Point",
+                                        "coordinates": [149055.0,199908.0]
+                                    }
+                                }]
+                            }'>
+                            <vl-map-layer-circle-style data-vl-color="black"></vl-map-layer-circle-style>
+                        </vl-map-layer>
+                        <vl-map-layer data-vl-name="layer-2" data-vl-features='
+                            {
+                                "type": "FeatureCollection",
+                                "features": [{
+                                    "type": "Feature",
+                                    "geometry": {
+                                        "type": "Point",
+                                        "coordinates": [154055.0,199908.0]
+                                    }
+                                }]
+                            }'>
+                            <vl-map-layer-circle-style data-vl-color="yellow"></vl-map-layer-circle-style>
+                        </vl-map-layer>
+                        <vl-map-layer data-vl-name="layer-3" data-vl-features='
+                            {
+                                "type": "FeatureCollection",
+                                "features": [{
+                                    "type": "Feature",
+                                    "geometry": {
+                                        "type": "Point",
+                                        "coordinates": [159055.0,199908.0]
+                                    }
+                                }]
+                            }'>
+                            <vl-map-layer-circle-style data-vl-color="red"></vl-map-layer-circle-style>
+                        </vl-map-layer>
+                    </vl-map>
+                </div>
+            </div>
         </vl-demo>
     </vl-demo-page>
 </body>

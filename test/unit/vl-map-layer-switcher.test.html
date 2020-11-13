@@ -16,11 +16,26 @@
     <template>
       <vl-map>
         <vl-map-side-sheet>
+          <vl-map-layer-switcher></vl-map-layer-switcher>
+        </vl-map-side-sheet>
+        <vl-map-layer data-vl-name="layer-1"></vl-map-layer>
+        <vl-map-layer data-vl-name="layer-2"></vl-map-layer>
+        <vl-map-layer data-vl-name="layer-3"></vl-map-layer>
+      </vl-map>
+    </template>
+  </test-fixture>
+  
+  <test-fixture id="vl-map-layer-switcher-custom-fixture">
+    <template>
+      <vl-map>
+        <vl-map-side-sheet>
           <vl-map-layer-switcher>
-            <vl-checkbox data-vl-label="Optie 1" data-vl-layer="layer"></vl-checkbox>
+            <vl-checkbox data-vl-label="Optie 1" data-vl-layer="layer-1"></vl-checkbox>
           </vl-map-layer-switcher>
         </vl-map-side-sheet>
-        <vl-map-layer name="layer"></vl-map-layer>
+        <vl-map-layer data-vl-name="layer-1"></vl-map-layer>
+        <vl-map-layer data-vl-name="layer-2"></vl-map-layer>
+        <vl-map-layer data-vl-name="layer-3"></vl-map-layer>
       </vl-map>
     </template>
   </test-fixture>
@@ -28,21 +43,45 @@
   <script>
     suite('vl-map-layer-switcher', () => {
       setup((done) => {
-        customElements.whenDefined('vl-map-layer-switcher').then(() => done());
+        customElements.whenDefined('vl-map-layer-switcher').then(() => {
+          customElements.whenDefined('vl-checkbox').then(() => done());
+        });
       });
 
-      test('een klik op een element met een layer attribuut zal de zichtbaarheid van de gekoppelde laag wijzigen', (done) => {
+      test('wanneer er geen layer input child elementen aanwezig zijn, zullen deze automatisch gegenereerd worden', (done) => {
         const map = fixture('vl-map-layer-switcher-fixture');
+        const layers = map.querySelectorAll('vl-map-layer');
+        const layerSwitcher = map.querySelector('vl-map-layer-switcher');
+        map.ready.then(() => {
+          assert.lengthOf(layerSwitcher._layerInputs, 3);
+          layers.forEach((layer, index) => assert.equal(layerSwitcher._layerInputs[index].getAttribute('data-vl-label'), layer.getAttribute('data-vl-name')));
+          layers.forEach((layer, index) => assert.equal(layerSwitcher._layerInputs[index].getAttribute('data-vl-layer'), layer.getAttribute('data-vl-name')));
+          done();
+        });
+      });
+
+      test('wanneer er layer input child elementen aanwezig zijn, zullen er geen extra input elementen gegenereerd worden', (done) => {
+        const map = fixture('vl-map-layer-switcher-custom-fixture');
+        const layerSwitcher = map.querySelector('vl-map-layer-switcher');
+        map.ready.then(() => {
+          assert.lengthOf(layerSwitcher._layerInputs, 1);
+          done();
+        });
+      });
+
+      test('een change event van een element met een layer attribuut zal de zichtbaarheid van de gekoppelde laag wijzigen', (done) => {
+        const map = fixture('vl-map-layer-switcher-custom-fixture');
         const checkbox = map.querySelector('vl-map-layer-switcher vl-checkbox');
         const layers = map._map.getOverlayLayers();
         const layer = layers[0];
-        assert.lengthOf(layers, 1);
         assert.isTrue(layer.getVisible());
-        checkbox.addEventListener('click', () => {
-          assert.isFalse(layer.getVisible());
-          done();
+        checkbox.addEventListener('change', () => {
+          setTimeout(() => {
+            assert.isFalse(layer.getVisible());
+            done();
+          });
         });
-        checkbox.click();
+        map.ready.then(() => checkbox.toggle());
       });
     });
   </script>
