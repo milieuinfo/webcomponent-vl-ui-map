@@ -40,8 +40,9 @@ export class VlMapLayerSwitcher extends vlElement(HTMLElement) {
     `);
   }
 
-  connectedCallback() {
-    this._mapElement.ready.then(() => this._processInputs());
+  async connectedCallback() {
+    await this._mapElement.ready;
+    this._processInputs();
   }
 
   get _slot() {
