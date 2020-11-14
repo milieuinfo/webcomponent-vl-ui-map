@@ -29,6 +29,10 @@ export class VlMapLayerSwitcher extends vlElement(HTMLElement) {
         label {
           display: block;
         }
+
+        ::slotted([data-vl-layer]) {
+          display: block;
+        }
       </style>
       <div>
         <label is="vl-form-label">Kaartlagen</label>
@@ -37,29 +41,50 @@ export class VlMapLayerSwitcher extends vlElement(HTMLElement) {
     `);
   }
 
-  connectedCallback() {
-    this._addClickListeners();
+  async connectedCallback() {
+    await this._mapElement.ready;
+    this._processInputs();
   }
 
   get _slot() {
     return this._element.querySelector('slot');
   }
 
+  get _hasLayerInputs() {
+    return this._layerInputs && this._layerInputs.length > 0;
+  }
+
   get _layerInputs() {
     return this._slot.assignedElements().filter((input) => input.hasAttribute('data-vl-layer'));
   }
 
+  get _mapElement() {
+    return this.closest('vl-map');
+  }
+
+  _getInputTemplate(layer) {
+    const title = layer.get('title');
+    return this._template(`<vl-checkbox data-vl-label="${title}" data-vl-layer="${title}"></vl-checkbox>`);
+  }
+
   get _map() {
-    if (this.closest('vl-map')) {
-      return this.closest('vl-map')._map;
+    if (this._mapElement) {
+      return this._mapElement._map;
     }
   }
 
-  _addClickListeners() {
+  _processInputs() {
+    if (!this._hasLayerInputs) {
+      this._map.getOverlayLayers().forEach((layer) => this.append(this._getInputTemplate(layer)));
+    }
+    this._addChangeListeners();
+  }
+
+  _addChangeListeners() {
     if (this._map) {
       this._layerInputs.forEach((input) => {
         this._initializeInput(input);
-        input.addEventListener('click', () => this._setLayerVisibility(input));
+        input.addEventListener('change', () => this._setLayerVisibility(input));
       });
     }
   }
