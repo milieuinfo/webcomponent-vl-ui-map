@@ -1,14 +1,24 @@
 @import '../node_modules/ol/ol';
 @import '../node_modules/vl-mapactions/dist/style';
+@import '../node_modules/vl-ui-form-message/dist/style';
+
 @import "vl-ui-core/src/scss/setting/colorsRaw";
 @import "vl-ui-core/src/scss/setting/colors";
 @import "vl-ui-core/src/scss/setting/breakpoints";
 
+:host {
+    display: none;
+    position: relative;
+    --vl-map--margin-top: 0px;
+}
+
 #map {
+    position: relative;
     height: calc(var(--vl-map-height, 500px) - var(--vl-map--margin-top)); 
     width: 100%;
     border: 1px solid $vl-border-color;
     box-sizing: border-box;
+    overflow: hidden;
 
     .ol-zoom, .ol-rotate {
         margin-top: var(--vl-map--margin-top) !important;
@@ -22,7 +32,7 @@
             --vl-search-width: 100%;
             
             position: absolute;
-            margin: .5em;
+            margin: 10px;
             box-sizing: border-box;
 
             @media screen and (max-width: $vl-bp-xsmall) {
@@ -40,10 +50,6 @@
             @media screen and (min-width: $vl-bp-large) {
                 width: 50%;
             }
-        }
-
-        ~ .ol-zoom {
-            top: 3.5em;
         }
     }
 }

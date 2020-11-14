@@ -14,11 +14,11 @@
 <body is="vl-body">
     <vl-demo-page data-vl-webcomponent="vl-map-layer">
         <vl-demo data-vl-title="Kaart met kaartlaag met features">
-            <vl-map>
+            <vl-map id="map-with-standard-layer">
                 <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
                 <vl-map-baselayer-grb></vl-map-baselayer-grb>
                 <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
-                <vl-map-layer id="standard-layer" name="laag" features='
+                <vl-map-layer name="layer" features='
                     {
                         "type": "FeatureCollection",
                         "features": [{
@@ -46,11 +46,11 @@
         </vl-demo>
 
         <vl-demo data-vl-title="Kaart met kaartlaag met geclusterde features">
-            <vl-map>
+            <vl-map id="map-with-clustered-layer">
                 <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
                 <vl-map-baselayer-grb></vl-map-baselayer-grb>
                 <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
-                <vl-map-layer id="clustered-layer" name="laag" features='
+                <vl-map-layer name="layer" features='
                     {
                         "type": "FeatureCollection",
                         "features": [{
@@ -78,11 +78,11 @@
         </vl-demo>
 
         <vl-demo data-vl-title="Kaart met kaartlaag met features en auto extent">
-            <vl-map>
+            <vl-map id="map-with-auto-extent-layer">
                 <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
                 <vl-map-baselayer-grb></vl-map-baselayer-grb>
                 <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
-                <vl-map-layer id="auto-extent-layer" name="laag" features='
+                <vl-map-layer name="layer" features='
                     {
                         "type": "FeatureCollection",
                         "features": [{

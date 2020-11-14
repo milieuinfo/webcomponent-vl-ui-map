@@ -22,14 +22,10 @@ export class VlMap extends vlElement(HTMLElement) {
     super(`
       <style>
         @import '/node_modules/vl-ui-map/dist/style.css';
-
-        :host {
-          display: none;
-          position: relative;
-          --vl-map--margin-top: 0px;
-        }
       </style>
-      <div id="map"></div>
+      <div id="map">
+        <slot></slot>
+      </div>
     `);
 
     this.__prepareReadyPromises();

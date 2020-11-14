@@ -68,16 +68,16 @@ class VlMapSearch extends VlElement {
     const counter = 0;
     try {
       await this.driver.wait(async () => {
-        if (await this.hasNoResults()) {
+        const values = await select.values();
+        if (!values) {
           counter++;
           if (counter == 5) {
             return true;
           }
         } else {
-          const values = await select.values();
           return values.filter((value) => value != null).length > 0;
         }
-      }, 3000);
+      }, 5000);
     } catch (error) {}
   }
 }

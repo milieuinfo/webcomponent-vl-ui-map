@@ -7,7 +7,6 @@
   <script src="../../../web-component-tester/browser.js"></script>
 
   <script type="module" src="../../src/vl-map-all.js"></script>
-  <script src="/node_modules/sinon/pkg/sinon.js"></script>
 </head>
 
 <body>
@@ -39,29 +38,16 @@
     import {OlWMTSSource, OlVectorSource, OlWMTSTileGrid} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
 
     suite('vl-map-baselayer', () => {
-      const sandbox = sinon.createSandbox();
-
-      setup(() => {
-        return new Promise((resolve) => {
-          const wait = () => {
-            if (!!customElements.get('vl-map-baselayer')) {
-              resolve();
-            }
-          };
-          setInterval(wait, 500);
-        });
-      });
-    
-      teardown(() => {
-        sandbox.restore();
+      setup((done) => {
+        customElements.whenDefined('vl-map-baselayer').then(() => done());
       });
 
-      function assertLayerProperties(element, url, typeLayer, layerName, title) {
+      const assertLayerProperties = (element, url, typeLayer, layerName, title) => {
         assert.equal(element.url, url);
         assert.equal(element.type, typeLayer);
         assert.equal(element.layer, layerName);
         assert.equal(element.title, title);
-      }
+      };
 
       test('de basiskaartlaag wordt goed geconfigureerd wanneer de type-layer niet gezet is', () => {
         const element = fixture('vl-map-baselayer-fixture');

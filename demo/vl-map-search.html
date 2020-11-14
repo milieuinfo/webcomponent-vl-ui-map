@@ -13,6 +13,12 @@
   <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-body/dist/style.css" />
   <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-form-message/dist/style.css" />
   <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-button/dist/style.css" />
+
+  <style>
+    vl-map-search {
+        --vl-search-width: 100%;
+    }
+  </style>
 </head>
 
 <body is="vl-body">
@@ -29,7 +35,6 @@
     <vl-demo data-vl-title="Handmatige koppeling afzonderlijke adres zoek functionaliteit">
       <label is="vl-form-label" data-vl-block>Zoek op adres</label>
       <vl-map-search id="bind-map-search"></vl-map-search>
-      <br/>
       <br/>
       <vl-map id="bind-map">
         <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>

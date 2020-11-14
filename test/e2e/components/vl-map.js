@@ -1,8 +1,11 @@
 const {VlElement} = require('vl-ui-core').Test;
 const {By} = require('vl-ui-core').Test.Setup;
 const VlMapBaseLayer = require('./vl-map-baselayer');
+const VlMapLayer = require('./vl-map-layer');
 const VlMapSearch = require('./vl-map-search');
 const VlMapOverviewMap = require('./vl-map-overview-map');
+const VlMapLayerSwitcher = require('./vl-map-layer-switcher');
+const VlMapSideSheet = require('./vl-map-side-sheet');
 
 class VlMap extends VlElement {
   async getBaseLayers() {
@@ -10,6 +13,11 @@ class VlMap extends VlElement {
     const tagNames = await Promise.all(childElements.map((element) => element.getTagName()));
     const baseLayerElements = childElements.filter((element, index) => tagNames[index].startsWith('vl-map-baselayer'));
     return Promise.all(baseLayerElements.map((element) => new VlMapBaseLayer(this.driver, element)));
+  }
+
+  async getLayers() {
+    const layerElements = await this.findElements(By.css(':scope > vl-map-layer'));
+    return Promise.all(layerElements.map((element) => new VlMapLayer(this.driver, element)));
   }
 
   async isEscapeKeyDisabled() {
@@ -41,6 +49,16 @@ class VlMap extends VlElement {
         }).get('title')`, this);
   }
 
+  async getSideSheet() {
+    const element = await this.findElement(By.css('vl-map-side-sheet'));
+    return new VlMapSideSheet(this.driver, element);
+  }
+
+  async getLayerSwitcher() {
+    const element = await this.findElement(By.css('vl-map-layer-switcher'));
+    return new VlMapLayerSwitcher(this.driver, element);
+  }
+
   async hasSearch() {
     const search = await this._getSearchElement();
     return search != null;
@@ -53,13 +71,13 @@ class VlMap extends VlElement {
 
   async zoomIn() {
     const map = await this._getMap();
-    const zoomOutButton = await map.findElement(By.css('button.ol-zoom-in'));
+    const zoomOutButton = await map.findElement(By.css('.ol-zoom-in'));
     await zoomOutButton.click();
   }
 
   async zoomOut() {
     const map = await this._getMap();
-    const zoomOutButton = await map.findElement(By.css('button.ol-zoom-out'));
+    const zoomOutButton = await map.findElement(By.css('.ol-zoom-out'));
     await zoomOutButton.click();
   }
 
@@ -92,7 +110,7 @@ class VlMap extends VlElement {
   }
 
   async _getSearchElement() {
-    return this.driver.executeScript(`return arguments[0].shadowRoot.querySelector('vl-map-search')`, this);
+    return this.shadowRoot.findElement(By.css('vl-map-search'));
   }
 }
 

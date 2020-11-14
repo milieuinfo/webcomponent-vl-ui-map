@@ -12,6 +12,8 @@ import {VlMapSelectAction} from 'vl-ui-map/dist/vl-map-select-action.src.js';
 import {VlMapLayerStyle} from 'vl-ui-map/dist/vl-map-layer-style.src.js';
 import {VlMapLayerCircleStyle} from 'vl-ui-map/dist/vl-map-layer-circle-style.src.js';
 import {VlMapSearch} from 'vl-ui-map/dist/vl-map-search.src.js';
+import {VlMapSideSheet} from 'vl-ui-map/dist/vl-map-side-sheet.src.js';
+import {VlMapLayerSwitcher} from 'vl-ui-map/dist/vl-map-layer-switcher.src.js';
 
 Promise.all([
   awaitScript('vl-map-proj4', 'proj4/dist/proj4.js'),
@@ -28,6 +30,8 @@ Promise.all([
   define('vl-map-layer-style', VlMapLayerStyle);
   define('vl-map-layer-circle-style', VlMapLayerCircleStyle);
   define('vl-map-search', VlMapSearch);
+  define('vl-map-side-sheet', VlMapSideSheet);
+  define('vl-map-layer-switcher', VlMapLayerSwitcher);
 });
 
 export {
@@ -43,5 +47,7 @@ export {
   VlMapLayerStyle,
   VlMapLayerCircleStyle,
   VlMapSearch,
+  VlMapSideSheet,
+  VlMapLayerSwitcher,
 };
 

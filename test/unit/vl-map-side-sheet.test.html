@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="../../../@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../../../web-component-tester/browser.js"></script>
+
+  <script type="module" src="../../src/vl-map-all.js"></script>
+</head>
+
+<body>
+  <test-fixture id="vl-map-side-sheet-fixture">
+    <template>
+      <vl-map>
+        <vl-map-side-sheet></vl-map-side-sheet>
+      </vl-map>
+    </template>
+  </test-fixture>
+
+  <script>
+    suite('vl-map-side-sheet', () => {
+      setup((done) => {
+        customElements.whenDefined('vl-map-side-sheet').then(() => done());
+      });
+
+      test('de side sheet zal absoluut en links gepositioneerd worden', () => {
+        const map = fixture('vl-map-side-sheet-fixture');
+        const sideSheet = map.querySelector('vl-map-side-sheet');
+        assert.isTrue(sideSheet.hasAttribute('data-vl-left'));
+        assert.isTrue(sideSheet.hasAttribute('data-vl-absolute'));
+      });
+    });
+  </script>
+</body>
+
+</html>

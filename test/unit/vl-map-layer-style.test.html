@@ -7,7 +7,6 @@
     <script src="../../../web-component-tester/browser.js"></script>
 
     <script type="module" src="../../src/vl-map-all.js"></script>
-    <script src="/node_modules/sinon/pkg/sinon.js"></script>
 </head>
 
 <body>
@@ -30,21 +29,8 @@
     import {VlMapLayerStyle} from '../../src/vl-map-style.js';
 
     suite('vl-map-layer-style', () => {
-      const sandbox = sinon.createSandbox();
-
-      setup(() => {
-        return new Promise((resolve) => {
-          const wait = () => {
-            if (!!customElements.get('vl-map-layer-style')) {
-              resolve();
-            }
-          };
-          setInterval(wait, 500);
-        });
-      });
-
-      teardown(() => {
-        sandbox.restore();
+      setup((done) => {
+        customElements.whenDefined('vl-map-layer-style').then(() => done());
       });
 
       test('de style wordt goed geconfigureerd met default properties', () => {

@@ -84,16 +84,8 @@
       const should = chai.should();
       let geoJSON;
 
-      setup(() => {
-        return new Promise((resolve) => {
-          const wait = () => {
-            if (!!customElements.get('vl-map-layer')) {
-              geoJSON = new ol.format.GeoJSON();
-              resolve();
-            }
-          };
-          setInterval(wait, 500);
-        });
+      setup((done) => {
+        customElements.whenDefined('vl-map-layer').then(() => done());
       });
     
       teardown(() => {
