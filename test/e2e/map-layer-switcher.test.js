@@ -37,7 +37,7 @@ describe('vl-map-layer-switcher', async () => {
   });
 
   it('als gebruiker kan ik een kaartlaag met resoluties tonen en verbergen op het juiste zoom niveau', async () => {
-    const map = await vlMapPage.getMapWithLayerSwitcher();
+    const map = await vlMapPage.getMapWithResolutionLayerSwitcher();
     const sideSheet = await map.getSideSheet();
     const layerSwitcher = await map.getLayerSwitcher();
     await sideSheet.open();

@@ -10,6 +10,10 @@ class VlMapLayerSwitcherPage extends Page {
     return new VlMap(this.driver, '#map-with-custom-layer-switcher');
   }
 
+  async getMapWithResolutionLayerSwitcher() {
+    return new VlMap(this.driver, '#map-with-resolution-layer-switcher');
+  }
+
   async load() {
     await super.load(Config.baseUrl + '/demo/vl-map-layer-switcher.html');
   }
