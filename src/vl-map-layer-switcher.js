@@ -72,6 +72,10 @@ export class VlMapLayerSwitcher extends vlElement(HTMLElement) {
     return this._map.getOverlayLayers();
   }
 
+  _getLayer(input) {
+    return this._layers.find((layer) => layer.get('title') == input.dataset.vlLayer);
+  }
+
   _getInputTemplate(layer) {
     const title = layer.get('title');
     return this._template(`<vl-checkbox data-vl-label="${title}" data-vl-layer="${title}"></vl-checkbox>`);
@@ -109,10 +113,6 @@ export class VlMapLayerSwitcher extends vlElement(HTMLElement) {
       layer.setVisible(input.checked);
       this._map.render();
     }
-  }
-
-  _getLayer(input) {
-    return this._layers.find((layer) => layer.get('title') == input.dataset.vlLayer);
   }
 
   _computeInputsDisabledAttribute() {
