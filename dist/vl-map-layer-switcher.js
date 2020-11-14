@@ -57,9 +57,13 @@ export class VlMapLayerSwitcher extends vlElement(HTMLElement) {
     return this._slot.assignedElements().filter((input) => input.hasAttribute('data-vl-layer'));
   }
 
-
   get _mapElement() {
     return this.closest('vl-map');
+  }
+
+  _getInputTemplate(layer) {
+    const title = layer.get('title');
+    return this._template(`<vl-checkbox data-vl-label="${title}" data-vl-layer="${title}"></vl-checkbox>`);
   }
 
   get _map() {
@@ -68,32 +72,20 @@ export class VlMapLayerSwitcher extends vlElement(HTMLElement) {
     }
   }
 
-  get _layers() {
-    return this._map.getOverlayLayers();
-  }
-
-  _getInputTemplate(layer) {
-    const title = layer.get('title');
-    return this._template(`<vl-checkbox data-vl-label="${title}" data-vl-layer="${title}"></vl-checkbox>`);
-  }
-
   _processInputs() {
     if (!this._hasLayerInputs) {
       this._map.getOverlayLayers().forEach((layer) => this.append(this._getInputTemplate(layer)));
     }
     this._addChangeListeners();
-    this._addMapListener();
   }
 
   _addChangeListeners() {
-    this._layerInputs.forEach((input) => {
-      this._initializeInput(input);
-      input.addEventListener('change', () => this._setLayerVisibility(input));
-    });
-  }
-
-  _addMapListener() {
-    this._map.on('moveend', () => this._computeInputsDisabledAttribute());
+    if (this._map) {
+      this._layerInputs.forEach((input) => {
+        this._initializeInput(input);
+        input.addEventListener('change', () => this._setLayerVisibility(input));
+      });
+    }
   }
 
   _initializeInput(input) {
@@ -112,24 +104,6 @@ export class VlMapLayerSwitcher extends vlElement(HTMLElement) {
   }
 
   _getLayer(input) {
-    return this._layers.find((layer) => layer.get('title') == input.dataset.vlLayer);
-  }
-
-  _computeInputsDisabledAttribute() {
-    const resolution = this._map.getView().getResolution();
-    this._layerInputs.forEach((input) => this._computeInputDisabledAttribute(input, resolution));
-  }
-
-  _computeInputDisabledAttribute(input, resolution) {
-    const layer = this._getLayer(input);
-    if (layer) {
-      const maxResolution = parseFloat(layer.getMaxResolution());
-      const minResolution = parseFloat(layer.getMinResolution());
-      if (resolution >= maxResolution || resolution < minResolution) {
-        input.setAttribute('disabled', '');
-      } else {
-        input.removeAttribute('disabled');
-      }
-    }
+    return this._map.getOverlayLayers().find((layer) => layer.get('title') == input.dataset.vlLayer);
   }
 }

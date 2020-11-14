@@ -10,14 +10,14 @@ describe('vl-map-layer-switcher', async () => {
   });
 
   it('de kaartlaag checkbox zal standaard aangevinkt zijn als de laag zichtbaar is', async () => {
-    const map = await vlMapPage.getMap();
+    const map = await vlMapPage.getMapWithLayerSwitcher();
     const layerSwitcher = await map.getLayerSwitcher();
-    const checkbox = await layerSwitcher.getCheckboxForLayer('layer');
+    const checkbox = await layerSwitcher.getCheckboxForLayer('Kaartlaag 1');
     await assert.eventually.isTrue(checkbox.isChecked());
   });
 
   it('als gebruiker kan ik een kaartlaag tonen en verbergen', async () => {
-    const map = await vlMapPage.getMap();
+    const map = await vlMapPage.getMapWithCustomLayerSwitcher();
     const sideSheet = await map.getSideSheet();
     const layerSwitcher = await map.getLayerSwitcher();
     const layers = await map.getLayers();
@@ -28,7 +28,7 @@ describe('vl-map-layer-switcher', async () => {
     await assert.eventually.isTrue(sideSheet.isOpen());
     await assert.eventually.isTrue(layer.isVisible());
 
-    const checkbox = await layerSwitcher.getCheckboxForLayer('layer');
+    const checkbox = await layerSwitcher.getCheckboxForLayer('layer-1');
     await assert.eventually.isTrue(layer.isVisible());
     await checkbox.click();
     await assert.eventually.isFalse(layer.isVisible());
@@ -37,7 +37,7 @@ describe('vl-map-layer-switcher', async () => {
   });
 
   it('als gebruiker kan ik een kaartlaag met resoluties tonen en verbergen op het juiste zoom niveau', async () => {
-    const map = await vlMapPage.getMap();
+    const map = await vlMapPage.getMapWithLayerSwitcher();
     const sideSheet = await map.getSideSheet();
     const layerSwitcher = await map.getLayerSwitcher();
     await sideSheet.open();
