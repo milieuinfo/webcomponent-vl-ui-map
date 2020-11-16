@@ -13,7 +13,9 @@
 <body>
   <test-fixture id="vl-map-layer-fixture">
     <template>
-      <vl-map-layer></vl-map-layer>
+      <vl-map>
+        <vl-map-layer></vl-map-layer>
+      </vl-map>
     </template>
   </test-fixture>
   
@@ -94,12 +96,12 @@
         sandbox.restore();
       });
 
-      test('de kaartlaag zal toegevoegd worden aan de map', () => {
+      test('de kaartlaag zal toegevoegd worden aan de map', async () => {
         const mapElement = fixture('vl-map-fixture');
         const layerElement = mapElement.querySelector('vl-map-layer');
-    
+
+        await mapElement.ready;
         should.exist(layerElement.layer);
-        should.exist(layerElement._map);
         const layers = mapElement.map.getOverlayLayers();
         const layer = layers[0];
         assert.lengthOf(layers, 1);
@@ -128,6 +130,8 @@
       test('het aanroepen van zoomToExtent zal de kaart doen inzoomen op de bounding box', async () => {
         const map = fixture('vl-map-fixture');
         const layerElement = map.querySelector('vl-map-layer');
+
+        await map.ready;
         const view = map.map.getView();
         assert.notDeepEqual(view.getCenter(), [147055, 197908]);
 
@@ -144,6 +148,7 @@
         const map = fixture('vl-map-fixture');
         const layerElement = map.querySelector('vl-map-layer');
 
+        await map.ready;
         const layer = map.map.getOverlayLayers()[0];
         assert.lengthOf(layer.getSource().getFeatures(), 1);
         assert.equal(geoJSON.writeFeatures(layer.getSource().getFeatures()), layerElement.getAttribute('data-vl-features'));
@@ -161,8 +166,9 @@
         });
       });
     
-      test('elke kaartlaag zal een id krijgen', () => {
+      test('elke kaartlaag zal een id krijgen', async () => {
         const map = fixture('vl-map-layers-fixture');
+        await map.ready;
         const layers = map.querySelectorAll('vl-map-layer');
         const layer1 = layers[0];
         const layer2 = layers[1];
@@ -170,26 +176,30 @@
         assert(layer2.layer.get('id'), 2);
       });
     
-      test('kan de boundingbox opvragen van de features op de laag', () => {
+      test('kan de boundingbox opvragen van de features op de laag', async () => {
         const map = fixture('vl-map-layer-fixture');
+        const layer = map.querySelector('vl-map-layer');
+        await map.ready;
         const extent = sandbox.spy();
-        map.setAttribute('features', '{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[147055,197908]},"properties":null},{"type":"Feature","geometry":{"type":"Point","coordinates":[157055,207908]},"properties":null}]}');
+        layer.setAttribute('features', '{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[147055,197908]},"properties":null},{"type":"Feature","geometry":{"type":"Point","coordinates":[157055,207908]},"properties":null}]}');
 
-        sandbox.stub(map._source, 'getExtent').returns(extent);
-        const boundingBox = map.__boundingBox;
+        sandbox.stub(layer._source, 'getExtent').returns(extent);
+        const boundingBox = layer.__boundingBox;
         assert.equal(boundingBox, extent);
       });
     
-      test('kan een feature verkrijgen via id', () => {
+      test('kan een feature verkrijgen via id', async () => {
         const map = fixture('vl-map-fixture');
         const layer = map.querySelector('vl-map-layer');
+        await map.ready;
         should.exist(layer.getFeature(1));
         should.not.exist(layer.getFeature(2));
       });
     
-      test('kan een cluster verkrijgen via een feature id in de cluster', () => {
+      test('kan een cluster verkrijgen via een feature id in de cluster', async () => {
         const map = fixture('vl-map-fixture');
         const layer = map.querySelector('vl-map-layer');
+        await map.ready;
         const feature1 = new OlFeature({geometry: new OlPoint([109100, 204175])});
         const feature2 = new OlFeature({geometry: new OlPoint([109100, 204175])});
         const feature3 = new OlFeature({geometry: new OlPoint([109100, 204175])});
@@ -207,18 +217,61 @@
         assert.deepEqual(layer.getCluster(3), cluster2);
       });
     
-      test('al de feature specifieke stijl kan verwijderd worden', () => {
-        const element = fixture('vl-map-layer-fixture');
+      test('al de feature specifieke stijl kan verwijderd worden', async () => {
+        const map = fixture('vl-map-layer-fixture');
+        const layer = map.querySelector('vl-map-layer');
+        await map.ready;
         const feature1 = new OlFeature();
         const feature2 = new OlFeature();
         feature1.setStyle(new OlStyle({}));
         feature2.setStyle(new OlStyle({}));
         const features = [feature1, feature2];
-        element.setAttribute('features', geoJSON.writeFeatures(features));
+        layer.setAttribute('features', geoJSON.writeFeatures(features));
     
-        element.removeFeaturesStyle();
-        assert.isNull(element.features[0].getStyle());
-        assert.isNull(element.features[1].getStyle());
+        layer.removeFeaturesStyle();
+        assert.isNull(layer.features[0].getStyle());
+        assert.isNull(layer.features[1].getStyle());
+      });
+
+      test('kan de zichtbaarheid van de kaartlaag opvragen en wijzigen', async () => {
+        const map = fixture('vl-map-layer-fixture');
+        const layer = map.querySelector('vl-map-layer');
+        await map.ready;
+        assert.isTrue(layer.visible);
+        assert.isTrue(layer._layer.getVisible());
+        layer.visible = false;
+        assert.isFalse(layer.visible);
+        assert.isFalse(layer._layer.getVisible());
+      });
+
+      test('kan attributen opvragen van de kaartlaag op basis van sleutels', async () => {
+        const map = fixture('vl-map-fixture');
+        const layer = map.querySelector('vl-map-layer');
+        await map.ready;
+        assert.equal(layer.get('title'), 'testlaag');
+        assert.equal(layer.get('title'), layer._layer.get('title'));
+      });
+
+      test('er kan gecontroleerd worden of de kaartlaag zichtbaar is op een bepaalde resolutie', async () => {
+        let map = fixture('vl-map-layer-fixture');
+        let layer = map.querySelector('vl-map-layer');
+        await map.ready;
+        assert.isTrue(layer.isVisibleAtResolution(null));
+        assert.isTrue(layer.isVisibleAtResolution(1));
+        assert.isTrue(layer.isVisibleAtResolution(2));
+        assert.isTrue(layer.isVisibleAtResolution(3));
+        assert.isTrue(layer.isVisibleAtResolution(4));
+        assert.isTrue(layer.isVisibleAtResolution(5));
+
+        map = fixture('vl-map-fixture');
+        layer = map.querySelector('vl-map-layer');
+        await map.ready;
+        assert.isFalse(layer.isVisibleAtResolution(null));
+        assert.isFalse(layer.isVisibleAtResolution(1));
+        assert.isTrue(layer.isVisibleAtResolution(2));
+        assert.isTrue(layer.isVisibleAtResolution(3));
+        assert.isFalse(layer.isVisibleAtResolution(4));
+        assert.isFalse(layer.isVisibleAtResolution(5));
       });
     });
   </script>

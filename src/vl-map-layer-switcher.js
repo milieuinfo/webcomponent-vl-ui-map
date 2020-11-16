@@ -62,28 +62,17 @@ export class VlMapLayerSwitcher extends vlElement(HTMLElement) {
     return this.closest('vl-map');
   }
 
-  get _map() {
-    if (this._mapElement) {
-      return this._mapElement._map;
-    }
-  }
-
-  get _layers() {
-    return this._map.getOverlayLayers();
-  }
-
   _getLayer(input) {
-    return this._layers.find((layer) => layer.get('title') == input.dataset.vlLayer);
+    return this._mapElement.layers.find((layer) => layer.get('title') == input.dataset.vlLayer);
   }
 
-  _getInputTemplate(layer) {
-    const title = layer.get('title');
+  _getInputTemplate(title) {
     return this._template(`<vl-checkbox data-vl-label="${title}" data-vl-layer="${title}"></vl-checkbox>`);
   }
 
   _processInputs() {
-    if (!this._hasLayerInputs) {
-      this._map.getOverlayLayers().forEach((layer) => this.append(this._getInputTemplate(layer)));
+    if (!this._hasLayerInputs && this._mapElement.layers) {
+      this._mapElement.layers.forEach((layer) => this.append(this._getInputTemplate(layer.get('title'))));
     }
     this._addChangeListeners();
     this._addMapListener();
@@ -97,38 +86,36 @@ export class VlMapLayerSwitcher extends vlElement(HTMLElement) {
   }
 
   _addMapListener() {
-    this._map.on('moveend', () => this._computeInputsDisabledAttribute());
+    this._mapElement.on('moveend', () => this._computeInputsDisabledAttribute());
   }
 
   _initializeInput(input) {
     const layer = this._getLayer(input);
     if (layer) {
-      input.checked = layer.getVisible();
+      input.checked = layer.visible;
     }
   }
 
   _setLayerVisibility(input) {
     const layer = this._getLayer(input);
     if (layer) {
-      layer.setVisible(input.checked);
-      this._map.render();
+      layer.visible = input.checked;
+      this._mapElement.rerender();
     }
   }
 
   _computeInputsDisabledAttribute() {
-    const resolution = this._map.getView().getResolution();
+    const resolution = this._mapElement.view.getResolution();
     this._layerInputs.forEach((input) => this._computeInputDisabledAttribute(input, resolution));
   }
 
   _computeInputDisabledAttribute(input, resolution) {
     const layer = this._getLayer(input);
     if (layer) {
-      const maxResolution = parseFloat(layer.getMaxResolution());
-      const minResolution = parseFloat(layer.getMinResolution());
-      if (resolution >= maxResolution || resolution < minResolution) {
-        input.setAttribute('disabled', '');
-      } else {
+      if (layer.isVisibleAtResolution(resolution)) {
         input.removeAttribute('disabled');
+      } else {
+        input.setAttribute('disabled', '');
       }
     }
   }
