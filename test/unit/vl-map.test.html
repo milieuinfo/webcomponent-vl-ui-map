@@ -43,8 +43,14 @@
     </template>
 </test-fixture>
 
+<test-fixture id="vl-map-fullscreen-fixture">
+  <template>
+      <vl-map data-vl-allow-fullscreen></vl-map>
+  </template>
+</test-fixture>
+
 <script type="module">
-  import {VlSelectAction, VlMapWithActions, OlLayerGroup} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
+  import {VlSelectAction, VlMapWithActions, OlLayerGroup, OlFullScreenControl} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
   import {OpenLayersUtil} from './ol-util.js';
 
   suite('vl-map', () => {
@@ -101,6 +107,13 @@
       const boundingbox = [0, 1, 2, 3];
       element.zoomTo(boundingbox);
       assert(element._map.zoomToExtent.calledWith(boundingbox));
+    });
+
+    test('wanneer een kaart het fullscreen attribuut heeft zal de fullscreen control toegevoegd worden', () => {
+      let map = fixture('vl-map-fixture');
+      assert.isUndefined(map._map.controls.getArray().find((control) => control instanceof OlFullScreenControl));
+      map = fixture('vl-map-fullscreen-fixture');
+      assert.isDefined(map._map.controls.getArray().find((control) => control instanceof OlFullScreenControl));
     });
   });
 </script>

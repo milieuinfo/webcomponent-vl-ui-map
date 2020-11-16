@@ -27,6 +27,10 @@ class VlMapPage extends Page {
     return this._getMap('#map-mouse-zoom');
   }
 
+  async getMapWithFullscreenAllowed() {
+    return this._getMap('#map-fullscreen');
+  }
+
   async load() {
     await super.load(Config.baseUrl + '/demo/vl-map.html');
   }

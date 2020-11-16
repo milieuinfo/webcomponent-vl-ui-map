@@ -32,6 +32,10 @@ class VlMap extends VlElement {
     return this.hasAttribute('disable-mouse-wheel-zoom');
   }
 
+  async isFullscreenAllowed() {
+    return this.hasAttribute('allow-fullscreen');
+  }
+
   async getOverviewMap() {
     const map = await this._getMap();
     await this.driver.wait(async () => {
@@ -43,10 +47,7 @@ class VlMap extends VlElement {
   }
 
   async getActiveBaseLayerTitle() {
-    return this.driver.executeScript(`
-        return arguments[0].map.baseLayers.find((layer) => {
-            return layer.getVisible();
-        }).get('title')`, this);
+    return this.driver.executeScript(`return arguments[0].map.baseLayers.find((layer) => layer.getVisible()).get('title')`, this);
   }
 
   async getSideSheet() {
@@ -93,8 +94,7 @@ class VlMap extends VlElement {
   }
 
   async clickOnCoordinates(coordinates) {
-    const pixels = await this.driver.executeScript(
-        `return arguments[0].map.getPixelFromCoordinate(${JSON.stringify(coordinates)})`, this);
+    const pixels = await this.driver.executeScript(`return arguments[0].map.getPixelFromCoordinate(${JSON.stringify(coordinates)})`, this);
     const rect = await this.getRect();
     await this.driver.actions().move({
       origin: this,
@@ -109,12 +109,21 @@ class VlMap extends VlElement {
     return scale.getText();
   }
 
+  async toggleFullscreen() {
+    const button = await this._getToggleFullscreenButton();
+    await button.click();
+  }
+
   async _getMap() {
     return this.shadowRoot;
   }
 
   async _getSearchElement() {
     return this.shadowRoot.findElement(By.css('vl-map-search'));
+  }
+
+  async _getToggleFullscreenButton() {
+    return this.shadowRoot.findElement(By.css('.ol-full-screen'));
   }
 }
 
