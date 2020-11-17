@@ -37,7 +37,7 @@
                 <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
                 <vl-map-baselayer-grb></vl-map-baselayer-grb>
                 <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
-                <vl-map-layer id="map-layer" name="laag" features='
+                <vl-map-layer id="map-layer" data-vl-name="laag" data-vl-features='
                 {
                     "type": "FeatureCollection",
                     "features": [{
@@ -65,7 +65,7 @@
                 }'>
                 </vl-map-layer>
                 <vl-map-select-action id="select-action">
-                    <vl-map-layer-circle-style color="#fff" border-color="yellow"></vl-map-layer-circle-style>
+                    <vl-map-layer-circle-style data-vl-color="#fff" data-vl-border-color="yellow"></vl-map-layer-circle-style>
                 </vl-map-select-action>
             </vl-map>
         </vl-demo>
@@ -76,7 +76,7 @@
                 <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
                 <vl-map-baselayer-grb></vl-map-baselayer-grb>
                 <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
-                <vl-map-layer id="map-layer-cluster" name="laag" cluster cluster-distance="100" features='
+                <vl-map-layer id="map-layer-cluster" data-vl-name="laag" data-vl-cluster data-vl-cluster-distance="100" data-vl-features='
                 {
                     "type": "FeatureCollection",
                     "features": [{
@@ -103,8 +103,8 @@
                     }]
                 }'>
                 </vl-map-layer>
-                <vl-map-select-action id="select-action-cluster" cluster>
-                    <vl-map-layer-circle-style color="#fff" border-color="yellow"></vl-map-layer-circle-style>
+                <vl-map-select-action id="select-action-cluster" data-vl-cluster>
+                    <vl-map-layer-circle-style data-vl-color="#fff" data-vl-border-color="yellow"></vl-map-layer-circle-style>
                 </vl-map-select-action>
             </vl-map>
         </vl-demo>

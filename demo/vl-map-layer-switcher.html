@@ -135,6 +135,51 @@
                 </div>
             </div>
         </vl-demo>
+
+        <vl-demo data-vl-title="Kaart met optie om kaartlagen met resolutie te tonen en verbergen">
+            <div is="vl-grid" data-vl-is-stacked>
+                <div is="vl-column" data-vl-size="12" data-vl-medium-size="12">
+                    <vl-map id="map-with-resolution-layer-switcher">
+                        <vl-map-side-sheet>
+                            <vl-map-layer-switcher>
+                                <vl-checkbox data-vl-label="Kaartlaag" data-vl-layer="layer"></vl-checkbox>
+                                <vl-checkbox data-vl-label="Kaartlaag met resolutie" data-vl-layer="resolution-layer"></vl-checkbox>
+                            </vl-map-layer-switcher>
+                        </vl-map-side-sheet>
+                        <vl-map-overview-map></vl-map-overview-map>
+                        <vl-map-baselayer-grb-gray id="baselayer-grb-gray"></vl-map-baselayer-grb-gray>
+                        <vl-map-baselayer-grb id="baselayer-grb"></vl-map-baselayer-grb>
+                        <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
+                        <vl-map-layer data-vl-name="layer" data-vl-features='
+                            {
+                                "type": "FeatureCollection",
+                                "features": [{
+                                    "type": "Feature",
+                                    "geometry": {
+                                        "type": "Point",
+                                        "coordinates": [149055.0,199908.0]
+                                    }
+                                }]
+                            }'>
+                            <vl-map-layer-circle-style></vl-map-layer-circle-style>
+                        </vl-map-layer>
+                        <vl-map-layer data-vl-name="resolution-layer" data-vl-min-resolution="128" data-vl-max-resolution="256" data-vl-features='
+                            {
+                                "type": "FeatureCollection",
+                                "features": [{
+                                    "type": "Feature",
+                                    "geometry": {
+                                        "type": "Point",
+                                        "coordinates": [154055.0,199908.0]
+                                    }
+                                }]
+                            }'>
+                            <vl-map-layer-circle-style></vl-map-layer-circle-style>
+                        </vl-map-layer>
+                    </vl-map>
+                </div>
+            </div>
+        </vl-demo>
     </vl-demo-page>
 </body>
 
