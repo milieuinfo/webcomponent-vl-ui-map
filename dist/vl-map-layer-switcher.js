@@ -57,53 +57,69 @@ export class VlMapLayerSwitcher extends vlElement(HTMLElement) {
     return this._slot.assignedElements().filter((input) => input.hasAttribute('data-vl-layer'));
   }
 
+
   get _mapElement() {
     return this.closest('vl-map');
   }
 
-  _getInputTemplate(layer) {
-    const title = layer.get('title');
+  get _nonBaseLayers() {
+    return this._mapElement.nonBaseLayers;
+  }
+
+  _getLayer(input) {
+    return this._nonBaseLayers.find((layer) => layer.title == input.dataset.vlLayer);
+  }
+
+  _getInputTemplate(title) {
     return this._template(`<vl-checkbox data-vl-label="${title}" data-vl-layer="${title}"></vl-checkbox>`);
   }
 
-  get _map() {
-    if (this._mapElement) {
-      return this._mapElement._map;
-    }
-  }
-
   _processInputs() {
-    if (!this._hasLayerInputs) {
-      this._map.getOverlayLayers().forEach((layer) => this.append(this._getInputTemplate(layer)));
+    if (!this._hasLayerInputs && this._nonBaseLayers) {
+      this._nonBaseLayers.forEach((layer) => this.append(this._getInputTemplate(layer.title)));
     }
     this._addChangeListeners();
+    this._addMapListener();
   }
 
   _addChangeListeners() {
-    if (this._map) {
-      this._layerInputs.forEach((input) => {
-        this._initializeInput(input);
-        input.addEventListener('change', () => this._setLayerVisibility(input));
-      });
-    }
+    this._layerInputs.forEach((input) => {
+      this._initializeInput(input);
+      input.addEventListener('change', () => this._setLayerVisibility(input));
+    });
+  }
+
+  _addMapListener() {
+    this._mapElement.on('moveend', () => this._computeInputsDisabledAttribute());
   }
 
   _initializeInput(input) {
     const layer = this._getLayer(input);
     if (layer) {
-      input.checked = layer.getVisible();
+      input.checked = layer.visible;
     }
   }
 
   _setLayerVisibility(input) {
     const layer = this._getLayer(input);
     if (layer) {
-      layer.setVisible(input.checked);
-      this._map.render();
+      layer.visible = input.checked;
+      this._mapElement.rerender();
     }
   }
 
-  _getLayer(input) {
-    return this._map.getOverlayLayers().find((layer) => layer.get('title') == input.dataset.vlLayer);
+  _computeInputsDisabledAttribute() {
+    this._layerInputs.forEach((input) => this._computeInputDisabledAttribute(input, this._mapElement.resolution));
+  }
+
+  _computeInputDisabledAttribute(input, resolution) {
+    const layer = this._getLayer(input);
+    if (layer) {
+      if (layer.isVisibleAtResolution(resolution)) {
+        input.removeAttribute('disabled');
+      } else {
+        input.setAttribute('disabled', '');
+      }
+    }
   }
 }
