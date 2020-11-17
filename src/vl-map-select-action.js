@@ -68,7 +68,6 @@ export class VlMapSelectAction extends VlMapAction {
       style: this._style,
       cluster: (this._cluster != undefined),
     };
-    const select = new VlSelectAction(layer, callback, options);
-    return select;
+    return new VlSelectAction(layer, callback, options);
   }
 }
