@@ -1,4 +1,4 @@
-import {VlMapAction} from './vl-map-action.js';
+import {VlMapAction} from 'vl-ui-map/dist/vl-map-action.src.js';
 import {VlSelectAction} from 'vl-mapactions/dist/vl-mapactions.js';
 
 /**
