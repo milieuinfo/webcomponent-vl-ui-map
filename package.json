@@ -42,7 +42,7 @@
     "vl-ui-form-message": "^5.0.5",
     "vl-ui-search": "^1.1.0",
     "vl-ui-select": "^4.1.4",
-    "vl-ui-side-sheet": "github:milieuinfo/webcomponent-vl-ui-side-sheet"
+    "vl-ui-side-sheet": "^3.1.0"
   },
   "peerDependencies": {
     "vl-mapactions": "milieuinfo/vl-mapactions#select-action",
@@ -50,13 +50,13 @@
     "vl-ui-form-message": "^5.0.5",
     "vl-ui-search": "^1.1.0",
     "vl-ui-select": "^4.1.4",
-    "vl-ui-side-sheet": "github:milieuinfo/webcomponent-vl-ui-side-sheet"
+    "vl-ui-side-sheet": "^3.1.0"
   },
   "devDependencies": {
     "@govflanders/vl-ui-core": "^4.0.5",
     "vl-ui-body": "^1.0.5",
     "vl-ui-button": "^5.0.6",
-    "vl-ui-checkbox": "^3.2.1",
+    "vl-ui-checkbox": "^3.2.2",
     "vl-ui-util": "^5.2.19"
   }
 }

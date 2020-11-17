@@ -32,8 +32,9 @@ export class VlMapLayer extends vlElement(HTMLElement) {
     this.__counter = ++VlMapLayer._counter;
   }
 
-  connectedCallback() {
+  async connectedCallback() {
     this._layer = this.__createLayer();
+    await this._mapElement.ready;
     this._configureMap();
   }
 
@@ -74,12 +75,12 @@ export class VlMapLayer extends vlElement(HTMLElement) {
   }
 
   /**
-   * Zet de OpenLayers features collectie op de kaartlaag.
+   * Geeft terug ofdat de kaartlaag zichtbaar is of niet.
    *
-   * @param {object} features
+   * @return {Boolean}
    */
-  set features(features) {
-    this.setAttribute('features', JSON.stringify(features));
+  get visible() {
+    return this._layer.getVisible();
   }
 
   /**
@@ -94,6 +95,24 @@ export class VlMapLayer extends vlElement(HTMLElement) {
   }
 
   /**
+   * Geeft de kaartlaag titel terug.
+   *
+   * @return {String}
+   */
+  get title() {
+    return this.get('title');
+  }
+
+  /**
+   * Zet de OpenLayers features collectie op de kaartlaag.
+   *
+   * @param {object} features
+   */
+  set features(features) {
+    this.setAttribute('features', JSON.stringify(features));
+  }
+
+  /**
    * Zet de OpenLayers kaartlaag stijl.
    *
    * @param {ol.style} style
@@ -101,6 +120,15 @@ export class VlMapLayer extends vlElement(HTMLElement) {
   set style(style) {
     this._style = style;
     this._layer.setStyle(style);
+  }
+
+  /**
+   * Zet de zichtbaarheid van de kaartlaag.
+   *
+   * @param {Boolean} value
+   */
+  set visible(value) {
+    this._layer.setVisible(value);
   }
 
   get _name() {
@@ -131,16 +159,22 @@ export class VlMapLayer extends vlElement(HTMLElement) {
     return this.getAttribute('max-resolution') || Infinity;
   }
 
-  get _map() {
-    return this._mapElement.map;
-  }
-
-  get _mapReady() {
-    return this._mapElement.ready;
-  }
-
   get _mapElement() {
-    return this.parentNode;
+    if (this.parentNode && this.parentNode.map) {
+      return this.parentNode;
+    } else {
+      return null;
+    }
+  }
+
+  /**
+   * Geeft de waarde op basis van een sleutel.
+   *
+   * @param {String} key
+   * @return {Object}
+   */
+  get(key) {
+    return this._layer.get(key);
   }
 
   /**
@@ -155,11 +189,11 @@ export class VlMapLayer extends vlElement(HTMLElement) {
   }
 
   /**
-   * Rendert de kaart opnieuw.
+   * Rendert de kaartlaag opnieuw.
    */
   rerender() {
-    if (this._map) {
-      this._map.render();
+    if (this._mapElement) {
+      this._mapElement.rerender();
     }
   }
 
@@ -202,11 +236,15 @@ export class VlMapLayer extends vlElement(HTMLElement) {
    * Zoom naar alle features in deze layer.
    *
    * @param {number} maxZoom - Hoe diep er maximaal ingezoomd mag worden.
-   * @return {Promise<void>}
    */
   async zoomToExtent(maxZoom) {
-    await this._mapReady;
-    this._map.zoomToExtent(this.__boundingBox, maxZoom);
+    this._mapElement.zoomTo(this.__boundingBox, maxZoom);
+  }
+
+  isVisibleAtResolution(resolution) {
+    const maxResolution = parseFloat(this._layer.getMaxResolution());
+    const minResolution = parseFloat(this._layer.getMinResolution());
+    return resolution >= minResolution && resolution < maxResolution;
   }
 
   _autoExtentChangedCallback() {
@@ -274,8 +312,8 @@ export class VlMapLayer extends vlElement(HTMLElement) {
   }
 
   _configureMap() {
-    if (this._map) {
-      this._map.getOverlayLayers().push(this._layer);
+    if (this._mapElement) {
+      this._mapElement.addLayer(this._layer);
       this.__autoZoomToExtent();
     }
   }
