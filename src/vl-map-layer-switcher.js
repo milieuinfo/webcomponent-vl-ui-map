@@ -62,8 +62,12 @@ export class VlMapLayerSwitcher extends vlElement(HTMLElement) {
     return this.closest('vl-map');
   }
 
+  get _nonBaseLayers() {
+    return this._mapElement.nonBaseLayers;
+  }
+
   _getLayer(input) {
-    return this._mapElement.nonBaseLayers.find((layer) => layer.title == input.dataset.vlLayer);
+    return this._nonBaseLayers.find((layer) => layer.title == input.dataset.vlLayer);
   }
 
   _getInputTemplate(title) {
@@ -71,8 +75,8 @@ export class VlMapLayerSwitcher extends vlElement(HTMLElement) {
   }
 
   _processInputs() {
-    if (!this._hasLayerInputs && this._mapElement.nonBaseLayers) {
-      this._mapElement.nonBaseLayers.forEach((layer) => this.append(this._getInputTemplate(layer.title)));
+    if (!this._hasLayerInputs && this._nonBaseLayers) {
+      this._nonBaseLayers.forEach((layer) => this.append(this._getInputTemplate(layer.title)));
     }
     this._addChangeListeners();
     this._addMapListener();
