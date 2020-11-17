@@ -73,7 +73,12 @@ export class VlMap extends vlElement(HTMLElement) {
     return this._map.getView().getResolution();
   }
 
-  get layers() {
+  /**
+   * Geeft de OpenLayers kaartlagen terug die niet gebruikt worden als basis kaartlaag.
+   *
+   * @return {Object[]}
+   */
+  get nonBaseLayers() {
     return [...this.querySelectorAll('vl-map-layer')];
   }
 
