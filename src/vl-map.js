@@ -65,12 +65,12 @@ export class VlMap extends vlElement(HTMLElement) {
   }
 
   /**
-   * Geeft de OpenLayers kaart visualisatie terug.
+   * Geeft de OpenLayers kaart resolutie terug.
    *
    * @return {Object}
    */
-  get view() {
-    return this._map.getView();
+  get resolution() {
+    return this._map.getView().getResolution();
   }
 
   get layers() {

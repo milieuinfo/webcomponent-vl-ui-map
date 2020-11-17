@@ -63,7 +63,7 @@ export class VlMapLayerSwitcher extends vlElement(HTMLElement) {
   }
 
   _getLayer(input) {
-    return this._mapElement.layers.find((layer) => layer.get('title') == input.dataset.vlLayer);
+    return this._mapElement.layers.find((layer) => layer.title == input.dataset.vlLayer);
   }
 
   _getInputTemplate(title) {
@@ -72,7 +72,7 @@ export class VlMapLayerSwitcher extends vlElement(HTMLElement) {
 
   _processInputs() {
     if (!this._hasLayerInputs && this._mapElement.layers) {
-      this._mapElement.layers.forEach((layer) => this.append(this._getInputTemplate(layer.get('title'))));
+      this._mapElement.layers.forEach((layer) => this.append(this._getInputTemplate(layer.title)));
     }
     this._addChangeListeners();
     this._addMapListener();
@@ -105,8 +105,7 @@ export class VlMapLayerSwitcher extends vlElement(HTMLElement) {
   }
 
   _computeInputsDisabledAttribute() {
-    const resolution = this._mapElement.view.getResolution();
-    this._layerInputs.forEach((input) => this._computeInputDisabledAttribute(input, resolution));
+    this._layerInputs.forEach((input) => this._computeInputDisabledAttribute(input, this._mapElement.resolution));
   }
 
   _computeInputDisabledAttribute(input, resolution) {

@@ -95,6 +95,15 @@ export class VlMapLayer extends vlElement(HTMLElement) {
   }
 
   /**
+   * Geeft de kaartlaag titel terug.
+   *
+   * @return {String}
+   */
+  get title() {
+    return this.get('title');
+  }
+
+  /**
    * Zet de OpenLayers features collectie op de kaartlaag.
    *
    * @param {object} features
