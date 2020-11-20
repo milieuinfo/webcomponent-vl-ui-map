@@ -31,7 +31,12 @@
       const sandbox = sinon.createSandbox();
     
       setup((done) => {
-        customElements.whenDefined('vl-map-select-action').then(() => done());
+        const kaartElement = fixture('vl-map-fixture');
+        customElements.whenDefined('vl-map-select-action').then(() => {
+          const kaartlaagElement = kaartElement.querySelector('vl-map-layer');
+          kaartlaag = kaartlaagElement.layer;
+          done();
+        });
       });
     
       teardown(() => {

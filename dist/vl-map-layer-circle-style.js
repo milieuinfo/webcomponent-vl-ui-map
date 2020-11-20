@@ -1,4 +1,4 @@
-import {VlMapLayerStyle} from './vl-map-layer-style.js';
+import {VlMapLayerStyle} from '/node_modules/vl-ui-map/dist/vl-map-layer-style.js';
 import {OlStyle, OlStyleCircle, OlStyleStroke, OlStyleText, OlStyleFill} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
 
 /**

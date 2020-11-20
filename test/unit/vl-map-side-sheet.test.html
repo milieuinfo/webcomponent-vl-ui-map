@@ -24,7 +24,7 @@
         customElements.whenDefined('vl-map-side-sheet').then(() => done());
       });
 
-      test('de side sheet zal absluut en links gepositioneerd worden', () => {
+      test('de side sheet zal absoluut en links gepositioneerd worden', () => {
         const map = fixture('vl-map-side-sheet-fixture');
         const sideSheet = map.querySelector('vl-map-side-sheet');
         assert.isTrue(sideSheet.hasAttribute('data-vl-left'));
