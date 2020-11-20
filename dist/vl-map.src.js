@@ -86,6 +86,13 @@ export class VlMap extends vlElement(HTMLElement) {
     return this.getAttribute('disable-mouse-wheel-zoom') != undefined;
   }
 
+  get geoJSON() {
+    if (!this.__geoJSON) {
+      this.__geoJSON = new OlGeoJSON();
+    }
+    return this.__geoJSON;
+  }
+
   get _mapElement() {
     return this._shadow.querySelector('#map');
   }
