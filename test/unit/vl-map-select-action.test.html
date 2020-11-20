@@ -11,20 +11,14 @@
 </head>
 
 <body>
-  <test-fixture id="vl-map-fixture">
-    <template>
-      <vl-map>
-        <vl-map-layer></vl-map-layer>
-      </vl-map>
-    </template>
-  </test-fixture>
-
   <test-fixture id="vl-map-select-action-fixture">
     <template>
       <vl-map>
-        <vl-map-select-action>
-          <vl-map-layer-circle-style></vl-map-layer-circle-style>
-        </vl-map-select-action>
+        <vl-map-layer>
+          <vl-map-select-action>
+            <vl-map-layer-circle-style></vl-map-layer-circle-style>
+          </vl-map-select-action>
+        </vl-map-layer>
       </vl-map>
     </template>
   </test-fixture>
@@ -33,17 +27,11 @@
     import {OlFeature, OlPoint} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
     import {VlMapSelectAction} from '../../src/vl-map-select-action.js';
 
-    suite('selecteer-actie', () => {
+    suite('vl-map-select-action', () => {
       const sandbox = sinon.createSandbox();
-      let kaartlaag;
     
       setup((done) => {
-        const kaartElement = fixture('vl-map-fixture');
-        customElements.whenDefined('vl-map-select-action').then(() => {
-          const kaartlaagElement = kaartElement.querySelector('vl-map-layer');
-          kaartlaag = kaartlaagElement.layer;
-          done();
-        });
+        customElements.whenDefined('vl-map-select-action').then(() => done());
       });
     
       teardown(() => {
@@ -54,72 +42,81 @@
         assert.isTrue(VlMapSelectAction.isVlMapAction());
       });
     
-      test('controle van de selecteer actie configuratie', () => {
-        const kaartElement = fixture('vl-map-select-action-fixture');
-        const actionElement = kaartElement.querySelector('vl-map-select-action');
-        const styleElement = kaartElement.querySelector('vl-map-layer-circle-style');
-        const onSelectie = sandbox.spy();
+      test('controle van de selecteer actie configuratie', (done) => {
+        const map = fixture('vl-map-select-action-fixture');
+        const styleElement = map.querySelector('vl-map-layer-circle-style');
+        const layer = map.querySelector('vl-map-layer').layer;
 
-        actionElement.onSelect = onSelectie;
-        actionElement.layer = kaartlaag;
-        const action = kaartElement.map.actions[0];
-        assert.deepEqual(action.layer, kaartlaag);
-        assert.deepEqual(action.style(), styleElement.style());
+        map.ready.then(() => {
+          const action = map.map.actions[0];
+          assert.deepEqual(action.layer, layer);
+          assert.deepEqual(action.style(), styleElement.style());
+          done();
+        });
       });
     
-      test('er kunnen features op de kaart gemarkeerd worden', () => {
-        const kaartElement = fixture('vl-map-select-action-fixture');
-        const actionElement = kaartElement.querySelector('vl-map-select-action');
+      test('er kunnen features op de kaart gemarkeerd worden', (done) => {
+        const map = fixture('vl-map-select-action-fixture');
+        const actionElement = map.querySelector('vl-map-select-action');
         const id = 1;
 
-        actionElement.layer = kaartlaag;
-        sandbox.spy(actionElement.action, 'markFeatureWithId');
-        actionElement.mark(id);
-        assert(actionElement.action.markFeatureWithId.calledWith(id));
+        map.ready.then(() => {
+          sandbox.spy(actionElement.action, 'markFeatureWithId');
+          actionElement.mark(id);
+          assert(actionElement.action.markFeatureWithId.calledWith(id));
+          done();
+        });
       });
     
-      test('de gemarkeerde features op de kaart kunnen gedemarkeerd worden', () => {
-        const kaartElement = fixture('vl-map-select-action-fixture');
-        const actionElement = kaartElement.querySelector('vl-map-select-action');
+      test('de gemarkeerde features op de kaart kunnen gedemarkeerd worden', (done) => {
+        const map = fixture('vl-map-select-action-fixture');
+        const actionElement = map.querySelector('vl-map-select-action');
 
-        actionElement.layer = kaartlaag;
-        sandbox.spy(actionElement.action, 'demarkAllFeatures');
-        actionElement.removeMarks();
-        assert(actionElement.action.demarkAllFeatures.called);
+        map.ready.then(() => {
+          sandbox.spy(actionElement.action, 'demarkAllFeatures');
+          actionElement.removeMarks();
+          assert(actionElement.action.demarkAllFeatures.called);
+          done();
+        });
       });
     
-      test('er kan een feature op de kaart geselecteerd worden', () => {
-        const kaartElement = fixture('vl-map-select-action-fixture');
-        const actionElement = kaartElement.querySelector('vl-map-select-action');
+      test('er kan een feature op de kaart geselecteerd worden', (done) => {
+        const map = fixture('vl-map-select-action-fixture');
+        const actionElement = map.querySelector('vl-map-select-action');
         const feature = new OlFeature({
           geometry: new OlPoint([1, 1]),
         });
 
-        actionElement.layer = kaartlaag;
-        sandbox.spy(actionElement.action, 'selectFeature');
-        actionElement.select(feature);
-        assert(actionElement.action.selectFeature.calledWith(feature));
+        map.ready.then(() => {
+          sandbox.spy(actionElement.action, 'selectFeature');
+          actionElement.select(feature);
+          assert(actionElement.action.selectFeature.calledWith(feature));
+          done();
+        });
       });
 
-      test('alle features kunnen gedeselecteerd en gedehighlight worden', () => {
-        const kaartElement = fixture('vl-map-select-action-fixture');
-        const actionElement = kaartElement.querySelector('vl-map-select-action');
+      test('alle features kunnen gedeselecteerd en gedehighlight worden', (done) => {
+        const map = fixture('vl-map-select-action-fixture');
+        const actionElement = map.querySelector('vl-map-select-action');
 
-        actionElement.layer = kaartlaag;
-        sandbox.spy(actionElement.action, 'clearFeatures');
-        actionElement.reset();
-        assert(actionElement.action.clearFeatures.calledWith());
+        map.ready.then(() => {
+          sandbox.spy(actionElement.action, 'clearFeatures');
+          actionElement.reset();
+          assert(actionElement.action.clearFeatures.calledWith());
+          done();
+        });
       });
 
-      test('het cluster attribuut wordt doorgegeven aan de select actie', () => {
-        const kaartElement = fixture('vl-map-select-action-fixture');
-        const actionElement = kaartElement.querySelector('vl-map-select-action');
-
+      test('het cluster attribuut wordt doorgegeven aan de select actie', (done) => {
+        const map = fixture('vl-map-select-action-fixture');
+        const actionElement = map.querySelector('vl-map-select-action');
         actionElement.setAttribute('cluster', '');
-        actionElement.layer = kaartlaag;
-        const action = kaartElement.map.actions[0];
-        assert.deepEqual(action.layer, kaartlaag);
-        assert.equal(action.cluster, true);
+
+        map.ready.then(() => {
+          const action = map.map.actions[0];
+          assert.equal(action.cluster, true);
+          done();
+        });
       });
     });
   </script>

@@ -14,7 +14,6 @@
             const selectAction = document.querySelector(selectActionSelector);
 
             selectAction.layer = layer.layer;
-            selectAction.activateAction();
             selectAction.onSelect((feature) => {
               if (feature) {
                 document.querySelector(logSelector).innerText = 'Feature' + (feature.getId() != null ? ' met id ' + feature.getId() : '') + ' werd geselecteerd!';
@@ -38,73 +37,75 @@
                 <vl-map-baselayer-grb></vl-map-baselayer-grb>
                 <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
                 <vl-map-layer id="map-layer" data-vl-name="laag" data-vl-features='
-                {
-                    "type": "FeatureCollection",
-                    "features": [{
-                        "type": "Feature",
-                        "id": 1,
-                        "geometry": {
-                            "type": "Point",
-                            "coordinates": [147055.0,197908.0]
-                        }
-                    }, {
-                        "type": "Feature",
-                        "id": 2,
-                        "geometry": {
-                            "type": "Point",
-                            "coordinates": [149055.0,199908.0]
-                        }
-                    }, {
-                        "type": "Feature",
-                        "id": 3,
-                        "geometry": {
-                            "type": "Point",
-                            "coordinates": [151055.0,201908.0]
-                        }
-                    }]
-                }'>
+                    {
+                        "type": "FeatureCollection",
+                        "features": [{
+                            "type": "Feature",
+                            "id": 1,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [147055.0,197908.0]
+                            }
+                        }, {
+                            "type": "Feature",
+                            "id": 2,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [149055.0,199908.0]
+                            }
+                        }, {
+                            "type": "Feature",
+                            "id": 3,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [151055.0,201908.0]
+                            }
+                        }]
+                    }'>
+                    <vl-map-layer-circle-style></vl-map-layer-circle-style>
                 </vl-map-layer>
-                <vl-map-select-action id="select-action">
-                    <vl-map-layer-circle-style data-vl-color="#fff" data-vl-border-color="yellow"></vl-map-layer-circle-style>
+                <vl-map-select-action id="select-action" data-vl-default-active>
+                    <vl-map-layer-circle-style data-vl-text-color="#000" data-vl-color="#FFE615" data-vl-border-color="#FFE615"></vl-map-layer-circle-style>
                 </vl-map-select-action>
             </vl-map>
         </vl-demo>
 
         <vl-demo data-vl-title="Kaart met kaartlaag met selecteer actie en clustering">
+            <div id="select-action-cluster-log"></div>
             <vl-map>
-                <div id="select-action-cluster-log"></div>
                 <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
                 <vl-map-baselayer-grb></vl-map-baselayer-grb>
                 <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
                 <vl-map-layer id="map-layer-cluster" data-vl-name="laag" data-vl-cluster data-vl-cluster-distance="100" data-vl-features='
-                {
-                    "type": "FeatureCollection",
-                    "features": [{
-                        "type": "Feature",
-                        "id": 1,
-                        "geometry": {
-                            "type": "Point",
-                            "coordinates": [147055.0,197908.0]
-                        }
-                    }, {
-                        "type": "Feature",
-                        "id": 2,
-                        "geometry": {
-                            "type": "Point",
-                            "coordinates": [149055.0,199908.0]
-                        }
-                    }, {
-                        "type": "Feature",
-                        "id": 3,
-                        "geometry": {
-                            "type": "Point",
-                            "coordinates": [151055.0,201908.0]
-                        }
-                    }]
-                }'>
+                    {
+                        "type": "FeatureCollection",
+                        "features": [{
+                            "type": "Feature",
+                            "id": 1,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [147055.0,197908.0]
+                            }
+                        }, {
+                            "type": "Feature",
+                            "id": 2,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [149055.0,199908.0]
+                            }
+                        }, {
+                            "type": "Feature",
+                            "id": 3,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [151055.0,201908.0]
+                            }
+                        }]
+                    }'>
+                    <vl-map-layer-circle-style></vl-map-layer-circle-style>
                 </vl-map-layer>
-                <vl-map-select-action id="select-action-cluster" data-vl-cluster>
-                    <vl-map-layer-circle-style data-vl-color="#fff" data-vl-border-color="yellow"></vl-map-layer-circle-style>
+                <vl-map-select-action id="select-action-cluster" data-vl-cluster data-vl-default-active>
+                    <vl-map-layer-circle-style data-vl-text-color="#000" data-vl-color="#FFE615" data-vl-border-color="#FFE615"></vl-map-layer-circle-style>
                 </vl-map-select-action>
             </vl-map>
         </vl-demo>

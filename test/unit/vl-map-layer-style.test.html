@@ -12,22 +12,24 @@
 <body>
 <test-fixture id="vl-map-layer-style-fixture">
     <template>
-        <dummy-vl-map-layer>
-            <vl-map-layer-style></vl-map-layer-style>
-        </dummy-vl-map-layer>
+      <vl-map>
+        <vl-map-layer>
+          <vl-map-layer-style></vl-map-layer-style>
+        </vl-map-layer>
+      </vl-map>
     </template>
 </test-fixture>
 <test-fixture id="vl-map-layer-style-met-properties-fixture">
     <template>
-        <dummy-vl-map-layer>
-            <vl-map-layer-style data-vl-color="#fff" data-vl-text-color="#000" data-vl-text-offset-x="1" data-vl-text-offset-y="2"></vl-map-layer-style>
-        </dummy-vl-map-layer>
+      <vl-map>
+        <vl-map-layer>
+          <vl-map-layer-style data-vl-color="#fff" data-vl-border-color="#333" data-vl-text-color="#000" data-vl-text-offset-x="1" data-vl-text-offset-y="2"></vl-map-layer-style>
+        </dvl-map-layer>
+      </vl-map>
     </template>
 </test-fixture>
 
 <script type="module">
-    import {VlMapLayerStyle} from '../../src/vl-map-style.js';
-
     suite('vl-map-layer-style', () => {
       setup((done) => {
         customElements.whenDefined('vl-map-layer-style').then(() => done());
@@ -36,21 +38,31 @@
       test('de style wordt goed geconfigureerd met default properties', () => {
         const element = fixture('vl-map-layer-style-fixture');
         const vlMapLayerStyleElement = element.querySelector('vl-map-layer-style');
-        assert.isTrue(vlMapLayerStyleElement instanceof VlMapLayerStyle);
-        assert.equal(vlMapLayerStyleElement.color, 'rgba(255, 255, 255, 1)');
+        assert.equal(vlMapLayerStyleElement.color, 'rgba(2, 85, 204, 1)');
+        assert.equal(vlMapLayerStyleElement.borderColor, 'rgba(2, 85, 204, 1)');
+        assert.equal(vlMapLayerStyleElement.borderSize, 1);
         assert.equal(vlMapLayerStyleElement.textColor, '#FFF');
         assert.equal(vlMapLayerStyleElement.textOffsetX, 0);
         assert.equal(vlMapLayerStyleElement.textOffsetY, 0);
+        const style = vlMapLayerStyleElement.style;
+        assert.equal(style.getFill().getColor(), 'rgba(2, 85, 204, 1)');
+        assert.equal(style.getStroke().getColor(), 'rgba(2, 85, 204, 1)');
+        assert.equal(style.getStroke().getWidth(), 1);
       });
 
       test('de style wordt goed geconfigureerd met aangepaste properties', () => {
         const element = fixture('vl-map-layer-style-met-properties-fixture');
         const vlMapLayerStyleElement = element.querySelector('vl-map-layer-style');
-        assert.isTrue(vlMapLayerStyleElement instanceof VlMapLayerStyle);
         assert.equal(vlMapLayerStyleElement.color, '#fff');
+        assert.equal(vlMapLayerStyleElement.borderColor, '#333');
+        assert.equal(vlMapLayerStyleElement.borderSize, 1);
         assert.equal(vlMapLayerStyleElement.textColor, '#000');
         assert.equal(vlMapLayerStyleElement.textOffsetX, 1);
         assert.equal(vlMapLayerStyleElement.textOffsetY, 2);
+        const style = vlMapLayerStyleElement.style;
+        assert.equal(style.getFill().getColor(), '#fff');
+        assert.equal(style.getStroke().getColor(), '#333');
+        assert.equal(style.getStroke().getWidth(), 1);
       });
     });
 </script>

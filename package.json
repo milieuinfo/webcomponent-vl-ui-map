@@ -30,7 +30,7 @@
     "test:unit": "npm explore vl-ui-util -- npm run test:component:unit",
     "test:unit:grid": "npm explore vl-ui-util -- npm run test:component:unit:grid",
     "test:e2e": "npm explore vl-ui-util -- npm run test:component:e2e",
-    "test:e2e:grid": "npm explore vl-ui-util -- npm run test:coŒmponent:e2e:grid",
+    "test:e2e:grid": "npm explore vl-ui-util -- npm run test:component:e2e:grid",
     "release": "npm explore vl-ui-util -- npm run release",
     "release:prepare": "npm explore vl-ui-util -- npm run release-component:prepare $(pwd) map",
     "release:testless": "np --yolo",
@@ -38,25 +38,26 @@
   },
   "dependencies": {
     "vl-mapactions": "github:milieuinfo/vl-mapactions#full-screen",
+    "vl-ui-checkbox": "^3.2.2",
     "vl-ui-core": "^6.1.0",
     "vl-ui-form-message": "^5.0.5",
     "vl-ui-search": "^1.1.0",
     "vl-ui-select": "^4.1.4",
-    "vl-ui-side-sheet": "^3.1.0"
+    "vl-ui-side-sheet": "^3.1.1"
   },
   "peerDependencies": {
-    "vl-mapactions": "milieuinfo/vl-mapactions#full-screen",
+    "vl-mapactions": "github:milieuinfo/vl-mapactions#full-screen",
+    "vl-ui-checkbox": "^3.2.2",
     "vl-ui-core": "^6.1.0",
     "vl-ui-form-message": "^5.0.5",
     "vl-ui-search": "^1.1.0",
     "vl-ui-select": "^4.1.4",
-    "vl-ui-side-sheet": "^3.1.0"
+    "vl-ui-side-sheet": "^3.1.1"
   },
   "devDependencies": {
     "@govflanders/vl-ui-core": "^4.0.5",
     "vl-ui-body": "^1.0.5",
     "vl-ui-button": "^5.0.6",
-    "vl-ui-checkbox": "^3.2.2",
     "vl-ui-util": "^5.2.19"
   }
 }

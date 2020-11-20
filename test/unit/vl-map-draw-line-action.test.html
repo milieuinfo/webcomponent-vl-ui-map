@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="../../../@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../../../web-component-tester/browser.js"></script>
+
+  <script type="module" src="../../src/vl-map-all.js"></script>
+  <script src="/node_modules/sinon/pkg/sinon.js"></script>
+</head>
+
+<body>
+  <script type="module">
+    import {VlMapDrawLineAction} from '../../src/vl-map-draw-line-action.js';
+
+    suite('vl-map-draw-line-action', () => {
+      setup((done) => {
+        customElements.whenDefined('vl-map-draw-line-action').then(() => done());
+      });
+    
+      test('een lijn teken actie is een map actie', () => {
+        assert.isTrue(VlMapDrawLineAction.isVlMapAction());
+      });
+    });
+  </script>
+</body>
+
+</html>

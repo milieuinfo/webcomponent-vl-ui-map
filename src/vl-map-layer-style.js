@@ -1,4 +1,5 @@
 import {vlElement} from '/node_modules/vl-ui-core/dist/vl-core.js';
+import {OlStyle, OlStyleFill, OlStyleStroke} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
 
 /**
  * VlMapLayerStyle
@@ -8,10 +9,10 @@ import {vlElement} from '/node_modules/vl-ui-core/dist/vl-core.js';
  * @extends HTMLElement
  * @mixes vlElement
  *
- * @property {string} color - Attribuut wordt gebruikt om aan te geven wat de kleur is van de kaartlaagstijl.
- * @property {string} text-color - Attribuut wordt gebruikt om aan te geven wat de kleur is van de tekst.
- * @property {number} text-offset-x - Attribuut wordt gebruikt om aan te geven wat de offset op de x-as is van de tekst.
- * @property {number} text-offset-y - Attribuut wordt gebruikt om aan te geven wat de offset op de y-as is van de tekst.
+ * @property {string} data-vl-color - Attribuut wordt gebruikt om aan te geven wat de kleur is van de kaartlaagstijl.
+ * @property {string} data-vl-text-color - Attribuut wordt gebruikt om aan te geven wat de kleur is van de tekst.
+ * @property {number} data-vl-text-offset-x - Attribuut wordt gebruikt om aan te geven wat de offset op de x-as is van de tekst.
+ * @property {number} data-vl-text-offset-y - Attribuut wordt gebruikt om aan te geven wat de offset op de y-as is van de tekst.
  *
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
@@ -28,6 +29,24 @@ export class VlMapLayerStyle extends vlElement(HTMLElement) {
    */
   get color() {
     return this.getAttribute('color') || 'rgba(2, 85, 204, 1)';
+  }
+
+  /**
+   * Geeft de randkleur van de cirkels terug.
+   *
+   * @Return {string}
+   */
+  get borderColor() {
+    return this.getAttribute('border-color') || 'rgba(2, 85, 204, 1)';
+  }
+
+  /**
+   * Geeft de size van de rand van de cirkels terug.
+   *
+   * @Return {number}
+   */
+  get borderSize() {
+    return this.getAttribute('border-size') || 1;
   }
 
   /**
@@ -63,8 +82,15 @@ export class VlMapLayerStyle extends vlElement(HTMLElement) {
    * @Return {string}
    */
   get style() {
-    console.info('opgelet vl-map-layer-style is abstract en zal geen stijl toevoegen aan de kaartlaag');
-    return null;
+    return new OlStyle({
+      fill: new OlStyleFill({
+        color: this.color,
+      }),
+      stroke: new OlStyleStroke({
+        color: this.borderColor,
+        width: this.borderSize,
+      }),
+    });
   }
 
   _hasUniqueStyles(features) {

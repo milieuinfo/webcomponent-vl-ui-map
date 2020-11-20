@@ -54,7 +54,7 @@
         const map = fixture('vl-map-layer-switcher-fixture');
         const layerSwitcher = map.querySelector('vl-map-layer-switcher');
         map.ready.then(() => {
-          const layers = map.layers;
+          const layers = map.nonBaseLayers;
           assert.lengthOf(layerSwitcher._layerInputs, 3);
           layers.forEach((layer, index) => assert.equal(layerSwitcher._layerInputs[index].getAttribute('data-vl-label'), layer.getAttribute('data-vl-name')));
           layers.forEach((layer, index) => assert.equal(layerSwitcher._layerInputs[index].getAttribute('data-vl-layer'), layer.getAttribute('data-vl-name')));
@@ -75,7 +75,7 @@
         const map = fixture('vl-map-layer-switcher-custom-fixture');
         const checkbox = map.querySelector('vl-map-layer-switcher vl-checkbox');
         map.ready.then(() => {
-          const layer = map.layers[0];
+          const layer = map.nonBaseLayers[0];
           assert.isTrue(layer.visible);
           checkbox.addEventListener('change', () => {
             setTimeout(() => {

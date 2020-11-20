@@ -41,15 +41,6 @@ export class VlMap extends vlElement(HTMLElement) {
     return this.__ready;
   }
 
-  /**
-   * Geeft het overlay container element terug.
-   *
-   * @return {HTMLElement}
-   */
-  get overlayContainerElement() {
-    return this._shadow.querySelector('.ol-overlaycontainer-stopevent');
-  }
-
   __prepareReadyPromises() {
     this.__mapReady = new Promise((resolve) => this.__mapReadyResolver = resolve);
     this.__overviewMapReady = new Promise((resolve) => this.__overviewMapReadyResolver = resolve);
@@ -66,15 +57,20 @@ export class VlMap extends vlElement(HTMLElement) {
   }
 
   /**
-   * Geeft de OpenLayers kaart visualisatie terug.
+   * Geeft de OpenLayers kaart resolutie terug.
    *
    * @return {Object}
    */
-  get view() {
-    return this._map.getView();
+  get resolution() {
+    return this._map.getView().getResolution();
   }
 
-  get layers() {
+  /**
+   * Geeft de OpenLayers kaartlagen terug die niet gebruikt worden als basis kaartlaag.
+   *
+   * @return {Object[]}
+   */
+  get nonBaseLayers() {
     return [...this.querySelectorAll('vl-map-layer')];
   }
 
@@ -88,6 +84,13 @@ export class VlMap extends vlElement(HTMLElement) {
 
   get disableMouseWheelZoom() {
     return this.getAttribute('disable-mouse-wheel-zoom') != undefined;
+  }
+
+  get geoJSON() {
+    if (!this.__geoJSON) {
+      this.__geoJSON = new OlGeoJSON();
+    }
+    return this.__geoJSON;
   }
 
   get _mapElement() {

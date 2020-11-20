@@ -1,4 +1,4 @@
-import {VlMapLayerStyle} from './vl-map-layer-style.js';
+import {VlMapLayerStyle} from '/src/vl-map-layer-style.js';
 import {OlStyle, OlStyleCircle, OlStyleStroke, OlStyleText, OlStyleFill} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
 
 /**
@@ -8,11 +8,11 @@ import {OlStyle, OlStyleCircle, OlStyleStroke, OlStyleText, OlStyleFill} from '/
  *
  * @extends VlMapLayerStyle
  *
- * @property {number} size - Attribuut wordt gebruikt om aan te geven wat de grootte is van de cirkels.
- * @property {string} border-color - Attribuut wordt gebruikt om aan te geven wat de color is van de randen van de cirkels.
- * @property {number} border-size - Attribuut wordt gebruikt om aan te geven wat de grootte is van de randen van de cirkels.
- * @property {string} cluster-text-color - Attribuut wordt gebruikt om aan te geven wat de kleur van de tekst is bij het clusteren van features.
- * @property {string} cluster-color - Attribuut wordt gebruikt om aan te geven wat de kleur is bij het clusteren van features.
+ * @property {number} data-vl-size - Attribuut wordt gebruikt om aan te geven wat de grootte is van de cirkels.
+ * @property {string} data-vl-border-color - Attribuut wordt gebruikt om aan te geven wat de color is van de randen van de cirkels.
+ * @property {number} data-vl-border-size - Attribuut wordt gebruikt om aan te geven wat de grootte is van de randen van de cirkels.
+ * @property {string} data-vl-cluster-text-color - Attribuut wordt gebruikt om aan te geven wat de kleur van de tekst is bij het clusteren van features.
+ * @property {string} data-vl-cluster-color - Attribuut wordt gebruikt om aan te geven wat de kleur is bij het clusteren van features.
  *
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
@@ -73,7 +73,7 @@ export class VlMapLayerCircleStyle extends VlMapLayerStyle {
     return (feature, resolution) => {
       const features = feature && feature.get ? (feature.get('features') || []) : [];
       const size = features.length || 1;
-      const clusterMultiplier = size == 1 ? 1 : Math.max(3, size.toString().length);
+      const clusterMultiplier = size == 1 ? 1 : Math.max(1.5, size.toString().length);
       const text = size > 1 ? size.toString() : '';
       let textColor = this.textColor;
       let color = this.color;

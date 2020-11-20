@@ -1,5 +1,5 @@
 import {vlElement} from '/node_modules/vl-ui-core/dist/vl-core.js';
-import {OlGeoJSON, OlVectorLayer, OlVectorSource, OlClusterSource, OlPoint} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
+import {OlVectorLayer, OlVectorSource, OlClusterSource, OlPoint} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
 
 /**
  * VlMapLayer
@@ -9,12 +9,12 @@ import {OlGeoJSON, OlVectorLayer, OlVectorSource, OlClusterSource, OlPoint} from
  * @extends HTMLElement
  * @mixes vlElement
  *
- * @property {string} name - Attribuut bepaalt de kaartlaag naam.
- * @property {boolean} auto-extent - Attribuut geeft aan of er automatisch gezoomt wordt op de kaartlaag zodat al de features zichtbaar zijn.
- * @property {number} auto-extent-max-zoom - Attribuut geeft aan tot op welk niveau er maximaal automatisch gezoomd wordt bij een extent.
- * @property {boolean} cluster - Attribuut geeft aan of de features geclusterd moeten worden of niet.
- * @property {number} cluster-distance - Attribuut geeft aan vanaf welke afstand tussen features er geclusterd mag worden.
- * @property {string[]} features - Attribuut die de kaartlaag bevat.
+ * @property {string} data-vl-name - Attribuut bepaalt de kaartlaag naam.
+ * @property {boolean} data-vl-auto-extent - Attribuut geeft aan of er automatisch gezoomt wordt op de kaartlaag zodat al de features zichtbaar zijn.
+ * @property {number} data-vl-auto-extent-max-zoom - Attribuut geeft aan tot op welk niveau er maximaal automatisch gezoomd wordt bij een extent.
+ * @property {boolean} data-vl-cluster - Attribuut geeft aan of de features geclusterd moeten worden of niet.
+ * @property {number} data-vl-cluster-distance - Attribuut geeft aan vanaf welke afstand tussen features er geclusterd mag worden.
+ * @property {string[]} data-vl-features - Attribuut die de kaartlaag bevat.
  *
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
@@ -28,13 +28,12 @@ export class VlMapLayer extends vlElement(HTMLElement) {
   constructor() {
     super();
     VlMapLayer._counter = 0;
-    this.__geoJSON = new OlGeoJSON();
     this.__counter = ++VlMapLayer._counter;
   }
 
   async connectedCallback() {
     this._layer = this.__createLayer();
-    await this._mapElement.ready;
+    await this.mapElement.ready;
     this._configureMap();
   }
 
@@ -71,7 +70,7 @@ export class VlMapLayer extends vlElement(HTMLElement) {
    */
   get features() {
     const features = this.getAttribute('features');
-    return features ? this.__geoJSON.readFeatures(features) : [];
+    return features ? this._mapElement.geoJSON.readFeatures(features) : [];
   }
 
   /**
@@ -92,6 +91,15 @@ export class VlMapLayer extends vlElement(HTMLElement) {
     if (this._layer) {
       return this._layer.getStyle();
     }
+  }
+
+  /**
+   * Geeft de kaartlaag titel terug.
+   *
+   * @return {String}
+   */
+  get title() {
+    return this.get('title');
   }
 
   /**
@@ -122,6 +130,22 @@ export class VlMapLayer extends vlElement(HTMLElement) {
     this._layer.setVisible(value);
   }
 
+  get mapElement() {
+    if (this.parentNode && this.parentNode.map) {
+      return this.parentNode;
+    } else {
+      return null;
+    }
+  }
+
+  get cluster() {
+    return this.getAttribute('cluster') != undefined;
+  }
+
+  get ready() {
+    return this.mapElement.ready;
+  }
+
   get _name() {
     return this.getAttribute('name') || 'kaartlaag';
   }
@@ -134,10 +158,6 @@ export class VlMapLayer extends vlElement(HTMLElement) {
     return this.getAttribute('auto-extent-max-zoom');
   }
 
-  get _cluster() {
-    return this.getAttribute('cluster') != undefined;
-  }
-
   get _clusterDistance() {
     return this.getAttribute('cluster-distance');
   }
@@ -148,14 +168,6 @@ export class VlMapLayer extends vlElement(HTMLElement) {
 
   get _maxResolution() {
     return this.getAttribute('max-resolution') || Infinity;
-  }
-
-  get _mapElement() {
-    if (this.parentNode && this.parentNode.map) {
-      return this.parentNode;
-    } else {
-      return null;
-    }
   }
 
   /**
@@ -183,8 +195,8 @@ export class VlMapLayer extends vlElement(HTMLElement) {
    * Rendert de kaartlaag opnieuw.
    */
   rerender() {
-    if (this._mapElement) {
-      this._mapElement.rerender();
+    if (this.mapElement) {
+      this.mapElement.rerender();
     }
   }
 
@@ -229,7 +241,7 @@ export class VlMapLayer extends vlElement(HTMLElement) {
    * @param {number} maxZoom - Hoe diep er maximaal ingezoomd mag worden.
    */
   async zoomToExtent(maxZoom) {
-    this._mapElement.zoomTo(this.__boundingBox, maxZoom);
+    this.mapElement.zoomTo(this.__boundingBox, maxZoom);
   }
 
   isVisibleAtResolution(resolution) {
@@ -274,7 +286,7 @@ export class VlMapLayer extends vlElement(HTMLElement) {
     this._source = new OlVectorSource({
       features: features,
     });
-    return this._cluster ? this.__createClusterSource(this._source) : this._source;
+    return this.cluster ? this.__createClusterSource(this._source) : this._source;
   }
 
   __createClusterSource(source) {
@@ -303,8 +315,8 @@ export class VlMapLayer extends vlElement(HTMLElement) {
   }
 
   _configureMap() {
-    if (this._mapElement) {
-      this._mapElement.addLayer(this._layer);
+    if (this.mapElement) {
+      this.mapElement.addLayer(this._layer);
       this.__autoZoomToExtent();
     }
   }

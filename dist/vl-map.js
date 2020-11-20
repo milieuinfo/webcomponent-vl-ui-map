@@ -1,5 +1,5 @@
 import {vlElement} from '/node_modules/vl-ui-core/dist/vl-core.js';
-import {VlCustomMap, OlLayerGroup, OlProjection, OlGeoJSON} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
+import {VlCustomMap, OlLayerGroup, OlProjection} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
 
 /**
  * VlMap
@@ -40,15 +40,6 @@ export class VlMap extends vlElement(HTMLElement) {
     return this.__ready;
   }
 
-  /**
-   * Geeft het overlay container element terug.
-   *
-   * @return {HTMLElement}
-   */
-  get overlayContainerElement() {
-    return this._shadow.querySelector('.ol-overlaycontainer-stopevent');
-  }
-
   __prepareReadyPromises() {
     this.__mapReady = new Promise((resolve) => this.__mapReadyResolver = resolve);
     this.__overviewMapReady = new Promise((resolve) => this.__overviewMapReadyResolver = resolve);
@@ -58,10 +49,28 @@ export class VlMap extends vlElement(HTMLElement) {
   /**
    * Geeft de OpenLayers map terug.
    *
-   * @Return {VlCustomMap}
+   * @return {VlCustomMap}
    */
   get map() {
     return this._map;
+  }
+
+  /**
+   * Geeft de OpenLayers kaart resolutie terug.
+   *
+   * @return {Object}
+   */
+  get resolution() {
+    return this._map.getView().getResolution();
+  }
+
+  /**
+   * Geeft de OpenLayers kaartlagen terug die niet gebruikt worden als basis kaartlaag.
+   *
+   * @return {Object[]}
+   */
+  get nonBaseLayers() {
+    return [...this.querySelectorAll('vl-map-layer')];
   }
 
   get disableEscapeKey() {
@@ -76,7 +85,7 @@ export class VlMap extends vlElement(HTMLElement) {
     return this.getAttribute('disable-mouse-wheel-zoom') != undefined;
   }
 
-  get _geoJSON() {
+  get geoJSON() {
     if (!this.__geoJSON) {
       this.__geoJSON = new OlGeoJSON();
     }
@@ -122,6 +131,15 @@ export class VlMap extends vlElement(HTMLElement) {
   }
 
   /**
+   * Voegt een kaartlaag toe aan de kaart.
+   *
+   * @param {Object} layer
+   */
+  addLayer(layer) {
+    this._map.getOverlayLayers().push(layer);
+  }
+
+  /**
    * Voegt een kaartactie toe aan de kaart.
    *
    * @param {VlMapAction} action
@@ -134,9 +152,27 @@ export class VlMap extends vlElement(HTMLElement) {
    * Zoomt op de kaart naar de bounding box.
    *
    * @param {Number[]} boundingbox
+   * @param {Number} max
    */
-  zoomTo(boundingbox) {
-    this._map.zoomToExtent(boundingbox);
+  zoomTo(boundingbox, max) {
+    this._map.zoomToExtent(boundingbox, max);
+  }
+
+  /**
+   * Registreer kaart event.
+   *
+   * @param {*} event
+   * @param {*} callback
+   */
+  on(event, callback) {
+    this._map.on(event, callback);
+  }
+
+  /**
+   * Render de kaart opnieuw.
+   */
+  rerender() {
+    this._map.render();
   }
 
   __updateMapSize() {

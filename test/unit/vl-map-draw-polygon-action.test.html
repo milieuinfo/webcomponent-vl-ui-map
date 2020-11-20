@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="../../../@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../../../web-component-tester/browser.js"></script>
+
+  <script type="module" src="../../src/vl-map-all.js"></script>
+  <script src="/node_modules/sinon/pkg/sinon.js"></script>
+</head>
+
+<body>
+  <test-fixture id="vl-map-draw-polygon-action-fixture">
+    <template>
+      <vl-map>
+        <vl-map-draw-polygon-action></vl-map-draw-polygon-action>
+      </vl-map>
+    </template>
+  </test-fixture>
+
+  <script type="module">
+    import {VlMapDrawPolygonAction} from '../../src/vl-map-draw-polygon-action.js';
+
+    suite('vl-map-draw-polygon-action', () => {
+      setup((done) => {
+        customElements.whenDefined('vl-map-draw-polygon-action').then(() => done());
+      });
+    
+      test('een polygoon teken actie is een map actie', () => {
+        assert.isTrue(VlMapDrawPolygonAction.isVlMapAction());
+      });
+    });
+  </script>
+</body>
+
+</html>
