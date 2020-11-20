@@ -1,4 +1,4 @@
-import {VlMapBaseLayer} from './vl-map-baselayer.js';
+import {VlMapBaseLayer} from 'vl-ui-map/dist/vl-map-baselayer.src.js';
 
 /**
  * VlMapBaseLayerGRBGray

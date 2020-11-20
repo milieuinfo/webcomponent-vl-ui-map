@@ -9,10 +9,10 @@ import {OlWMTSSource, OlWMTSTileGrid, OlVectorSource, OlVectorLayer, OlTileLayer
  * @extends HTMLElement
  * @mixes vlElement
  *
- * @property {(wmts | wfs )} type - Attribuut wordt gebruikt om aan te geven wat het type is van de kaartlaag.
- * @property {string} url - Attribuut geeft aan via welke URL gebruikt wordt om de kaartlaag op te halen.
- * @property {string} layer - Attribuut geeft aan wat de kaartlaag identifier is.
- * @property {string} title - Attribuut bepaalt de titel van de kaartlaag.
+ * @property {(wmts | wfs )} data-vl-type - Attribuut wordt gebruikt om aan te geven wat het type is van de kaartlaag.
+ * @property {string} data-vl-url - Attribuut geeft aan via welke URL gebruikt wordt om de kaartlaag op te halen.
+ * @property {string} data-vl-layer - Attribuut geeft aan wat de kaartlaag identifier is.
+ * @property {string} data-vl-title - Attribuut bepaalt de titel van de kaartlaag.
  *
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}

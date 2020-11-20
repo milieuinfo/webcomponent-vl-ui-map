@@ -31,8 +31,9 @@ export class VlMapLayer extends vlElement(HTMLElement) {
     this.__counter = ++VlMapLayer._counter;
   }
 
-  connectedCallback() {
+  async connectedCallback() {
     this._layer = this.__createLayer();
+    await this.mapElement.ready;
     this._configureMap();
   }
 
@@ -73,12 +74,12 @@ export class VlMapLayer extends vlElement(HTMLElement) {
   }
 
   /**
-   * Zet de OpenLayers features collectie op de kaartlaag.
+   * Geeft terug ofdat de kaartlaag zichtbaar is of niet.
    *
-   * @param {object} features
+   * @return {Boolean}
    */
-  set features(features) {
-    this.setAttribute('features', JSON.stringify(features));
+  get visible() {
+    return this._layer.getVisible();
   }
 
   /**
@@ -93,6 +94,24 @@ export class VlMapLayer extends vlElement(HTMLElement) {
   }
 
   /**
+   * Geeft de kaartlaag titel terug.
+   *
+   * @return {String}
+   */
+  get title() {
+    return this.get('title');
+  }
+
+  /**
+   * Zet de OpenLayers features collectie op de kaartlaag.
+   *
+   * @param {object} features
+   */
+  set features(features) {
+    this.setAttribute('features', JSON.stringify(features));
+  }
+
+  /**
    * Zet de OpenLayers kaartlaag stijl.
    *
    * @param {ol.style} style
@@ -102,12 +121,21 @@ export class VlMapLayer extends vlElement(HTMLElement) {
     this._layer.setStyle(style);
   }
 
-  get map() {
-    return this.mapElement.map;
+  /**
+   * Zet de zichtbaarheid van de kaartlaag.
+   *
+   * @param {Boolean} value
+   */
+  set visible(value) {
+    this._layer.setVisible(value);
   }
 
   get mapElement() {
-    return this.parentNode;
+    if (this.parentNode && this.parentNode.map) {
+      return this.parentNode;
+    } else {
+      return null;
+    }
   }
 
   get cluster() {
@@ -143,6 +171,16 @@ export class VlMapLayer extends vlElement(HTMLElement) {
   }
 
   /**
+   * Geeft de waarde op basis van een sleutel.
+   *
+   * @param {String} key
+   * @return {Object}
+   */
+  get(key) {
+    return this._layer.get(key);
+  }
+
+  /**
    * Verwijdert de stijl van al de kaartlaag features.
    */
   removeFeaturesStyle() {
@@ -154,11 +192,11 @@ export class VlMapLayer extends vlElement(HTMLElement) {
   }
 
   /**
-   * Rendert de kaart opnieuw.
+   * Rendert de kaartlaag opnieuw.
    */
   rerender() {
-    if (this.map) {
-      this.map.render();
+    if (this.mapElement) {
+      this.mapElement.rerender();
     }
   }
 
@@ -201,11 +239,15 @@ export class VlMapLayer extends vlElement(HTMLElement) {
    * Zoom naar alle features in deze layer.
    *
    * @param {number} maxZoom - Hoe diep er maximaal ingezoomd mag worden.
-   * @return {Promise<void>}
    */
   async zoomToExtent(maxZoom) {
-    await this.ready;
-    this.map.zoomToExtent(this.__boundingBox, maxZoom);
+    this.mapElement.zoomTo(this.__boundingBox, maxZoom);
+  }
+
+  isVisibleAtResolution(resolution) {
+    const maxResolution = parseFloat(this._layer.getMaxResolution());
+    const minResolution = parseFloat(this._layer.getMinResolution());
+    return resolution >= minResolution && resolution < maxResolution;
   }
 
   _autoExtentChangedCallback() {
@@ -273,8 +315,8 @@ export class VlMapLayer extends vlElement(HTMLElement) {
   }
 
   _configureMap() {
-    if (this.map) {
-      this.map.getOverlayLayers().push(this._layer);
+    if (this.mapElement) {
+      this.mapElement.addLayer(this._layer);
       this.__autoZoomToExtent();
     }
   }
