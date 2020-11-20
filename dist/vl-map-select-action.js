@@ -34,6 +34,18 @@ export class VlMapSelectAction extends VlMapAction {
     return this.getAttribute('cluster');
   }
 
+  mark(id) {
+    if (this._action && id) {
+      this._action.markFeatureWithId(id, this.layer);
+    }
+  }
+
+  removeMarks() {
+    if (this._action) {
+      this._action.demarkAllFeatures();
+    }
+  }
+
   select(feature) {
     if (this._action && feature) {
       this._action.selectFeature(feature);
@@ -56,7 +68,6 @@ export class VlMapSelectAction extends VlMapAction {
       style: this._style,
       cluster: (this._cluster != undefined),
     };
-    const select = new VlSelectAction(layer, callback, options);
-    return select;
+    return new VlSelectAction(layer, callback, options);
   }
 }

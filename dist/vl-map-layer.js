@@ -32,8 +32,9 @@ export class VlMapLayer extends vlElement(HTMLElement) {
     this.__counter = ++VlMapLayer._counter;
   }
 
-  connectedCallback() {
+  async connectedCallback() {
     this._layer = this.__createLayer();
+    await this._mapElement.ready;
     this._configureMap();
   }
 
@@ -152,14 +153,6 @@ export class VlMapLayer extends vlElement(HTMLElement) {
 
   get _minResolution() {
     return this.getAttribute('min-resolution') || 0;
-  }
-
-  get _maxResolution() {
-    return this.getAttribute('max-resolution') || Infinity;
-  }
-
-  get _map() {
-    return this._mapElement.map;
   }
 
   get _maxResolution() {
