@@ -38,6 +38,7 @@
   },
   "dependencies": {
     "vl-mapactions": "github:milieuinfo/vl-mapactions#draw-polygon-action",
+    "vl-ui-checkbox": "^3.2.2",
     "vl-ui-core": "^6.1.0",
     "vl-ui-form-message": "^5.0.5",
     "vl-ui-search": "^1.1.0",
@@ -46,6 +47,7 @@
   },
   "peerDependencies": {
     "vl-mapactions": "milieuinfo/vl-mapactions#draw-polygon-action",
+    "vl-ui-checkbox": "^3.2.2",
     "vl-ui-core": "^6.1.0",
     "vl-ui-form-message": "^5.0.5",
     "vl-ui-search": "^1.1.0",
