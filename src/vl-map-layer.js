@@ -70,7 +70,7 @@ export class VlMapLayer extends vlElement(HTMLElement) {
    */
   get features() {
     const features = this.getAttribute('features');
-    return features ? this.mapElement.geoJSON.readFeatures(features) : [];
+    return features ? this._mapElement.geoJSON.readFeatures(features) : [];
   }
 
   /**
