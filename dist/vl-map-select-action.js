@@ -63,11 +63,11 @@ export class VlMapSelectAction extends VlMapAction {
   }
 
   _createAction(layer) {
-    return new VlSelectAction(layer, (args) => {
-      this._onSelect(args);
-    }, {
+    const callback = (args) => this._onSelect(args);
+    const options = {
       style: this._style,
       cluster: (this._cluster != undefined),
-    });
+    };
+    return new VlSelectAction(layer, callback, options);
   }
 }

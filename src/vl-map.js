@@ -40,15 +40,6 @@ export class VlMap extends vlElement(HTMLElement) {
     return this.__ready;
   }
 
-  /**
-   * Geeft het overlay container element terug.
-   *
-   * @return {HTMLElement}
-   */
-  get overlayContainerElement() {
-    return this._shadow.querySelector('.ol-overlaycontainer-stopevent');
-  }
-
   __prepareReadyPromises() {
     this.__mapReady = new Promise((resolve) => this.__mapReadyResolver = resolve);
     this.__overviewMapReady = new Promise((resolve) => this.__overviewMapReadyResolver = resolve);
