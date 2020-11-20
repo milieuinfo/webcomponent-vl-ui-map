@@ -1,5 +1,5 @@
 import {vlElement} from 'vl-ui-core';
-import {OlGeoJSON, OlVectorLayer, OlVectorSource, OlClusterSource, OlPoint} from 'vl-mapactions/dist/vl-mapactions.js';
+import {OlVectorLayer, OlVectorSource, OlClusterSource, OlPoint} from 'vl-mapactions/dist/vl-mapactions.js';
 
 /**
  * VlMapLayer
@@ -9,12 +9,12 @@ import {OlGeoJSON, OlVectorLayer, OlVectorSource, OlClusterSource, OlPoint} from
  * @extends HTMLElement
  * @mixes vlElement
  *
- * @property {string} name - Attribuut bepaalt de kaartlaag naam.
- * @property {boolean} auto-extent - Attribuut geeft aan of er automatisch gezoomt wordt op de kaartlaag zodat al de features zichtbaar zijn.
- * @property {number} auto-extent-max-zoom - Attribuut geeft aan tot op welk niveau er maximaal automatisch gezoomd wordt bij een extent.
- * @property {boolean} cluster - Attribuut geeft aan of de features geclusterd moeten worden of niet.
- * @property {number} cluster-distance - Attribuut geeft aan vanaf welke afstand tussen features er geclusterd mag worden.
- * @property {string[]} features - Attribuut die de kaartlaag bevat.
+ * @property {string} data-vl-name - Attribuut bepaalt de kaartlaag naam.
+ * @property {boolean} data-vl-auto-extent - Attribuut geeft aan of er automatisch gezoomt wordt op de kaartlaag zodat al de features zichtbaar zijn.
+ * @property {number} data-vl-auto-extent-max-zoom - Attribuut geeft aan tot op welk niveau er maximaal automatisch gezoomd wordt bij een extent.
+ * @property {boolean} data-vl-cluster - Attribuut geeft aan of de features geclusterd moeten worden of niet.
+ * @property {number} data-vl-cluster-distance - Attribuut geeft aan vanaf welke afstand tussen features er geclusterd mag worden.
+ * @property {string[]} data-vl-features - Attribuut die de kaartlaag bevat.
  *
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
@@ -28,12 +28,12 @@ export class VlMapLayer extends vlElement(HTMLElement) {
   constructor() {
     super();
     VlMapLayer._counter = 0;
-    this.__geoJSON = new OlGeoJSON();
     this.__counter = ++VlMapLayer._counter;
   }
 
-  connectedCallback() {
+  async connectedCallback() {
     this._layer = this.__createLayer();
+    await this._mapElement.ready;
     this._configureMap();
   }
 
@@ -70,16 +70,16 @@ export class VlMapLayer extends vlElement(HTMLElement) {
    */
   get features() {
     const features = this.getAttribute('features');
-    return features ? this.__geoJSON.readFeatures(features) : [];
+    return features ? this.mapElement.geoJSON.readFeatures(features) : [];
   }
 
   /**
-   * Zet de OpenLayers features collectie op de kaartlaag.
+   * Geeft terug ofdat de kaartlaag zichtbaar is of niet.
    *
-   * @param {object} features
+   * @return {Boolean}
    */
-  set features(features) {
-    this.setAttribute('features', JSON.stringify(features));
+  get visible() {
+    return this._layer.getVisible();
   }
 
   /**
@@ -94,6 +94,24 @@ export class VlMapLayer extends vlElement(HTMLElement) {
   }
 
   /**
+   * Geeft de kaartlaag titel terug.
+   *
+   * @return {String}
+   */
+  get title() {
+    return this.get('title');
+  }
+
+  /**
+   * Zet de OpenLayers features collectie op de kaartlaag.
+   *
+   * @param {object} features
+   */
+  set features(features) {
+    this.setAttribute('features', JSON.stringify(features));
+  }
+
+  /**
    * Zet de OpenLayers kaartlaag stijl.
    *
    * @param {ol.style} style
@@ -101,6 +119,15 @@ export class VlMapLayer extends vlElement(HTMLElement) {
   set style(style) {
     this._style = style;
     this._layer.setStyle(style);
+  }
+
+  /**
+   * Zet de zichtbaarheid van de kaartlaag.
+   *
+   * @param {Boolean} value
+   */
+  set visible(value) {
+    this._layer.setVisible(value);
   }
 
   get _name() {
@@ -131,16 +158,22 @@ export class VlMapLayer extends vlElement(HTMLElement) {
     return this.getAttribute('max-resolution') || Infinity;
   }
 
-  get _map() {
-    return this._mapElement.map;
-  }
-
-  get _mapReady() {
-    return this._mapElement.ready;
-  }
-
   get _mapElement() {
-    return this.parentNode;
+    if (this.parentNode && this.parentNode.map) {
+      return this.parentNode;
+    } else {
+      return null;
+    }
+  }
+
+  /**
+   * Geeft de waarde op basis van een sleutel.
+   *
+   * @param {String} key
+   * @return {Object}
+   */
+  get(key) {
+    return this._layer.get(key);
   }
 
   /**
@@ -155,11 +188,11 @@ export class VlMapLayer extends vlElement(HTMLElement) {
   }
 
   /**
-   * Rendert de kaart opnieuw.
+   * Rendert de kaartlaag opnieuw.
    */
   rerender() {
-    if (this._map) {
-      this._map.render();
+    if (this._mapElement) {
+      this._mapElement.rerender();
     }
   }
 
@@ -202,11 +235,15 @@ export class VlMapLayer extends vlElement(HTMLElement) {
    * Zoom naar alle features in deze layer.
    *
    * @param {number} maxZoom - Hoe diep er maximaal ingezoomd mag worden.
-   * @return {Promise<void>}
    */
   async zoomToExtent(maxZoom) {
-    await this._mapReady;
-    this._map.zoomToExtent(this.__boundingBox, maxZoom);
+    this._mapElement.zoomTo(this.__boundingBox, maxZoom);
+  }
+
+  isVisibleAtResolution(resolution) {
+    const maxResolution = parseFloat(this._layer.getMaxResolution());
+    const minResolution = parseFloat(this._layer.getMinResolution());
+    return resolution >= minResolution && resolution < maxResolution;
   }
 
   _autoExtentChangedCallback() {
@@ -274,8 +311,8 @@ export class VlMapLayer extends vlElement(HTMLElement) {
   }
 
   _configureMap() {
-    if (this._map) {
-      this._map.getOverlayLayers().push(this._layer);
+    if (this._mapElement) {
+      this._mapElement.addLayer(this._layer);
       this.__autoZoomToExtent();
     }
   }

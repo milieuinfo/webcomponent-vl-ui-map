@@ -28,6 +28,10 @@ export class VlMapLayerSwitcher extends vlElement(HTMLElement) {
         label {
           display: block;
         }
+
+        ::slotted([data-vl-layer]) {
+          display: block;
+        }
       </style>
       <div>
         <label is="vl-form-label">Kaartlagen</label>
@@ -36,74 +40,86 @@ export class VlMapLayerSwitcher extends vlElement(HTMLElement) {
     `);
   }
 
-  connectedCallback() {
-    this._registerClickListeners();
-    this._registerMapListener();
+  async connectedCallback() {
+    await this._mapElement.ready;
+    this._processInputs();
   }
 
   get _slot() {
     return this._element.querySelector('slot');
   }
 
+  get _hasLayerInputs() {
+    return this._layerInputs && this._layerInputs.length > 0;
+  }
+
   get _layerInputs() {
     return this._slot.assignedElements().filter((input) => input.hasAttribute('data-vl-layer'));
   }
 
-  get _map() {
-    if (this.closest('vl-map')) {
-      return this.closest('vl-map')._map;
-    }
+
+  get _mapElement() {
+    return this.closest('vl-map');
   }
 
-  get _layers() {
-    return this._map.getOverlayLayers();
+  get _nonBaseLayers() {
+    return this._mapElement.nonBaseLayers;
   }
 
-  _registerClickListeners() {
-    if (this._map) {
-      this._layerInputs.forEach((input) => {
-        this._initializeInput(input);
-        input.addEventListener('click', () => this._setLayerVisibility(input));
-      });
-    }
+  _getLayer(input) {
+    return this._nonBaseLayers.find((layer) => layer.title == input.dataset.vlLayer);
   }
 
-  _registerMapListener() {
-    if (this._map) {
-      this._map.on('moveend', () => {
-        const resolution = this._map.getView().getResolution();
-        this._layerInputs.forEach((input) => {
-          const layer = this._getLayer(input);
-          if (layer) {
-            const maxResolution = parseFloat(layer.getMaxResolution());
-            const minResolution = parseFloat(layer.getMinResolution());
-            if (resolution >= maxResolution || resolution < minResolution) {
-              input.setAttribute('disabled', '');
-            } else {
-              input.removeAttribute('disabled');
-            }
-          }
-        });
-      });
+  _getInputTemplate(title) {
+    return this._template(`<vl-checkbox data-vl-label="${title}" data-vl-layer="${title}"></vl-checkbox>`);
+  }
+
+  _processInputs() {
+    if (!this._hasLayerInputs && this._nonBaseLayers) {
+      this._nonBaseLayers.forEach((layer) => this.append(this._getInputTemplate(layer.title)));
     }
+    this._addChangeListeners();
+    this._addMapListener();
+  }
+
+  _addChangeListeners() {
+    this._layerInputs.forEach((input) => {
+      this._initializeInput(input);
+      input.addEventListener('change', () => this._setLayerVisibility(input));
+    });
+  }
+
+  _addMapListener() {
+    this._mapElement.on('moveend', () => this._computeInputsDisabledAttribute());
   }
 
   _initializeInput(input) {
     const layer = this._getLayer(input);
     if (layer) {
-      input.checked = layer.getVisible();
+      input.checked = layer.visible;
     }
   }
 
   _setLayerVisibility(input) {
     const layer = this._getLayer(input);
     if (layer) {
-      layer.setVisible(input.checked);
-      this._map.render();
+      layer.visible = input.checked;
+      this._mapElement.rerender();
     }
   }
 
-  _getLayer(input) {
-    return this._layers.find((layer) => layer.get('title') == input.dataset.vlLayer);
+  _computeInputsDisabledAttribute() {
+    this._layerInputs.forEach((input) => this._computeInputDisabledAttribute(input, this._mapElement.resolution));
+  }
+
+  _computeInputDisabledAttribute(input, resolution) {
+    const layer = this._getLayer(input);
+    if (layer) {
+      if (layer.isVisibleAtResolution(resolution)) {
+        input.removeAttribute('disabled');
+      } else {
+        input.setAttribute('disabled', '');
+      }
+    }
   }
 }
