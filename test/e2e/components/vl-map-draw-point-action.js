@@ -4,7 +4,7 @@ class VlMapDrawPointAction extends VlMapAction {
   async draw({x = 10, y = 10} = {x: 10, y: 10}) {
     await this.scrollIntoView();
     const actions = this.driver.actions();
-    return actions.move({origin: this, x: x, y: y}).click().perform();
+    await actions.move({origin: this, x: x, y: y}).click().perform();
   }
 }
 
