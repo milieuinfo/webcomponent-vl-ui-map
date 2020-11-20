@@ -1,4 +1,4 @@
-import {VlMapBaseLayer} from './vl-map-baselayer.js';
+import {VlMapBaseLayer} from '/src/vl-map-baselayer.js';
 
 /**
  * VlMapBaseLayerGRBOrtho

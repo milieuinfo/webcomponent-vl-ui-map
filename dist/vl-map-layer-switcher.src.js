@@ -92,15 +92,15 @@ export class VlMapLayerSwitcher extends vlElement(HTMLElement) {
   _initializeInput(input) {
     const layer = this._getLayer(input);
     if (layer) {
-      input.checked = layer.getVisible();
+      input.checked = layer.visible;
     }
   }
 
   _setLayerVisibility(input) {
     const layer = this._getLayer(input);
     if (layer) {
-      layer.setVisible(input.checked);
-      this._map.render();
+      layer.visible = input.checked;
+      this._mapElement.rerender();
     }
   }
 
