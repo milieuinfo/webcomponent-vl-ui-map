@@ -40,9 +40,26 @@
     </template>
   </test-fixture>
 
-  <script>
+  <test-fixture id="vl-map-action-layer-by-name-fixture">
+    <template>
+      <vl-map>
+        <vl-map-layer data-vl-name="layer"></vl-map-layer>
+        <vl-map-action data-vl-layer="layer"></vl-map-action>
+      </vl-map>
+    </template>
+  </test-fixture>
+
+  <script type="module">
+    import {VlMapWithActions} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
+
     suite('vl-map-action', () => {
       const sandbox = sinon.createSandbox();
+
+      const action = {
+        interactions: [],
+        deactivate: sandbox.spy(),
+        activate: sandbox.spy(),
+      };
     
       setup((done) => {
         customElements.whenDefined('vl-map-action').then(() => done());
@@ -52,16 +69,26 @@
         sandbox.restore();
       });
     
-      test('de actie wordt standaard niet geactiveerd', () => {
+      test('de actie wordt standaard gekoppeld aan de kaartlaag waarin gedeclareerd', (done) => {
         const map = fixture('vl-map-action-fixture');
-        assert.lengthOf(map._map.actions, 0);
+        const actionElement = map.querySelector('vl-map-action');
+        const layerElement = map.querySelector('vl-map-layer');
+        sandbox.stub(actionElement, '_createAction').withArgs(layerElement.layer).returns(action);
+        map.ready.then(() => {
+          assert.lengthOf(map._map.actions, 1);
+          assert.deepEqual(map._map.actions[0], action);
+          setTimeout(() => {
+            assert.isFalse(action.activate.called);
+            done();
+          }, VlMapWithActions.CLICK_COUNT_TIMEOUT);
+        });
       });
 
-      test('de actie kan standaard geactiveerd worden via het default active attribuut', (done) => {
-        const map = fixture('vl-map-action-default-active-fixture');
+      test('de actie kaartlaag koppeling kan gebeuren via een attribuut', (done) => {
+        const map = fixture('vl-map-action-layer-by-name-fixture');
         const actionElement = map.querySelector('vl-map-action');
-        const action = {};
-        sandbox.stub(actionElement, '_createAction').returns(action);
+        const layerElement = map.querySelector('vl-map-layer');
+        sandbox.stub(actionElement, '_createAction').withArgs(layerElement.layer).returns(action);
         map.ready.then(() => {
           assert.lengthOf(map._map.actions, 1);
           assert.deepEqual(map._map.actions[0], action);
@@ -69,13 +96,25 @@
         });
       });
 
+      test('de actie kan standaard geactiveerd worden via het default active attribuut', (done) => {
+        const map = fixture('vl-map-action-default-active-fixture');
+        const actionElement = map.querySelector('vl-map-action');
+        const layerElement = map.querySelector('vl-map-layer');
+        sandbox.stub(actionElement, '_createAction').withArgs(layerElement.layer).returns(action);
+        map.ready.then(() => {
+          assert.lengthOf(map._map.actions, 1);
+          assert.deepEqual(map._map.actions[0], action);
+          setTimeout(() => {
+            assert.isTrue(action.activate.called);
+            done();
+          }, VlMapWithActions.CLICK_COUNT_TIMEOUT);
+        });
+      });
+
       test('de actie kaartlaag kan gezet worden zodat één actie voor meerdere kaartlagen gebruikt kan worden', (done) => {
         const map = fixture('vl-map-action-layer-fixture');
         const layerElement = map.querySelector('vl-map-layer');
         const actionElement = map.querySelector('vl-map-action');
-        const action = {
-          activate: sinon.spy(),
-        };
         sandbox.stub(actionElement, '_createAction').returns(action);
         map.ready.then(() => {
           assert.lengthOf(map._map.actions, 0);

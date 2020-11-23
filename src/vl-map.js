@@ -164,6 +164,15 @@ export class VlMap extends vlElement(HTMLElement) {
   }
 
   /**
+   * Verwijdert een kaartactie van de kaart.
+   *
+   * @param {VlMapAction} action
+   */
+  removeAction(action) {
+    this.map.removeAction(action);
+  }
+
+  /**
    * Activeert een kaartactie.
    *
    * @param {VlMapAction} action
