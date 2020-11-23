@@ -35,7 +35,7 @@ export class VlMapAction extends vlElement(HTMLElement) {
   }
 
   /**
-   * Geeft de kaartlaag stijl.
+   * Geeft de stijl van de kaartinteractie.
    *
    * @return {Object}
    */
@@ -44,7 +44,7 @@ export class VlMapAction extends vlElement(HTMLElement) {
   }
 
   /**
-   * Zet de kaartlaag stijl.
+   * Zet de stijl van de kaartinteractie.
    *
    * @param {Object} style
    */
