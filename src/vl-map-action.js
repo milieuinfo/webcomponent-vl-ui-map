@@ -92,12 +92,6 @@ export class VlMapAction extends vlElement(HTMLElement) {
     return this.hasAttribute('default-active');
   }
 
-  get _map() {
-    if (this._mapElement) {
-      return this._mapElement.map;
-    }
-  }
-
   get _callback() {
     return (args) => this.__callback ? this.__callback(args) : null;
   }
@@ -106,43 +100,32 @@ export class VlMapAction extends vlElement(HTMLElement) {
    * Activeer de kaart actie op de kaart.
    */
   activate() {
-    if (this.action) {
-      this._map.activateAction(this.action);
-      this.actionChanged();
-    }
-  }
-
-  /**
-   * Stuurt een event om te laten weten dat de actieve kaart actie gewijzigd werd
-   */
-  actionChanged() {
-    const event = new Event(VlMapAction.NEW_ACTION_EVENT_NAME);
-    this._mapElement.dispatchEvent(event);
+    this._mapElement.activateAction(this.action);
   }
 
   _layerChangedCallback() {
-    this._mapElement.ready.then(() => {
-      if (this.layer) {
-        const action = this._createAction(this.layer);
-        if (action) {
-          this._mapElement.addAction(action);
-          this.actionChanged();
-          if (this._active) {
-            action.activate();
-          }
-          this._action = action;
-        }
-      }
-    });
+    this._mapElement.ready.then(() => this._processAction(this.layer));
   }
 
   _createAction() {
-    console.log('implementatie van _createAction ontbreekt');
+    console.warn('implementatie van _createAction ontbreekt');
+  }
+
+  _processAction(layer) {
+    if (layer) {
+      this._action = this._createAction(layer);
+      if (this._action) {
+        this._mapElement.addAction(this._action);
+        if (this._active) {
+          this.activate();
+        }
+      }
+    }
   }
 
   __registerMapActionChangedCallback() {
     this._mapElement.addEventListener(VlMapAction.NEW_ACTION_EVENT_NAME, () => {
-      this.setAttribute('active', (this._map && this._map.currentAction == this.action));
+      this.setAttribute('active', this._mapElement.activeAction == this.action);
     });
   }
 
