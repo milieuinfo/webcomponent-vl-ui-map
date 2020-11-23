@@ -1,5 +1,5 @@
 import {vlElement} from '/node_modules/vl-ui-core/dist/vl-core.js';
-import {VlCustomMap, OlLayerGroup, OlProjection, OlGeoJSON} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
+import {VlCustomMap, OlLayerGroup, OlProjection} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
 
 /**
  * VlMap
@@ -18,6 +18,19 @@ import {VlCustomMap, OlLayerGroup, OlProjection, OlGeoJSON} from '/node_modules/
  * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map.html|Demo}
  */
 export class VlMap extends vlElement(HTMLElement) {
+  /**
+   * Geeft de event naam die gebruikt wordt wanneer een nieuwe actie toegevoegd wordt aan de kaart
+   *
+   * @return {string}
+   */
+  static get EVENTS() {
+    return {
+      action: {
+        activated: 'action-activated',
+      },
+    };
+  }
+
   constructor() {
     super(`
       <style>
@@ -83,13 +96,6 @@ export class VlMap extends vlElement(HTMLElement) {
 
   get disableMouseWheelZoom() {
     return this.getAttribute('disable-mouse-wheel-zoom') != undefined;
-  }
-
-  get geoJSON() {
-    if (!this.__geoJSON) {
-      this.__geoJSON = new OlGeoJSON();
-    }
-    return this.__geoJSON;
   }
 
   /**
@@ -165,7 +171,7 @@ export class VlMap extends vlElement(HTMLElement) {
   activateAction(action) {
     if (action) {
       this.map.activateAction(action);
-      this.dispatchEvent(new Event(VlMapAction.NEW_ACTION_EVENT_NAME));
+      this.dispatchEvent(new Event(VlMap.EVENTS.action.activated));
     }
   }
 

@@ -1,4 +1,5 @@
 import {vlElement} from '/node_modules/vl-ui-core/dist/vl-core.js';
+import {VlMap} from '/src/vl-map.js';
 
 /**
  * VlMapAction
@@ -23,15 +24,6 @@ export class VlMapAction extends vlElement(HTMLElement) {
 
   static isVlMapAction() {
     return true;
-  }
-
-  /**
-   * Geeft de event naam die gebruikt wordt wanneer een nieuwe actie toegevoegd wordt aan de kaart
-   *
-   * @return {string}
-   */
-  static get NEW_ACTION_EVENT_NAME() {
-    return 'new-action-activated';
   }
 
   /**
@@ -124,7 +116,7 @@ export class VlMapAction extends vlElement(HTMLElement) {
   }
 
   __registerMapActionChangedCallback() {
-    this._mapElement.addEventListener(VlMapAction.NEW_ACTION_EVENT_NAME, () => {
+    this._mapElement.addEventListener(VlMap.EVENTS.action.activated, () => {
       this.setAttribute('active', this._mapElement.activeAction == this.action);
     });
   }
