@@ -15,6 +15,24 @@ import {VlSelectAction} from '/node_modules/vl-mapactions/dist/vl-mapactions.js'
  * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map-select-action.html|Demo}
  */
 export class VlMapSelectAction extends VlMapAction {
+  /**
+   * Geeft de stijl die een geselecteerd feature zal krijgen.
+   *
+   * @return {Object}
+   */
+  get style() {
+    return this._style;
+  }
+
+  /**
+   * Zet de stijl die een geselecteerd feature zal krijgen.
+   *
+   * @param {Object} style
+   */
+  set style(style) {
+    this._style = style;
+  }
+
   get _cluster() {
     return this.getAttribute('cluster');
   }

@@ -32,25 +32,7 @@ export class VlMapAction extends vlElement(HTMLElement) {
   }
 
   /**
-   * Geeft de stijl van de kaartinteractie.
-   *
-   * @return {Object}
-   */
-  get style() {
-    return this._style;
-  }
-
-  /**
-   * Zet de stijl van de kaartinteractie.
-   *
-   * @param {Object} style
-   */
-  set style(style) {
-    this._style = style;
-  }
-
-  /**
-   * Geeft de kaartlaag.
+   * Geeft de OL6 kaartlaag.
    *
    * @return {Object}
    */
@@ -61,7 +43,7 @@ export class VlMapAction extends vlElement(HTMLElement) {
   /**
    * Zet de kaartlaag.
    *
-   * @param {Object} layer
+   * @param {Object} layer OL6 kaartlaag
    */
   set layer(layer) {
     this._layer = layer;
@@ -69,7 +51,7 @@ export class VlMapAction extends vlElement(HTMLElement) {
   }
 
   /**
-   * Geeft de kaart actie.
+   * Geeft de vl-mapactions kaart actie.
    *
    * @return {Object}
    */
