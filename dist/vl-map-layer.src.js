@@ -1,5 +1,9 @@
 import {vlElement} from 'vl-ui-core';
+<<<<<<< HEAD
 import {OlVectorLayer, OlVectorSource, OlClusterSource, OlPoint} from 'vl-mapactions/dist/vl-mapactions.js';
+=======
+import {OlVectorLayer, OlVectorSource, OlClusterSource, OlPoint, OlGeoJSON} from 'vl-mapactions/dist/vl-mapactions.js';
+>>>>>>> c32155f8f92e9c9c2d8a9d305968239e2c6cd34e
 
 /**
  * VlMapLayer
@@ -29,6 +33,7 @@ export class VlMapLayer extends vlElement(HTMLElement) {
     super();
     VlMapLayer._counter = 0;
     this.__counter = ++VlMapLayer._counter;
+    this._geoJSON = new OlGeoJSON();
   }
 
   async connectedCallback() {
@@ -70,7 +75,11 @@ export class VlMapLayer extends vlElement(HTMLElement) {
    */
   get features() {
     const features = this.getAttribute('features');
+<<<<<<< HEAD
     return features ? this.mapElement.geoJSON.readFeatures(features) : [];
+=======
+    return features ? this._geoJSON.readFeatures(features) : [];
+>>>>>>> c32155f8f92e9c9c2d8a9d305968239e2c6cd34e
   }
 
   /**
