@@ -8,7 +8,7 @@ class VlMapDrawLineAction extends VlMapAction {
         .move({origin: map, x: c1.x, y: c1.y})
         .click()
         .move({origin: map, x: c2.x, y: c2.y})
-        .click().perform();
+        .doubleClick().perform();
   }
 }
 
