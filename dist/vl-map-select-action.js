@@ -14,29 +14,7 @@ import {VlSelectAction} from '/node_modules/vl-mapactions/dist/vl-mapactions.js'
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
  * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map-select-action.html|Demo}
  */
-<<<<<<< HEAD
 export class VlMapSelectAction extends VlMapAction {
-=======
-export class VlMapSelectAction extends VlMapLayerAction {
-  /**
-   * Geeft de stijl die een geselecteerd feature zal krijgen.
-   *
-   * @return {Object}
-   */
-  get style() {
-    return this._style;
-  }
-
-  /**
-   * Zet de stijl die een geselecteerd feature zal krijgen.
-   *
-   * @param {Object} style
-   */
-  set style(style) {
-    this._style = style;
-  }
-
->>>>>>> c32155f8f92e9c9c2d8a9d305968239e2c6cd34e
   get _cluster() {
     return this.getAttribute('cluster');
   }

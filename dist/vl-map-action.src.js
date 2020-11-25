@@ -26,7 +26,6 @@ export class VlMapAction extends vlElement(HTMLElement) {
   }
 
   /**
-<<<<<<< HEAD
    * Geeft de event naam die gebruikt wordt wanneer een nieuwe actie toegevoegd wordt aan de kaart
    *
    * @return {string}
@@ -55,9 +54,6 @@ export class VlMapAction extends vlElement(HTMLElement) {
 
   /**
    * Geeft de kaartlaag.
-=======
-   * Geeft de vl-mapactions kaart actie.
->>>>>>> c32155f8f92e9c9c2d8a9d305968239e2c6cd34e
    *
    * @return {Object}
    */
@@ -65,7 +61,6 @@ export class VlMapAction extends vlElement(HTMLElement) {
     return this._action;
   }
 
-<<<<<<< HEAD
   /**
    * Zet de kaartlaag.
    *
@@ -101,18 +96,6 @@ export class VlMapAction extends vlElement(HTMLElement) {
     if (this._mapElement) {
       return this._mapElement.map;
     }
-=======
-  get _mapElement() {
-    return this.closest('vl-map');
-  }
-
-  get _defaultActive() {
-    return this.hasAttribute('default-active');
-  }
-
-  get _callback() {
-    return (args) => this.__callback ? this.__callback(args) : null;
->>>>>>> c32155f8f92e9c9c2d8a9d305968239e2c6cd34e
   }
 
   get _callback() {
@@ -123,7 +106,6 @@ export class VlMapAction extends vlElement(HTMLElement) {
    * Activeer de kaart actie op de kaart.
    */
   activate() {
-<<<<<<< HEAD
     if (this.action) {
       this._map.activateAction(this.action);
       this.actionChanged();
@@ -161,27 +143,6 @@ export class VlMapAction extends vlElement(HTMLElement) {
   __registerMapActionChangedCallback() {
     this._mapElement.addEventListener(VlMapAction.NEW_ACTION_EVENT_NAME, () => {
       this.setAttribute('active', (this._map && this._map.currentAction == this.action));
-=======
-    this._mapElement.activateAction(this.action);
-  }
-
-  _createAction() {
-    console.warn('implementatie van _createAction ontbreekt');
-  }
-
-  _processAction() {
-    if (this.action) {
-      this._mapElement.addAction(this.action);
-      if (this._defaultActive) {
-        this.activate();
-      }
-    }
-  }
-
-  __registerMapActionChangedCallback() {
-    this._mapElement.addEventListener(VlMap.EVENTS.action.activated, () => {
-      this.setAttribute('active', this._mapElement.activeAction == this.action);
->>>>>>> c32155f8f92e9c9c2d8a9d305968239e2c6cd34e
     });
   }
 
