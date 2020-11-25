@@ -29,6 +29,7 @@ export class VlMapLayer extends vlElement(HTMLElement) {
     super();
     VlMapLayer._counter = 0;
     this.__counter = ++VlMapLayer._counter;
+    this._geoJSON = new OlGeoJSON();
   }
 
   async connectedCallback() {

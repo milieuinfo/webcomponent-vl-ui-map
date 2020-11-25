@@ -33,7 +33,7 @@ describe('vl-map-draw-action', async () => {
     await action.draw();
     features = await layer.getFeatures();
     assert.lengthOf(features, 1);
-    await action.draw({x: 100, y: 100}, {x: 200, y: 200});
+    await action.draw({x: 50, y: 50}, {x: 100, y: 100});
     features = await layer.getFeatures();
     assert.lengthOf(features, 2);
   });

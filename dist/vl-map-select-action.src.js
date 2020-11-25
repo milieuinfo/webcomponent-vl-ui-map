@@ -1,4 +1,4 @@
-import {VlMapAction} from 'vl-ui-map/dist/vl-map-action.src.js';
+import {VlMapLayerAction} from 'vl-ui-map/dist/vl-map-layer-action.src.js';
 import {VlSelectAction} from 'vl-mapactions/dist/vl-mapactions.js';
 
 /**
@@ -8,7 +8,7 @@ import {VlSelectAction} from 'vl-mapactions/dist/vl-mapactions.js';
  *
  * @property {boolean} data-vl-cluster - Attribuut geeft aan of de features geclusterd zijn of niet.
  *
- * @extends VlMapAction
+ * @extends VlMapLayerAction
  *
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}

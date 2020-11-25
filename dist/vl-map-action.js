@@ -1,11 +1,11 @@
 import {vlElement} from '/node_modules/vl-ui-core/dist/vl-core.js';
+import {VlMap} from '/node_modules/vl-ui-map/dist/vl-map.js';
 
 /**
  * VlMapAction
  * @class
  * @classdesc De abstracte kaart actie component.
  *
- * @property {boolean} active - Attribuut bepaalt of de kaart geactiveerd is.
  *
  * @extends HTMLElement
  * @mixes vlElement
@@ -57,8 +57,8 @@ export class VlMapAction extends vlElement(HTMLElement) {
    *
    * @return {Object}
    */
-  get layer() {
-    return this._layer;
+  get action() {
+    return this._action;
   }
 
   /**
