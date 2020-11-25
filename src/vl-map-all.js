@@ -8,6 +8,7 @@ import {VlMapBaseLayerGRBGray} from '/src/vl-map-baselayer-grb-gray.js';
 import {VlMapBaseLayerGRB} from '/src/vl-map-baselayer-grb.js';
 import {VlMapBaseLayerGRBOrtho} from '/src/vl-map-baselayer-grb-ortho.js';
 import {VlMapAction} from '/src/vl-map-action.js';
+import {VlMapLayerAction} from '/src/vl-map-layer-action.js';
 import {VlMapSelectAction} from '/src/vl-map-select-action.js';
 import {VlMapDrawPointAction} from '/src/vl-map-draw-point-action.js';
 import {VlMapLayerStyle} from '/src/vl-map-layer-style.js';
@@ -27,6 +28,7 @@ Promise.all([
   define('vl-map-baselayer-grb', VlMapBaseLayerGRB);
   define('vl-map-baselayer-grb-ortho', VlMapBaseLayerGRBOrtho);
   define('vl-map-action', VlMapAction);
+  define('vl-map-layer-action', VlMapLayerAction);
   define('vl-map-select-action', VlMapSelectAction);
   define('vl-map-draw-point-action', VlMapDrawPointAction);
   define('vl-map-layer-style', VlMapLayerStyle);
@@ -45,6 +47,7 @@ export {
   VlMapBaseLayerGRB,
   VlMapBaseLayerGRBOrtho,
   VlMapAction,
+  VlMapLayerAction,
   VlMapSelectAction,
   VlMapDrawPointAction,
   VlMapLayerStyle,
