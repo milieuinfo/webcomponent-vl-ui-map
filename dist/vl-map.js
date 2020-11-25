@@ -18,6 +18,19 @@ import {VlCustomMap, OlLayerGroup, OlProjection} from '/node_modules/vl-mapactio
  * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map.html|Demo}
  */
 export class VlMap extends vlElement(HTMLElement) {
+  /**
+   * Geeft de event naam die gebruikt wordt wanneer een nieuwe actie toegevoegd wordt aan de kaart
+   *
+   * @return {string}
+   */
+  static get EVENTS() {
+    return {
+      action: {
+        activated: 'action-activated',
+      },
+    };
+  }
+
   constructor() {
     super(`
       <style>
@@ -61,7 +74,7 @@ export class VlMap extends vlElement(HTMLElement) {
    * @return {Object}
    */
   get resolution() {
-    return this._map.getView().getResolution();
+    return this.map.getView().getResolution();
   }
 
   /**
@@ -83,6 +96,15 @@ export class VlMap extends vlElement(HTMLElement) {
 
   get disableMouseWheelZoom() {
     return this.getAttribute('disable-mouse-wheel-zoom') != undefined;
+  }
+
+  /**
+   * Geeft de actieve kaartactie.
+   *
+   * @return {VlMapAction}
+   */
+  get activeAction() {
+    return this.map && this.map.currentAction;
   }
 
   get _mapElement() {
@@ -129,7 +151,7 @@ export class VlMap extends vlElement(HTMLElement) {
    * @param {Object} layer
    */
   addLayer(layer) {
-    this._map.getOverlayLayers().push(layer);
+    this.map.getOverlayLayers().push(layer);
   }
 
   /**
@@ -138,7 +160,28 @@ export class VlMap extends vlElement(HTMLElement) {
    * @param {VlMapAction} action
    */
   addAction(action) {
-    this._map.addAction(action);
+    this.map.addAction(action);
+  }
+
+  /**
+   * Verwijdert een kaartactie van de kaart.
+   *
+   * @param {VlMapAction} action
+   */
+  removeAction(action) {
+    this.map.removeAction(action);
+  }
+
+  /**
+   * Activeert een kaartactie.
+   *
+   * @param {VlMapAction} action
+   */
+  activateAction(action) {
+    if (action) {
+      this.map.activateAction(action);
+      this.dispatchEvent(new Event(VlMap.EVENTS.action.activated));
+    }
   }
 
   /**
@@ -148,7 +191,7 @@ export class VlMap extends vlElement(HTMLElement) {
    * @param {Number} max
    */
   zoomTo(boundingbox, max) {
-    this._map.zoomToExtent(boundingbox, max);
+    this.map.zoomToExtent(boundingbox, max);
   }
 
   /**
@@ -158,27 +201,27 @@ export class VlMap extends vlElement(HTMLElement) {
    * @param {*} callback
    */
   on(event, callback) {
-    this._map.on(event, callback);
+    this.map.on(event, callback);
   }
 
   /**
    * Render de kaart opnieuw.
    */
   rerender() {
-    this._map.render();
+    this.map.render();
   }
 
   __updateMapSize() {
     this.style.display = 'block';
-    if (this._map) {
-      this._map.updateSize();
+    if (this.map) {
+      this.map.updateSize();
     }
     this.__mapReadyResolver();
   }
 
   __updateOverviewMapSize() {
-    if (this._map.overviewMapControl) {
-      this._map.overviewMapControl.getOverviewMap().updateSize();
+    if (this.map.overviewMapControl) {
+      this.map.overviewMapControl.getOverviewMap().updateSize();
     }
     this.__overviewMapReadyResolver();
   }

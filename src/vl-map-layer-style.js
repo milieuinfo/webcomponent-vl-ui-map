@@ -8,10 +8,10 @@ import {vlElement} from '/node_modules/vl-ui-core/dist/vl-core.js';
  * @extends HTMLElement
  * @mixes vlElement
  *
- * @property {string} color - Attribuut wordt gebruikt om aan te geven wat de kleur is van de kaartlaagstijl.
- * @property {string} text-color - Attribuut wordt gebruikt om aan te geven wat de kleur is van de tekst.
- * @property {number} text-offset-x - Attribuut wordt gebruikt om aan te geven wat de offset op de x-as is van de tekst.
- * @property {number} text-offset-y - Attribuut wordt gebruikt om aan te geven wat de offset op de y-as is van de tekst.
+ * @property {string} data-vl-color - Attribuut wordt gebruikt om aan te geven wat de kleur is van de kaartlaagstijl.
+ * @property {string} data-vl-text-color - Attribuut wordt gebruikt om aan te geven wat de kleur is van de tekst.
+ * @property {number} data-vl-text-offset-x - Attribuut wordt gebruikt om aan te geven wat de offset op de x-as is van de tekst.
+ * @property {number} data-vl-text-offset-y - Attribuut wordt gebruikt om aan te geven wat de offset op de y-as is van de tekst.
  *
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}

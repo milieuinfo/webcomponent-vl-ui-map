@@ -1,14 +1,16 @@
 import {vlElement} from 'vl-ui-core';
+import {VlMap} from 'vl-ui-map/dist/vl-map.src.js';
 
 /**
  * VlMapAction
  * @class
  * @classdesc De abstracte kaart actie component.
  *
- * @property {boolean} active - Attribuut bepaalt of de kaart geactiveerd is.
  *
  * @extends HTMLElement
  * @mixes vlElement
+ *
+ * @property {boolean} data-vl-default-active - Attribuut wordt gebruikt om de actie standaard te activeren.
  *
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
@@ -23,87 +25,49 @@ export class VlMapAction extends vlElement(HTMLElement) {
   }
 
   /**
-   * Geeft de event naam die gebruikt wordt wanneer een nieuwe actie toegevoegd wordt aan de kaart
+   * Geeft de vl-mapactions kaart actie.
    *
-   * @return {string}
-   */
-  static get NEW_ACTION_EVENT_NAME() {
-    return 'new-action-activated';
-  }
-
-  /**
-   * Geeft de kaartlaag.
-   *
-   * @return {ol.layer.Layer}
-   */
-  get layer() {
-    return this._layer;
-  }
-
-  /**
-   * Zet de kaartlaag.
-   *
-   * @param {ol.layer.Layer} layer
-   */
-  set layer(layer) {
-    this._layer = layer;
-    this._layerChangedCallback();
-  }
-
-  /**
-   * Geeft de kaart actie.
-   *
-   * @return {ol.interaction}
+   * @return {Object}
    */
   get action() {
     return this._action;
   }
 
-  get _map() {
-    if (this.parentNode) {
-      return this.parentNode.map;
-    }
+  get _mapElement() {
+    return this.closest('vl-map');
+  }
+
+  get _defaultActive() {
+    return this.hasAttribute('default-active');
+  }
+
+  get _callback() {
+    return (args) => this.__callback ? this.__callback(args) : null;
   }
 
   /**
    * Activeer de kaart actie op de kaart.
    */
-  activateAction() {
-    if (this._action) {
-      this._map.activateAction(this._action);
-      this.actionChanged();
-    }
-  }
-
-  /**
-   * Stuurt een event om te laten weten dat de actieve kaart actie gewijzigd werd
-   */
-  actionChanged() {
-    const event = new Event(VlMapAction.NEW_ACTION_EVENT_NAME);
-    this.parentElement.dispatchEvent(event);
-  }
-
-  _layerChangedCallback() {
-    this._computeAction(this._map, this.layer);
+  activate() {
+    this._mapElement.activateAction(this.action);
   }
 
   _createAction() {
-    console.log('implementatie van de _createAction ontbreekt');
+    console.warn('implementatie van _createAction ontbreekt');
   }
 
-  _computeAction(map, kaartlaag) {
-    let action;
-    if (map && kaartlaag) {
-      action = this._createAction(kaartlaag);
-      this.parentElement.addAction(action);
-      this.actionChanged();
+  _processAction() {
+    if (this.action) {
+      this._mapElement.addAction(this.action);
+      if (this._defaultActive) {
+        this.activate();
+      }
     }
-    this._action = action;
   }
 
   __registerMapActionChangedCallback() {
-    this.parentElement.addEventListener(VlMapAction.NEW_ACTION_EVENT_NAME, () => {
-      this.setAttribute('active', (this._map && this._map.currentAction == this._action));
+    this._mapElement.addEventListener(VlMap.EVENTS.action.activated, () => {
+      this.setAttribute('active', this._mapElement.activeAction == this.action);
     });
   }
 }
