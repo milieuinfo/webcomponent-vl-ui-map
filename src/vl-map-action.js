@@ -68,7 +68,7 @@ export class VlMapAction extends vlElement(HTMLElement) {
 
   __registerMapActionChangedCallback() {
     this._mapElement.addEventListener(VlMap.EVENTS.action.activated, () => {
-      this.setAttribute('active', this._mapElement.activeAction == this.action);
+      this.setAttribute('active', this._mapElement.activeAction === this.action);
     });
   }
 
