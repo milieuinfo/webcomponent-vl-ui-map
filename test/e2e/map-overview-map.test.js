@@ -6,7 +6,7 @@ describe('vl-map-overview-map', async () => {
   let vlMapPage;
 
   before(() => {
-    vlMapPage = new VlMapOverviewMapPage(getDriver);
+    vlMapPage = new VlMapOverviewMapPage(getDriver());
     return vlMapPage.load();
   });
 
