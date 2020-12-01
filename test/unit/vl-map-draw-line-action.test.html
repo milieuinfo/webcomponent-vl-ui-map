@@ -12,15 +12,15 @@
 
 <body>
   <script type="module">
-    import {VlMapDrawPointAction} from '../../src/vl-map-draw-point-action.js';
+    import {VlMapDrawLineAction} from '../../src/vl-map-draw-line-action.js';
 
-    suite('vl-map-draw-point-action', () => {
+    suite('vl-map-draw-line-action', () => {
       setup((done) => {
-        customElements.whenDefined('vl-map-draw-point-action').then(() => done());
+        customElements.whenDefined('vl-map-draw-line-action').then(() => done());
       });
     
-      test('een punt teken actie is een map actie', () => {
-        assert.isTrue(VlMapDrawPointAction.isVlMapAction());
+      test('een lijn teken actie is een map actie', () => {
+        assert.isTrue(VlMapDrawLineAction.isVlMapAction());
       });
     });
   </script>

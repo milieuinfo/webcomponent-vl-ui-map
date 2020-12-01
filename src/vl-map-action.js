@@ -17,6 +17,7 @@ import {VlMap} from '/src/vl-map.js';
  */
 export class VlMapAction extends vlElement(HTMLElement) {
   connectedCallback() {
+    this.__defineLayer();
     this.__registerMapActionChangedCallback();
   }
 
@@ -67,7 +68,13 @@ export class VlMapAction extends vlElement(HTMLElement) {
 
   __registerMapActionChangedCallback() {
     this._mapElement.addEventListener(VlMap.EVENTS.action.activated, () => {
-      this.setAttribute('active', this._mapElement.activeAction == this.action);
+      this.setAttribute('active', this._mapElement.activeAction === this.action);
     });
+  }
+
+  __defineLayer() {
+    if (this._layerElement) {
+      this.layer = this._layerElement.layer;
+    }
   }
 }
