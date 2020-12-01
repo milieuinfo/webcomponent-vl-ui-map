@@ -1,11 +1,12 @@
 
-const {assert, driver} = require('vl-ui-core').Test.Setup;
+const {assert, getDriver} = require('vl-ui-core').Test.Setup;
 const VlMapLayerSwitcherPage = require('./pages/vl-map-layer-switcher.page');
 
 describe('vl-map-layer-switcher', async () => {
-  const vlMapPage = new VlMapLayerSwitcherPage(driver);
+  let vlMapPage;
 
   before(() => {
+    vlMapPage = new VlMapLayerSwitcherPage(getDriver());
     return vlMapPage.load();
   });
 

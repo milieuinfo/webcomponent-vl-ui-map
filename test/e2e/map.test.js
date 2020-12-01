@@ -1,10 +1,11 @@
-const {assert, driver} = require('vl-ui-core').Test.Setup;
+const {assert, getDriver} = require('vl-ui-core').Test.Setup;
 const VlMapPage = require('./pages/vl-map.page');
 
 describe('vl-map', async () => {
-  const vlMapPage = new VlMapPage(driver);
+  let vlMapPage;
 
   before(() => {
+    vlMapPage = new VlMapPage(getDriver());
     return vlMapPage.load();
   });
 
