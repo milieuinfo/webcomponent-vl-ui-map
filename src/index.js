@@ -7,6 +7,7 @@ module.exports = {
   VlMapBaseLayerGRB: require('../dist/vl-map-all.src.js').VlMapBaseLayerGRB,
   VlMapBaseLayerGRBOrtho: require('../dist/vl-map-all.src.js').VlMapBaseLayerGRBOrtho,
   VlMapAction: require('../dist/vl-map-all.src.js').VlMapAction,
+  VlMapLayerAction: require('../dist/vl-map-all.src.js').VlMapLayerAction,
   VlMapSelectAction: require('../dist/vl-map-all.src.js').VlMapSelectAction,
   VlMapLayerStyle: require('../dist/vl-map-all.src.js').VlMapLayerStyle,
   VlMapLayerCircleStyle: require('../dist/vl-map-all.src.js').VlMapLayerCircleStyle,
