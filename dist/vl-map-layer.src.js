@@ -1,5 +1,5 @@
 import {vlElement} from 'vl-ui-core';
-import {OlVectorLayer, OlVectorSource, OlClusterSource, OlPoint} from 'vl-mapactions/dist/vl-mapactions.js';
+import {OlVectorLayer, OlVectorSource, OlClusterSource, OlPoint, OlGeoJSON} from 'vl-mapactions/dist/vl-mapactions.js';
 
 /**
  * VlMapLayer
@@ -71,7 +71,7 @@ export class VlMapLayer extends vlElement(HTMLElement) {
    */
   get features() {
     const features = this.getAttribute('features');
-    return features ? this.mapElement.geoJSON.readFeatures(features) : [];
+    return features ? this._geoJSON.readFeatures(features) : [];
   }
 
   /**

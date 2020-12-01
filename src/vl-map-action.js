@@ -46,10 +46,6 @@ export class VlMapAction extends vlElement(HTMLElement) {
     return (args) => this.__callback ? this.__callback(args) : null;
   }
 
-  get _callback() {
-    return (args) => this.__callback ? this.__callback(args) : null;
-  }
-
   /**
    * Activeer de kaart actie op de kaart.
    */
@@ -72,7 +68,7 @@ export class VlMapAction extends vlElement(HTMLElement) {
 
   __registerMapActionChangedCallback() {
     this._mapElement.addEventListener(VlMap.EVENTS.action.activated, () => {
-      this.setAttribute('active', this._mapElement.activeAction == this.action);
+      this.setAttribute('active', this._mapElement.activeAction === this.action);
     });
   }
 
