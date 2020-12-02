@@ -39,7 +39,7 @@
   "dependencies": {
     "vl-mapactions": "github:milieuinfo/vl-mapactions",
     "vl-ui-checkbox": "^3.2.2",
-    "vl-ui-core": "^6.2.3",
+    "vl-ui-core": "milieuinfo/webcomponent-vl-ui-core#network-logs",
     "vl-ui-form-message": "^5.0.5",
     "vl-ui-search": "^1.1.0",
     "vl-ui-select": "^4.1.4",
@@ -48,7 +48,7 @@
   "peerDependencies": {
     "vl-mapactions": "milieuinfo/vl-mapactions",
     "vl-ui-checkbox": "^3.2.2",
-    "vl-ui-core": "^6.1.0",
+    "vl-ui-core": "milieuinfo/webcomponent-vl-ui-core#network-logs",
     "vl-ui-form-message": "^5.0.5",
     "vl-ui-search": "^1.1.0",
     "vl-ui-select": "^4.1.4",
