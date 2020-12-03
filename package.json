@@ -39,7 +39,7 @@
   "dependencies": {
     "vl-mapactions": "github:milieuinfo/vl-mapactions",
     "vl-ui-checkbox": "^3.2.2",
-    "vl-ui-core": "milieuinfo/webcomponent-vl-ui-core#network-logs",
+    "vl-ui-core": "^6.2.3",
     "vl-ui-form-message": "^5.0.5",
     "vl-ui-search": "^1.1.0",
     "vl-ui-select": "^4.1.4",
@@ -48,7 +48,7 @@
   "peerDependencies": {
     "vl-mapactions": "milieuinfo/vl-mapactions",
     "vl-ui-checkbox": "^3.2.2",
-    "vl-ui-core": "milieuinfo/webcomponent-vl-ui-core#network-logs",
+    "vl-ui-core": "^6.0.0",
     "vl-ui-form-message": "^5.0.5",
     "vl-ui-search": "^1.1.0",
     "vl-ui-select": "^4.1.4",
@@ -58,6 +58,6 @@
     "@govflanders/vl-ui-core": "^4.0.5",
     "vl-ui-body": "^1.0.5",
     "vl-ui-button": "^5.0.6",
-    "vl-ui-util": "^5.3.1"
+    "vl-ui-util": "github:milieuinfo/webcomponent-vl-ui-util#timeout"
   }
 }
