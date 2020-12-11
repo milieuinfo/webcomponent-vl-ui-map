@@ -45,6 +45,7 @@
         assert.equal(vlMapLayerStyleElement.textOffsetX, 0);
         assert.equal(vlMapLayerStyleElement.textOffsetY, 0);
         const style = vlMapLayerStyleElement.style;
+        assert.equal(style.getFill().getColor(), 'rgba(2, 85, 204, 1)');
         assert.equal(style.getStroke().getColor(), 'rgba(2, 85, 204, 1)');
         assert.equal(style.getStroke().getWidth(), 1);
       });
@@ -59,6 +60,7 @@
         assert.equal(vlMapLayerStyleElement.textOffsetX, 1);
         assert.equal(vlMapLayerStyleElement.textOffsetY, 2);
         const style = vlMapLayerStyleElement.style;
+        assert.equal(style.getFill().getColor(), '#fff');
         assert.equal(style.getStroke().getColor(), '#333');
         assert.equal(style.getStroke().getWidth(), 1);
       });

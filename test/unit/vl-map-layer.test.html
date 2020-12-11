@@ -210,7 +210,7 @@
         const cluster2 = new OlFeature({});
         cluster1.set('features', [feature1, feature2]);
         cluster2.set('features', [feature3]);
-        layer.cluster = true;
+        layer.setAttribute('data-vl-cluster', '');
         layer.layer.getSource().addFeatures([cluster1, cluster2]);
         assert.deepEqual(layer.getCluster(1), cluster1);
         assert.deepEqual(layer.getCluster(2), cluster1);
