@@ -34,7 +34,7 @@ export class VlMapLayer extends vlElement(HTMLElement) {
 
   async connectedCallback() {
     this._layer = this.__createLayer();
-    await this._mapElement.ready;
+    await this.mapElement.ready;
     this._configureMap();
   }
 
@@ -131,6 +131,22 @@ export class VlMapLayer extends vlElement(HTMLElement) {
     this._layer.setVisible(value);
   }
 
+  get mapElement() {
+    if (this.parentNode && this.parentNode.map) {
+      return this.parentNode;
+    } else {
+      return null;
+    }
+  }
+
+  get cluster() {
+    return this.getAttribute('cluster') != undefined;
+  }
+
+  get ready() {
+    return this.mapElement.ready;
+  }
+
   get _name() {
     return this.getAttribute('name') || 'kaartlaag';
   }
@@ -143,10 +159,6 @@ export class VlMapLayer extends vlElement(HTMLElement) {
     return this.getAttribute('auto-extent-max-zoom');
   }
 
-  get _cluster() {
-    return this.getAttribute('cluster') != undefined;
-  }
-
   get _clusterDistance() {
     return this.getAttribute('cluster-distance');
   }
@@ -157,14 +169,6 @@ export class VlMapLayer extends vlElement(HTMLElement) {
 
   get _maxResolution() {
     return this.getAttribute('max-resolution') || Infinity;
-  }
-
-  get _mapElement() {
-    if (this.parentNode && this.parentNode.map) {
-      return this.parentNode;
-    } else {
-      return null;
-    }
   }
 
   /**
@@ -192,8 +196,8 @@ export class VlMapLayer extends vlElement(HTMLElement) {
    * Rendert de kaartlaag opnieuw.
    */
   rerender() {
-    if (this._mapElement) {
-      this._mapElement.rerender();
+    if (this.mapElement) {
+      this.mapElement.rerender();
     }
   }
 
@@ -238,7 +242,7 @@ export class VlMapLayer extends vlElement(HTMLElement) {
    * @param {number} maxZoom - Hoe diep er maximaal ingezoomd mag worden.
    */
   async zoomToExtent(maxZoom) {
-    this._mapElement.zoomTo(this.__boundingBox, maxZoom);
+    this.mapElement.zoomTo(this.__boundingBox, maxZoom);
   }
 
   isVisibleAtResolution(resolution) {
@@ -283,7 +287,7 @@ export class VlMapLayer extends vlElement(HTMLElement) {
     this._source = new OlVectorSource({
       features: features,
     });
-    return this._cluster ? this.__createClusterSource(this._source) : this._source;
+    return this.cluster ? this.__createClusterSource(this._source) : this._source;
   }
 
   __createClusterSource(source) {
@@ -312,8 +316,8 @@ export class VlMapLayer extends vlElement(HTMLElement) {
   }
 
   _configureMap() {
-    if (this._mapElement) {
-      this._mapElement.addLayer(this._layer);
+    if (this.mapElement) {
+      this.mapElement.addLayer(this._layer);
       this.__autoZoomToExtent();
     }
   }

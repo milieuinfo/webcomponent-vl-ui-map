@@ -1,5 +1,5 @@
 import {vlElement} from '/node_modules/vl-ui-core/dist/vl-core.js';
-import {OlStyle, OlStyleStroke} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
+import {OlStyle, OlStyleFill, OlStyleStroke} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
 
 /**
  * VlMapLayerStyle
@@ -83,6 +83,9 @@ export class VlMapLayerStyle extends vlElement(HTMLElement) {
    */
   get style() {
     return new OlStyle({
+      fill: new OlStyleFill({
+        color: this.color,
+      }),
       stroke: new OlStyleStroke({
         color: this.borderColor,
         width: this.borderSize,

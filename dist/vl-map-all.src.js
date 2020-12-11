@@ -12,6 +12,7 @@ import {VlMapLayerAction} from 'vl-ui-map/dist/vl-map-layer-action.src.js';
 import {VlMapSelectAction} from 'vl-ui-map/dist/vl-map-select-action.src.js';
 import {VlMapDrawPointAction} from 'vl-ui-map/dist/vl-map-draw-point-action.src.js';
 import {VlMapDrawLineAction} from 'vl-ui-map/dist/vl-map-draw-line-action.src.js';
+import {VlMapDrawPolygonAction} from 'vl-ui-map/dist/vl-map-draw-polygon-action.src.js';
 import {VlMapLayerStyle} from 'vl-ui-map/dist/vl-map-layer-style.src.js';
 import {VlMapLayerCircleStyle} from 'vl-ui-map/dist/vl-map-layer-circle-style.src.js';
 import {VlMapSearch} from 'vl-ui-map/dist/vl-map-search.src.js';
@@ -33,6 +34,7 @@ Promise.all([
   define('vl-map-select-action', VlMapSelectAction);
   define('vl-map-draw-point-action', VlMapDrawPointAction);
   define('vl-map-draw-line-action', VlMapDrawLineAction);
+  define('vl-map-draw-polygon-action', VlMapDrawPolygonAction);
   define('vl-map-layer-style', VlMapLayerStyle);
   define('vl-map-layer-circle-style', VlMapLayerCircleStyle);
   define('vl-map-search', VlMapSearch);
@@ -53,6 +55,7 @@ export {
   VlMapSelectAction,
   VlMapDrawPointAction,
   VlMapDrawLineAction,
+  VlMapDrawPolygonAction,
   VlMapLayerStyle,
   VlMapLayerCircleStyle,
   VlMapSearch,
