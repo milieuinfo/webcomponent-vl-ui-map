@@ -1,10 +1,11 @@
-const {assert, driver} = require('vl-ui-core').Test.Setup;
+const {assert, getDriver} = require('vl-ui-core').Test.Setup;
 const VlMapSelectActionPage = require('./pages/vl-map-select-action.page');
 
 describe('vl-map-select-action', async () => {
-  const vlMapPage = new VlMapSelectActionPage(driver);
+  let vlMapPage;
 
   before(() => {
+    vlMapPage = new VlMapSelectActionPage(getDriver());
     return vlMapPage.load();
   });
 
