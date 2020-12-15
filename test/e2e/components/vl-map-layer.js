@@ -14,24 +14,24 @@ class VlMapLayer extends VlElement {
   }
 
   async getFeature(id) {
-    const feature = await this.driver.executeScript(`return arguments[0]._mapElement.geoJSON.writeFeature(arguments[0].layer.getSource().getFeatures().find((feature) => feature.getId() === ${id}));`, this);
+    const feature = await this.driver.executeScript(`return arguments[0]._geoJSON.writeFeature(arguments[0].layer.getSource().getFeatures().find((feature) => feature.getId() === ${id}));`, this);
     return JSON.parse(feature);
   }
 
   async isClustered() {
-    return this.hasAttribute('cluster');
+    return this.hasAttribute('data-vl-cluster');
   }
 
   async getClusterDistance() {
-    return this.getAttribute('cluster-distance');
+    return this.getAttribute('data-vl-cluster-distance');
   }
 
   async hasAutoExtent() {
-    return this.hasAttribute('auto-extent');
+    return this.hasAttribute('data-vl-auto-extent');
   }
 
   async getAutoExtentMaxZoom() {
-    return this.getAttribute('auto-extent-max-zoom');
+    return this.getAttribute('data-vl-auto-extent-max-zoom');
   }
 
   async clickPointFeatureOnMap(id, map) {

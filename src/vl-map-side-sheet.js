@@ -15,8 +15,12 @@ export class VlMapSideSheet extends VlSideSheet {
   constructor() {
     super(`
       :host {
-        width: 0px;
+        width: 3.5rem;
         transition: width 0.1s;
+      }
+
+      :host([data-vl-open]) {
+        width: var(--vl-side-sheet-width,calc(100%/3));
       }
 
       .vl-side-sheet__toggle {

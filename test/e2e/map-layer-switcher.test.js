@@ -1,11 +1,14 @@
 
-const {assert, driver} = require('vl-ui-core').Test.Setup;
+const {assert, getDriver} = require('vl-ui-core').Test.Setup;
 const VlMapLayerSwitcherPage = require('./pages/vl-map-layer-switcher.page');
 
 describe('vl-map-layer-switcher', async () => {
-  const vlMapPage = new VlMapLayerSwitcherPage(driver);
+  let driver;
+  let vlMapPage;
 
   before(() => {
+    driver = getDriver();
+    vlMapPage = new VlMapLayerSwitcherPage(driver);
     return vlMapPage.load();
   });
 
@@ -42,7 +45,8 @@ describe('vl-map-layer-switcher', async () => {
     const layerSwitcher = await map.getLayerSwitcher();
     await sideSheet.open();
     const checkbox = await layerSwitcher.getCheckboxForLayer('resolution-layer');
-    await assert.eventually.isTrue(checkbox.isDisabled());
+
+    await driver.wait(async () => await checkbox.isDisabled());
     await map.zoomIn();
     await driver.wait(async () => !(await checkbox.isDisabled()));
     await assert.eventually.isFalse(checkbox.isDisabled());

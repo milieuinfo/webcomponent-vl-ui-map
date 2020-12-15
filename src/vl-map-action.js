@@ -1,11 +1,11 @@
 import {vlElement} from '/node_modules/vl-ui-core/dist/vl-core.js';
+import {VlMap} from '/src/vl-map.js';
 
 /**
  * VlMapAction
  * @class
  * @classdesc De abstracte kaart actie component.
  *
- * @property {boolean} active - Attribuut bepaalt of de kaart geactiveerd is.
  *
  * @extends HTMLElement
  * @mixes vlElement
@@ -26,53 +26,7 @@ export class VlMapAction extends vlElement(HTMLElement) {
   }
 
   /**
-   * Geeft de event naam die gebruikt wordt wanneer een nieuwe actie toegevoegd wordt aan de kaart
-   *
-   * @return {string}
-   */
-  static get NEW_ACTION_EVENT_NAME() {
-    return 'new-action-activated';
-  }
-
-  /**
-   * Geeft de kaartlaag stijl.
-   *
-   * @return {Object}
-   */
-  get style() {
-    return this._style;
-  }
-
-  /**
-   * Zet de kaartlaag stijl.
-   *
-   * @param {Object} style
-   */
-  set style(style) {
-    this._style = style;
-  }
-
-  /**
-   * Geeft de kaartlaag.
-   *
-   * @return {Object}
-   */
-  get layer() {
-    return this._layer;
-  }
-
-  /**
-   * Zet de kaartlaag.
-   *
-   * @param {Object} layer
-   */
-  set layer(layer) {
-    this._layer = layer;
-    this._layerChangedCallback();
-  }
-
-  /**
-   * Geeft de kaart actie.
+   * Geeft de vl-mapactions kaart actie.
    *
    * @return {Object}
    */
@@ -84,18 +38,8 @@ export class VlMapAction extends vlElement(HTMLElement) {
     return this.closest('vl-map');
   }
 
-  get _layerElement() {
-    return this.closest('vl-map-layer');
-  }
-
-  get _active() {
+  get _defaultActive() {
     return this.hasAttribute('default-active');
-  }
-
-  get _map() {
-    if (this._mapElement) {
-      return this._mapElement.map;
-    }
   }
 
   get _callback() {
@@ -106,43 +50,25 @@ export class VlMapAction extends vlElement(HTMLElement) {
    * Activeer de kaart actie op de kaart.
    */
   activate() {
-    if (this.action) {
-      this._map.activateAction(this.action);
-      this.actionChanged();
-    }
-  }
-
-  /**
-   * Stuurt een event om te laten weten dat de actieve kaart actie gewijzigd werd
-   */
-  actionChanged() {
-    const event = new Event(VlMapAction.NEW_ACTION_EVENT_NAME);
-    this._mapElement.dispatchEvent(event);
-  }
-
-  _layerChangedCallback() {
-    this._mapElement.ready.then(() => {
-      if (this.layer) {
-        const action = this._createAction(this.layer);
-        if (action) {
-          this._mapElement.addAction(action);
-          this.actionChanged();
-          if (this._active) {
-            action.activate();
-          }
-          this._action = action;
-        }
-      }
-    });
+    this._mapElement.activateAction(this.action);
   }
 
   _createAction() {
-    console.log('implementatie van _createAction ontbreekt');
+    console.warn('implementatie van _createAction ontbreekt');
+  }
+
+  _processAction() {
+    if (this.action) {
+      this._mapElement.addAction(this.action);
+      if (this._defaultActive) {
+        this.activate();
+      }
+    }
   }
 
   __registerMapActionChangedCallback() {
-    this._mapElement.addEventListener(VlMapAction.NEW_ACTION_EVENT_NAME, () => {
-      this.setAttribute('active', (this._map && this._map.currentAction == this.action));
+    this._mapElement.addEventListener(VlMap.EVENTS.action.activated, () => {
+      this.setAttribute('active', this._mapElement.activeAction === this.action);
     });
   }
 

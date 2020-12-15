@@ -1,4 +1,5 @@
 import {vlElement} from 'vl-ui-core';
+import {OlStyle, OlStyleStroke} from 'vl-mapactions/dist/vl-mapactions.js';
 
 /**
  * VlMapLayerStyle
@@ -28,6 +29,24 @@ export class VlMapLayerStyle extends vlElement(HTMLElement) {
    */
   get color() {
     return this.getAttribute('color') || 'rgba(2, 85, 204, 1)';
+  }
+
+  /**
+   * Geeft de randkleur van de cirkels terug.
+   *
+   * @Return {string}
+   */
+  get borderColor() {
+    return this.getAttribute('border-color') || 'rgba(2, 85, 204, 1)';
+  }
+
+  /**
+   * Geeft de size van de rand van de cirkels terug.
+   *
+   * @Return {number}
+   */
+  get borderSize() {
+    return this.getAttribute('border-size') || 1;
   }
 
   /**
@@ -63,8 +82,12 @@ export class VlMapLayerStyle extends vlElement(HTMLElement) {
    * @Return {string}
    */
   get style() {
-    console.info('opgelet vl-map-layer-style is abstract en zal geen stijl toevoegen aan de kaartlaag');
-    return null;
+    return new OlStyle({
+      stroke: new OlStyleStroke({
+        color: this.borderColor,
+        width: this.borderSize,
+      }),
+    });
   }
 
   _hasUniqueStyles(features) {

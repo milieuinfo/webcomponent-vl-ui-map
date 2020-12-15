@@ -1,10 +1,11 @@
-const {assert, driver} = require('vl-ui-core').Test.Setup;
+const {assert, getDriver} = require('vl-ui-core').Test.Setup;
 const VlMapDrawActionsPage = require('./pages/vl-map-draw-actions.page');
 
 describe('vl-map-draw-action', async () => {
-  const vlMapPage = new VlMapDrawActionsPage(driver);
+  let vlMapPage;
 
   before(() => {
+    vlMapPage = new VlMapDrawActionsPage(getDriver());
     return vlMapPage.load();
   });
 
@@ -33,7 +34,7 @@ describe('vl-map-draw-action', async () => {
     await action.draw();
     features = await layer.getFeatures();
     assert.lengthOf(features, 1);
-    await action.draw({x: 100, y: 100}, {x: 200, y: 200});
+    await action.draw({x: 50, y: 50}, {x: 100, y: 100});
     features = await layer.getFeatures();
     assert.lengthOf(features, 2);
   });
@@ -48,7 +49,7 @@ describe('vl-map-draw-action', async () => {
     await action.draw();
     features = await layer.getFeatures();
     assert.lengthOf(features, 1);
-    await action.draw({x: 300, y: 300}, {x: 300, y: 400}, {x: 400, y: 400}, {x: 400, y: 300});
+    await action.draw({x: 30, y: 30}, {x: 30, y: 60}, {x: 60, y: 60}, {x: 60, y: 30});
     features = await layer.getFeatures();
     assert.lengthOf(features, 2);
   });
