@@ -1,4 +1,4 @@
-import {VlMapLayerAction} from './vl-map-layer-action.js';
+import {VlMapLayerAction} from 'vl-ui-map/dist/vl-map-layer-action.src.js';
 import {VlDrawPolygonAction} from 'vl-mapactions/dist/vl-mapactions.js';
 
 /**

@@ -19,6 +19,7 @@
     border: 1px solid $vl-border-color;
     box-sizing: border-box;
     overflow: hidden;
+    background: white;
 
     .ol-zoom, .ol-rotate {
         margin-top: var(--vl-map--margin-top) !important;
