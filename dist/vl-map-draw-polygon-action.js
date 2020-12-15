@@ -1,10 +1,10 @@
-import {VlMapLayerAction} from '/src/vl-map-layer-action.js';
-import {VlDrawLineAction} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
+import {VlMapLayerAction} from './vl-map-layer-action.js';
+import {VlDrawPolygonAction} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
 
 /**
- * VlMapDrawLineAction
+ * VlMapDrawPolygonAction
  * @class
- * @classdesc De kaart lijn teken actie component.
+ * @classdesc De kaart polygoon teken actie component.
  *
  * @extends VlMapLayerAction
  *
@@ -12,8 +12,8 @@ import {VlDrawLineAction} from '/node_modules/vl-mapactions/dist/vl-mapactions.j
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
  * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map-draw-actions.html|Demo}
  */
-export class VlMapDrawLineAction extends VlMapLayerAction {
+export class VlMapDrawPolygonAction extends VlMapLayerAction {
   _createAction(layer) {
-    return new VlDrawLineAction(layer, this._callback);
+    return new VlDrawPolygonAction(layer, this._callback);
   }
 }
