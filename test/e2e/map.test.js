@@ -80,7 +80,10 @@ describe('vl-map', async () => {
     const mapWithFullscreenAllowed = await vlMapPage.getMapWithFullscreenAllowed();
     await assert.eventually.isFalse(map.isFullscreenAllowed());
     await assert.eventually.isTrue(mapWithFullscreenAllowed.isFullscreenAllowed());
+    await assert.eventually.isFalse(map.isFullScreen());
     await mapWithFullscreenAllowed.toggleFullscreen();
+    await assert.eventually.isTrue(map.isFullScreen());
     await mapWithFullscreenAllowed.toggleFullscreen();
+    await assert.eventually.isFalse(map.isFullScreen());
   });
 });

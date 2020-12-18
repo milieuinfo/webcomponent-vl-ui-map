@@ -114,6 +114,10 @@ class VlMap extends VlElement {
     await button.click();
   }
 
+  async isFullScreen() {
+    return this.driver.executeScript(`return document.fullscreen`);
+  }
+
   async _getMap() {
     return this.shadowRoot;
   }
