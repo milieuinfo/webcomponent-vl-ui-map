@@ -39,10 +39,10 @@
   "dependencies": {
     "vl-mapactions": "^3.0.0",
     "vl-ui-checkbox": "^3.2.3",
-    "vl-ui-core": "^7.0.1",
+    "vl-ui-core": "^7.0.2",
     "vl-ui-form-message": "^5.0.6",
-    "vl-ui-search": "^1.1.5",
-    "vl-ui-select": "^4.1.6",
+    "vl-ui-search": "^1.1.6",
+    "vl-ui-select": "^4.2.0",
     "vl-ui-side-sheet": "^3.1.2"
   },
   "peerDependencies": {
@@ -50,7 +50,7 @@
     "vl-ui-checkbox": "^3.2.3",
     "vl-ui-core": "^7.0.0",
     "vl-ui-form-message": "^5.0.6",
-    "vl-ui-search": "^1.1.5",
+    "vl-ui-search": "^1.1.6",
     "vl-ui-select": "^4.1.6",
     "vl-ui-side-sheet": "^3.1.2"
   },
