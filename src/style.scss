@@ -10,6 +10,7 @@
     display: none;
     position: relative;
     --vl-map--margin-top: 0px;
+    height: calc(var(--vl-map-height, 500px) - var(--vl-map--margin-top)); 
 }
 
 #map {
@@ -19,6 +20,7 @@
     border: 1px solid $vl-border-color;
     box-sizing: border-box;
     overflow: hidden;
+    background: white;
 
     .ol-zoom, .ol-rotate {
         margin-top: var(--vl-map--margin-top) !important;

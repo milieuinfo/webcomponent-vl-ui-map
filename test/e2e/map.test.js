@@ -74,4 +74,16 @@ describe('vl-map', async () => {
     const map = await vlMapPage.getMap();
     await assert.eventually.isDefined(map.getScale());
   });
+
+  it('als gebruiker kan ik een kaart fullscreen aan- en uitzetten', async () => {
+    const map = await vlMapPage.getMap();
+    const mapWithFullscreenAllowed = await vlMapPage.getMapWithFullscreenAllowed();
+    await assert.eventually.isFalse(map.isFullscreenAllowed());
+    await assert.eventually.isTrue(mapWithFullscreenAllowed.isFullscreenAllowed());
+    await assert.eventually.isFalse(map.isFullScreen());
+    await mapWithFullscreenAllowed.toggleFullscreen();
+    await assert.eventually.isTrue(map.isFullScreen());
+    await mapWithFullscreenAllowed.toggleFullscreen();
+    await assert.eventually.isFalse(map.isFullScreen());
+  });
 });
