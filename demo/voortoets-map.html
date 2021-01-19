@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>vl-map voorbeeld</title>
+    <script type="module" src="/node_modules/vl-ui-demo/dist/vl-demo-all.js"></script>
+    <script type="module" src="/node_modules/vl-ui-body/dist/vl-body.js"></script>
+    <script type="module" src="/node_modules/vl-ui-button/dist/vl-button.js"></script>
+
+    <script type="module" src="/src/vl-map-all.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-body/dist/style.css" />
+    <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-demo/dist/style.css" />
+    <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-button/dist/style.css" />
+</head>
+
+<body is="vl-body">
+    <vl-demo-page data-vl-webcomponent="vl-map">
+        <vl-demo data-vl-title="Voortoets demo">
+            <vl-map id="map" data-vl-allow-fullscreen>
+                <vl-map-search></vl-map-search>
+                <vl-map-side-sheet>
+                    <vl-map-layer-switcher></vl-map-layer-switcher>
+                </vl-map-side-sheet>
+                <vl-map-overview-map></vl-map-overview-map>
+                <vl-map-baselayer-grb-gray id="baselayer-grb-gray"></vl-map-baselayer-grb-gray>
+                <vl-map-baselayer-grb id="baselayer-grb"></vl-map-baselayer-grb>
+                <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
+                <vl-map-layer data-vl-name="Kaartlaag 1" data-vl-features='
+                            {
+                                "type": "FeatureCollection",
+                                "features": [{
+                                    "type": "Feature",
+                                    "geometry": {
+                                        "type": "Point",
+                                        "coordinates": [149055.0,199908.0]
+                                    }
+                                }]
+                            }'>
+                    <vl-map-layer-circle-style data-vl-color="black"></vl-map-layer-circle-style>
+                </vl-map-layer>
+                <vl-map-layer id="point-layer">
+                    <vl-map-layer-circle-style></vl-map-layer-circle-style>
+                    <vl-map-draw-point-action id="draw-point-action" data-vl-default-active></vl-map-draw-point-action>
+                </vl-map-layer>
+                <vl-map-layer id="line-layer">
+                    <vl-map-layer-style></vl-map-layer-style>
+                    <vl-map-draw-line-action id="draw-line-action" data-vl-default-active></vl-map-draw-line-action>
+                </vl-map-layer>
+                <vl-map-layer id="polygon-layer">
+                    <vl-map-layer-style></vl-map-layer-style>
+                    <vl-map-draw-polygon-action id="draw-polygon-action" data-vl-default-active></vl-map-draw-polygon-action>
+                </vl-map-layer>
+            </vl-map>
+            <div> <!--TODO:-->
+                <button id="map-activate-layer" is="vl-button" type="button" onclick="document.querySelector('#map').activateLayer()" slot="actions">Activeer kaartlaag</button>
+                <button id="map-deactivate-layer" is="vl-button" type="button" onclick="document.querySelector('#map').deactivateLayer()" slot="actions">Deactiveer kaartlaag</button>
+                <button id="map-button-zoom-layer" is="vl-button" type="button" onclick="document.querySelector('#map').zoomToLayer()" slot="actions">Zoom naar extent van kaartlaag</button>
+                <button id="map-button-zoom-bbox" is="vl-button" type="button" onclick="document.querySelector('#map').zoomToBoundingBox()" slot="actions">Zoom naar bounding box</button>
+                <button id="map-button-get-features" is="vl-button" type="button" onclick="document.querySelector('#map').getFeaturesFromLayer()" slot="actions">Haal features van kaartlaag op</button>
+                <button id="map-button-set-features" is="vl-button" type="button" onclick="document.querySelector('#map').setFeaturesFromLayer()" slot="actions">Zet features op kaartlaag</button>
+            </div>
+        </vl-demo>
+    </vl-demo-page>
+</body>
+
+</html>
