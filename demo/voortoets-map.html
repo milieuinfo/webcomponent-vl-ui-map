@@ -22,48 +22,62 @@
 <body is="vl-body">
     <vl-demo-page data-vl-webcomponent="vl-map">
         <vl-demo data-vl-title="Voortoets demo">
-            <vl-map id="map" data-vl-allow-fullscreen>
+            <vl-map id="projectgebied-map" data-vl-allow-fullscreen>
                 <vl-map-search></vl-map-search>
+                <!-- TODO: Hier wordt wel nogal fel ingezoomd-->
+
                 <vl-map-side-sheet>
                     <vl-map-layer-switcher></vl-map-layer-switcher>
                 </vl-map-side-sheet>
+                <!-- TODO: staat links, nu over de map-search, misschien beter rechts ?-->
+
                 <vl-map-overview-map></vl-map-overview-map>
-                <vl-map-baselayer-grb-gray id="baselayer-grb-gray"></vl-map-baselayer-grb-gray>
-                <vl-map-baselayer-grb id="baselayer-grb"></vl-map-baselayer-grb>
+                <!-- TODO: OK, maar wel geen handje cursor, kaart verschuift ook als er op geklikt wordt-->
+
                 <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
-                <vl-map-layer data-vl-name="Kaartlaag 1" data-vl-features='
-                            {
-                                "type": "FeatureCollection",
-                                "features": [{
-                                    "type": "Feature",
-                                    "geometry": {
-                                        "type": "Point",
-                                        "coordinates": [149055.0,199908.0]
-                                    }
-                                }]
-                            }'>
+                <!-- TODO: hoe zet ik deze als default, die eerst getoond wordt op kaart?-->
+
+                <vl-map-baselayer data-vl-type="wmts" data-vl-url="https://tile.informatievlaanderen.be/ws/raadpleegdiensten/wmts" data-vl-layer="grb_bsk" data-vl-title="GRB-Basiskaart*"></vl-map-baselayer>
+                <vl-map-layer id="projectgebied-layer" data-vl-name="Projectgebied">
+                    <vl-map-layer-style data-vl-color="rgba(238,153,0,0.4)" data-vl-border-color="rgba(238,153,0,0.4)" data-vl-border-size="1"></vl-map-layer-style>
+<!--                    TODO: CIRCLE STIJL EN Gewone stijl in combinatie werkt niet-->
+<!--                    <vl-map-layer-circle-style data-vl-color="rgba(238,153,0,0.4)" data-vl-border-color="rgba(238,153,0,0.4)" data-vl-border-size="4" data-vl-size="6"></vl-map-layer-circle-style>-->
+                    <vl-map-draw-point-action id="draw-point-action"></vl-map-draw-point-action>
+                    <!-- TODO: hoe zet ik tekentool button?-->
+                    <vl-map-draw-line-action id="draw-line-action"></vl-map-draw-line-action>
+                    <vl-map-draw-polygon-action id="draw-polygon-action" data-vl-default-active></vl-map-draw-polygon-action>
+                </vl-map-layer>
+                <vl-map-layer data-vl-name="Verborgen laag tot ingezoomd" data-vl-max-resolution="128" data-vl-features='{
+                        "type": "FeatureCollection", "features": [{
+                            "type": "Feature",
+                            "geometry": {"type": "Point", "coordinates": [149055.0,199908.0]}}]}'>
                     <vl-map-layer-circle-style data-vl-color="black"></vl-map-layer-circle-style>
                 </vl-map-layer>
-                <vl-map-layer id="point-layer">
-                    <vl-map-layer-circle-style></vl-map-layer-circle-style>
-                    <vl-map-draw-point-action id="draw-point-action" data-vl-default-active></vl-map-draw-point-action>
-                </vl-map-layer>
-                <vl-map-layer id="line-layer">
-                    <vl-map-layer-style></vl-map-layer-style>
-                    <vl-map-draw-line-action id="draw-line-action"></vl-map-draw-line-action>
-                </vl-map-layer>
-                <vl-map-layer id="polygon-layer">
-                    <vl-map-layer-style></vl-map-layer-style>
-                    <vl-map-draw-polygon-action id="draw-polygon-action"></vl-map-draw-polygon-action>
-                </vl-map-layer>
             </vl-map>
-            <div> <!--TODO:-->
-                <button id="map-activate-layer" is="vl-button" type="button" onclick="document.querySelector('#map').activateLayer()" slot="actions">Activeer kaartlaag</button>
-                <button id="map-deactivate-layer" is="vl-button" type="button" onclick="document.querySelector('#map').deactivateLayer()" slot="actions">Deactiveer kaartlaag</button>
-                <button id="map-button-zoom-layer" is="vl-button" type="button" onclick="document.querySelector('#map').zoomToLayer()" slot="actions">Zoom naar extent van kaartlaag</button>
-                <button id="map-button-zoom-bbox" is="vl-button" type="button" onclick="document.querySelector('#map').zoomToBoundingBox()" slot="actions">Zoom naar bounding box</button>
-                <button id="map-button-get-features" is="vl-button" type="button" onclick="document.querySelector('#map').getFeaturesFromLayer()" slot="actions">Haal features van kaartlaag op</button>
-                <button id="map-button-set-features" is="vl-button" type="button" onclick="document.querySelector('#map').setFeaturesFromLayer()" slot="actions">Zet features op kaartlaag</button>
+            <div>
+                <script type="application/javascript">
+                    function addFeatures() {
+                        document.querySelector('#projectgebied-layer').setAttribute('features',
+                            '{"type": "FeatureCollection",  "features": [{"type": "Feature", "geometry": ' +
+                            '{"type": "Point","coordinates": [149055.0,199908.0]}}]}');
+                    }
+                    function zoomToLayer() {
+                        document.querySelector('#projectgebied-layer').zoomToExtent();
+                    }
+                    function zoomToBoundingBox() {
+                        document.querySelector('#projectgebied-map').zoomTo([148055.0,198908.0,150055.0,200908.0]);
+                    }
+                </script>
+                <button id="map-set-feature" is="vl-button" type="button" onclick="addFeatures()">Zet feature op projectlaag</button>
+                <button id="map-activate-layer" is="vl-button" type="button" onclick="document.querySelector('#projectgebied-layer').visible = true">Toon projectgebied</button>
+                <button id="map-deactivate-layer" is="vl-button" type="button" onclick="document.querySelector('#projectgebied-layer').visible = false">Verberg projectgebied</button>
+                <!-- TODO: lijkt te werken, maar pas als er over de kaart gegaan wordt met de muis-->
+
+                <button id="map-button-zoom-layer" is="vl-button" type="button" onclick="zoomToLayer()">Zoom naar extent van kaartlaag</button>
+                <button id="map-button-zoom-bbox" is="vl-button" type="button" onclick="zoomToBoundingBox()">Zoom naar bounding box</button>
+                <button id="map-button-get-features" is="vl-button" type="button" onclick="alert(document.querySelector('#projectgebied-layer').getAttribute('features'))">Haal projectgebieden op</button>
+                <!-- TODO: lijkt niet te werken voor getekende features-->
+
             </div>
         </vl-demo>
     </vl-demo-page>
