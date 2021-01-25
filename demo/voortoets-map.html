@@ -47,10 +47,8 @@
         <!--                    TODO: CIRCLE STIJL EN Gewone stijl in combinatie werkt niet-->
         <!--                    <vl-map-layer-circle-style data-vl-color="rgba(238,153,0,0.4)" data-vl-border-color="rgba(238,153,0,0.4)" data-vl-border-size="4" data-vl-size="6"></vl-map-layer-circle-style>-->
         <vl-map-draw-point-action id="draw-point-action"></vl-map-draw-point-action>
-        <!-- TODO: hoe zet ik tekentool button?-->
         <vl-map-draw-line-action id="draw-line-action"></vl-map-draw-line-action>
-        <vl-map-draw-polygon-action id="draw-polygon-action"
-                                    data-vl-default-active></vl-map-draw-polygon-action>
+        <vl-map-draw-polygon-action id="draw-polygon-action"></vl-map-draw-polygon-action>
       </vl-map-layer>
       <vl-map-layer data-vl-name="Verborgen laag tot ingezoomd" data-vl-max-resolution="128"
                     data-vl-features='{
@@ -80,6 +78,20 @@
       <button id="map-set-feature" is="vl-button" type="button" onclick="addFeatures()">Zet feature
         op projectlaag
       </button>
+
+      <button id="map-projectgebied-teken-punt" is="vl-button" type="button"
+              onclick="document.querySelector('#draw-point-action').activate()">Projectgebied als
+        punt
+      </button>
+      <button id="map-projectgebied-teken-lijn" is="vl-button" type="button"
+              onclick="document.querySelector('#draw-line-action').activate()">Projectgebied als
+        lijn
+      </button>
+      <button id="map-projectgebied-teken-polygoon" is="vl-button" type="button"
+              onclick="document.querySelector('#draw-polygon-action').activate()">Projectgebied als
+        polygoon
+      </button>
+
       <button id="map-activate-layer" is="vl-button" type="button"
               onclick="document.querySelector('#projectgebied-layer').visible = true">Toon
         projectgebied
