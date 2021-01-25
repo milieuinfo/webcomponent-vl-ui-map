@@ -24,28 +24,28 @@
   <vl-demo data-vl-title="Voortoets demo">
     <vl-map id="projectgebied-map" data-vl-allow-fullscreen>
       <vl-map-search></vl-map-search>
-      <!-- TODO: Hier wordt wel nogal fel ingezoomd-->
+      <!-- TODO: Hier wordt wel nogal veel ingezoomd: https://github.com/milieuinfo/webcomponent-vl-ui-map/issues/198 -->
 
       <vl-map-side-sheet>
         <vl-map-layer-switcher></vl-map-layer-switcher>
       </vl-map-side-sheet>
-      <!-- TODO: staat links, nu over de map-search, misschien beter rechts ?-->
+      <!-- TODO: Knop staat niet goed: https://github.com/milieuinfo/webcomponent-vl-ui-map/issues/197 -->
 
       <vl-map-overview-map></vl-map-overview-map>
-      <!-- TODO: OK, maar wel geen handje cursor, kaart verschuift ook als er op geklikt wordt-->
-
-      <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
-      <!-- TODO: hoe zet ik deze als default, die eerst getoond wordt op kaart?-->
-
+      <vl-map-baselayer data-vl-type="wmts"
+                        data-vl-url="https://tile.informatievlaanderen.be/ws/raadpleegdiensten/wmts"
+                        data-vl-layer="omwrgbmrvl" data-vl-title="GRB-Basiskaart*"></vl-map-baselayer>
       <vl-map-baselayer data-vl-type="wmts"
                         data-vl-url="https://tile.informatievlaanderen.be/ws/raadpleegdiensten/wmts"
                         data-vl-layer="grb_bsk" data-vl-title="GRB-Basiskaart*"></vl-map-baselayer>
+
       <vl-map-layer id="projectgebied-layer" data-vl-name="Projectgebied">
+        <vl-map-layer-circle-style data-vl-color="rgba(238,153,0,0.4)" data-vl-border-color="rgba(238,153,0,0.4)" data-vl-border-size="4" data-vl-size="6"></vl-map-layer-circle-style>
         <vl-map-layer-style data-vl-color="rgba(238,153,0,0.4)"
                             data-vl-border-color="rgba(238,153,0,0.4)"
                             data-vl-border-size="1"></vl-map-layer-style>
-        <!--                    TODO: CIRCLE STIJL EN Gewone stijl in combinatie werkt niet-->
-        <!--                    <vl-map-layer-circle-style data-vl-color="rgba(238,153,0,0.4)" data-vl-border-color="rgba(238,153,0,0.4)" data-vl-border-size="4" data-vl-size="6"></vl-map-layer-circle-style>-->
+        <!-- TODO: circle-style + style in combinatie werkt niet: https://github.com/milieuinfo/webcomponent-vl-ui-map/issues/200 -->
+
         <vl-map-draw-point-action id="draw-point-action"></vl-map-draw-point-action>
         <vl-map-draw-line-action id="draw-line-action"></vl-map-draw-line-action>
         <vl-map-draw-polygon-action id="draw-polygon-action"></vl-map-draw-polygon-action>
@@ -92,16 +92,6 @@
         polygoon
       </button>
 
-      <button id="map-activate-layer" is="vl-button" type="button"
-              onclick="document.querySelector('#projectgebied-layer').visible = true">Toon
-        projectgebied
-      </button>
-      <button id="map-deactivate-layer" is="vl-button" type="button"
-              onclick="document.querySelector('#projectgebied-layer').visible = false">Verberg
-        projectgebied
-      </button>
-      <!-- TODO: lijkt te werken, maar pas als er over de kaart gegaan wordt met de muis-->
-
       <button id="map-button-zoom-layer" is="vl-button" type="button" onclick="zoomToLayer()">Zoom
         naar extent van kaartlaag
       </button>
@@ -109,10 +99,10 @@
         Zoom naar bounding box
       </button>
       <button id="map-button-get-features" is="vl-button" type="button"
-              onclick="alert(document.querySelector('#projectgebied-layer').getAttribute('features'))">
+              onclick="alert(document.querySelector('#projectgebied-layer').features.length + ' feature(s) opgehaald')">
         Haal projectgebieden op
       </button>
-      <!-- TODO: lijkt niet te werken voor getekende features-->
+      <!-- TODO: lijkt niet te werken voor getekende features: https://github.com/milieuinfo/webcomponent-vl-ui-map/issues/201 -->
 
     </div>
   </vl-demo>
