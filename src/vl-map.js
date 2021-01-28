@@ -1,5 +1,5 @@
 import {vlElement} from '/node_modules/vl-ui-core/dist/vl-core.js';
-import {VlCustomMap, OlLayerGroup, OlProjection, OlFullScreenControl} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
+import {OlFullScreenControl, OlLayerGroup, OlProjection, VlCustomMap} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
 
 /**
  * VlMap
@@ -9,10 +9,12 @@ import {VlCustomMap, OlLayerGroup, OlProjection, OlFullScreenControl} from '/nod
  * @extends HTMLElement
  * @mixes vlElement
  *
- * @property {boolean} data-vl-allow-fullscreen - Attribuut wordt gebruikt om de gebruiker de mogelijkheid te geven om de kaart in fullscreen te visualiseren.
+ * @property {boolean} data-vl-allow-fullscreen - Attribuut wordt gebruikt om de gebruiker de mogelijkheid te geven om de kaart in fullscreen te
+ *     visualiseren.
  * @property {boolean} data-vl-disable-escape-key - Attribuut wordt gebruikt om ervoor te zorgen dat de escape toets niet gebruikt kan worden.
  * @property {boolean} data-vl-disable-rotation - Attribuut wordt gebruikt om ervoor te zorgen dat het niet mogelijk is om de kaart te draaien.
- * @property {boolean} data-vl-disable-mouse-wheel-zoom - Attribuut wordt gebruikt om ervoor te zorgen dat het niet mogelijk is om de kaart in te zoomen met het muiswiel.
+ * @property {boolean} data-vl-disable-mouse-wheel-zoom - Attribuut wordt gebruikt om ervoor te zorgen dat het niet mogelijk is om de kaart in te
+ *     zoomen met het muiswiel.
  *
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
@@ -202,6 +204,16 @@ export class VlMap extends vlElement(HTMLElement) {
    */
   zoomTo(boundingbox, max) {
     this.map.zoomToExtent(boundingbox, max);
+  }
+
+  /**
+   * Zoomt op de kaart naar geometrie.
+   *
+   * @param {Geometry}
+   * @param {Number} max
+   */
+  zoomToGeometry(geometry, max) {
+    this.map.zoomToGeometry(geometry, max);
   }
 
   /**
