@@ -89,6 +89,39 @@
         });
       });
 
+      test('wanneer de gebruiker een Lambert coördinaat zoekt zullen bij geopunt de locaties opgehaald worden', () => {
+        const value = '104719.27, 192387.25';
+
+        const response = new Promise((resolve, reject) => {
+          resolve(new Response(JSON.stringify({}), {status: 200}));
+        });
+
+        const fetchStub = sandbox.stub(window, 'fetch');
+        const xy = value.replace(/\s/g, '');
+        fetchStub.withArgs('https://loc.geopunt.be/v4/Location?xy=' + xy + '&c=5').returns(response);
+
+        const element = fixture('vl-map-with-search-fixture');
+        return customElements.whenDefined('vl-map').then(() => {
+          const selectElement = element.shadowRoot.querySelector('vl-map-search').shadowRoot.querySelector('select');
+
+          selectElement.dispatchEvent(new CustomEvent('search', {
+            detail: {
+              value: value,
+            },
+          }));
+
+          return new Promise((resolve) => {
+            (async () => {
+              while (!fetchStub.called) {
+                await new Promise((resolve) => setTimeout(resolve, 100));
+              }
+              resolve();
+            })();
+          });
+
+        });
+      });
+
       test('wanneer de gebruiker een suggestie selecteert zal bij geopunt de locatie opgehaald worden', () => {
         const location = {
           LocationResult: [{
@@ -134,6 +167,101 @@
         });
       });
 
+      test('wanneer de gebruiker een Lambert coördinaat selecteert zal niets opgehaald worden', () => {
+
+        // TODO stefanborghys: 28/01/21 was not able to import LambertCoordinaat, which would be better
+        //const value = LambertCoordinaat.of('104719.27, 192387.25');
+
+        const geometry = {
+          type: 'Point',
+          coordinates: [104719.27, 192387.25]
+        };
+
+        const lambertCoordinaat = {
+          x: 104719.27,
+          y: 192387.25
+        };
+
+        const fetchSpy = sandbox.spy(window, 'fetch');
+
+        const map = fixture('vl-map-with-search-fixture');
+        return customElements.whenDefined('vl-map').then(() => {
+          sandbox.spy(map, 'zoomToGeometry');
+          const selectElement = map.shadowRoot.querySelector('vl-map-search').shadowRoot.querySelector('select');
+          selectElement.dispatchEvent(new CustomEvent('choice', {
+            detail: {
+              choice: {
+                value: lambertCoordinaat
+              },
+            },
+            bubbles: false,
+            composed: false,
+          }));
+
+          return new Promise((resolve) => {
+            (async () => {
+              while (!map.zoomToGeometry.calledWith(geometry, 10)) {
+                await new Promise((resolve) => setTimeout(resolve, 100));
+              }
+
+              assert.isTrue(fetchSpy.notCalled, 'Geen enkele call zou gefetched mogen worden!');
+              resolve();
+            })();
+          });
+
+        });
+
+
+      });
+
+      test('wanneer de gebruiker een Locatie selecteert zal niets opgehaald worden', () => {
+
+        const location = {
+          BoundingBox: {
+            LowerLeft: {
+              X_Lambert72: 0,
+              Y_Lambert72: 1,
+            },
+            UpperRight: {
+              X_Lambert72: 0,
+              Y_Lambert72: 1,
+            },
+          }
+        };
+
+        const boundingBox = [location.BoundingBox.LowerLeft.X_Lambert72, location.BoundingBox.LowerLeft.Y_Lambert72, location.BoundingBox.UpperRight.X_Lambert72, location.BoundingBox.UpperRight.Y_Lambert72];
+
+        const fetchSpy = sandbox.spy(window, 'fetch');
+
+        const map = fixture('vl-map-with-search-fixture');
+        return customElements.whenDefined('vl-map').then(() => {
+          sandbox.spy(map, 'zoomTo');
+          const selectElement = map.shadowRoot.querySelector('vl-map-search').shadowRoot.querySelector('select');
+          selectElement.dispatchEvent(new CustomEvent('choice', {
+            detail: {
+              choice: {
+                value: location
+              },
+            },
+            bubbles: false,
+            composed: false,
+          }));
+
+          return new Promise((resolve) => {
+            (async () => {
+              while (!map.zoomTo.calledWith(boundingBox, 14)) {
+                await new Promise((resolve) => setTimeout(resolve, 100));
+              }
+
+              assert.isTrue(fetchSpy.notCalled, 'Geen enkele call zou gefetched mogen worden!');
+              resolve();
+            })();
+          });
+
+        });
+
+      });
+
       test('indien vl-map-search element binnen een vl-map element zit, zal dit element toegevoegd worden aan de shadow dom', (done) => {
         const element = fixture('vl-map-with-search-fixture');
         should.not.exist(element.shadowRoot.querySelector('vl-map-search'));
@@ -171,7 +299,7 @@
       test('er zijn default placeholders voor het zoek adres select element', () => {
         const element = fixture('vl-map-search-fixture');
         assert.equal(element._placeholderElement.innerText, 'Lokaliseer adres');
-        assert.equal(element.getTranslation('select.search_placeholder_value'), 'Gemeente, straat en huisnummer');
+        assert.equal(element.getTranslation('select.search_placeholder_value'), 'Gemeente, straat en huisnummer of Lambert coördinaat');
         assert.equal(element._selectElement.getAttribute('data-vl-select-search-empty-text'), 'Geen adres gevonden');
         assert.equal(element.getTranslation('select.no_more_options'), 'Geen adres gevonden');
       });
@@ -204,6 +332,7 @@
         assert.equal(element._selectElement.getAttribute('data-vl-select-search-empty-text'), text3);
         assert.equal(element.getTranslation('select.no_more_options'), text4);
       });
+
     });
   </script>
 </body>
