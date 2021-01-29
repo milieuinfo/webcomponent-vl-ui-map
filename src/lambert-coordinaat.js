@@ -59,7 +59,7 @@ class LambertCoordinaat {
    * @returns {LambertCoordinaat|undefined}
    */
   static of(value) {
-    if (!value || !value instanceof String) {
+    if (!value && !(value instanceof String)) {
       return undefined;
     }
     const resultaat = value.match(LambertCoordinaat.REGEX);

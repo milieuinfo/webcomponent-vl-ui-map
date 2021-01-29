@@ -1,43 +1,52 @@
 import LambertCoordinaat from '../../src/lambert-coordinaat';
 
 describe('Lambert Coördinaat', () => {
-  test('of - een vrije tekst', () => {
+  test('of - een vrije tekst, geeft "undefined"', () => {
     const result = LambertCoordinaat.of('test');
 
     expect(result).toBeUndefined();
   });
 
-  test('of - "null"', () => {
+  test('of - "null", geeft "undefined"', () => {
     const result = LambertCoordinaat.of(null);
 
     expect(result).toBeUndefined();
   });
 
-  test('of - "undefined"', () => {
+  test('of - "undefined", geeft "undefined"', () => {
     const result = LambertCoordinaat.of(undefined);
 
     expect(result).toBeUndefined();
   });
 
-  test('of - een lege string', () => {
+  test('of - een lege string, geeft "undefined"', () => {
     const result = LambertCoordinaat.of('');
 
     expect(result).toBeUndefined();
   });
 
-  test('of - een geldige coördinaat', () => {
+  test('of - een geldige coördinaat, geeft een LambertCoordinaat', () => {
     const lambertCoordinaat = LambertCoordinaat.of('123456.78, 345232.04');
 
-    expect(lambertCoordinaat).not.toBeNull();
+    expect(lambertCoordinaat).not.toBeUndefined();
     expect(lambertCoordinaat.x).toBe(123456.78);
     expect(lambertCoordinaat.y).toBe(345232.04);
     expect(lambertCoordinaat.toString()).toBe('123456.78, 345232.04');
   });
+  
+  test('of - een geldige coördinaat met gehele getallen, geeft een LambertCoordinaat', () => {
+    const lambertCoordinaat = LambertCoordinaat.of('123456, 34523');
+    
+    expect(lambertCoordinaat).not.toBeUndefined();
+    expect(lambertCoordinaat.x).toBe(123456);
+    expect(lambertCoordinaat.y).toBe(34523);
+    expect(lambertCoordinaat.toString()).toBe('123456, 34523');
+  });
 
-  test('of - geldige coordinaat met haakjes, gescheiden door puntkomma', () => {
+  test('of - geldige coordinaat met haakjes en gescheiden door een puntkomma, geeft een LambertCoordinaat', () => {
     const lambertCoordinaat = LambertCoordinaat.of('(123456.78; 345232.04)');
 
-    expect(lambertCoordinaat).not.toBeNull();
+    expect(lambertCoordinaat).not.toBeUndefined();
     expect(lambertCoordinaat.x).toBe(123456.78);
     expect(lambertCoordinaat.y).toBe(345232.04);
     expect(lambertCoordinaat.toString()).toBe('123456.78, 345232.04');
