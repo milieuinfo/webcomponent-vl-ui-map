@@ -118,7 +118,6 @@
               resolve();
             })();
           });
-
         });
       });
 
@@ -168,18 +167,17 @@
       });
 
       test('wanneer de gebruiker een Lambert coördinaat selecteert zal niets opgehaald worden', () => {
-
         // TODO stefanborghys: 28/01/21 was not able to import LambertCoordinaat, which would be better
-        //const value = LambertCoordinaat.of('104719.27, 192387.25');
+        // const value = LambertCoordinaat.of('104719.27, 192387.25');
 
         const geometry = {
           type: 'Point',
-          coordinates: [104719.27, 192387.25]
+          coordinates: [104719.27, 192387.25],
         };
 
         const lambertCoordinaat = {
           x: 104719.27,
-          y: 192387.25
+          y: 192387.25,
         };
 
         const fetchSpy = sandbox.spy(window, 'fetch');
@@ -191,7 +189,7 @@
           selectElement.dispatchEvent(new CustomEvent('choice', {
             detail: {
               choice: {
-                value: lambertCoordinaat
+                value: lambertCoordinaat,
               },
             },
             bubbles: false,
@@ -208,14 +206,10 @@
               resolve();
             })();
           });
-
         });
-
-
       });
 
       test('wanneer de gebruiker een Locatie selecteert zal niets opgehaald worden', () => {
-
         const location = {
           BoundingBox: {
             LowerLeft: {
@@ -226,7 +220,7 @@
               X_Lambert72: 0,
               Y_Lambert72: 1,
             },
-          }
+          },
         };
 
         const boundingBox = [location.BoundingBox.LowerLeft.X_Lambert72, location.BoundingBox.LowerLeft.Y_Lambert72, location.BoundingBox.UpperRight.X_Lambert72, location.BoundingBox.UpperRight.Y_Lambert72];
@@ -240,7 +234,7 @@
           selectElement.dispatchEvent(new CustomEvent('choice', {
             detail: {
               choice: {
-                value: location
+                value: location,
               },
             },
             bubbles: false,
@@ -257,9 +251,7 @@
               resolve();
             })();
           });
-
         });
-
       });
 
       test('indien vl-map-search element binnen een vl-map element zit, zal dit element toegevoegd worden aan de shadow dom', (done) => {
@@ -332,7 +324,6 @@
         assert.equal(element._selectElement.getAttribute('data-vl-select-search-empty-text'), text3);
         assert.equal(element.getTranslation('select.no_more_options'), text4);
       });
-
     });
   </script>
 </body>

@@ -17,7 +17,7 @@ class LambertCoordinaat {
    *
    * @type {RegExp}
    */
-  static REGEX = /^\s*\(?(\d{1,6}\.\d{1,2}|\d{1,6})[,;]\u0020?(\d{1,6}\.\d{1,2}|\d{1,6})\)?/
+  static REGEX = /^\s*\(?(\d{1,6}\.\d{1,2}|\d{1,6})[,;]\u0020?(\d{1,6}\.\d{1,2}|\d{1,6})\)?/;
   
   constructor(x, y) {
     this._x = x;
@@ -33,7 +33,7 @@ class LambertCoordinaat {
   }
   
   toString() {
-    return this._x + ", " + this._y;
+    return this._x + ', ' + this._y;
   }
   
   /**

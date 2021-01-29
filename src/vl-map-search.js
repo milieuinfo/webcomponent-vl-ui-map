@@ -125,45 +125,45 @@ export class VlMapSearch extends vlElement(HTMLElement) {
       this.__searchEventListenerRegistered = true;
       this._selectElement.addEventListener('search', (event) => {
         if (event && event.detail && event.detail.value) {
-            let lambertCoordinaat = LambertCoordinaat.of(event.detail.value);
-            
-            if(lambertCoordinaat === undefined){
-                fetch(this.searchUrl + event.detail.value).then((response) => {
-                    return response.json();
-                }).then((data) => {
-                    if (data && data.SuggestionResult) {
-                        const resultaten = data.SuggestionResult.map((resultaat) => {
-                            return {
-                                value: resultaat,
-                                label: resultaat,
-                            };
-                        });
-                        this._selectElement.choices = resultaten;
-                    }
+          const lambertCoordinaat = LambertCoordinaat.of(event.detail.value);
+
+          if (lambertCoordinaat === undefined) {
+            fetch(this.searchUrl + event.detail.value).then((response) => {
+              return response.json();
+            }).then((data) => {
+              if (data && data.SuggestionResult) {
+                const resultaten = data.SuggestionResult.map((resultaat) => {
+                  return {
+                    value: resultaat,
+                    label: resultaat,
+                  };
                 });
-            }else {
-              fetch(this._findLocationsByLambertCoordinaatUrl(lambertCoordinaat)).then((response) => {
-                return response.json();
-              }).then((data) => {
-                let choices = [{
-                  value: lambertCoordinaat,
-                  label: 'Lambert coördinaat: ' + lambertCoordinaat.toString()
-                }];
-  
-                if (data && data.LocationResult) {
-                  data.LocationResult.map((locationResult) => {
-                    return {
-                      value: locationResult,
-                      label: locationResult.FormattedAddress
-                    };
-                  }).forEach((choice) => {
-                    choices.push(choice)
-                  });
-                }
-                
-                this._selectElement.choices = choices;
-              });
-            }
+                this._selectElement.choices = resultaten;
+              }
+            });
+          } else {
+            fetch(this._findLocationsByLambertCoordinaatUrl(lambertCoordinaat)).then((response) => {
+              return response.json();
+            }).then((data) => {
+              const choices = [{
+                value: lambertCoordinaat,
+                label: 'Lambert coördinaat: ' + lambertCoordinaat.toString(),
+              }];
+
+              if (data && data.LocationResult) {
+                data.LocationResult.map((locationResult) => {
+                  return {
+                    value: locationResult,
+                    label: locationResult.FormattedAddress,
+                  };
+                }).forEach((choice) => {
+                  choices.push(choice);
+                });
+              }
+
+              this._selectElement.choices = choices;
+            });
+          }
         }
       });
     }
@@ -174,40 +174,40 @@ export class VlMapSearch extends vlElement(HTMLElement) {
       this.__choiceEventListenerRegistered = true;
       this.__choiceEventListener = this._selectElement.addEventListener('choice', (event) => {
         if (event && event.detail && event.detail.choice) {
-            let value = event.detail.choice.value;
-  
-            // TODO stefanborghys: 28/01/21 prefer to use instanceof but could not import LambertCoordinaat in the test and replaced it for now
-            // instanceof LambertCoordinaat
-            if(value.x !== undefined && value.y !== undefined ){
-                this._map.zoomToGeometry({
-                    type: 'Point',
-                    coordinates: [value.x, value.y]
-                }, 10);
-            }else if(value instanceof Object){
-              this._map.zoomTo([
-                value.BoundingBox.LowerLeft.X_Lambert72,
-                value.BoundingBox.LowerLeft.Y_Lambert72,
-                value.BoundingBox.UpperRight.X_Lambert72,
-                value.BoundingBox.UpperRight.Y_Lambert72,
-              ], 14);
-            } else {
-                fetch(this.locationUrl + value).then((response) => {
-                    return response.json();
-                }).then((data) => {
-                    if (data && data.LocationResult) {
-                        if (this._onSelect) {
-                            this._onSelect(data);
-                        } else if (this._map) {
-                            this._map.zoomTo([
-                                data.LocationResult[0].BoundingBox.LowerLeft.X_Lambert72,
-                                data.LocationResult[0].BoundingBox.LowerLeft.Y_Lambert72,
-                                data.LocationResult[0].BoundingBox.UpperRight.X_Lambert72,
-                                data.LocationResult[0].BoundingBox.UpperRight.Y_Lambert72,
-                            ]);
-                        }
-                    }
-                });
-            }
+          const value = event.detail.choice.value;
+
+          // TODO stefanborghys: 28/01/21 prefer to use instanceof but could not import LambertCoordinaat in the test and replaced it for now
+          // instanceof LambertCoordinaat
+          if (value.x !== undefined && value.y !== undefined ) {
+            this._map.zoomToGeometry({
+              type: 'Point',
+              coordinates: [value.x, value.y],
+            }, 10);
+          } else if (value instanceof Object) {
+            this._map.zoomTo([
+              value.BoundingBox.LowerLeft.X_Lambert72,
+              value.BoundingBox.LowerLeft.Y_Lambert72,
+              value.BoundingBox.UpperRight.X_Lambert72,
+              value.BoundingBox.UpperRight.Y_Lambert72,
+            ], 14);
+          } else {
+            fetch(this.locationUrl + value).then((response) => {
+              return response.json();
+            }).then((data) => {
+              if (data && data.LocationResult) {
+                if (this._onSelect) {
+                  this._onSelect(data);
+                } else if (this._map) {
+                  this._map.zoomTo([
+                    data.LocationResult[0].BoundingBox.LowerLeft.X_Lambert72,
+                    data.LocationResult[0].BoundingBox.LowerLeft.Y_Lambert72,
+                    data.LocationResult[0].BoundingBox.UpperRight.X_Lambert72,
+                    data.LocationResult[0].BoundingBox.UpperRight.Y_Lambert72,
+                  ]);
+                }
+              }
+            });
+          }
         }
       });
     }
@@ -231,17 +231,16 @@ export class VlMapSearch extends vlElement(HTMLElement) {
     this.searchEmptyText = 'Geen adres gevonden';
     this.searchNoResultsText = 'Geen adres gevonden';
   }
-  
+
   /**
    * Find reverse geocoded addresses based upon a Lambert-72 coordinate.
    * A maximum of 5 addresses will be returned.
    *
-   * @param {LambertCoordinaat}
-   * @returns {string}
+   * @param {LambertCoordinaat} lambertCoordinaat
+   * @return {string}
    * @see {@link https://loc.geopunt.be/Help/Api/GET-v4-Location_q_latlon_xy_type_c|Request Information}
    */
   _findLocationsByLambertCoordinaatUrl(lambertCoordinaat) {
     return this.url + '/Location?xy=' + lambertCoordinaat.x + ',' + lambertCoordinaat.y + '&c=5';
   }
-
 }
