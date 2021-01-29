@@ -128,45 +128,52 @@ export class VlMapSearch extends vlElement(HTMLElement) {
           const lambertCoordinaat = LambertCoordinaat.of(event.detail.value);
 
           if (lambertCoordinaat === undefined) {
-            fetch(this.searchUrl + event.detail.value).then((response) => {
-              return response.json();
-            }).then((data) => {
-              if (data && data.SuggestionResult) {
-                const resultaten = data.SuggestionResult.map((resultaat) => {
-                  return {
-                    value: resultaat,
-                    label: resultaat,
-                  };
-                });
-                this._selectElement.choices = resultaten;
-              }
-            });
+            this._searchChoicesByValue(event.detail.value);
           } else {
-            fetch(this._findLocationsByLambertCoordinaatUrl(lambertCoordinaat)).then((response) => {
-              return response.json();
-            }).then((data) => {
-              const choices = [{
-                value: lambertCoordinaat,
-                label: 'Lambert coördinaat: ' + lambertCoordinaat.toString(),
-              }];
-
-              if (data && data.LocationResult) {
-                data.LocationResult.map((locationResult) => {
-                  return {
-                    value: locationResult,
-                    label: locationResult.FormattedAddress,
-                  };
-                }).forEach((choice) => {
-                  choices.push(choice);
-                });
-              }
-
-              this._selectElement.choices = choices;
-            });
+            this._searchChoicesByLambertCoördinaat(lambertCoordinaat);
           }
         }
       });
     }
+  }
+
+  _searchChoicesByValue(searchValue) {
+    fetch(this.searchUrl + searchValue).then((response) => {
+      return response.json();
+    }).then((data) => {
+      if (data && data.SuggestionResult) {
+        const resultaten = data.SuggestionResult.map((resultaat) => {
+          return {
+            value: resultaat,
+            label: resultaat,
+          };
+        });
+        this._selectElement.choices = resultaten;
+      }
+    });
+  }
+
+  _searchChoicesByLambertCoördinaat(lambertCoordinaat) {
+    fetch(this._findLocationsByLambertCoordinaatUrl(lambertCoordinaat)).then((response) => {
+      return response.json();
+    }).then((data) => {
+      const choices = [{
+        value: lambertCoordinaat,
+        label: 'Lambert-coördinaat: ' + lambertCoordinaat.toString(),
+      }];
+
+      if (data && data.LocationResult) {
+        data.LocationResult.map((locationResult) => {
+          return {
+            value: locationResult,
+            label: locationResult.FormattedAddress,
+          };
+        }).forEach((choice) => {
+          choices.push(choice);
+        });
+      }
+      this._selectElement.choices = choices;
+    });
   }
 
   _addChoiceEventListener() {
@@ -179,38 +186,50 @@ export class VlMapSearch extends vlElement(HTMLElement) {
           // TODO stefanborghys: 28/01/21 prefer to use instanceof but could not import LambertCoordinaat in the test and replaced it for now
           // instanceof LambertCoordinaat
           if (value.x !== undefined && value.y !== undefined ) {
-            this._map.zoomToGeometry({
-              type: 'Point',
-              coordinates: [value.x, value.y],
-            }, 10);
+            this._zoomToLambertCoördinaat(value);
           } else if (value instanceof Object) {
-            this._map.zoomTo([
-              value.BoundingBox.LowerLeft.X_Lambert72,
-              value.BoundingBox.LowerLeft.Y_Lambert72,
-              value.BoundingBox.UpperRight.X_Lambert72,
-              value.BoundingBox.UpperRight.Y_Lambert72,
-            ], 14);
+            this._zoomToLocation(value);
           } else {
-            fetch(this.locationUrl + value).then((response) => {
-              return response.json();
-            }).then((data) => {
-              if (data && data.LocationResult) {
-                if (this._onSelect) {
-                  this._onSelect(data);
-                } else if (this._map) {
-                  this._map.zoomTo([
-                    data.LocationResult[0].BoundingBox.LowerLeft.X_Lambert72,
-                    data.LocationResult[0].BoundingBox.LowerLeft.Y_Lambert72,
-                    data.LocationResult[0].BoundingBox.UpperRight.X_Lambert72,
-                    data.LocationResult[0].BoundingBox.UpperRight.Y_Lambert72,
-                  ]);
-                }
-              }
-            });
+            this._searchAndZoomToLocation(value);
           }
         }
       });
     }
+  }
+
+  _zoomToLambertCoördinaat(lambertCoordinaat) {
+    this._map.zoomToGeometry({
+      type: 'Point',
+      coordinates: [lambertCoordinaat.x, lambertCoordinaat.y],
+    }, 10);
+  }
+
+  _zoomToLocation(location) {
+    this._map.zoomTo([
+      location.BoundingBox.LowerLeft.X_Lambert72,
+      location.BoundingBox.LowerLeft.Y_Lambert72,
+      location.BoundingBox.UpperRight.X_Lambert72,
+      location.BoundingBox.UpperRight.Y_Lambert72,
+    ], 14);
+  }
+
+  _searchAndZoomToLocation(searchValue) {
+    fetch(this.locationUrl + searchValue).then((response) => {
+      return response.json();
+    }).then((data) => {
+      if (data && data.LocationResult) {
+        if (this._onSelect) {
+          this._onSelect(data);
+        } else if (this._map) {
+          this._map.zoomTo([
+            data.LocationResult[0].BoundingBox.LowerLeft.X_Lambert72,
+            data.LocationResult[0].BoundingBox.LowerLeft.Y_Lambert72,
+            data.LocationResult[0].BoundingBox.UpperRight.X_Lambert72,
+            data.LocationResult[0].BoundingBox.UpperRight.Y_Lambert72,
+          ]);
+        }
+      }
+    });
   }
 
   _configure() {
@@ -227,14 +246,14 @@ export class VlMapSearch extends vlElement(HTMLElement) {
 
   _changeTranslations() {
     this.placeholder = 'Lokaliseer adres';
-    this.searchPlaceholder = 'Gemeente, straat en huisnummer of Lambert coördinaat';
+    this.searchPlaceholder = 'Gemeente, straat en huisnummer of Lambert-coördinaat';
     this.searchEmptyText = 'Geen adres gevonden';
     this.searchNoResultsText = 'Geen adres gevonden';
   }
 
   /**
-   * Find reverse geocoded addresses based upon a Lambert-72 coordinate.
-   * A maximum of 5 addresses will be returned.
+   * Zoek omgekeerd gegeocodeerde adressen, gebaseerd op een Lambert-72 coördinaat.
+   * Een maximum van 5 adressen zal geretourneerd worden.
    *
    * @param {LambertCoordinaat} lambertCoordinaat
    * @return {string}
