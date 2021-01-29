@@ -1,5 +1,10 @@
 import {vlElement} from '/node_modules/vl-ui-core/dist/vl-core.js';
-import {OlFullScreenControl, OlLayerGroup, OlProjection, VlCustomMap} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
+import {
+  OlFullScreenControl,
+  OlLayerGroup,
+  OlProjection,
+  VlCustomMap,
+} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
 
 /**
  * VlMap
@@ -209,7 +214,7 @@ export class VlMap extends vlElement(HTMLElement) {
   /**
    * Zoomt op de kaart naar geometrie.
    *
-   * @param {Geometry}
+   * @param {Geometry} geometry
    * @param {Number} max
    */
   zoomToGeometry(geometry, max) {
