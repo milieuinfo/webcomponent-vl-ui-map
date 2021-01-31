@@ -1,5 +1,10 @@
 import {VlMapLayerStyle} from '/src/vl-map-layer-style.js';
-import {OlStyle, OlStyleCircle, OlStyleStroke, OlStyleText, OlStyleFill} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
+import {
+  OlStyle,
+  OlStyleCircle,
+  OlStyleStroke,
+  OlStyleFill,
+} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
 
 /**
  * VlMapLayerCircleStyle
@@ -47,6 +52,15 @@ export class VlMapLayerCircleStyle extends VlMapLayerStyle {
   }
 
   /**
+   * Geeft de tekstkleur van de stijl terug.
+   *
+   * @Return {string}
+   */
+  get textColor() {
+    return this.getAttribute('text-color') || '#FFF';
+  }
+
+  /**
    * Geeft de kleur van de tekst bij het clusteren van features terug.
    *
    * @Return {string}
@@ -74,7 +88,6 @@ export class VlMapLayerCircleStyle extends VlMapLayerStyle {
       const features = feature && feature.get ? (feature.get('features') || []) : [];
       const size = features.length || 1;
       const clusterMultiplier = size == 1 ? 1 : Math.max(1.5, size.toString().length);
-      const text = size > 1 ? size.toString() : '';
       let textColor = this.textColor;
       let color = this.color;
       let borderColor = this.borderColor;
@@ -111,15 +124,16 @@ export class VlMapLayerCircleStyle extends VlMapLayerStyle {
           }),
           radius: radius,
         }),
-        text: new OlStyleText({
-          text: text,
-          fill: new OlStyleFill({
-            color: textColor,
-          }),
-          offsetX: this.textOffsetX,
-          offsetY: this.textOffsetY,
-        }),
+        text: this._getTextStyle(feature, textColor),
       });
+    };
+  }
+
+  get labelFunction() {
+    return (feature) => {
+      const features = feature && feature.get ? (feature.get('features') || []) : [];
+      const size = features.length || 1;
+      return size > 1 ? size.toString() : '';
     };
   }
 }

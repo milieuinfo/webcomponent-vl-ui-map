@@ -41,7 +41,7 @@
       test('de style wordt goed geconfigureerd met default properties', () => {
         const map = fixture('vl-map-layer-circle-style-fixture');
         const styleElement = map.querySelector('vl-map-layer-circle-style');
-        assert.equal(styleElement.color, 'rgba(2, 85, 204, 1)');
+        assert.equal(styleElement.color, 'rgba(2, 85, 204, 0.8)');
         assert.equal(styleElement.textColor, '#FFF');
         assert.equal(styleElement.textOffsetX, 0);
         assert.equal(styleElement.textOffsetY, 0);
