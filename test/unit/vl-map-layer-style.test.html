@@ -19,11 +19,21 @@
       </vl-map>
     </template>
 </test-fixture>
-<test-fixture id="vl-map-layer-style-met-feature-attribute-name-fixture">
+<test-fixture id="vl-map-layer-style-met-text-feature-attribute-name-fixture">
     <template>
       <vl-map>
         <vl-map-layer>
           <vl-map-layer-style data-vl-text-feature-attribute-name="label"></vl-map-layer-style>
+        </vl-map-layer>
+      </vl-map>
+    </template>
+</test-fixture>
+<test-fixture id="vl-map-layer-style-met-feature-attribute-name-and-value-fixture">
+    <template>
+      <vl-map>
+        <vl-map-layer>
+          <vl-map-layer-style data-vl-feature-attribute-name="Naam"
+                              data-vl-feature-attribute-value="Waarde"></vl-map-layer-style>
         </vl-map-layer>
       </vl-map>
     </template>
@@ -66,6 +76,8 @@
         assert.equal(vlMapLayerStyleElement.textBorderSize, 1);
         assert.equal(vlMapLayerStyleElement.textColor, 'rgba(0, 0, 0, 1)');
         assert.equal(vlMapLayerStyleElement.textFeatureAttributeName, null);
+        assert.equal(vlMapLayerStyleElement.featureAttributeName, null);
+        assert.equal(vlMapLayerStyleElement.featureAttributeValue, null);
         assert.equal(vlMapLayerStyleElement.textOffsetX, 0);
         assert.equal(vlMapLayerStyleElement.textOffsetY, 0);
         assert.equal(vlMapLayerStyleElement.textSize, '10px');
@@ -75,8 +87,26 @@
         assert.equal(style.getStroke().getWidth(), 1);
       });
 
+      test('de style geeft null terug als er geen feature met naam en waarde gevonden is', () => {
+        const element = fixture('vl-map-layer-style-met-feature-attribute-name-and-value-fixture');
+        const vlMapLayerStyleElement = element.querySelector('vl-map-layer-style');
+        assert.equal(vlMapLayerStyleElement.featureAttributeName, 'Naam');
+        assert.equal(vlMapLayerStyleElement.featureAttributeValue, 'Waarde');
+        const style = vlMapLayerStyleElement.style({get: (property) => "NietWaarde"});
+        assert.isNull(style);
+      });
+
+      test('de style geeft niet null terug als er een feature met naam en waarde gevonden is', () => {
+        const element = fixture('vl-map-layer-style-met-feature-attribute-name-and-value-fixture');
+        const vlMapLayerStyleElement = element.querySelector('vl-map-layer-style');
+        assert.equal(vlMapLayerStyleElement.featureAttributeName, 'Naam');
+        assert.equal(vlMapLayerStyleElement.featureAttributeValue, 'Waarde');
+        const style = vlMapLayerStyleElement.style({get: (property) => "Waarde"});
+        assert.isNotNull(style);
+      });
+
       test('als er een featureAttributeName gedefinieerd is, zal de tekst stijl ook beschikbaar zijn', () => {
-        const element = fixture('vl-map-layer-style-met-feature-attribute-name-fixture');
+        const element = fixture('vl-map-layer-style-met-text-feature-attribute-name-fixture');
         const vlMapLayerStyleElement = element.querySelector('vl-map-layer-style');
         assert.equal(vlMapLayerStyleElement.textFeatureAttributeName, 'label');
         const style = vlMapLayerStyleElement.style({get: (property) => property + 1});

@@ -17,6 +17,8 @@ import {
  * @property {string} data-vl-color - Attribuut wordt gebruikt om aan te geven wat de kleur is van de kaartlaagstijl. Default 'rgba(2, 85, 204, 1)'.
  * @property {string} data-vl-border-color - Attribuut wordt gebruikt om aan te geven wat de kleur van de rand is van de kaartlaagstijl. Default 'rgba(2, 85, 204, 1)'.
  * @property {string} data-vl-border-size - Attribuut wordt gebruikt om aan te geven wat de grootte van de rand is van de kaartlaagstijl. Default '1'.
+ * @property {number} data-vl-feature-attribute-name - Attribuut wordt gebruikt om aan te geven wat de naam van het attribuut van de feature van de stijl is dat mag getoond worden. Default null.
+ * @property {number} data-vl-feature-attribute-value - Attribuut wordt gebruikt om aan te geven wat de waarde van het attribuut van de feature van de stijl is dat mag getoond worden. Enkel te gebruiken met data-vl-feature-attribute-name. Default null.
  * @property {string} data-vl-text-background-color - Attribuut wordt gebruikt om aan te geven wat de kleur is van de achtergrond van de tekst. Default 'rgba(0, 0, 0, 0)'.
  * @property {string} data-vl-text-border-color - Attribuut wordt gebruikt om aan te geven wat de kleur is van de rand van de tekst. Default 'rgb(255,255,255, 1)'.
  * @property {string} data-vl-text-border-size - Attribuut wordt gebruikt om aan te geven wat de grootte is van de rand van de tekst. Default '0'.
@@ -53,12 +55,30 @@ export class VlMapLayerStyle extends vlElement(HTMLElement) {
   }
 
   /**
-   * Geeft de size van de rand van de cirkels terug.
+   * Geeft de size van de rand van de stijl terug.
    *
    * @Return {number}
    */
   get borderSize() {
     return this.getAttribute('border-size') || 1;
+  }
+
+  /**
+   * Geeft de feature attribuut naam terug waar voor de stijl geldt.
+   *
+   * @Return {string|null}
+   */
+  get featureAttributeName() {
+    return this.getAttribute('feature-attribute-name') || null;
+  }
+
+  /**
+   * Geeft de feature attribuut waarde terug waar voor de stijl geldt.
+   *
+   * @Return {string|null}
+   */
+  get featureAttributeValue() {
+    return this.getAttribute('feature-attribute-value') || null;
   }
 
   /**
@@ -136,10 +156,13 @@ export class VlMapLayerStyle extends vlElement(HTMLElement) {
   /**
    * Geeft de stijl terug.
    *
-   * @Return {string}
+   * @Return {Function} Een stijl functie die zorgt voor de stijl op een {VlMapLayer}
    */
   get style() {
     return (feature) => {
+      if (this.featureAttributeName != null && feature.get(this.featureAttributeName) !== this.featureAttributeValue) {
+        return null;
+      }
       const styleConfig = {
         fill: new OlStyleFill({
           color: this.color,
@@ -213,7 +236,7 @@ export class VlMapLayerStyle extends vlElement(HTMLElement) {
 
   _setStyleOnParent() {
     if (this.parentElement) {
-      return this.parentElement.style = this.style;
+      return this.parentElement.style = this;
     }
   }
 }

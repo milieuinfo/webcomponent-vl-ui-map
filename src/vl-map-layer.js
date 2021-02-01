@@ -1,10 +1,10 @@
 import {vlElement} from '/node_modules/vl-ui-core/dist/vl-core.js';
 import {
+  OlClusterSource,
+  OlGeoJSON,
+  OlPoint,
   OlVectorLayer,
   OlVectorSource,
-  OlClusterSource,
-  OlPoint,
-  OlGeoJSON,
 } from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
 
 /**
@@ -36,6 +36,7 @@ export class VlMapLayer extends vlElement(HTMLElement) {
     VlMapLayer._counter = 0;
     this.__counter = ++VlMapLayer._counter;
     this._geoJSON = new OlGeoJSON();
+    this._styles = [];
   }
 
   async connectedCallback() {
@@ -119,13 +120,17 @@ export class VlMapLayer extends vlElement(HTMLElement) {
   }
 
   /**
-   * Zet de OpenLayers kaartlaag stijl.
+   * Voeg een kaartlaag stijl toe.
    *
-   * @param {ol.style|[ol.style]|null|undefined} style een OpenLayers stijl, of een Array van OpenLayers stijlen, of null zonder stijl, of undefined voor de default stijl
+   * @param {VlMapLayerStyle} style een kaartlaag stijl
    */
   set style(style) {
-    this._style = style;
-    this._layer.setStyle(style);
+    this._styles.push(style);
+    this._layer.setStyle((feature) => {
+      return this._styles
+      .map(style => style.style(feature))
+      .filter(style => style != null);
+    });
   }
 
   /**
@@ -294,7 +299,7 @@ export class VlMapLayer extends vlElement(HTMLElement) {
       features: features,
     });
     return this.cluster ? this.__createClusterSource(this._source) :
-        this._source;
+      this._source;
   }
 
   __createClusterSource(source) {

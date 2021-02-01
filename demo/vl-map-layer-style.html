@@ -108,6 +108,55 @@
       </vl-map-layer>
     </vl-map>
   </vl-demo>
+  <vl-demo data-vl-title="Kaart met kaartlaag met meerdere stijlen">
+    <vl-map id="map-multiple-styles">
+      <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
+      <vl-map-baselayer-grb></vl-map-baselayer-grb>
+      <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
+      <vl-map-layer data-vl-name="laag" data-vl-features='
+                    {
+                        "type": "FeatureCollection",
+                        "features": [{
+                            "type": "Feature",
+                            "geometry": {
+                                "type": "Polygon",
+                                "coordinates": [ [
+                                    [127055.0,197908.0],
+                                    [137055.0,197908.0],
+                                    [137055.0,187908.0],
+                                    [127055.0,187908.0],
+                                    [127055.0,197908.0]
+                                ] ]
+                            },
+                            "properties": {"label":"Label1"}
+                        }, {
+                            "type": "Feature",
+                            "geometry": {
+                                "type": "Polygon",
+                                "coordinates": [ [
+                                    [147055.0,197908.0],
+                                    [157055.0,197908.0],
+                                    [157055.0,187908.0],
+                                    [147055.0,187908.0],
+                                    [147055.0,197908.0]
+                                ] ]
+                            },
+                            "properties": {"label":"Label2"}
+                        }]
+                    }'>
+        <vl-map-layer-style id="map-label-style-label1"
+                            data-vl-color="rgba(255,0,0,0.5)"
+                            data-vl-feature-attribute-name="label"
+                            data-vl-feature-attribute-value="Label1"
+        ></vl-map-layer-style>
+        <vl-map-layer-style id="map-label-style-label2"
+                            data-vl-color="rgba(0,255,0,0.5)"
+                            data-vl-feature-attribute-name="label"
+                            data-vl-feature-attribute-value="Label2"
+        ></vl-map-layer-style>
+      </vl-map-layer>
+    </vl-map>
+  </vl-demo>
 </vl-demo-page>
 </body>
 

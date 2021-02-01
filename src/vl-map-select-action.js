@@ -18,7 +18,7 @@ export class VlMapSelectAction extends VlMapLayerAction {
   /**
    * Geeft de stijl die een geselecteerd feature zal krijgen.
    *
-   * @return {Object}
+   * @return {VlMapLayerStyle} de stijl
    */
   get style() {
     return this._style;
@@ -27,7 +27,7 @@ export class VlMapSelectAction extends VlMapLayerAction {
   /**
    * Zet de stijl die een geselecteerd feature zal krijgen.
    *
-   * @param {Object} style
+   * @param {VlMapLayerStyle} de stijl
    */
   set style(style) {
     this._style = style;
@@ -67,7 +67,7 @@ export class VlMapSelectAction extends VlMapLayerAction {
 
   _createAction(layer) {
     const options = {
-      style: this.style,
+      style: this.style.style,
       cluster: (this._cluster != undefined),
     };
     return new VlSelectAction(layer, this._callback, options);
