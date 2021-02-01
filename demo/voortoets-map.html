@@ -61,7 +61,20 @@
                             data-vl-text-border-size="2"
                             data-vl-text-offset-y="15"
         ></vl-map-layer-style>
-<!--        <vl-map-layer-circle-style data-vl-color="black"></vl-map-layer-circle-style>-->
+      </vl-map-layer>
+      <vl-map-layer data-vl-name="Effectbron"
+                    data-vl-features='{"type": "FeatureCollection","name": "effectbron","crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::31370" } },"features": [{ "type": "Feature", "properties": { "status": "ROOD" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 149049.842855008639162, 200057.836751907132566 ], [ 149008.523230480641359, 200011.508688041009009 ], [ 149056.103404170076828, 199986.466491367667913 ], [ 149096.170918863412226, 200027.786115895025432 ], [ 149096.170918863412226, 200027.786115895025432 ], [ 149049.842855008639162, 200057.836751907132566 ] ] ] } },{ "type": "Feature", "properties": { "status": "GROEN" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 148923.379761764226714, 199983.962271682918072 ], [ 148890.824906070745783, 199907.583571802824736 ], [ 148929.640310921357013, 199877.532935792580247 ], [ 148967.203605949762277, 199942.642647162079811 ], [ 148967.203605949762277, 199942.642647162079811 ], [ 148967.203605949762277, 199942.642647162079811 ], [ 148923.379761764226714, 199983.962271682918072 ] ] ] } },{ "type": "Feature", "properties": { "status": "INVALID" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 149160.028520380990813, 199885.045594822615385 ], [ 149101.179358171852073, 199798.650016268715262 ], [ 149198.843925223744009, 199789.885247440077364 ], [ 149205.104474402731284, 199862.507617817260325 ], [ 149205.104474402731284, 199862.507617817260325 ], [ 149160.028520380990813, 199885.045594822615385 ] ] ] } },{ "type": "Feature", "properties": { "status": "ROOD" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 148957.186727260967018, 199804.910565420985222 ], [ 148948.421958418446593, 199767.347270401194692 ], [ 149007.271120615361724, 199752.32195239700377 ], [ 149003.514791119465372, 199803.658455593511462 ], [ 149003.514791119465372, 199803.658455593511462 ], [ 148957.186727260967018, 199804.910565420985222 ] ] ] } }]}'>
+        <vl-map-layer-style data-vl-color="rgba(238,153,0,0.4)"
+                            data-vl-border-color="rgba(238,153,0,0.4)"
+                            data-vl-border-size="1"
+                            data-vl-feature-attribute-name="status"
+                            data-vl-feature-attribute-value="ROOD"
+        ></vl-map-layer-style><!--TODO JUIST KLEUREN-->
+        <vl-map-layer-style data-vl-color="rgba(238,153,0,0.4)"
+                            data-vl-border-color="rgba(238,153,0,0.4)"
+                            data-vl-border-size="1"
+                            data-vl-feature-attribute-name="status"
+                            data-vl-feature-attribute-value="GROEN"></vl-map-layer-style>
       </vl-map-layer>
       <vl-map-layer data-vl-name="Verborgen laag tot ingezoomd" data-vl-max-resolution="128"
                     data-vl-features='{
