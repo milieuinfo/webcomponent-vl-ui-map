@@ -94,8 +94,7 @@
         });
 
         const fetchStub = sandbox.stub(window, 'fetch');
-        const xy = lambertCoordinaat.x + ',' + lambertCoordinaat.y;
-        fetchStub.withArgs('https://loc.geopunt.be/v4/Location?xy=' + xy + '&c=5').returns(response);
+        fetchStub.withArgs('https://loc.geopunt.be/v4/Location?c=5&xy=' + lambertCoordinaat.x + ',' + lambertCoordinaat.y ).returns(response);
 
         const element = fixture('vl-map-with-search-fixture');
         return customElements.whenDefined('vl-map').then( async () => {
