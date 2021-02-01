@@ -62,8 +62,9 @@ class LambertCoordinaat {
       const x = Number(resultaat.groups.x);
       const y = Number(resultaat.groups.y);
       return new LambertCoordinaat(x, y);
+    } else {
+      return undefined;
     }
-    return undefined;
   }
 }
 
