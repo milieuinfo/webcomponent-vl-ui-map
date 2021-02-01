@@ -61,6 +61,10 @@ export class VlMapSearch extends vlElement(HTMLElement) {
     return this.url + '/Location?q=';
   }
 
+  get locationXyUrl() {
+    return this.url + '/Location?c=5&xy=';
+  }
+
   set placeholder(value) {
     this._placeholderElement.innerText = value;
   }
@@ -138,7 +142,7 @@ export class VlMapSearch extends vlElement(HTMLElement) {
   }
 
   _searchChoicesByValue(searchValue) {
-    fetch( new URL(this.searchUrl + searchValue).toString()).then((response) => {
+    fetch(new URL(this.searchUrl + searchValue).toString()).then((response) => {
       return response.json();
     }).then((data) => {
       if (data && data.SuggestionResult) {
@@ -154,7 +158,8 @@ export class VlMapSearch extends vlElement(HTMLElement) {
   }
 
   _searchChoicesByLambertCoördinaat(lambertCoordinaat) {
-    fetch(this._findLocationsByLambertCoordinaatUrl(lambertCoordinaat)).then((response) => {
+    const encodedUrl = encodeURI(new URL(this.locationXyUrl + lambertCoordinaat.x + ',' + lambertCoordinaat.y));
+    fetch(encodedUrl).then((response) => {
       return response.json();
     }).then((data) => {
       const choices = [{
@@ -253,17 +258,5 @@ export class VlMapSearch extends vlElement(HTMLElement) {
     this.searchPlaceholder = 'Gemeente, straat en huisnummer of Lambert-coördinaat';
     this.searchEmptyText = 'Geen adres gevonden';
     this.searchNoResultsText = 'Geen adres gevonden';
-  }
-
-  /**
-   * Zoek omgekeerd gegeocodeerde adressen, gebaseerd op een Lambert-72 coördinaat.
-   * Een maximum van 5 adressen zal geretourneerd worden.
-   *
-   * @param {LambertCoordinaat} lambertCoordinaat
-   * @return {URL}
-   * @see {@link https://loc.geopunt.be/Help/Api/GET-v4-Location_q_latlon_xy_type_c|Request Information}
-   */
-  _findLocationsByLambertCoordinaatUrl(lambertCoordinaat) {
-    return encodeURI(new URL(this.url + '/Location?xy=' + lambertCoordinaat.x + ',' + lambertCoordinaat.y + '&c=5'));
   }
 }
