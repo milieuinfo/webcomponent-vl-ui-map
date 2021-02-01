@@ -344,8 +344,10 @@
         const lambertCoordinaat = LambertCoordinaat.of('123456.78, 345232.04');
 
         expect(lambertCoordinaat).not.to.be.undefined;
-        expect(lambertCoordinaat.x).to.be.equal(123456.78);
-        expect(lambertCoordinaat.y).to.be.equal(345232.04);
+        expect(lambertCoordinaat).to.deep.equal({
+          _x: 123456.78,
+          _y: 345232.04,
+        });
         expect(lambertCoordinaat.toString()).to.be.equal('123456.78, 345232.04');
       });
 
@@ -353,8 +355,10 @@
         const lambertCoordinaat = LambertCoordinaat.of('123456, 34523');
 
         expect(lambertCoordinaat).not.to.be.undefined;
-        expect(lambertCoordinaat.x).to.be.equal(123456);
-        expect(lambertCoordinaat.y).to.be.equal(34523);
+        expect(lambertCoordinaat).to.deep.equal({
+          _x: 123456,
+          _y: 34523,
+        });
         expect(lambertCoordinaat.toString()).to.be.equal('123456, 34523');
       });
 
@@ -362,8 +366,10 @@
         const lambertCoordinaat = LambertCoordinaat.of('(123456.78; 345232.04)');
 
         expect(lambertCoordinaat).not.to.be.undefined;
-        expect(lambertCoordinaat.x).to.be.equal(123456.78);
-        expect(lambertCoordinaat.y).to.be.equal(345232.04);
+        expect(lambertCoordinaat).to.deep.equal({
+          _x: 123456.78,
+          _y: 345232.04,
+        });
         expect(lambertCoordinaat.toString()).to.be.equal('123456.78, 345232.04');
       });
     });
@@ -374,8 +380,8 @@
         const result = searchInput.match(LAMBERT_COORDINAAT_REGEX);
 
         expect(result[0]).to.be.equal(searchInput);
-        expect(result[1]).to.be.equal('104719.27');
-        expect(result[2]).to.be.equal('192387.25');
+        expect(result.groups.x).to.be.equal('104719.27');
+        expect(result.groups.y).to.be.equal('192387.25');
       });
 
       test('Matched met: een x-coördinaat zonder decimaal getal', () => {
@@ -383,8 +389,8 @@
         const result = searchInput.match(LAMBERT_COORDINAAT_REGEX);
 
         expect(result[0]).to.be.equal(searchInput);
-        expect(result[1]).to.be.equal('104719');
-        expect(result[2]).to.be.equal('192387.25');
+        expect(result.groups.x).to.be.equal('104719');
+        expect(result.groups.y).to.be.equal('192387.25');
       });
 
       test('Matched met: een x en y-coördinaat zonder decimaal getal', () => {
@@ -392,8 +398,8 @@
         const result = searchInput.match(LAMBERT_COORDINAAT_REGEX);
 
         expect(result[0]).to.be.equal(searchInput);
-        expect(result[1]).to.be.equal('104719');
-        expect(result[2]).to.be.equal('192387');
+        expect(result.groups.x).to.be.equal('104719');
+        expect(result.groups.y).to.be.equal('192387');
       });
 
       test('Matched met: een y-coördinaat zonder decimaal getal', () => {
@@ -401,8 +407,8 @@
         const result = searchInput.match(LAMBERT_COORDINAAT_REGEX);
 
         expect(result[0]).to.be.equal(searchInput);
-        expect(result[1]).to.be.equal('104719.27');
-        expect(result[2]).to.be.equal('192387');
+        expect(result.groups.x).to.be.equal('104719.27');
+        expect(result.groups.y).to.be.equal('192387');
       });
 
       test('Matched met: een coördinaat met gehele getallen', () => {
@@ -410,8 +416,8 @@
         const result = searchInput.match(LAMBERT_COORDINAAT_REGEX);
 
         expect(result[0]).to.be.equal(searchInput);
-        expect(result[1]).to.be.equal('104');
-        expect(result[2]).to.be.equal('19');
+        expect(result.groups.x).to.be.equal('104');
+        expect(result.groups.y).to.be.equal('19');
       });
 
       test('Matched met: een coördinaat gescheiden door een punt komma', () => {
@@ -419,8 +425,8 @@
         const result = searchInput.match(LAMBERT_COORDINAAT_REGEX);
 
         expect(result[0]).to.be.equal(searchInput);
-        expect(result[1]).to.be.equal('104719.27');
-        expect(result[2]).to.be.equal('192387.25');
+        expect(result.groups.x).to.be.equal('104719.27');
+        expect(result.groups.y).to.be.equal('192387.25');
       });
 
       test('Matched met: een coördinaat gescheiden door een komma', () => {
@@ -428,8 +434,8 @@
         const result = searchInput.match(LAMBERT_COORDINAAT_REGEX);
 
         expect(result[0]).to.be.equal(searchInput);
-        expect(result[1]).to.be.equal('104719.27');
-        expect(result[2]).to.be.equal('192387.25');
+        expect(result.groups.x).to.be.equal('104719.27');
+        expect(result.groups.y).to.be.equal('192387.25');
       });
 
       test('Matched met: een coördinaat met haakjes', () => {
@@ -437,8 +443,8 @@
         const result = searchInput.match(LAMBERT_COORDINAAT_REGEX);
 
         expect(result[0]).to.be.equal(searchInput);
-        expect(result[1]).to.be.equal('104719.27');
-        expect(result[2]).to.be.equal('192387.25');
+        expect(result.groups.x).to.be.equal('104719.27');
+        expect(result.groups.y).to.be.equal('192387.25');
       });
 
       test('Matched met: een coördinaat met enkel een starthaakje', () => {
@@ -446,8 +452,8 @@
         const result = searchInput.match(LAMBERT_COORDINAAT_REGEX);
 
         expect(result[0]).to.be.equal(searchInput);
-        expect(result[1]).to.be.equal('104719.27');
-        expect(result[2]).to.be.equal('192387.25');
+        expect(result.groups.x).to.be.equal('104719.27');
+        expect(result.groups.y).to.be.equal('192387.25');
       });
 
       test('Matched met: een coördinaat met enkel een eindhaakje', () => {
@@ -455,8 +461,8 @@
         const result = searchInput.match(LAMBERT_COORDINAAT_REGEX);
 
         expect(result[0]).to.be.equal(searchInput);
-        expect(result[1]).to.be.equal('104719.27');
-        expect(result[2]).to.be.equal('192387.25');
+        expect(result.groups.x).to.be.equal('104719.27');
+        expect(result.groups.y).to.be.equal('192387.25');
       });
 
       test('Matched met: een coördinaat met spaties ervoor', () => {
@@ -464,8 +470,8 @@
         const result = searchInput.match(LAMBERT_COORDINAAT_REGEX);
 
         expect(result[0]).to.be.equal(searchInput);
-        expect(result[1]).to.be.equal('104719.27');
-        expect(result[2]).to.be.equal('192387.25');
+        expect(result.groups.x).to.be.equal('104719.27');
+        expect(result.groups.y).to.be.equal('192387.25');
       });
 
       test('Matched met: een coördinaat zonder spatie na het scheidingsteken', () => {
@@ -473,8 +479,35 @@
         const result = searchInput.match(LAMBERT_COORDINAAT_REGEX);
 
         expect(result[0]).to.be.equal(searchInput);
-        expect(result[1]).to.be.equal('104719.27');
-        expect(result[2]).to.be.equal('192387.25');
+        expect(result.groups.x).to.be.equal('104719.27');
+        expect(result.groups.y).to.be.equal('192387.25');
+      });
+
+      test('Matched met: een coördinaat met meerdere spaties na het scheidingsteken', () => {
+        const searchInput = '104719.27;     192387.25)';
+        const result = searchInput.match(LAMBERT_COORDINAAT_REGEX);
+
+        expect(result[0]).to.be.equal(searchInput);
+        expect(result.groups.x).to.be.equal('104719.27');
+        expect(result.groups.y).to.be.equal('192387.25');
+      });
+
+      test('Matched met: een coördinaat met 3 cijfers na de komma', () => {
+        const searchInput = '104719.271, 192387.252';
+        const result = searchInput.match(LAMBERT_COORDINAAT_REGEX);
+
+        expect(result[0]).to.be.equal(searchInput);
+        expect(result.groups.x).to.be.equal('104719.27');
+        expect(result.groups.y).to.be.equal('192387.25');
+      });
+
+      test('Matched met: een coördinaat met 5 cijfers na de komma', () => {
+        const searchInput = '104719.27123, 192387.25456';
+        const result = searchInput.match(LAMBERT_COORDINAAT_REGEX);
+
+        expect(result[0]).to.be.equal(searchInput);
+        expect(result.groups.x).to.be.equal('104719.27');
+        expect(result.groups.y).to.be.equal('192387.25');
       });
 
       test('Matched niet met: een vrije tekst', () => {
