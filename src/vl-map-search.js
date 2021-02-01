@@ -2,7 +2,7 @@ import {vlElement} from '/node_modules/vl-ui-core/dist/vl-core.js';
 import '/node_modules/vl-ui-select/dist/vl-select.js';
 import '/node_modules/vl-ui-search/dist/vl-search.js';
 import {OlOverlay} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
-import LambertCoordinaat from './lambert-coordinaat.js';
+import {LambertCoordinaat} from './lambert-coordinaat.js';
 
 
 /**
