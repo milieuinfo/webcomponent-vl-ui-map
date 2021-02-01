@@ -138,7 +138,7 @@ export class VlMapSearch extends vlElement(HTMLElement) {
   }
 
   _searchChoicesByValue(searchValue) {
-    fetch(this.searchUrl + searchValue).then((response) => {
+    fetch( new URL(this.searchUrl + searchValue).toString()).then((response) => {
       return response.json();
     }).then((data) => {
       if (data && data.SuggestionResult) {
@@ -154,7 +154,7 @@ export class VlMapSearch extends vlElement(HTMLElement) {
   }
 
   _searchChoicesByLambertCoördinaat(lambertCoordinaat) {
-    fetch(this._findLocationsByLambertCoordinaatUrl(lambertCoordinaat).toString()).then((response) => {
+    fetch(this._findLocationsByLambertCoordinaatUrl(lambertCoordinaat)).then((response) => {
       return response.json();
     }).then((data) => {
       const choices = [{
@@ -218,7 +218,7 @@ export class VlMapSearch extends vlElement(HTMLElement) {
   }
 
   _searchAndZoomToLocation(searchValue) {
-    fetch(this.locationUrl + searchValue).then((response) => {
+    fetch(new URL(this.locationUrl + searchValue).toString()).then((response) => {
       return response.json();
     }).then((data) => {
       if (data && data.LocationResult) {
@@ -264,6 +264,6 @@ export class VlMapSearch extends vlElement(HTMLElement) {
    * @see {@link https://loc.geopunt.be/Help/Api/GET-v4-Location_q_latlon_xy_type_c|Request Information}
    */
   _findLocationsByLambertCoordinaatUrl(lambertCoordinaat) {
-    return new URL(this.url + '/Location?xy=' + lambertCoordinaat.x + ',' + lambertCoordinaat.y + '&c=5');
+    return encodeURI(new URL(this.url + '/Location?xy=' + lambertCoordinaat.x + ',' + lambertCoordinaat.y + '&c=5'));
   }
 }
