@@ -56,7 +56,7 @@ describe('vl-map-search', async () => {
   it('als gebruiker kan ik zoeken op Lambert-coördinaat en zal de kaart zoomen', async () => {
     const map = await vlMapPage.getMap();
     const search = await map.getSearch();
-  
+
     await assert.eventually.isTrue(map.hasZoom(2));
     await search.open();
     await search.zoomTo('104719.27, 192387.25');
@@ -67,7 +67,7 @@ describe('vl-map-search', async () => {
   it('als gebruiker kan ik zoeken op Lambert-coördinaat, een voorgestelde locatie kiezen en zal de kaart zoomen', async () => {
     const map = await vlMapPage.getMap();
     const search = await map.getSearch();
-  
+
     await assert.eventually.isTrue(map.hasZoom(2));
     await search.open();
     await search.search('104719.27, 192387.25');
