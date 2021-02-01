@@ -286,124 +286,124 @@
         expect(lambertCoordinaat.toString()).to.be.equal(expectedX + ', ' + expectedY);
       };
 
-      test('of - een vrije tekst, geeft "undefined"', () => {
+      test('Een Lambert-coördinaat o.b.v. een vrije tekst, geeft "undefined"', () => {
         expect(LambertCoordinaat.of('test')).to.be.undefined;
         expect(LambertCoordinaat.of('Gent')).to.be.undefined;
       });
 
-      test('of - "null", geeft "undefined"', () => {
+      test('Een Lambert-coördinaat o.b.v. "null", geeft "undefined"', () => {
         expect(LambertCoordinaat.of(null)).to.be.undefined;
       });
 
-      test('of - "undefined", geeft "undefined"', () => {
+      test('Een Lambert-coördinaat o.b.v. "undefined", geeft "undefined"', () => {
         expect(LambertCoordinaat.of(undefined)).to.be.undefined;
       });
 
-      test('of - een lege string, geeft "undefined"', () => {
+      test('Een Lambert-coördinaat o.b.v. een lege string, geeft "undefined"', () => {
         expect(LambertCoordinaat.of('')).to.be.undefined;
       });
 
-      test('of - een spatie, geeft "undefined"', () => {
+      test('Een Lambert-coördinaat o.b.v. een spatie, geeft "undefined"', () => {
         expect(LambertCoordinaat.of(' ')).to.be.undefined;
       });
 
-      test('of - een geldige coördinaat, geeft een LambertCoordinaat', () => {
+      test('Een Lambert-coördinaat o.b.v. een geldige coördinaat, geeft een LambertCoordinaat', () => {
         const lambertCoordinaat = LambertCoordinaat.of('104719.27, 192387.25');
 
         expectLambertCoordinaat(lambertCoordinaat, 104719.27, 192387.25);
       });
 
-      test('of - een geldige coördinaat met gehele getallen, geeft een LambertCoordinaat', () => {
+      test('Een Lambert-coördinaat o.b.v. een geldige coördinaat met gehele getallen, geeft een LambertCoordinaat', () => {
         const lambertCoordinaat = LambertCoordinaat.of('123456, 34523');
 
         expectLambertCoordinaat(lambertCoordinaat, 123456, 34523);
       });
 
-      test('of - een geldige coordinaat met haakjes en gescheiden door een puntkomma, geeft een LambertCoordinaat', () => {
+      test('Een Lambert-coördinaat o.b.v. een geldige coördinaat met haakjes en gescheiden door een puntkomma, geeft een LambertCoordinaat', () => {
         const lambertCoordinaat = LambertCoordinaat.of('(123456.78; 345232.04)');
 
         expectLambertCoordinaat(lambertCoordinaat, 123456.78, 345232.04);
       });
 
-      test('of - een x-coördinaat zonder decimaal getal, geeft een LambertCoordinaat', () => {
+      test('Een Lambert-coördinaat o.b.v. een x-coördinaat zonder decimaal getal, geeft een LambertCoordinaat', () => {
         const lambertCoordinaat = LambertCoordinaat.of('104719, 192387.25');
 
         expectLambertCoordinaat(lambertCoordinaat, 104719, 192387.25);
       });
 
-      test('of - een x en y-coördinaat zonder decimaal getal, geeft een LambertCoordinaat', () => {
+      test('Een Lambert-coördinaat o.b.v. een x en y-coördinaat zonder decimaal getal, geeft een LambertCoordinaat', () => {
         const lambertCoordinaat = LambertCoordinaat.of('104719, 192387');
 
         expectLambertCoordinaat(lambertCoordinaat, 104719, 192387);
       });
 
-      test('of - een y-coördinaat zonder decimaal getal, geeft een LambertCoordinaat', () => {
+      test('Een Lambert-coördinaat o.b.v. een y-coördinaat zonder decimaal getal, geeft een LambertCoordinaat', () => {
         const lambertCoordinaat = LambertCoordinaat.of('104719.27, 192387');
 
         expectLambertCoordinaat(lambertCoordinaat, 104719.27, 192387);
       });
 
-      test('of - een coördinaat met gehele getallen, geeft een LambertCoordinaat', () => {
+      test('Een Lambert-coördinaat o.b.v. een coördinaat met gehele getallen, geeft een LambertCoordinaat', () => {
         const lambertCoordinaat = LambertCoordinaat.of('104, 19');
 
         expectLambertCoordinaat(lambertCoordinaat, 104, 19);
       });
 
-      test('of - een coördinaat gescheiden door een punt komma, geeft een LambertCoordinaat', () => {
+      test('Een Lambert-coördinaat o.b.v. een coördinaat gescheiden door een punt komma, geeft een LambertCoordinaat', () => {
         const lambertCoordinaat = LambertCoordinaat.of('104719.27; 192387.25');
 
         expectLambertCoordinaat(lambertCoordinaat, 104719.27, 192387.25);
       });
 
-      test('of - een coördinaat gescheiden door een komma, geeft een LambertCoordinaat', () => {
+      test('Een Lambert-coördinaat o.b.v. een coördinaat gescheiden door een komma, geeft een LambertCoordinaat', () => {
         const lambertCoordinaat = LambertCoordinaat.of('104719.27, 192387.25');
 
         expectLambertCoordinaat(lambertCoordinaat, 104719.27, 192387.25);
       });
 
-      test('of - een coördinaat met haakjes, geeft een LambertCoordinaat', () => {
+      test('Een Lambert-coördinaat o.b.v. een coördinaat met haakjes, geeft een LambertCoordinaat', () => {
         const lambertCoordinaat = LambertCoordinaat.of('(104719.27; 192387.25)');
 
         expectLambertCoordinaat(lambertCoordinaat, 104719.27, 192387.25);
       });
 
-      test('of - een coördinaat met enkel een starthaakje, geeft een LambertCoordinaat', () => {
+      test('Een Lambert-coördinaat o.b.v. een coördinaat met enkel een starthaakje, geeft een LambertCoordinaat', () => {
         const lambertCoordinaat = LambertCoordinaat.of('(104719.27; 192387.25');
 
         expectLambertCoordinaat(lambertCoordinaat, 104719.27, 192387.25);
       });
 
-      test('of - een coördinaat met enkel een eindhaakje, geeft een LambertCoordinaat', () => {
+      test('Een Lambert-coördinaat o.b.v. een coördinaat met enkel een eindhaakje, geeft een LambertCoordinaat', () => {
         const lambertCoordinaat = LambertCoordinaat.of('104719.27; 192387.25)');
 
         expectLambertCoordinaat(lambertCoordinaat, 104719.27, 192387.25);
       });
 
-      test('of - een coördinaat met spaties ervoor, geeft een LambertCoordinaat', () => {
+      test('Een Lambert-coördinaat o.b.v. een coördinaat met spaties ervoor, geeft een LambertCoordinaat', () => {
         const lambertCoordinaat = LambertCoordinaat.of('     104719.27; 192387.25)');
 
         expectLambertCoordinaat(lambertCoordinaat, 104719.27, 192387.25);
       });
 
-      test('of - een coördinaat zonder spatie na het scheidingsteken, geeft een LambertCoordinaat', () => {
+      test('Een Lambert-coördinaat o.b.v. een coördinaat zonder spatie na het scheidingsteken, geeft een LambertCoordinaat', () => {
         const lambertCoordinaat = LambertCoordinaat.of('     104719.27;192387.25)');
 
         expectLambertCoordinaat(lambertCoordinaat, 104719.27, 192387.25);
       });
 
-      test('of - een coördinaat met meerdere spaties na het scheidingsteken, geeft een LambertCoordinaat', () => {
+      test('Een Lambert-coördinaat o.b.v. een coördinaat met meerdere spaties na het scheidingsteken, geeft een LambertCoordinaat', () => {
         const lambertCoordinaat = LambertCoordinaat.of('104719.27;     192387.25)');
 
         expectLambertCoordinaat(lambertCoordinaat, 104719.27, 192387.25);
       });
 
-      test('of - een coördinaat met 3 cijfers na de komma, geeft een LambertCoordinaat', () => {
+      test('Een Lambert-coördinaat o.b.v. een coördinaat met 3 cijfers na de komma, geeft een LambertCoordinaat', () => {
         const lambertCoordinaat = LambertCoordinaat.of('104719.271, 192387.252');
 
         expectLambertCoordinaat(lambertCoordinaat, 104719.27, 192387.25);
       });
 
-      test('of - een coördinaat met 5 cijfers na de komma, geeft een LambertCoordinaat', () => {
+      test('Een Lambert-coördinaat o.b.v. een coördinaat met 5 cijfers na de komma, geeft een LambertCoordinaat', () => {
         const lambertCoordinaat = LambertCoordinaat.of('104719.27123, 192387.25456');
 
         expectLambertCoordinaat(lambertCoordinaat, 104719.27, 192387.25);
