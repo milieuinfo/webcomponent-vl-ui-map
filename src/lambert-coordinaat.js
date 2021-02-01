@@ -1,23 +1,3 @@
-
-/**
- * Lambert-coördinaat reguliere expressie. Staat toe:
- * - optioneel ongelimiteerd aantal spaties voor de start van het coördinaat
- * - optioneel linker haakje '('
- * - verplichte x-coördinaat, welke een decimaal of geheel getal kan zijn met 1-6 getallen voor de komma en een ongelimiteerd aantal na
- * - verplicht scheidingsteken, welke een komma ',' of puntkomma ';' kan zijn
- * - optionele ongelimiteerd aantal spaties
- * - verplichte y-coördinaat, welke een decimaal of geheel getal kan zijn met 1-6 getallen voor de komma en een ongelimiteerd aantal na
- * - optioneel rechter haakje ')'
- *
- * E.g.:
- * - "104719.27, 192387.25", "104719.27,192387.25", "104719.27; 192387.25"
- * - "(104719.27, 192387.25)", "104719.27, 192387.25)", "(104719.27, 192387.25"
- * - "104719, 192387"
- *
- * @type {RegExp}
- */
-const REGEX = /^\s*\(?(?<x>\d{1,6}\.\d{1,2}|\d{1,6})\d*[,;]\u0020*(?<y>\d{1,6}\.\d{1,2}|\d{1,6})\d*\)?/;
-
 class LambertCoordinaat {
   constructor(x, y) {
     this._x = x;
@@ -52,8 +32,22 @@ class LambertCoordinaat {
   }
 
   /**
-   * Creëert een Lambert-coördinaat wanneer een opgegeven String waarde overeenkomt met het opgestelde regex patroon.
+   * Creëert een Lambert-coördinaat o.b.v. een reguliere expressie.
    * Wanneer ongeldig of als de invoer waarde niet van het type String is, zal undefined worden teruggegeven!
+   *
+   * De reguliere expressie staat volgende toe:
+   * - optioneel ongelimiteerd aantal spaties voor de start van het coördinaat
+   * - optioneel linker haakje '('
+   * - verplichte x-coördinaat, welke een decimaal of geheel getal kan zijn met 1-6 getallen voor de komma en een ongelimiteerd aantal na
+   * - verplicht scheidingsteken, welke een komma ',' of puntkomma ';' kan zijn
+   * - optionele ongelimiteerd aantal spaties
+   * - verplichte y-coördinaat, welke een decimaal of geheel getal kan zijn met 1-6 getallen voor de komma en een ongelimiteerd aantal na
+   * - optioneel rechter haakje ')'
+   *
+   * Voorbeelden:
+   * - "104719.27, 192387.25", "104719.27,192387.25", "104719.27; 192387.25"
+   * - "(104719.27, 192387.25)", "104719.27, 192387.25)", "(104719.27, 192387.25"
+   * - "104719, 192387"
    *
    * @param {string} value
    * @return {LambertCoordinaat|undefined}
@@ -62,6 +56,7 @@ class LambertCoordinaat {
     if (!value && !(value instanceof String)) {
       return undefined;
     }
+    const REGEX = /^\s*\(?(?<x>\d{1,6}\.\d{1,2}|\d{1,6})\d*[,;]\u0020*(?<y>\d{1,6}\.\d{1,2}|\d{1,6})\d*\)?/;
     const resultaat = value.match(REGEX);
     if (resultaat) {
       const x = Number(resultaat.groups.x);
@@ -72,4 +67,4 @@ class LambertCoordinaat {
   }
 }
 
-export {REGEX, LambertCoordinaat};
+export default LambertCoordinaat;

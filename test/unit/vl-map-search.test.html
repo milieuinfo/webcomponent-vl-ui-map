@@ -35,7 +35,7 @@
 
   <script type="module">
     import {awaitUntil} from '/node_modules/vl-ui-core/dist/vl-core.js';
-    import {LambertCoordinaat, REGEX as LAMBERT_COORDINAAT_REGEX} from '../../src/lambert-coordinaat';
+    import LambertCoordinaat from '../../src/lambert-coordinaat';
 
     suite('vl-map-search', () => {
       const sandbox = sinon.createSandbox();
@@ -279,8 +279,16 @@
     });
 
     suite('Lambert-coördinaat', () => {
+      const expectLambertCoordinaat = function(lambertCoordinaat, expectedX, expectedY) {
+        expect(lambertCoordinaat).not.to.be.undefined;
+        expect(lambertCoordinaat.x).to.be.equal(expectedX);
+        expect(lambertCoordinaat.y).to.be.equal(expectedY);
+        expect(lambertCoordinaat.toString()).to.be.equal(expectedX + ', ' + expectedY);
+      };
+
       test('of - een vrije tekst, geeft "undefined"', () => {
         expect(LambertCoordinaat.of('test')).to.be.undefined;
+        expect(LambertCoordinaat.of('Gent')).to.be.undefined;
       });
 
       test('of - "null", geeft "undefined"', () => {
@@ -295,188 +303,113 @@
         expect(LambertCoordinaat.of('')).to.be.undefined;
       });
 
-      test('of - een geldige coördinaat, geeft een LambertCoordinaat', () => {
-        const lambertCoordinaat = LambertCoordinaat.of('123456.78, 345232.04');
+      test('of - een spatie, geeft "undefined"', () => {
+        expect(LambertCoordinaat.of(' ')).to.be.undefined;
+      });
 
-        expect(lambertCoordinaat).not.to.be.undefined;
-        expect(lambertCoordinaat).to.deep.equal({
-          _x: 123456.78,
-          _y: 345232.04,
-        });
-        expect(lambertCoordinaat.toString()).to.be.equal('123456.78, 345232.04');
+      test('of - een geldige coördinaat, geeft een LambertCoordinaat', () => {
+        const lambertCoordinaat = LambertCoordinaat.of('104719.27, 192387.25');
+
+        expectLambertCoordinaat(lambertCoordinaat, 104719.27, 192387.25);
       });
 
       test('of - een geldige coördinaat met gehele getallen, geeft een LambertCoordinaat', () => {
         const lambertCoordinaat = LambertCoordinaat.of('123456, 34523');
 
-        expect(lambertCoordinaat).not.to.be.undefined;
-        expect(lambertCoordinaat).to.deep.equal({
-          _x: 123456,
-          _y: 34523,
-        });
-        expect(lambertCoordinaat.toString()).to.be.equal('123456, 34523');
+        expectLambertCoordinaat(lambertCoordinaat, 123456, 34523);
       });
 
-      test('of - geldige coordinaat met haakjes en gescheiden door een puntkomma, geeft een LambertCoordinaat', () => {
+      test('of - een geldige coordinaat met haakjes en gescheiden door een puntkomma, geeft een LambertCoordinaat', () => {
         const lambertCoordinaat = LambertCoordinaat.of('(123456.78; 345232.04)');
 
-        expect(lambertCoordinaat).not.to.be.undefined;
-        expect(lambertCoordinaat).to.deep.equal({
-          _x: 123456.78,
-          _y: 345232.04,
-        });
-        expect(lambertCoordinaat.toString()).to.be.equal('123456.78, 345232.04');
+        expectLambertCoordinaat(lambertCoordinaat, 123456.78, 345232.04);
+      });
+
+      test('of - een x-coördinaat zonder decimaal getal, geeft een LambertCoordinaat', () => {
+        const lambertCoordinaat = LambertCoordinaat.of('104719, 192387.25');
+
+        expectLambertCoordinaat(lambertCoordinaat, 104719, 192387.25);
+      });
+
+      test('of - een x en y-coördinaat zonder decimaal getal, geeft een LambertCoordinaat', () => {
+        const lambertCoordinaat = LambertCoordinaat.of('104719, 192387');
+
+        expectLambertCoordinaat(lambertCoordinaat, 104719, 192387);
+      });
+
+      test('of - een y-coördinaat zonder decimaal getal, geeft een LambertCoordinaat', () => {
+        const lambertCoordinaat = LambertCoordinaat.of('104719.27, 192387');
+
+        expectLambertCoordinaat(lambertCoordinaat, 104719.27, 192387);
+      });
+
+      test('of - een coördinaat met gehele getallen, geeft een LambertCoordinaat', () => {
+        const lambertCoordinaat = LambertCoordinaat.of('104, 19');
+
+        expectLambertCoordinaat(lambertCoordinaat, 104, 19);
+      });
+
+      test('of - een coördinaat gescheiden door een punt komma, geeft een LambertCoordinaat', () => {
+        const lambertCoordinaat = LambertCoordinaat.of('104719.27; 192387.25');
+
+        expectLambertCoordinaat(lambertCoordinaat, 104719.27, 192387.25);
+      });
+
+      test('of - een coördinaat gescheiden door een komma, geeft een LambertCoordinaat', () => {
+        const lambertCoordinaat = LambertCoordinaat.of('104719.27, 192387.25');
+
+        expectLambertCoordinaat(lambertCoordinaat, 104719.27, 192387.25);
+      });
+
+      test('of - een coördinaat met haakjes, geeft een LambertCoordinaat', () => {
+        const lambertCoordinaat = LambertCoordinaat.of('(104719.27; 192387.25)');
+
+        expectLambertCoordinaat(lambertCoordinaat, 104719.27, 192387.25);
+      });
+
+      test('of - een coördinaat met enkel een starthaakje, geeft een LambertCoordinaat', () => {
+        const lambertCoordinaat = LambertCoordinaat.of('(104719.27; 192387.25');
+
+        expectLambertCoordinaat(lambertCoordinaat, 104719.27, 192387.25);
+      });
+
+      test('of - een coördinaat met enkel een eindhaakje, geeft een LambertCoordinaat', () => {
+        const lambertCoordinaat = LambertCoordinaat.of('104719.27; 192387.25)');
+
+        expectLambertCoordinaat(lambertCoordinaat, 104719.27, 192387.25);
+      });
+
+      test('of - een coördinaat met spaties ervoor, geeft een LambertCoordinaat', () => {
+        const lambertCoordinaat = LambertCoordinaat.of('     104719.27; 192387.25)');
+
+        expectLambertCoordinaat(lambertCoordinaat, 104719.27, 192387.25);
+      });
+
+      test('of - een coördinaat zonder spatie na het scheidingsteken, geeft een LambertCoordinaat', () => {
+        const lambertCoordinaat = LambertCoordinaat.of('     104719.27;192387.25)');
+
+        expectLambertCoordinaat(lambertCoordinaat, 104719.27, 192387.25);
+      });
+
+      test('of - een coördinaat met meerdere spaties na het scheidingsteken, geeft een LambertCoordinaat', () => {
+        const lambertCoordinaat = LambertCoordinaat.of('104719.27;     192387.25)');
+
+        expectLambertCoordinaat(lambertCoordinaat, 104719.27, 192387.25);
+      });
+
+      test('of - een coördinaat met 3 cijfers na de komma, geeft een LambertCoordinaat', () => {
+        const lambertCoordinaat = LambertCoordinaat.of('104719.271, 192387.252');
+
+        expectLambertCoordinaat(lambertCoordinaat, 104719.27, 192387.25);
+      });
+
+      test('of - een coördinaat met 5 cijfers na de komma, geeft een LambertCoordinaat', () => {
+        const lambertCoordinaat = LambertCoordinaat.of('104719.27123, 192387.25456');
+
+        expectLambertCoordinaat(lambertCoordinaat, 104719.27, 192387.25);
       });
     });
 
-    suite('Lambert-coördinaat - RegEx', () => {
-      test('Matched met: een geldige coördinaat', () => {
-        const searchInput = '104719.27, 192387.25';
-        const result = searchInput.match(LAMBERT_COORDINAAT_REGEX);
-
-        expect(result[0]).to.be.equal(searchInput);
-        expect(result.groups.x).to.be.equal('104719.27');
-        expect(result.groups.y).to.be.equal('192387.25');
-      });
-
-      test('Matched met: een x-coördinaat zonder decimaal getal', () => {
-        const searchInput = '104719, 192387.25';
-        const result = searchInput.match(LAMBERT_COORDINAAT_REGEX);
-
-        expect(result[0]).to.be.equal(searchInput);
-        expect(result.groups.x).to.be.equal('104719');
-        expect(result.groups.y).to.be.equal('192387.25');
-      });
-
-      test('Matched met: een x en y-coördinaat zonder decimaal getal', () => {
-        const searchInput = '104719, 192387';
-        const result = searchInput.match(LAMBERT_COORDINAAT_REGEX);
-
-        expect(result[0]).to.be.equal(searchInput);
-        expect(result.groups.x).to.be.equal('104719');
-        expect(result.groups.y).to.be.equal('192387');
-      });
-
-      test('Matched met: een y-coördinaat zonder decimaal getal', () => {
-        const searchInput = '104719.27, 192387';
-        const result = searchInput.match(LAMBERT_COORDINAAT_REGEX);
-
-        expect(result[0]).to.be.equal(searchInput);
-        expect(result.groups.x).to.be.equal('104719.27');
-        expect(result.groups.y).to.be.equal('192387');
-      });
-
-      test('Matched met: een coördinaat met gehele getallen', () => {
-        const searchInput = '104, 19';
-        const result = searchInput.match(LAMBERT_COORDINAAT_REGEX);
-
-        expect(result[0]).to.be.equal(searchInput);
-        expect(result.groups.x).to.be.equal('104');
-        expect(result.groups.y).to.be.equal('19');
-      });
-
-      test('Matched met: een coördinaat gescheiden door een punt komma', () => {
-        const searchInput = '104719.27; 192387.25';
-        const result = searchInput.match(LAMBERT_COORDINAAT_REGEX);
-
-        expect(result[0]).to.be.equal(searchInput);
-        expect(result.groups.x).to.be.equal('104719.27');
-        expect(result.groups.y).to.be.equal('192387.25');
-      });
-
-      test('Matched met: een coördinaat gescheiden door een komma', () => {
-        const searchInput = '104719.27, 192387.25';
-        const result = searchInput.match(LAMBERT_COORDINAAT_REGEX);
-
-        expect(result[0]).to.be.equal(searchInput);
-        expect(result.groups.x).to.be.equal('104719.27');
-        expect(result.groups.y).to.be.equal('192387.25');
-      });
-
-      test('Matched met: een coördinaat met haakjes', () => {
-        const searchInput = '(104719.27; 192387.25)';
-        const result = searchInput.match(LAMBERT_COORDINAAT_REGEX);
-
-        expect(result[0]).to.be.equal(searchInput);
-        expect(result.groups.x).to.be.equal('104719.27');
-        expect(result.groups.y).to.be.equal('192387.25');
-      });
-
-      test('Matched met: een coördinaat met enkel een starthaakje', () => {
-        const searchInput = '(104719.27; 192387.25';
-        const result = searchInput.match(LAMBERT_COORDINAAT_REGEX);
-
-        expect(result[0]).to.be.equal(searchInput);
-        expect(result.groups.x).to.be.equal('104719.27');
-        expect(result.groups.y).to.be.equal('192387.25');
-      });
-
-      test('Matched met: een coördinaat met enkel een eindhaakje', () => {
-        const searchInput = '104719.27; 192387.25)';
-        const result = searchInput.match(LAMBERT_COORDINAAT_REGEX);
-
-        expect(result[0]).to.be.equal(searchInput);
-        expect(result.groups.x).to.be.equal('104719.27');
-        expect(result.groups.y).to.be.equal('192387.25');
-      });
-
-      test('Matched met: een coördinaat met spaties ervoor', () => {
-        const searchInput = '     104719.27; 192387.25)';
-        const result = searchInput.match(LAMBERT_COORDINAAT_REGEX);
-
-        expect(result[0]).to.be.equal(searchInput);
-        expect(result.groups.x).to.be.equal('104719.27');
-        expect(result.groups.y).to.be.equal('192387.25');
-      });
-
-      test('Matched met: een coördinaat zonder spatie na het scheidingsteken', () => {
-        const searchInput = '     104719.27;192387.25)';
-        const result = searchInput.match(LAMBERT_COORDINAAT_REGEX);
-
-        expect(result[0]).to.be.equal(searchInput);
-        expect(result.groups.x).to.be.equal('104719.27');
-        expect(result.groups.y).to.be.equal('192387.25');
-      });
-
-      test('Matched met: een coördinaat met meerdere spaties na het scheidingsteken', () => {
-        const searchInput = '104719.27;     192387.25)';
-        const result = searchInput.match(LAMBERT_COORDINAAT_REGEX);
-
-        expect(result[0]).to.be.equal(searchInput);
-        expect(result.groups.x).to.be.equal('104719.27');
-        expect(result.groups.y).to.be.equal('192387.25');
-      });
-
-      test('Matched met: een coördinaat met 3 cijfers na de komma', () => {
-        const searchInput = '104719.271, 192387.252';
-        const result = searchInput.match(LAMBERT_COORDINAAT_REGEX);
-
-        expect(result[0]).to.be.equal(searchInput);
-        expect(result.groups.x).to.be.equal('104719.27');
-        expect(result.groups.y).to.be.equal('192387.25');
-      });
-
-      test('Matched met: een coördinaat met 5 cijfers na de komma', () => {
-        const searchInput = '104719.27123, 192387.25456';
-        const result = searchInput.match(LAMBERT_COORDINAAT_REGEX);
-
-        expect(result[0]).to.be.equal(searchInput);
-        expect(result.groups.x).to.be.equal('104719.27');
-        expect(result.groups.y).to.be.equal('192387.25');
-      });
-
-      test('Matched niet met: een vrije tekst', () => {
-        expect('Gent'.match(LAMBERT_COORDINAAT_REGEX)).to.be.null;
-      });
-
-      test('Matched niet met: een lege string', () => {
-        expect(''.match(LAMBERT_COORDINAAT_REGEX)).to.be.null;
-      });
-
-      test('Matched niet met: een spatie', () => {
-        expect(' '.match(LAMBERT_COORDINAAT_REGEX)).to.be.null;
-      });
-    });
 
   </script>
 </body>
