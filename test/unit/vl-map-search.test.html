@@ -34,6 +34,7 @@
 
 
   <script type="module">
+    import {awaitUntil} from '/node_modules/vl-ui-core/dist/vl-core.js';
     import {LambertCoordinaat, REGEX as LAMBERT_COORDINAAT_REGEX} from '../../src/lambert-coordinaat';
 
     suite('vl-map-search', () => {
@@ -73,21 +74,14 @@
         const fetchStub = sandbox.stub(window, 'fetch');
         fetchStub.withArgs('https://loc.geopunt.be/v4/Suggestion?q=' + value).returns(response);
         const element = fixture('vl-map-with-search-fixture');
-        return customElements.whenDefined('vl-map').then(() => {
+        return customElements.whenDefined('vl-map').then( async () => {
           const selectElement = element.shadowRoot.querySelector('vl-map-search').shadowRoot.querySelector('select');
           selectElement.dispatchEvent(new CustomEvent('search', {
             detail: {
               value: value,
             },
           }));
-          return new Promise((resolve) => {
-            (async () => {
-              while (!fetchStub.called) {
-                await new Promise((resolve) => setTimeout(resolve, 100));
-              }
-              resolve();
-            })();
-          });
+          await awaitUntil(() => fetchStub.called);
         });
       });
 
@@ -104,7 +98,7 @@
         fetchStub.withArgs('https://loc.geopunt.be/v4/Location?xy=' + xy + '&c=5').returns(response);
 
         const element = fixture('vl-map-with-search-fixture');
-        return customElements.whenDefined('vl-map').then(() => {
+        return customElements.whenDefined('vl-map').then( async () => {
           const selectElement = element.shadowRoot.querySelector('vl-map-search').shadowRoot.querySelector('select');
 
           selectElement.dispatchEvent(new CustomEvent('search', {
@@ -113,14 +107,7 @@
             },
           }));
 
-          return new Promise((resolve) => {
-            (async () => {
-              while (!fetchStub.called) {
-                await new Promise((resolve) => setTimeout(resolve, 100));
-              }
-              resolve();
-            })();
-          });
+          await awaitUntil(() => fetchStub.called);
         });
       });
 
@@ -146,7 +133,7 @@
         const fetchStub = sandbox.stub(window, 'fetch');
         fetchStub.withArgs('https://loc.geopunt.be/v4/Location?q=' + value).returns(response);
         const map = fixture('vl-map-with-search-fixture');
-        return customElements.whenDefined('vl-map').then(() => {
+        return customElements.whenDefined('vl-map').then( async () => {
           sandbox.spy(map, 'zoomTo');
           const selectElement = map.shadowRoot.querySelector('vl-map-search').shadowRoot.querySelector('select');
           selectElement.dispatchEvent(new CustomEvent('choice', {
@@ -158,29 +145,18 @@
             bubbles: false,
             composed: false,
           }));
-          return new Promise((resolve) => {
-            (async () => {
-              while (!map.zoomTo.calledWith([location.LocationResult[0].BoundingBox.LowerLeft.X_Lambert72, location.LocationResult[0].BoundingBox.LowerLeft.Y_Lambert72, location.LocationResult[0].BoundingBox.UpperRight.X_Lambert72, location.LocationResult[0].BoundingBox.UpperRight.Y_Lambert72])) {
-                await new Promise((resolve) => setTimeout(resolve, 100));
-              }
-              resolve();
-            })();
-          });
+
+          await awaitUntil(() => map.zoomTo.calledWith([location.LocationResult[0].BoundingBox.LowerLeft.X_Lambert72, location.LocationResult[0].BoundingBox.LowerLeft.Y_Lambert72, location.LocationResult[0].BoundingBox.UpperRight.X_Lambert72, location.LocationResult[0].BoundingBox.UpperRight.Y_Lambert72]));
         });
       });
 
       test('wanneer de gebruiker een Lambert-coördinaat selecteert, zal niets opgehaald worden', () => {
         const lambertCoordinaat = LambertCoordinaat.of('104719.27, 192387.25');
 
-        const geometry = {
-          type: 'Point',
-          coordinates: [lambertCoordinaat.x, lambertCoordinaat.y],
-        };
-
         const fetchSpy = sandbox.spy(window, 'fetch');
 
         const map = fixture('vl-map-with-search-fixture');
-        return customElements.whenDefined('vl-map').then(() => {
+        return customElements.whenDefined('vl-map').then( async () => {
           sandbox.spy(map, 'zoomToGeometry');
           const selectElement = map.shadowRoot.querySelector('vl-map-search').shadowRoot.querySelector('select');
           selectElement.dispatchEvent(new CustomEvent('choice', {
@@ -193,16 +169,7 @@
             composed: false,
           }));
 
-          return new Promise((resolve) => {
-            (async () => {
-              while (!map.zoomToGeometry.calledWith(geometry, 10)) {
-                await new Promise((resolve) => setTimeout(resolve, 100));
-              }
-
-              assert.isTrue(fetchSpy.notCalled, 'Geen enkele call zou gefetched mogen worden!');
-              resolve();
-            })();
-          });
+          await awaitUntil(() => fetchSpy.notCalled);
         });
       });
 
@@ -220,12 +187,10 @@
           },
         };
 
-        const boundingBox = [location.BoundingBox.LowerLeft.X_Lambert72, location.BoundingBox.LowerLeft.Y_Lambert72, location.BoundingBox.UpperRight.X_Lambert72, location.BoundingBox.UpperRight.Y_Lambert72];
-
         const fetchSpy = sandbox.spy(window, 'fetch');
 
         const map = fixture('vl-map-with-search-fixture');
-        return customElements.whenDefined('vl-map').then(() => {
+        return customElements.whenDefined('vl-map').then( async () => {
           sandbox.spy(map, 'zoomTo');
           const selectElement = map.shadowRoot.querySelector('vl-map-search').shadowRoot.querySelector('select');
           selectElement.dispatchEvent(new CustomEvent('choice', {
@@ -238,16 +203,7 @@
             composed: false,
           }));
 
-          return new Promise((resolve) => {
-            (async () => {
-              while (!map.zoomTo.calledWith(boundingBox, 14)) {
-                await new Promise((resolve) => setTimeout(resolve, 100));
-              }
-
-              assert.isTrue(fetchSpy.notCalled, 'Geen enkele call zou gefetched mogen worden!');
-              resolve();
-            })();
-          });
+          await awaitUntil(() => fetchSpy.notCalled);
         });
       });
 
