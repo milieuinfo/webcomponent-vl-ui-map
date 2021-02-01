@@ -19,12 +19,32 @@
       </vl-map>
     </template>
 </test-fixture>
+<test-fixture id="vl-map-layer-style-met-feature-attribute-name-fixture">
+    <template>
+      <vl-map>
+        <vl-map-layer>
+          <vl-map-layer-style data-vl-text-feature-attribute-name="label"></vl-map-layer-style>
+        </vl-map-layer>
+      </vl-map>
+    </template>
+</test-fixture>
 <test-fixture id="vl-map-layer-style-met-properties-fixture">
     <template>
       <vl-map>
         <vl-map-layer>
-          <vl-map-layer-style data-vl-color="#fff" data-vl-border-color="#333" data-vl-text-color="#000" data-vl-text-offset-x="1" data-vl-text-offset-y="2"></vl-map-layer-style>
-        </dvl-map-layer>
+          <vl-map-layer-style
+              data-vl-color="rgba(255,0,0,0.5)"
+              data-vl-border-color="rgba(255,255,100,1)"
+              data-vl-border-size="2"
+              data-vl-text-feature-attribute-name="label"
+              data-vl-text-background-color="rgba(0,0,255,0.2)"
+              data-vl-text-border-color="rgba(0,255,0,1)"
+              data-vl-text-border-size="3"
+              data-vl-text-color="rgba(255,0,0,1)"
+              data-vl-text-offset-x="10"
+              data-vl-text-offset-y="-10"
+              data-vl-text-size="13px"></vl-map-layer-style>
+        </vl-map-layer>
       </vl-map>
     </template>
 </test-fixture>
@@ -38,31 +58,64 @@
       test('de style wordt goed geconfigureerd met default properties', () => {
         const element = fixture('vl-map-layer-style-fixture');
         const vlMapLayerStyleElement = element.querySelector('vl-map-layer-style');
-        assert.equal(vlMapLayerStyleElement.color, 'rgba(2, 85, 204, 1)');
+        assert.equal(vlMapLayerStyleElement.color, 'rgba(2, 85, 204, 0.8)');
         assert.equal(vlMapLayerStyleElement.borderColor, 'rgba(2, 85, 204, 1)');
         assert.equal(vlMapLayerStyleElement.borderSize, 1);
-        assert.equal(vlMapLayerStyleElement.textColor, '#FFF');
+        assert.equal(vlMapLayerStyleElement.textBackgroundColor, 'rgba(0, 0, 0, 0)');
+        assert.equal(vlMapLayerStyleElement.textBorderColor, 'rgba(255, 255, 255, 1)');
+        assert.equal(vlMapLayerStyleElement.textBorderSize, 1);
+        assert.equal(vlMapLayerStyleElement.textColor, 'rgba(0, 0, 0, 1)');
+        assert.equal(vlMapLayerStyleElement.textFeatureAttributeName, null);
         assert.equal(vlMapLayerStyleElement.textOffsetX, 0);
         assert.equal(vlMapLayerStyleElement.textOffsetY, 0);
-        const style = vlMapLayerStyleElement.style;
-        assert.equal(style.getFill().getColor(), 'rgba(2, 85, 204, 1)');
+        assert.equal(vlMapLayerStyleElement.textSize, '10px');
+        const style = vlMapLayerStyleElement.style();
+        assert.equal(style.getFill().getColor(), 'rgba(2, 85, 204, 0.8)');
         assert.equal(style.getStroke().getColor(), 'rgba(2, 85, 204, 1)');
         assert.equal(style.getStroke().getWidth(), 1);
+      });
+
+      test('als er een featureAttributeName gedefinieerd is, zal de tekst stijl ook beschikbaar zijn', () => {
+        const element = fixture('vl-map-layer-style-met-feature-attribute-name-fixture');
+        const vlMapLayerStyleElement = element.querySelector('vl-map-layer-style');
+        assert.equal(vlMapLayerStyleElement.textFeatureAttributeName, 'label');
+        const style = vlMapLayerStyleElement.style({get: (property) => property + 1});
+        assert.equal(style.getText().getFill().getColor(), 'rgba(0, 0, 0, 1)');
+        assert.equal(style.getText().getOffsetX(), '0');
+        assert.equal(style.getText().getOffsetY(), '0');
+        assert.equal(style.getText().getFont(), '10px "Flanders Art Sans",sans-serif');
+        assert.equal(style.getText().getBackgroundFill().getColor(), 'rgba(0, 0, 0, 0)');
+        assert.equal(style.getText().getStroke().getColor(), 'rgba(255, 255, 255, 1)');
+        assert.equal(style.getText().getStroke().getWidth(), 1);
+        assert.equal(style.getText().getText(), 'label1');
       });
 
       test('de style wordt goed geconfigureerd met aangepaste properties', () => {
         const element = fixture('vl-map-layer-style-met-properties-fixture');
         const vlMapLayerStyleElement = element.querySelector('vl-map-layer-style');
-        assert.equal(vlMapLayerStyleElement.color, '#fff');
-        assert.equal(vlMapLayerStyleElement.borderColor, '#333');
-        assert.equal(vlMapLayerStyleElement.borderSize, 1);
-        assert.equal(vlMapLayerStyleElement.textColor, '#000');
-        assert.equal(vlMapLayerStyleElement.textOffsetX, 1);
-        assert.equal(vlMapLayerStyleElement.textOffsetY, 2);
-        const style = vlMapLayerStyleElement.style;
-        assert.equal(style.getFill().getColor(), '#fff');
-        assert.equal(style.getStroke().getColor(), '#333');
-        assert.equal(style.getStroke().getWidth(), 1);
+        assert.equal(vlMapLayerStyleElement.color, 'rgba(255,0,0,0.5)');
+        assert.equal(vlMapLayerStyleElement.borderColor, 'rgba(255,255,100,1)');
+        assert.equal(vlMapLayerStyleElement.borderSize, 2);
+        assert.equal(vlMapLayerStyleElement.textBackgroundColor, 'rgba(0,0,255,0.2)');
+        assert.equal(vlMapLayerStyleElement.textBorderColor, 'rgba(0,255,0,1)');
+        assert.equal(vlMapLayerStyleElement.textBorderSize, 3);
+        assert.equal(vlMapLayerStyleElement.textColor, 'rgba(255,0,0,1)');
+        assert.equal(vlMapLayerStyleElement.textFeatureAttributeName, 'label');
+        assert.equal(vlMapLayerStyleElement.textOffsetX, '10');
+        assert.equal(vlMapLayerStyleElement.textOffsetY, '-10');
+        assert.equal(vlMapLayerStyleElement.textSize, '13px');
+        const style = vlMapLayerStyleElement.style({get: (property) => property + 2});
+        assert.equal(style.getFill().getColor(), 'rgba(255,0,0,0.5)');
+        assert.equal(style.getStroke().getColor(), 'rgba(255,255,100,1)');
+        assert.equal(style.getStroke().getWidth(), 2);
+        assert.equal(style.getText().getFill().getColor(), 'rgba(255,0,0,1)');
+        assert.equal(style.getText().getOffsetX(), '10');
+        assert.equal(style.getText().getOffsetY(), '-10');
+        assert.equal(style.getText().getFont(), '13px "Flanders Art Sans",sans-serif');
+        assert.equal(style.getText().getBackgroundFill().getColor(), 'rgba(0,0,255,0.2)');
+        assert.equal(style.getText().getStroke().getColor(), 'rgba(0,255,0,1)');
+        assert.equal(style.getText().getStroke().getWidth(), 3);
+        assert.equal(style.getText().getText(), 'label2');
       });
     });
 </script>

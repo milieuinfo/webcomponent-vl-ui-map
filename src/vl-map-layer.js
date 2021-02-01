@@ -1,5 +1,11 @@
 import {vlElement} from '/node_modules/vl-ui-core/dist/vl-core.js';
-import {OlVectorLayer, OlVectorSource, OlClusterSource, OlPoint, OlGeoJSON} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
+import {
+  OlVectorLayer,
+  OlVectorSource,
+  OlClusterSource,
+  OlPoint,
+  OlGeoJSON,
+} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
 
 /**
  * VlMapLayer
@@ -115,7 +121,7 @@ export class VlMapLayer extends vlElement(HTMLElement) {
   /**
    * Zet de OpenLayers kaartlaag stijl.
    *
-   * @param {ol.style} style
+   * @param {ol.style|[ol.style]|null|undefined} style een OpenLayers stijl, of een Array van OpenLayers stijlen, of null zonder stijl, of undefined voor de default stijl
    */
   set style(style) {
     this._style = style;
@@ -287,7 +293,8 @@ export class VlMapLayer extends vlElement(HTMLElement) {
     this._source = new OlVectorSource({
       features: features,
     });
-    return this.cluster ? this.__createClusterSource(this._source) : this._source;
+    return this.cluster ? this.__createClusterSource(this._source) :
+        this._source;
   }
 
   __createClusterSource(source) {
