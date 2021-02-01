@@ -154,7 +154,7 @@ export class VlMapSearch extends vlElement(HTMLElement) {
   }
 
   _searchChoicesByLambertCoördinaat(lambertCoordinaat) {
-    fetch(this._findLocationsByLambertCoordinaatUrl(lambertCoordinaat)).then((response) => {
+    fetch(this._findLocationsByLambertCoordinaatUrl(lambertCoordinaat).toString()).then((response) => {
       return response.json();
     }).then((data) => {
       const choices = [{
@@ -260,10 +260,10 @@ export class VlMapSearch extends vlElement(HTMLElement) {
    * Een maximum van 5 adressen zal geretourneerd worden.
    *
    * @param {LambertCoordinaat} lambertCoordinaat
-   * @return {string}
+   * @return {URL}
    * @see {@link https://loc.geopunt.be/Help/Api/GET-v4-Location_q_latlon_xy_type_c|Request Information}
    */
   _findLocationsByLambertCoordinaatUrl(lambertCoordinaat) {
-    return this.url + '/Location?xy=' + lambertCoordinaat.x + ',' + lambertCoordinaat.y + '&c=5';
+    return new URL(this.url + '/Location?xy=' + lambertCoordinaat.x + ',' + lambertCoordinaat.y + '&c=5');
   }
 }
