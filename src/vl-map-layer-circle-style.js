@@ -52,15 +52,6 @@ export class VlMapLayerCircleStyle extends VlMapLayerStyle {
   }
 
   /**
-   * Geeft de tekstkleur van de stijl terug.
-   *
-   * @Return {string}
-   */
-  get textColor() {
-    return this.getAttribute('text-color') || '#FFF';
-  }
-
-  /**
    * Geeft de kleur van de tekst bij het clusteren van features terug.
    *
    * @Return {string}
@@ -129,7 +120,7 @@ export class VlMapLayerCircleStyle extends VlMapLayerStyle {
     };
   }
 
-  get labelFunction() {
+  get featureLabelFunction() {
     return (feature) => {
       const features = feature && feature.get ? (feature.get('features') || []) : [];
       const size = features.length || 1;

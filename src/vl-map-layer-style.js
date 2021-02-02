@@ -20,9 +20,9 @@ import {
  * @property {string} [data-vl-feature-attribute-name=] - Attribuut wordt gebruikt om aan te geven wat de naam van het attribuut van de feature van de stijl is dat mag getoond worden.
  * @property {string} [data-vl-feature-attribute-value=] - Attribuut wordt gebruikt om aan te geven wat de waarde van het attribuut van de feature van de stijl is dat mag getoond worden. Enkel te gebruiken met data-vl-feature-attribute-name.
  * @property {string} [data-vl-text-background-color=rgba(0, 0, 0, 0)] - Attribuut wordt gebruikt om aan te geven wat de kleur is van de achtergrond van de tekst.
- * @property {string} [data-vl-text-border-color=rgba(255, 255, 255, 1)] - Attribuut wordt gebruikt om aan te geven wat de kleur is van de rand van de tekst.
+ * @property {string} [data-vl-text-border-color=rgba(255, 255, 255, 0)] - Attribuut wordt gebruikt om aan te geven wat de kleur is van de rand van de tekst.
  * @property {number} [data-vl-text-border-size=1] - Attribuut wordt gebruikt om aan te geven wat de grootte is van de rand van de tekst.
- * @property {string} [data-vl-text-color=rgba(0, 0, 0, 1)] - Attribuut wordt gebruikt om aan te geven wat de kleur is van de tekst.
+ * @property {string} [data-vl-text-color=#FFF] - Attribuut wordt gebruikt om aan te geven wat de kleur is van de tekst.
  * @property {string} [data-vl-text-feature-attribute-name=] - Attribuut wordt gebruikt om aan te geven wat de naam van het attribuut van de feature van de stijl is, die gebruikt wordt om de tekst te tonen.
  * @property {number} [data-vl-text-offset-x=0] - Attribuut wordt gebruikt om aan te geven wat de offset op de x-as is van de tekst.
  * @property {number} [data-vl-text-offset-y=0] - Attribuut wordt gebruikt om aan te geven wat de offset op de y-as is van de tekst.
@@ -88,11 +88,11 @@ export class VlMapLayerStyle extends vlElement(HTMLElement) {
    * @Return {string}
    */
   get textColor() {
-    return this.getAttribute('text-color') || 'rgba(0, 0, 0, 1)';
+    return this.getAttribute('text-color') || '#FFF';
   }
 
   /**
-   * Geeft de tekstkleur van de rand van de stijl terug.
+   * Geeft de kleur van de achtergrond van de tekst terug.
    *
    * @Return {string}
    */
@@ -106,11 +106,11 @@ export class VlMapLayerStyle extends vlElement(HTMLElement) {
    * @Return {string}
    */
   get textBorderColor() {
-    return this.getAttribute('text-border-color') || 'rgba(255, 255, 255, 1)';
+    return this.getAttribute('text-border-color') || 'rgba(255, 255, 255, 0)';
   }
 
   /**
-   * Geeft de grootte van de rand van de teskt van de stijl terug.
+   * Geeft de grootte van de rand van de tekst van de stijl terug.
    *
    * @Return {number}
    */
@@ -173,9 +173,9 @@ export class VlMapLayerStyle extends vlElement(HTMLElement) {
           width: this.borderSize,
         }),
       };
-      if (this.labelFunction != null) {
-        styleConfig['text'] = this._getTextStyle(feature);
-      }
+      // if (this.labelFunction != null) {
+        styleConfig.text = this._getTextStyle(feature);
+      // }
       return new OlStyle(styleConfig);
     };
   }
@@ -183,7 +183,7 @@ export class VlMapLayerStyle extends vlElement(HTMLElement) {
   _getTextStyle(feature, textColor) {
     return new OlStyleText({
       font: `${this.textSize} "Flanders Art Sans",sans-serif`,
-      text: this.labelFunction(feature),
+      text: this.featureLabelFunction(feature),
       fill: new OlStyleFill({
         color: textColor ? textColor : this.textColor,
       }),
@@ -200,12 +200,12 @@ export class VlMapLayerStyle extends vlElement(HTMLElement) {
   }
 
   /**
-   * Geeft de label functie terug.
+   * Geeft de feature label functie terug.
    *
    * @Return {Function|null} de functie die gebruikt wordt om de label te maken op basis van feature en resolutie
    */
-  get labelFunction() {
-    return this.textFeatureAttributeName ? (feature) => feature.get(this.textFeatureAttributeName) : null;
+  get featureLabelFunction() {
+    return this.textFeatureAttributeName ? (feature) => feature.get(this.textFeatureAttributeName) : () => '';
   }
 
   _hasUniqueStyles(features) {
