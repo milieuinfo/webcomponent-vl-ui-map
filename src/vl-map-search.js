@@ -131,10 +131,10 @@ export class VlMapSearch extends vlElement(HTMLElement) {
         if (event && event.detail && event.detail.value) {
           const lambertCoordinaat = LambertCoordinaat.of(event.detail.value);
 
-          if (lambertCoordinaat === undefined) {
-            this._searchChoicesByValue(event.detail.value);
-          } else {
+          if (LambertCoordinaat.isValid(lambertCoordinaat)) {
             this._searchChoicesByLambertCoordinaat(lambertCoordinaat);
+          } else {
+            this._searchChoicesByValue(event.detail.value);
           }
         }
       });
@@ -188,7 +188,7 @@ export class VlMapSearch extends vlElement(HTMLElement) {
         if (event && event.detail && event.detail.choice) {
           const value = event.detail.choice.value;
 
-          if (this._isLambertCoordinaat(value)) {
+          if (LambertCoordinaat.isValid(value)) {
             this._zoomToLambertCoordinaat(value);
           } else if (value instanceof Object) {
             this._zoomToLocation(value);
@@ -198,12 +198,6 @@ export class VlMapSearch extends vlElement(HTMLElement) {
         }
       });
     }
-  }
-
-  _isLambertCoordinaat(value) {
-    // TODO stefanborghys: 28/01/21 prefer to use instanceof but could not import LambertCoordinaat in the test and replaced it for now
-    // instanceof LambertCoordinaat
-    return value.x !== undefined && value.y !== undefined;
   }
 
   _zoomToLambertCoordinaat(lambertCoordinaat) {

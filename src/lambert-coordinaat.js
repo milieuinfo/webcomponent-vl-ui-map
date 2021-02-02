@@ -66,6 +66,15 @@ class LambertCoordinaat {
       return undefined;
     }
   }
+
+  /**
+   * Bepaald of de opgegeven waarde een geldige Lambert-coördinaat is.
+   * @param {*} value
+   * @return {boolean}
+   */
+  static isValid(value) {
+    return !!value && value.x !== undefined && value.y !== undefined;
+  }
 }
 
 export default LambertCoordinaat;
