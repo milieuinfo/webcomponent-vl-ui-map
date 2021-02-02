@@ -3,6 +3,7 @@ import {define, awaitScript} from 'vl-ui-core';
 import {VlMap} from 'vl-ui-map/dist/vl-map.src.js';
 import {VlMapOverviewMap} from 'vl-ui-map/dist/vl-map-overview-map.src.js';
 import {VlMapLayer} from 'vl-ui-map/dist/vl-map-layer.src.js';
+import {VlMapVactorLayer} from 'vl-ui-map/dist/vl-map-features-layer.src.js';
 import {VlMapBaseLayer} from 'vl-ui-map/dist/vl-map-baselayer.src.js';
 import {VlMapBaseLayerGRBGray} from 'vl-ui-map/dist/vl-map-baselayer-grb-gray.src.js';
 import {VlMapBaseLayerGRB} from 'vl-ui-map/dist/vl-map-baselayer-grb.src.js';

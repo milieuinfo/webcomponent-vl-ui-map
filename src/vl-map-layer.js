@@ -1,5 +1,8 @@
 import {vlElement} from '/node_modules/vl-ui-core/dist/vl-core.js';
-import {OlVectorLayer, OlVectorSource, OlClusterSource, OlPoint, OlGeoJSON} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
+import {
+  OlClusterSource,
+  OlPoint,
+} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
 
 /**
  * VlMapLayer
@@ -14,7 +17,6 @@ import {OlVectorLayer, OlVectorSource, OlClusterSource, OlPoint, OlGeoJSON} from
  * @property {number} data-vl-auto-extent-max-zoom - Attribuut geeft aan tot op welk niveau er maximaal automatisch gezoomd wordt bij een extent.
  * @property {boolean} data-vl-cluster - Attribuut geeft aan of de features geclusterd moeten worden of niet.
  * @property {number} data-vl-cluster-distance - Attribuut geeft aan vanaf welke afstand tussen features er geclusterd mag worden.
- * @property {string[]} data-vl-features - Attribuut die de kaartlaag bevat.
  *
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
@@ -22,18 +24,17 @@ import {OlVectorLayer, OlVectorSource, OlClusterSource, OlPoint, OlGeoJSON} from
  */
 export class VlMapLayer extends vlElement(HTMLElement) {
   static get _observedAttributes() {
-    return ['auto-extent', 'features'];
+    return ['auto-extent'];
   }
 
   constructor() {
     super();
     VlMapLayer._counter = 0;
     this.__counter = ++VlMapLayer._counter;
-    this._geoJSON = new OlGeoJSON();
+    this.dataset.vlIsLayer = true;
   }
 
   async connectedCallback() {
-    this._layer = this.__createLayer();
     await this.mapElement.ready;
     this._configureMap();
   }
@@ -61,17 +62,11 @@ export class VlMapLayer extends vlElement(HTMLElement) {
    * @return {ol.source}
    */
   get source() {
-    return this._source;
+    return this.__source;
   }
 
-  /**
-   * Geeft de OpenLayers features collectie van de kaartlaag terug.
-   *
-   * @return {object}
-   */
-  get features() {
-    const features = this.getAttribute('features');
-    return features ? this._geoJSON.readFeatures(features) : [];
+  set _source(source) {
+    this.__source = this.cluster ? this.__createClusterSource(source) : source;
   }
 
   /**
@@ -101,15 +96,6 @@ export class VlMapLayer extends vlElement(HTMLElement) {
    */
   get title() {
     return this.get('title');
-  }
-
-  /**
-   * Zet de OpenLayers features collectie op de kaartlaag.
-   *
-   * @param {object} features
-   */
-  set features(features) {
-    this.setAttribute('features', JSON.stringify(features));
   }
 
   /**
@@ -185,8 +171,8 @@ export class VlMapLayer extends vlElement(HTMLElement) {
    * Verwijdert de stijl van al de kaartlaag features.
    */
   removeFeaturesStyle() {
-    if (this._source && this._source.getFeatures()) {
-      this._source.getFeatures().forEach((feature) => {
+    if (this.source && this.source.getFeatures()) {
+      this.source.getFeatures().forEach((feature) => {
         feature.setStyle(null);
       });
     }
@@ -208,8 +194,8 @@ export class VlMapLayer extends vlElement(HTMLElement) {
    * @return {Object}
    */
   getFeature(id) {
-    if (this._source && this._source.getFeatures()) {
-      return this._source.getFeatures().filter((feature) => {
+    if (this.source && this.source.getFeatures()) {
+      return this.source.getFeatures().filter((feature) => {
         return feature.getId() === id;
       })[0];
     }
@@ -252,42 +238,28 @@ export class VlMapLayer extends vlElement(HTMLElement) {
   }
 
   _autoExtentChangedCallback() {
-    this.__autoZoomToExtent();
+    this._autoZoomToExtent();
   }
 
   _featuresChangedCallback(oldValue, newValue) {
     if (newValue && this._layer) {
-      this._source.clear();
-      this._source.addFeatures(this.features);
-      this.__autoZoomToExtent();
+      this.source.clear();
+      this.source.addFeatures(this.features);
+      this._autoZoomToExtent();
       this.rerender();
     }
   }
 
-  __autoZoomToExtent() {
+  _autoZoomToExtent() {
     if (this._autoExtent) {
       this.zoomToExtent(this._autoExtentMaxZoom);
     }
   }
 
-  __createLayer() {
-    const layer = new OlVectorLayer({
-      title: this._name,
-      source: this.__createSource(this.features),
-      updateWhileAnimating: true,
-      updateWhileInteracting: true,
-      minResolution: this._minResolution,
-      maxResolution: this._maxResolution,
-    });
-    layer.set('id', this.__counter);
-    return layer;
-  }
-
-  __createSource(features) {
-    this._source = new OlVectorSource({
-      features: features,
-    });
-    return this.cluster ? this.__createClusterSource(this._source) : this._source;
+  get __boundingBox() {
+    if (this.source && this.source.getFeatures().length > 0) {
+      return this.source.getExtent();
+    }
   }
 
   __createClusterSource(source) {
@@ -305,12 +277,6 @@ export class VlMapLayer extends vlElement(HTMLElement) {
     });
   }
 
-  get __boundingBox() {
-    if (this._source && this._source.getFeatures().length > 0) {
-      return this._source.getExtent();
-    }
-  }
-
   __ignoreClustering() {
     return null;
   }
@@ -318,7 +284,7 @@ export class VlMapLayer extends vlElement(HTMLElement) {
   _configureMap() {
     if (this.mapElement) {
       this.mapElement.addLayer(this._layer);
-      this.__autoZoomToExtent();
+      this._autoZoomToExtent();
     }
   }
 }

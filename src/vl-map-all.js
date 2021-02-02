@@ -3,6 +3,7 @@ import {define, awaitScript} from '/node_modules/vl-ui-core/dist/vl-core.js';
 import {VlMap} from '/src/vl-map.js';
 import {VlMapOverviewMap} from '/src/vl-map-overview-map.js';
 import {VlMapLayer} from '/src/vl-map-layer.js';
+import {VlMapFeaturesLayer} from '/src/vl-map-features-layer.js';
 import {VlMapBaseLayer} from '/src/vl-map-baselayer.js';
 import {VlMapBaseLayerGRBGray} from '/src/vl-map-baselayer-grb-gray.js';
 import {VlMapBaseLayerGRB} from '/src/vl-map-baselayer-grb.js';
@@ -24,7 +25,7 @@ Promise.all([
 ]).then(() => {
   define('vl-map', VlMap);
   define('vl-map-overview-map', VlMapOverviewMap);
-  define('vl-map-layer', VlMapLayer);
+  define('vl-map-features-layer', VlMapFeaturesLayer);
   define('vl-map-baselayer', VlMapBaseLayer);
   define('vl-map-baselayer-grb-gray', VlMapBaseLayerGRBGray);
   define('vl-map-baselayer-grb', VlMapBaseLayerGRB);
@@ -46,6 +47,7 @@ export {
   VlMap,
   VlMapOverviewMap,
   VlMapLayer,
+  VlMapFeaturesLayer,
   VlMapBaseLayer,
   VlMapBaseLayerGRBGray,
   VlMapBaseLayerGRB,
