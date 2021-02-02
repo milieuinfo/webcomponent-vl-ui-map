@@ -173,9 +173,7 @@ export class VlMapLayerStyle extends vlElement(HTMLElement) {
           width: this.borderSize,
         }),
       };
-      // if (this.labelFunction != null) {
-        styleConfig.text = this._getTextStyle(feature);
-      // }
+      styleConfig.text = this._getTextStyle(feature);
       return new OlStyle(styleConfig);
     };
   }
