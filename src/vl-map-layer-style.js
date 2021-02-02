@@ -14,22 +14,23 @@ import {
  * @extends HTMLElement
  * @mixes vlElement
  *
- * @property {string} data-vl-color - Attribuut wordt gebruikt om aan te geven wat de kleur is van de kaartlaagstijl. Default 'rgba(2, 85, 204, 1)'.
- * @property {string} data-vl-border-color - Attribuut wordt gebruikt om aan te geven wat de kleur van de rand is van de kaartlaagstijl. Default 'rgba(2, 85, 204, 1)'.
- * @property {string} data-vl-border-size - Attribuut wordt gebruikt om aan te geven wat de grootte van de rand is van de kaartlaagstijl. Default '1'.
- * @property {number} data-vl-feature-attribute-name - Attribuut wordt gebruikt om aan te geven wat de naam van het attribuut van de feature van de stijl is dat mag getoond worden. Default null.
- * @property {number} data-vl-feature-attribute-value - Attribuut wordt gebruikt om aan te geven wat de waarde van het attribuut van de feature van de stijl is dat mag getoond worden. Enkel te gebruiken met data-vl-feature-attribute-name. Default null.
- * @property {string} data-vl-text-background-color - Attribuut wordt gebruikt om aan te geven wat de kleur is van de achtergrond van de tekst. Default 'rgba(0, 0, 0, 0)'.
- * @property {string} data-vl-text-border-color - Attribuut wordt gebruikt om aan te geven wat de kleur is van de rand van de tekst. Default 'rgb(255,255,255, 1)'.
- * @property {string} data-vl-text-border-size - Attribuut wordt gebruikt om aan te geven wat de grootte is van de rand van de tekst. Default '0'.
- * @property {string} data-vl-text-color - Attribuut wordt gebruikt om aan te geven wat de kleur is van de tekst. Default 'rgb(255,255,255, 1)'.
- * @property {number} data-vl-text-feature-attribute-name - Attribuut wordt gebruikt om aan te geven wat de naam van het attribuut van de feature van de stijl is, die gebruikt wordt om de tekst te tonen. Default ''.
- * @property {number} data-vl-text-offset-x - Attribuut wordt gebruikt om aan te geven wat de offset op de x-as is van de tekst.
- * @property {number} data-vl-text-offset-y - Attribuut wordt gebruikt om aan te geven wat de offset op de y-as is van de tekst.
- * @property {number} data-vl-text-size - Attribuut wordt gebruikt om aan te geven wat de grootte is van de tekst in CSS font-size eenheden (medium|xx-small|x-small|small|large|x-large|xx-large|smaller|larger|length|initial|inherit). Default '10px'.
+ * @property {string} [data-vl-color=rgba(2, 85, 204, 0.8)] - Attribuut wordt gebruikt om aan te geven wat de kleur is van de kaartlaagstijl.
+ * @property {string} [data-vl-border-color=rgba(2, 85, 204, 1)] - Attribuut wordt gebruikt om aan te geven wat de kleur van de rand is van de kaartlaagstijl.
+ * @property {number} [data-vl-border-size=1] - Attribuut wordt gebruikt om aan te geven wat de grootte van de rand is van de kaartlaagstijl.
+ * @property {string} [data-vl-feature-attribute-name=] - Attribuut wordt gebruikt om aan te geven wat de naam van het attribuut van de feature van de stijl is dat mag getoond worden.
+ * @property {string} [data-vl-feature-attribute-value=] - Attribuut wordt gebruikt om aan te geven wat de waarde van het attribuut van de feature van de stijl is dat mag getoond worden. Enkel te gebruiken met data-vl-feature-attribute-name.
+ * @property {string} [data-vl-text-background-color=rgba(0, 0, 0, 0)] - Attribuut wordt gebruikt om aan te geven wat de kleur is van de achtergrond van de tekst.
+ * @property {string} [data-vl-text-border-color=rgba(255, 255, 255, 1)] - Attribuut wordt gebruikt om aan te geven wat de kleur is van de rand van de tekst.
+ * @property {number} [data-vl-text-border-size=1] - Attribuut wordt gebruikt om aan te geven wat de grootte is van de rand van de tekst.
+ * @property {string} [data-vl-text-color=rgba(0, 0, 0, 1)] - Attribuut wordt gebruikt om aan te geven wat de kleur is van de tekst.
+ * @property {string} [data-vl-text-feature-attribute-name=] - Attribuut wordt gebruikt om aan te geven wat de naam van het attribuut van de feature van de stijl is, die gebruikt wordt om de tekst te tonen.
+ * @property {number} [data-vl-text-offset-x=0] - Attribuut wordt gebruikt om aan te geven wat de offset op de x-as is van de tekst.
+ * @property {number} [data-vl-text-offset-y=0] - Attribuut wordt gebruikt om aan te geven wat de offset op de y-as is van de tekst.
+ * @property {string} [data-vl-text-size=10px] - Attribuut wordt gebruikt om aan te geven wat de grootte is van de tekst in CSS font-size eenheden (medium|xx-small|x-small|small|large|x-large|xx-large|smaller|larger|length|initial|inherit).
  *
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
+ * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map-layer-style.html|Demo}
  */
 export class VlMapLayerStyle extends vlElement(HTMLElement) {
   connectedCallback() {
