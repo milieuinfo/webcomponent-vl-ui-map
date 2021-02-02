@@ -146,14 +146,12 @@
                     }'>
         <vl-map-layer-style id="map-layer-style-red"
                             data-vl-color="rgba(255,0,0,0.8)"
-                            data-vl-feature-attribute-name="status"
-                            data-vl-feature-attribute-value="red"
         ></vl-map-layer-style>
+        <script>document.querySelector('#map-layer-style-red').isValid = (feature) => feature.get('status') === 'red';</script>
         <vl-map-layer-style id="map-layer-style-green"
                             data-vl-color="rgba(0,255,0,0.8)"
-                            data-vl-feature-attribute-name="status"
-                            data-vl-feature-attribute-value="green"
         ></vl-map-layer-style>
+        <script>document.querySelector('#map-layer-style-green').isValid = (feature) => feature.get('status') === 'green';</script>
       </vl-map-layer>
     </vl-map>
   </vl-demo>

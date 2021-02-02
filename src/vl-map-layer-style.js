@@ -17,8 +17,6 @@ import {
  * @property {string} [data-vl-color=rgba(2, 85, 204, 0.8)] - Attribuut wordt gebruikt om aan te geven wat de kleur is van de kaartlaagstijl.
  * @property {string} [data-vl-border-color=rgba(2, 85, 204, 1)] - Attribuut wordt gebruikt om aan te geven wat de kleur van de rand is van de kaartlaagstijl.
  * @property {number} [data-vl-border-size=1] - Attribuut wordt gebruikt om aan te geven wat de grootte van de rand is van de kaartlaagstijl.
- * @property {string} [data-vl-feature-attribute-name=] - Attribuut wordt gebruikt om aan te geven wat de naam van het attribuut van de feature van de stijl is dat mag getoond worden.
- * @property {string} [data-vl-feature-attribute-value=] - Attribuut wordt gebruikt om aan te geven wat de waarde van het attribuut van de feature van de stijl is dat mag getoond worden. Enkel te gebruiken met data-vl-feature-attribute-name.
  * @property {string} [data-vl-text-background-color=rgba(0, 0, 0, 0)] - Attribuut wordt gebruikt om aan te geven wat de kleur is van de achtergrond van de tekst.
  * @property {string} [data-vl-text-border-color=rgba(255, 255, 255, 0)] - Attribuut wordt gebruikt om aan te geven wat de kleur is van de rand van de tekst.
  * @property {number} [data-vl-text-border-size=1] - Attribuut wordt gebruikt om aan te geven wat de grootte is van de rand van de tekst.
@@ -62,24 +60,6 @@ export class VlMapLayerStyle extends vlElement(HTMLElement) {
    */
   get borderSize() {
     return this.getAttribute('border-size') || 1;
-  }
-
-  /**
-   * Geeft de feature attribuut naam terug waar voor de stijl geldt.
-   *
-   * @Return {string|null}
-   */
-  get featureAttributeName() {
-    return this.getAttribute('feature-attribute-name') || null;
-  }
-
-  /**
-   * Geeft de feature attribuut waarde terug waar voor de stijl geldt.
-   *
-   * @Return {string|null}
-   */
-  get featureAttributeValue() {
-    return this.getAttribute('feature-attribute-value') || null;
   }
 
   /**
@@ -161,7 +141,7 @@ export class VlMapLayerStyle extends vlElement(HTMLElement) {
    */
   get style() {
     return (feature) => {
-      if (this.featureAttributeName != null && feature.get(this.featureAttributeName) !== this.featureAttributeValue) {
+      if (!this.isValid(feature)) {
         return null;
       }
       const styleConfig = {
@@ -198,9 +178,20 @@ export class VlMapLayerStyle extends vlElement(HTMLElement) {
   }
 
   /**
+   * Geeft terug of de stijl geldig is voor een welbepaalde feature. Default true.
+   *
+   * @param {Object} feature Openlayers feature
+   *
+   * @Return {boolean} true als de stijl geldig is op basis van een feature, indien false, zal de stijl niet gemaakt worden
+   */
+  isValid(feature) {
+    return true;
+  }
+
+  /**
    * Geeft de feature label functie terug.
    *
-   * @Return {Function|null} de functie die gebruikt wordt om de label te maken op basis van feature en resolutie
+   * @Return {Function|null} de functie die gebruikt wordt om de label te maken op basis van een feature
    */
   get featureLabelFunction() {
     return this.textFeatureAttributeName ? (feature) => feature.get(this.textFeatureAttributeName) : () => '';
