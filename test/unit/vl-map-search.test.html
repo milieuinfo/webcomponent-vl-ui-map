@@ -408,6 +408,24 @@
 
         expectLambertCoordinaat(lambertCoordinaat, 104719.27, 192387.25);
       });
+
+      test('Een Lambert-coördinaat, is een geldige LambertCoordinaat', () => {
+        const value = LambertCoordinaat.of('104719.27, 192387.25');
+
+        expect(LambertCoordinaat.isValid(value)).to.be.true;
+      });
+
+      test('"null", is geen geldige LambertCoordinaat', () => {
+        expect(LambertCoordinaat.isValid(null)).to.be.false;
+      });
+
+      test('"undefined", is geen geldige LambertCoordinaat', () => {
+        expect(LambertCoordinaat.isValid(undefined)).to.be.false;
+      });
+
+      test('Een lege string, is geen geldige LambertCoordinaat', () => {
+        expect(LambertCoordinaat.isValid('')).to.be.false;
+      });
     });
 
 
