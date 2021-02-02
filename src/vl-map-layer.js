@@ -1,5 +1,11 @@
 import {vlElement} from '/node_modules/vl-ui-core/dist/vl-core.js';
-import {OlVectorLayer, OlVectorSource, OlClusterSource, OlPoint, OlGeoJSON} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
+import {
+  OlClusterSource,
+  OlGeoJSON,
+  OlPoint,
+  OlVectorLayer,
+  OlVectorSource,
+} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
 
 /**
  * VlMapLayer
@@ -242,7 +248,7 @@ export class VlMapLayer extends vlElement(HTMLElement) {
    * @param {number} maxZoom - Hoe diep er maximaal ingezoomd mag worden.
    */
   async zoomToExtent(maxZoom) {
-    this.mapElement.zoomTo(this.__boundingBox, maxZoom);
+    this.mapElement.zoomToBoundingbox(this.__boundingBox, maxZoom);
   }
 
   isVisibleAtResolution(resolution) {

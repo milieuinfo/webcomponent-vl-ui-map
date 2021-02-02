@@ -57,7 +57,7 @@
             customElements.whenDefined('vl-map'),
             customElements.whenDefined('vl-map-search')]).then(() => {
             document.querySelector('#vl-map-search-select-callback').onSelect((data) => {
-              document.querySelector('#vl-map-select-callback').zoomTo([
+              document.querySelector('#vl-map-select-callback').zoomToBoundingbox([
                 data.LocationResult[0].BoundingBox.LowerLeft.X_Lambert72,
                 data.LocationResult[0].BoundingBox.LowerLeft.Y_Lambert72,
                 data.LocationResult[0].BoundingBox.UpperRight.X_Lambert72,
