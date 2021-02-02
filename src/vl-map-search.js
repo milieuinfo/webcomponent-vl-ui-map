@@ -208,7 +208,7 @@ export class VlMapSearch extends vlElement(HTMLElement) {
   }
 
   _zoomToLocation(location) {
-    this._map.zoomTo([
+    this._map.zoomToBoundingbox([
       location.BoundingBox.LowerLeft.X_Lambert72,
       location.BoundingBox.LowerLeft.Y_Lambert72,
       location.BoundingBox.UpperRight.X_Lambert72,
@@ -224,7 +224,7 @@ export class VlMapSearch extends vlElement(HTMLElement) {
         if (this._onSelect) {
           this._onSelect(data);
         } else if (this._map) {
-          this._map.zoomTo([
+          this._map.zoomToBoundingbox([
             data.LocationResult[0].BoundingBox.LowerLeft.X_Lambert72,
             data.LocationResult[0].BoundingBox.LowerLeft.Y_Lambert72,
             data.LocationResult[0].BoundingBox.UpperRight.X_Lambert72,

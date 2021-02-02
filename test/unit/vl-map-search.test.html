@@ -133,7 +133,7 @@
         fetchStub.withArgs('https://loc.geopunt.be/v4/Location?q=' + value).returns(response);
         const map = fixture('vl-map-with-search-fixture');
         return customElements.whenDefined('vl-map').then( async () => {
-          sandbox.spy(map, 'zoomTo');
+          sandbox.spy(map, 'zoomToBoundingbox');
           const selectElement = map.shadowRoot.querySelector('vl-map-search').shadowRoot.querySelector('select');
           selectElement.dispatchEvent(new CustomEvent('choice', {
             detail: {
@@ -145,7 +145,7 @@
             composed: false,
           }));
 
-          await awaitUntil(() => map.zoomTo.calledWith([location.LocationResult[0].BoundingBox.LowerLeft.X_Lambert72, location.LocationResult[0].BoundingBox.LowerLeft.Y_Lambert72, location.LocationResult[0].BoundingBox.UpperRight.X_Lambert72, location.LocationResult[0].BoundingBox.UpperRight.Y_Lambert72]));
+          await awaitUntil(() => map.zoomToBoundingbox.calledWith([location.LocationResult[0].BoundingBox.LowerLeft.X_Lambert72, location.LocationResult[0].BoundingBox.LowerLeft.Y_Lambert72, location.LocationResult[0].BoundingBox.UpperRight.X_Lambert72, location.LocationResult[0].BoundingBox.UpperRight.Y_Lambert72]));
         });
       });
 
@@ -190,7 +190,7 @@
 
         const map = fixture('vl-map-with-search-fixture');
         return customElements.whenDefined('vl-map').then( async () => {
-          sandbox.spy(map, 'zoomTo');
+          sandbox.spy(map, 'zoomToBoundingbox');
           const selectElement = map.shadowRoot.querySelector('vl-map-search').shadowRoot.querySelector('select');
           selectElement.dispatchEvent(new CustomEvent('choice', {
             detail: {

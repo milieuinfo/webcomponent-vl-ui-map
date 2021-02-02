@@ -265,7 +265,7 @@ export class VlMapLayer extends vlElement(HTMLElement) {
    * @param {number} maxZoom - Hoe diep er maximaal ingezoomd mag worden.
    */
   async zoomToExtent(maxZoom) {
-    this.mapElement.zoomTo(this.__boundingBox, maxZoom);
+    this.mapElement.zoomToBoundingbox(this.__boundingBox, maxZoom);
   }
 
   isVisibleAtResolution(resolution) {
