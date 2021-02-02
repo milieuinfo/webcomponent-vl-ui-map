@@ -128,7 +128,7 @@
                                     [127055.0,197908.0]
                                 ] ]
                             },
-                            "properties": {"label":"Label1"}
+                            "properties": {"status":"red"}
                         }, {
                             "type": "Feature",
                             "geometry": {
@@ -141,18 +141,18 @@
                                     [147055.0,197908.0]
                                 ] ]
                             },
-                            "properties": {"label":"Label2"}
+                            "properties": {"status":"green"}
                         }]
                     }'>
-        <vl-map-layer-style id="map-label-style-label1"
-                            data-vl-color="rgba(255,0,0,0.5)"
-                            data-vl-feature-attribute-name="label"
-                            data-vl-feature-attribute-value="Label1"
+        <vl-map-layer-style id="map-layer-style-red"
+                            data-vl-color="rgba(255,0,0,0.8)"
+                            data-vl-feature-attribute-name="status"
+                            data-vl-feature-attribute-value="red"
         ></vl-map-layer-style>
-        <vl-map-layer-style id="map-label-style-label2"
-                            data-vl-color="rgba(0,255,0,0.5)"
-                            data-vl-feature-attribute-name="label"
-                            data-vl-feature-attribute-value="Label2"
+        <vl-map-layer-style id="map-layer-style-green"
+                            data-vl-color="rgba(0,255,0,0.8)"
+                            data-vl-feature-attribute-name="status"
+                            data-vl-feature-attribute-value="green"
         ></vl-map-layer-style>
       </vl-map-layer>
     </vl-map>

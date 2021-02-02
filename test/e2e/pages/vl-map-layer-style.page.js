@@ -14,6 +14,14 @@ class VlMapLayerStylePage extends Page {
     return this._getStyle('#map-adjusted-style');
   }
 
+  async getStyleRedFromLayerWithMultipleStyles() {
+    return this._getStyle('#map-layer-style-red');
+  }
+
+  async getStyleGreenFromLayerWithMultipleStyles() {
+    return this._getStyle('#map-layer-style-green');
+  }
+
   async load() {
     await super.load(Config.baseUrl + '/demo/vl-map-layer-style.html');
   }
