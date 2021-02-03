@@ -119,6 +119,14 @@ export class VlMapLayer extends vlElement(HTMLElement) {
     return this.getAttribute('name') || 'kaartlaag';
   }
 
+  get _minResolution() {
+    return this.getAttribute('min-resolution') || 0;
+  }
+
+  get _maxResolution() {
+    return this.getAttribute('max-resolution') || Infinity;
+  }
+
   /**
    * Geeft de waarde op basis van een sleutel.
    *
@@ -139,7 +147,9 @@ export class VlMapLayer extends vlElement(HTMLElement) {
   }
 
   isVisibleAtResolution(resolution) {
-    return true;
+    const maxResolution = parseFloat(this._layer.getMaxResolution());
+    const minResolution = parseFloat(this._layer.getMinResolution());
+    return resolution >= minResolution && resolution < maxResolution;
   }
 
   __setIsLayerMarkerAttribute() {

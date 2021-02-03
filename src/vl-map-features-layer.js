@@ -79,14 +79,6 @@ export class VlMapFeaturesLayer extends VlMapLayer {
     return this.getAttribute('cluster-distance');
   }
 
-  get _minResolution() {
-    return this.getAttribute('min-resolution') || 0;
-  }
-
-  get _maxResolution() {
-    return this.getAttribute('max-resolution') || Infinity;
-  }
-
   /**
    * Verwijdert de stijl van al de kaartlaag features.
    */
@@ -140,12 +132,6 @@ export class VlMapFeaturesLayer extends VlMapLayer {
    */
   async zoomToExtent(maxZoom) {
     this.mapElement.zoomTo(this.__boundingBox, maxZoom);
-  }
-
-  isVisibleAtResolution(resolution) {
-    const maxResolution = parseFloat(this._layer.getMaxResolution());
-    const minResolution = parseFloat(this._layer.getMinResolution());
-    return resolution >= minResolution && resolution < maxResolution;
   }
 
   _autoExtentChangedCallback() {
