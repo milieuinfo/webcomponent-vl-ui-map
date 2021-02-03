@@ -27,7 +27,7 @@ export class VlMapSelectAction extends VlMapLayerAction {
   /**
    * Zet de stijl die een geselecteerd feature zal krijgen.
    *
-   * @param {VlMapLayerStyle} de stijl
+   * @param {VlMapLayerStyle} style - De stijl
    */
   set style(style) {
     this._style = style;
