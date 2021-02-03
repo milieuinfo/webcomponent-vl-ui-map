@@ -138,6 +138,10 @@ export class VlMapLayer extends vlElement(HTMLElement) {
     }
   }
 
+  isVisibleAtResolution(resolution) {
+    return true;
+  }
+
   __setIsLayerMarkerAttribute() {
     this.dataset.vlIsLayer = true;
   }
