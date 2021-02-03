@@ -55,4 +55,12 @@ describe('vl-map-layer-style', async () => {
     await assert.eventually.equal(style.getTextOffsetX(), 10);
     await assert.eventually.equal(style.getTextOffsetY(), -10);
   });
+
+  it('als gebruiker kan ik een layer definiëren met meerdere stijl', async () => {
+    const styleRed = await vlMapPage.getStyleRedFromLayerWithMultipleStyles();
+    const styleGreen = await vlMapPage.getStyleGreenFromLayerWithMultipleStyles();
+
+    await assert.eventually.equal(styleRed.getColor(), 'rgba(255,0,0,0.8)');
+    await assert.eventually.equal(styleGreen.getColor(), 'rgba(0,255,0,0.8)');
+  });
 });

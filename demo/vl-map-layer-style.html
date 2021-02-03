@@ -17,8 +17,6 @@
   <vl-demo data-vl-title="Kaart met kaartlaag met feature en de standaard stijl">
     <vl-map id="map-standard">
       <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
-      <vl-map-baselayer-grb></vl-map-baselayer-grb>
-      <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
       <vl-map-layer data-vl-name="laag" data-vl-features='
                     {
                         "type": "FeatureCollection",
@@ -43,8 +41,6 @@
   <vl-demo data-vl-title="Kaart met kaartlaag met feature met label">
     <vl-map id="map-label">
       <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
-      <vl-map-baselayer-grb></vl-map-baselayer-grb>
-      <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
       <vl-map-layer data-vl-name="laag" data-vl-features='
                     {
                         "type": "FeatureCollection",
@@ -72,8 +68,6 @@
   <vl-demo data-vl-title="Kaart met kaartlaag met feature en een aangepaste stijl met label">
     <vl-map id="map-adjusted">
       <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
-      <vl-map-baselayer-grb></vl-map-baselayer-grb>
-      <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
       <vl-map-layer data-vl-name="laag" data-vl-features='
                     {
                         "type": "FeatureCollection",
@@ -105,6 +99,51 @@
                             data-vl-text-offset-y="-10"
                             data-vl-text-size="13px"
         ></vl-map-layer-style>
+      </vl-map-layer>
+    </vl-map>
+  </vl-demo>
+  <vl-demo data-vl-title="Kaart met kaartlaag met meerdere stijlen">
+    <vl-map id="map-multiple-styles">
+      <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
+      <vl-map-layer data-vl-name="laag" data-vl-features='
+                    {
+                        "type": "FeatureCollection",
+                        "features": [{
+                            "type": "Feature",
+                            "geometry": {
+                                "type": "Polygon",
+                                "coordinates": [ [
+                                    [127055.0,197908.0],
+                                    [137055.0,197908.0],
+                                    [137055.0,187908.0],
+                                    [127055.0,187908.0],
+                                    [127055.0,197908.0]
+                                ] ]
+                            },
+                            "properties": {"status":"red"}
+                        }, {
+                            "type": "Feature",
+                            "geometry": {
+                                "type": "Polygon",
+                                "coordinates": [ [
+                                    [147055.0,197908.0],
+                                    [157055.0,197908.0],
+                                    [157055.0,187908.0],
+                                    [147055.0,187908.0],
+                                    [147055.0,197908.0]
+                                ] ]
+                            },
+                            "properties": {"status":"green"}
+                        }]
+                    }'>
+        <vl-map-layer-style id="map-layer-style-red"
+                            data-vl-color="rgba(255,0,0,0.8)"
+        ></vl-map-layer-style>
+        <script>document.querySelector('#map-layer-style-red').appliesTo = (feature) => feature.get('status') === 'red';</script>
+        <vl-map-layer-style id="map-layer-style-green"
+                            data-vl-color="rgba(0,255,0,0.8)"
+        ></vl-map-layer-style>
+        <script>document.querySelector('#map-layer-style-green').appliesTo = (feature) => feature.get('status') === 'green';</script>
       </vl-map-layer>
     </vl-map>
   </vl-demo>
