@@ -1,7 +1,7 @@
 const {VlElement} = require('vl-ui-core').Test;
 const {By} = require('vl-ui-core').Test.Setup;
 const VlMapBaseLayer = require('./vl-map-baselayer');
-const VlMapLayer = require('./vl-map-layer');
+const VlMapFeaturesLayer = require('./vl-map-features-layer');
 const VlMapSearch = require('./vl-map-search');
 const VlMapOverviewMap = require('./vl-map-overview-map');
 const VlMapLayerSwitcher = require('./vl-map-layer-switcher');
@@ -16,8 +16,16 @@ class VlMap extends VlElement {
   }
 
   async getLayers() {
-    const layerElements = await this.findElements(By.css(':scope > vl-map-layer'));
-    return Promise.all(layerElements.map((element) => new VlMapLayer(this.driver, element)));
+    return this._getFeaturesLayers();
+  }
+
+  async _getFeaturesLayers() {
+    return this._getLayersOfType(VlMapFeaturesLayer);
+  }
+
+  async _getLayersOfType(layerClass) {
+    const layerElements = await this.findElements(By.css(`:scope > ${layerClass.TAG}`));
+    return Promise.all(layerElements.map(element => new layerClass(this.driver, element)));
   }
 
   async isEscapeKeyDisabled() {

@@ -3,6 +3,8 @@ import {
   OlVectorLayer,
   OlVectorSource,
   OlGeoJSON,
+  OlClusterSource,
+  OlPoint,
 } from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
 
 /**
@@ -25,17 +27,21 @@ import {
  */
 export class VlMapFeaturesLayer extends VlMapLayer {
   static get _observedAttributes() {
-    return [...VlMapLayer._observedAttributes, 'features'];
+    return ['auto-extent', 'features'];
   }
 
   constructor() {
     super();
     this._geoJSON = new OlGeoJSON();
+    this._source = this.__createSource();
+    this._layer = this.__createLayer();
   }
 
   async connectedCallback() {
-    this._layer = this.__createLayer();
     await super.connectedCallback();
+    if (this.mapElement) {
+      this._autoZoomToExtent();
+    }
   }
 
   /**
@@ -57,6 +63,95 @@ export class VlMapFeaturesLayer extends VlMapLayer {
     this.setAttribute('features', JSON.stringify(features));
   }
 
+  get _autoExtent() {
+    return this.getAttribute('auto-extent') != undefined;
+  }
+
+  get _autoExtentMaxZoom() {
+    return this.getAttribute('auto-extent-max-zoom');
+  }
+
+  get cluster() {
+    return this.getAttribute('cluster') != undefined;
+  }
+
+  get _clusterDistance() {
+    return this.getAttribute('cluster-distance');
+  }
+
+  get _minResolution() {
+    return this.getAttribute('min-resolution') || 0;
+  }
+
+  get _maxResolution() {
+    return this.getAttribute('max-resolution') || Infinity;
+  }
+
+  /**
+   * Verwijdert de stijl van al de kaartlaag features.
+   */
+  removeFeaturesStyle() {
+    if (this.source && this.source.getFeatures()) {
+      this.source.getFeatures().forEach((feature) => {
+        feature.setStyle(null);
+      });
+    }
+  }
+
+  /**
+   * Geeft de feature terug op basis van het id attribuut.
+   *
+   * @param {number} id
+   * @return {Object}
+   */
+  getFeature(id) {
+    if (this.source && this.source.getFeatures()) {
+      return this.source.getFeatures().filter((feature) => {
+        return feature.getId() === id;
+      })[0];
+    }
+  }
+
+  /**
+   * Geeft de cluster terug op basis van het id attribuut.
+   *
+   * @param {number} id
+   * @return {boolean}
+   */
+  getCluster(id) {
+    if (this._layer) {
+      return this._layer.getSource().getFeatures().filter((cluster) => {
+        const features = cluster.get('features');
+        if (features) {
+          return features.some((feature) => {
+            return feature.getId() === id;
+          });
+        } else {
+          return false;
+        }
+      })[0];
+    }
+  }
+
+  /**
+   * Zoom naar alle features in deze layer.
+   *
+   * @param {number} maxZoom - Hoe diep er maximaal ingezoomd mag worden.
+   */
+  async zoomToExtent(maxZoom) {
+    this.mapElement.zoomTo(this.__boundingBox, maxZoom);
+  }
+
+  isVisibleAtResolution(resolution) {
+    const maxResolution = parseFloat(this._layer.getMaxResolution());
+    const minResolution = parseFloat(this._layer.getMinResolution());
+    return resolution >= minResolution && resolution < maxResolution;
+  }
+
+  _autoExtentChangedCallback() {
+    this._autoZoomToExtent();
+  }
+
   _featuresChangedCallback(oldValue, newValue) {
     if (newValue && this._layer) {
       this.source.clear();
@@ -66,23 +161,54 @@ export class VlMapFeaturesLayer extends VlMapLayer {
     }
   }
 
+  _autoZoomToExtent() {
+    if (this._autoExtent) {
+      this.zoomToExtent(this._autoExtentMaxZoom);
+    }
+  }
+
+  get __boundingBox() {
+    if (this.source && this.source.getFeatures().length > 0) {
+      return this.source.getExtent();
+    }
+  }
+
   __createLayer() {
     const layer = new OlVectorLayer({
       title: this._name,
-      source: this.__createSource(this.features),
+      source: this._source,
       updateWhileAnimating: true,
       updateWhileInteracting: true,
       minResolution: this._minResolution,
       maxResolution: this._maxResolution,
     });
-    layer.set('id', this.__counter);
+    layer.set('id', VlMapLayer._counter);
     return layer;
   }
 
-  __createSource(features) {
-    this._source = new OlVectorSource({
-      features: features,
+  __createSource() {
+    const source = new OlVectorSource({
+      features: this.features,
     });
-    return this.source;
+    return this.cluster ? this.__createClusterSource(source) : source;
+  }
+
+  __createClusterSource(source) {
+    return new OlClusterSource({
+      distance: this._clusterDistance,
+      source: source,
+      geometryFunction: (feature) => {
+        const geometry = feature.getGeometry();
+        if (geometry instanceof OlPoint) {
+          return geometry;
+        } else {
+          return this.__ignoreClustering();
+        }
+      },
+    });
+  }
+
+  __ignoreClustering() {
+    return null;
   }
 }

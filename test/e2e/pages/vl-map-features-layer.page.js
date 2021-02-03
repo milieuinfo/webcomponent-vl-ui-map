@@ -1,7 +1,7 @@
 const VlMap = require('../components/vl-map');
 const {Page, Config} = require('vl-ui-core').Test;
 
-class VlMapLayerPage extends Page {
+class VlMapFeaturesLayerPage extends Page {
   async getMapWithStandardLayer() {
     return this._getMap('#map-with-standard-layer');
   }
@@ -15,7 +15,7 @@ class VlMapLayerPage extends Page {
   }
 
   async load() {
-    await super.load(Config.baseUrl + '/demo/vl-map-layer.html');
+    await super.load(Config.baseUrl + '/demo/vl-map-features-layer.html');
   }
 
   async _getMap(selector) {
@@ -23,4 +23,4 @@ class VlMapLayerPage extends Page {
   }
 }
 
-module.exports = VlMapLayerPage;
+module.exports = VlMapFeaturesLayerPage;
