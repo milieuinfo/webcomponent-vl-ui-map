@@ -141,7 +141,7 @@ export class VlMapLayerStyle extends vlElement(HTMLElement) {
    */
   get style() {
     return (feature) => {
-      if (!this.isValid(feature)) {
+      if (!this.appliesTo(feature)) {
         return null;
       }
       const styleConfig = {
@@ -184,7 +184,7 @@ export class VlMapLayerStyle extends vlElement(HTMLElement) {
    *
    * @Return {boolean} true als de stijl geldig is op basis van een feature, indien false, zal de stijl niet gemaakt worden
    */
-  isValid(feature) {
+  appliesTo(feature) {
     return true;
   }
 
