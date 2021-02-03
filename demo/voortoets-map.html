@@ -44,8 +44,6 @@
         <vl-map-layer-style data-vl-color="rgba(238,153,0,0.4)"
                             data-vl-border-color="rgba(238,153,0,0.4)"
                             data-vl-border-size="1"></vl-map-layer-style>
-        <!-- TODO: circle-style + style in combinatie werkt niet: https://github.com/milieuinfo/webcomponent-vl-ui-map/issues/200 -->
-
         <vl-map-draw-point-action id="draw-point-action"></vl-map-draw-point-action>
         <vl-map-draw-line-action id="draw-line-action"></vl-map-draw-line-action>
         <vl-map-draw-polygon-action id="draw-polygon-action"></vl-map-draw-polygon-action>
@@ -64,17 +62,26 @@
       </vl-map-layer>
       <vl-map-layer data-vl-name="Effectbron"
                     data-vl-features='{"type": "FeatureCollection","name": "effectbron","crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::31370" } },"features": [{ "type": "Feature", "properties": { "status": "ROOD" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 149049.842855008639162, 200057.836751907132566 ], [ 149008.523230480641359, 200011.508688041009009 ], [ 149056.103404170076828, 199986.466491367667913 ], [ 149096.170918863412226, 200027.786115895025432 ], [ 149096.170918863412226, 200027.786115895025432 ], [ 149049.842855008639162, 200057.836751907132566 ] ] ] } },{ "type": "Feature", "properties": { "status": "GROEN" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 148923.379761764226714, 199983.962271682918072 ], [ 148890.824906070745783, 199907.583571802824736 ], [ 148929.640310921357013, 199877.532935792580247 ], [ 148967.203605949762277, 199942.642647162079811 ], [ 148967.203605949762277, 199942.642647162079811 ], [ 148967.203605949762277, 199942.642647162079811 ], [ 148923.379761764226714, 199983.962271682918072 ] ] ] } },{ "type": "Feature", "properties": { "status": "INVALID" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 149160.028520380990813, 199885.045594822615385 ], [ 149101.179358171852073, 199798.650016268715262 ], [ 149198.843925223744009, 199789.885247440077364 ], [ 149205.104474402731284, 199862.507617817260325 ], [ 149205.104474402731284, 199862.507617817260325 ], [ 149160.028520380990813, 199885.045594822615385 ] ] ] } },{ "type": "Feature", "properties": { "status": "ROOD" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 148957.186727260967018, 199804.910565420985222 ], [ 148948.421958418446593, 199767.347270401194692 ], [ 149007.271120615361724, 199752.32195239700377 ], [ 149003.514791119465372, 199803.658455593511462 ], [ 149003.514791119465372, 199803.658455593511462 ], [ 148957.186727260967018, 199804.910565420985222 ] ] ] } }]}'>
-        <vl-map-layer-style data-vl-color="rgba(238,153,0,0.4)"
-                            data-vl-border-color="rgba(238,153,0,0.4)"
-                            data-vl-border-size="1"
-                            data-vl-feature-attribute-name="status"
-                            data-vl-feature-attribute-value="ROOD"
-        ></vl-map-layer-style><!--TODO JUIST KLEUREN-->
-        <vl-map-layer-style data-vl-color="rgba(238,153,0,0.4)"
-                            data-vl-border-color="rgba(238,153,0,0.4)"
-                            data-vl-border-size="1"
-                            data-vl-feature-attribute-name="status"
-                            data-vl-feature-attribute-value="GROEN"></vl-map-layer-style>
+        <vl-map-layer-style id="status-rood" data-vl-color="rgba(255,0,0,0.6)"
+                            data-vl-border-color="rgba(255,0,0,1)"></vl-map-layer-style>
+        <script>document.querySelector('#status-rood').appliesTo = (feature) => feature.get('status') === 'ROOD';</script>
+        <vl-map-layer-style id="status-invalid" data-vl-color="rgba(255,0,0,0.6)"
+                            data-vl-border-color="rgba(169,68,66,1)"></vl-map-layer-style>
+        <script>document.querySelector('#status-invalid').appliesTo = (feature) => feature.get('status') === 'INVALID';</script>
+        <vl-map-layer-style id="status-groen" data-vl-color="rgba(0,5,218,0.6)"
+                            data-vl-border-color="rgba(0,5,218,1)"></vl-map-layer-style>
+        <script>document.querySelector('#status-groen').appliesTo = (feature) => feature.get('status') === 'GROEN';</script>
+      </vl-map-layer>
+      </vl-map-layer>
+      <vl-map-layer data-vl-name="Gevoelige habitats"
+                    data-vl-features='{"type": "FeatureCollection","name": "gevoeligehabitats","crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::31370" } },"features": [{ "type": "Feature", "properties": { }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 149113.051673701702384, 200007.618345967959613 ], [ 149083.10540162640973, 199990.041186271584593 ], [ 149119.561732848495012, 199978.974085722031305 ], [ 149133.883862971473718, 200003.712310479866574 ], [ 149127.373803824651986, 200011.524381456052652 ], [ 149113.051673701702384, 200007.618345967959613 ] ] ] } },{ "type": "Feature", "properties": { }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 148973.085402045398951, 199987.4371626128559 ], [ 148971.132384301366983, 199973.115032489906298 ], [ 148996.521614973898977, 199969.860002916509984 ], [ 148994.568597229867009, 199984.833138954156311 ], [ 148994.568597229867009, 199984.833138954156311 ], [ 148983.501496680284617, 199995.900239503709599 ], [ 148983.501496680284617, 199995.900239503709599 ], [ 148973.085402045398951, 199987.4371626128559 ] ] ] } }]}'>
+        <vl-map-layer-style data-vl-color="rgba(255,76,76,0.3)"
+                            data-vl-border-color="rgb(127,0,0)"></vl-map-layer-style>
+      </vl-map-layer>
+      <vl-map-layer data-vl-name="Gevoelige zoekzones"
+                    data-vl-features='{"type": "FeatureCollection","name": "gevoeligezoekzones","crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::31370" } },"features": [{ "type": "Feature", "properties": { }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 148962.018017021502601, 199853.330215545371175 ], [ 148915.145591178588802, 199853.330215536989272 ], [ 148916.447603001724929, 199805.806783781386912 ], [ 148962.669022930174833, 199805.806783785112202 ], [ 148962.669022930174833, 199805.806783785112202 ], [ 148962.018017021502601, 199853.330215545371175 ] ] ] } },{ "type": "Feature", "properties": { }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 148965.273046593763866, 199852.028203713707626 ], [ 148965.924052502610721, 199805.155777871608734 ], [ 149004.333401457319269, 199805.806783792562783 ], [ 149001.72937780508073, 199852.679209634661674 ], [ 149001.72937780508073, 199852.679209634661674 ], [ 148965.273046593763866, 199852.028203713707626 ] ] ] } },{ "type": "Feature", "properties": { }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 148967.226064330927329, 199799.947730555199087 ], [ 148967.226064325572224, 199755.67932836804539 ], [ 148995.870324562885799, 199754.377316545695066 ], [ 148994.568312738963868, 199796.692700984887779 ], [ 148994.568312738963868, 199796.692700984887779 ], [ 148967.226064330927329, 199799.947730555199087 ] ] ] } }]}'>
+        <vl-map-layer-style data-vl-color="rgba(255,255,255,0.3)"
+                            data-vl-border-color="rgb(221,221,221)"></vl-map-layer-style>
       </vl-map-layer>
       <vl-map-layer data-vl-name="Verborgen laag tot ingezoomd" data-vl-max-resolution="128"
                     data-vl-features='{
