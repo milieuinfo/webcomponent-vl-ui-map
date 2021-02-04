@@ -150,8 +150,6 @@
       });
 
       test('wanneer de gebruiker een Lambert-coördinaat selecteert, zal niets opgehaald worden', () => {
-        const lambertCoordinaat = LambertCoordinaat.of('104719.27, 192387.25');
-
         const fetchSpy = sandbox.spy(window, 'fetch');
 
         const map = fixture('vl-map-with-search-fixture');
@@ -161,7 +159,7 @@
           selectElement.dispatchEvent(new CustomEvent('choice', {
             detail: {
               choice: {
-                value: lambertCoordinaat,
+                value: LambertCoordinaat.of('104719.27, 192387.25'),
               },
             },
             bubbles: false,
