@@ -166,7 +166,8 @@ export class VlMapSearch extends vlElement(HTMLElement) {
     fetch(this.locationXyUrl + lambertCoordinaat.x + ',' + lambertCoordinaat.y).then((response) => {
       return response.json();
     }).then((data) => {
-      this._selectElement.choices = [this._mapLambertCoordinaatToChoice(lambertCoordinaat)].concat(this._mapLocationResultToChoices(data));
+      this._selectElement.choices = [this._mapLambertCoordinaatToChoice(lambertCoordinaat)]
+          .concat(this._mapLocationResultToChoices(data));
     });
   }
 
@@ -202,7 +203,7 @@ export class VlMapSearch extends vlElement(HTMLElement) {
           } else if (value instanceof Object) {
             this._zoomToLocation(value);
           } else {
-            this._searchAndZoomToLocation(value);
+            this._searchLocationByValue(value).then((data) => this._zoomToLocationResult(data));
           }
         }
       });
@@ -225,22 +226,24 @@ export class VlMapSearch extends vlElement(HTMLElement) {
     ], 14);
   }
 
-  _searchAndZoomToLocation(searchValue) {
-    fetch(this.locationUrl + encodeURIComponent(searchValue)).then((response) => {
-      return response.json();
-    }).then((data) => {
-      if (data && data.LocationResult) {
-        if (this._onSelect) {
-          this._onSelect(data);
-        } else if (this._map) {
-          this._map.zoomToBoundingbox([
-            data.LocationResult[0].BoundingBox.LowerLeft.X_Lambert72,
-            data.LocationResult[0].BoundingBox.LowerLeft.Y_Lambert72,
-            data.LocationResult[0].BoundingBox.UpperRight.X_Lambert72,
-            data.LocationResult[0].BoundingBox.UpperRight.Y_Lambert72,
-          ]);
-        }
+  _zoomToLocationResult(data) {
+    if (data && data.LocationResult) {
+      if (this._onSelect) {
+        this._onSelect(data);
+      } else if (this._map) {
+        this._map.zoomToBoundingbox([
+          data.LocationResult[0].BoundingBox.LowerLeft.X_Lambert72,
+          data.LocationResult[0].BoundingBox.LowerLeft.Y_Lambert72,
+          data.LocationResult[0].BoundingBox.UpperRight.X_Lambert72,
+          data.LocationResult[0].BoundingBox.UpperRight.Y_Lambert72,
+        ]);
       }
+    }
+  }
+
+  _searchLocationByValue(searchValue) {
+    return fetch(this.locationUrl + encodeURIComponent(searchValue)).then((response) => {
+      return response.json();
     });
   }
 
