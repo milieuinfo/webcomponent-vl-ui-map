@@ -142,7 +142,7 @@ export class VlMapSearch extends vlElement(HTMLElement) {
   }
 
   _searchChoicesByValue(searchValue) {
-    fetch(new URL(this.searchUrl + searchValue).toString()).then((response) => {
+    fetch(this.searchUrl + encodeURIComponent(searchValue)).then((response) => {
       return response.json();
     }).then((data) => {
       if (data && data.SuggestionResult) {
@@ -158,8 +158,7 @@ export class VlMapSearch extends vlElement(HTMLElement) {
   }
 
   _searchChoicesByLambertCoordinaat(lambertCoordinaat) {
-    const encodedUrl = encodeURI(new URL(this.locationXyUrl + lambertCoordinaat.x + ',' + lambertCoordinaat.y));
-    fetch(encodedUrl).then((response) => {
+    fetch(this.locationXyUrl + lambertCoordinaat.x + ',' + lambertCoordinaat.y).then((response) => {
       return response.json();
     }).then((data) => {
       const choices = [{
@@ -217,7 +216,7 @@ export class VlMapSearch extends vlElement(HTMLElement) {
   }
 
   _searchAndZoomToLocation(searchValue) {
-    fetch(new URL(this.locationUrl + searchValue).toString()).then((response) => {
+    fetch(this.locationUrl + encodeURIComponent(searchValue)).then((response) => {
       return response.json();
     }).then((data) => {
       if (data && data.LocationResult) {
