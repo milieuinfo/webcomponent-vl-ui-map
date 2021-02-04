@@ -124,13 +124,23 @@ export class VlMapLayer extends vlElement(HTMLElement) {
    *
    * @param {VlMapLayerStyle} style een kaartlaag stijl
    */
-  set style(style) {
+  set addStyle(style) {
     this._styles.push(style);
     this._layer.setStyle((feature) => {
       return this._styles
           .map((style) => style.style(feature))
           .filter((style) => style != null);
     });
+  }
+
+  /**
+   * Zet de OpenLayers kaartlaag stijl. Overschrijft alle huidige kaartlaag stijlen met de gekozen stijl.
+   *
+   * @param {ol.style} style een OpenLayers stijl
+   */
+  set style(style) {
+    this._styles = [style];
+    this._layer.setStyle(style);
   }
 
   /**
