@@ -145,39 +145,49 @@ export class VlMapSearch extends vlElement(HTMLElement) {
     fetch(this.searchUrl + encodeURIComponent(searchValue)).then((response) => {
       return response.json();
     }).then((data) => {
-      if (data && data.SuggestionResult) {
-        const resultaten = data.SuggestionResult.map((resultaat) => {
-          return {
-            value: resultaat,
-            label: resultaat,
-          };
-        });
-        this._selectElement.choices = resultaten;
-      }
+      this._selectElement.choices = this._mapSuggestionResultToChoices(data);
     });
+  }
+
+  _mapSuggestionResultToChoices(data) {
+    if (data && data.SuggestionResult) {
+      return data.SuggestionResult.map((resultaat) => {
+        return {
+          value: resultaat,
+          label: resultaat,
+        };
+      });
+    } else {
+      return [];
+    }
   }
 
   _searchChoicesByLambertCoordinaat(lambertCoordinaat) {
     fetch(this.locationXyUrl + lambertCoordinaat.x + ',' + lambertCoordinaat.y).then((response) => {
       return response.json();
     }).then((data) => {
-      const choices = [{
-        value: lambertCoordinaat,
-        label: 'Lambert-coördinaat: ' + lambertCoordinaat.toString(),
-      }];
-
-      if (data && data.LocationResult) {
-        data.LocationResult.map((locationResult) => {
-          return {
-            value: locationResult,
-            label: locationResult.FormattedAddress,
-          };
-        }).forEach((choice) => {
-          choices.push(choice);
-        });
-      }
-      this._selectElement.choices = choices;
+      this._selectElement.choices = [this._mapLambertCoordinaatToChoice(lambertCoordinaat)].concat(this._mapLocationResultToChoices(data));
     });
+  }
+
+  _mapLambertCoordinaatToChoice(lambertCoordinaat) {
+    return {
+      value: lambertCoordinaat,
+      label: 'Lambert-coördinaat: ' + lambertCoordinaat.toString(),
+    };
+  }
+
+  _mapLocationResultToChoices(data) {
+    if (data && data.LocationResult) {
+      return data.LocationResult.map((locationResult) => {
+        return {
+          value: locationResult,
+          label: locationResult.FormattedAddress,
+        };
+      });
+    } else {
+      return [];
+    }
   }
 
   _addChoiceEventListener() {
