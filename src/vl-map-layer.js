@@ -124,7 +124,7 @@ export class VlMapLayer extends vlElement(HTMLElement) {
    *
    * @param {VlMapLayerStyle} style een kaartlaag stijl
    */
-  set addStyle(style) {
+  addStyle(style) {
     this._styles.push(style);
     this._layer.setStyle((feature) => {
       return this._styles

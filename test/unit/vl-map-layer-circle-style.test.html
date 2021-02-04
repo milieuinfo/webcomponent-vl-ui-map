@@ -87,7 +87,8 @@
         const map = fixture('vl-map-layer-circle-style-fixture');
         const layerElement = map.querySelector('vl-map-layer');
         const styleElement = map.querySelector('vl-map-layer-circle-style');
-        assert.equal(layerElement.style('feature').toString(), styleElement.style('feature').toString());
+
+        assert.deepEqual(layerElement.style('feature')[0], styleElement.style('feature'));
       });
 
       test('indien er meerdere features binnen een bepaalde afstand liggen van elkaar zullen ze geclusterd weergegeven worden en zal het aantal features in de cluster weergegeven worden', () => {
