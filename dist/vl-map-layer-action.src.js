@@ -1,4 +1,4 @@
-import {VlMapAction} from 'vl-ui-map/dist/vl-map-action.src.js';
+import {VlMapAction} from '../dist/vl-map-action.src.js';
 
 /**
  * VlMapLayerAction
