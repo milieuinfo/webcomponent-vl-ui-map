@@ -131,7 +131,7 @@ export class VlMapSearch extends vlElement(HTMLElement) {
         if (event && event.detail && event.detail.value) {
           const lambertCoordinaat = LambertCoordinaat.of(event.detail.value);
 
-          if (LambertCoordinaat.isValid(lambertCoordinaat)) {
+          if (LambertCoordinaat.isLambertCoordinaat(lambertCoordinaat)) {
             this._searchChoicesByLambertCoordinaat(lambertCoordinaat);
           } else {
             this._searchChoicesByValue(event.detail.value);
@@ -188,7 +188,7 @@ export class VlMapSearch extends vlElement(HTMLElement) {
         if (event && event.detail && event.detail.choice) {
           const value = event.detail.choice.value;
 
-          if (LambertCoordinaat.isValid(value)) {
+          if (LambertCoordinaat.isLambertCoordinaat(value)) {
             this._zoomToLambertCoordinaat(value);
           } else if (value instanceof Object) {
             this._zoomToLocation(value);

@@ -148,19 +148,19 @@
       test('Een Lambert-coördinaat, is een geldige LambertCoordinaat', () => {
         const value = LambertCoordinaat.of('104719.27, 192387.25');
 
-        expect(LambertCoordinaat.isValid(value)).to.be.true;
+        expect(LambertCoordinaat.isLambertCoordinaat(value)).to.be.true;
       });
 
       test('"null", is geen geldige LambertCoordinaat', () => {
-        expect(LambertCoordinaat.isValid(null)).to.be.false;
+        expect(LambertCoordinaat.isLambertCoordinaat(null)).to.be.false;
       });
 
       test('"undefined", is geen geldige LambertCoordinaat', () => {
-        expect(LambertCoordinaat.isValid(undefined)).to.be.false;
+        expect(LambertCoordinaat.isLambertCoordinaat(undefined)).to.be.false;
       });
 
       test('Een lege string, is geen geldige LambertCoordinaat', () => {
-        expect(LambertCoordinaat.isValid('')).to.be.false;
+        expect(LambertCoordinaat.isLambertCoordinaat('')).to.be.false;
       });
     });
 

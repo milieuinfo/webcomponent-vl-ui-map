@@ -72,7 +72,7 @@ class LambertCoordinaat {
    * @param {*} value
    * @return {boolean}
    */
-  static isValid(value) {
+  static isLambertCoordinaat(value) {
     return !!value && value.x !== undefined && value.y !== undefined;
   }
 }
