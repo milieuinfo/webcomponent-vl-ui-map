@@ -8,6 +8,7 @@
   <script type="module" src="../../src/vl-map-all.js"></script>
 </head>
 <body>
+
 <test-fixture id="vl-map-pane-fixture">
   <template>
     <vl-map>
@@ -25,11 +26,41 @@
       customElements.whenDefined('vl-map-pane').then(() => done());
     });
 
-    test('de map pane bevat de default titel', () => {
+    test('bevat default titel', () => {
       const element = fixture('vl-map-pane-fixture');
-      const title = element._titleElement;
-      assert.equal(title, "Terug");
+      const vlmapPane = element.querySelector('vl-map-pane');
+
+      const title = vlmapPane._titleElement;
+      assert.equal(title.innerText, "Terug");
     });
+
+    // test('bevat default href', () => {
+    //   const element = fixture('vl-map-pane-fixture');
+    //   const vlmapPane = element.querySelector('vl-map-pane');
+    //
+    //   const link = vlmapPane._hrefElement;
+    //   assert.equal(link.href, "#");
+    // });
+
+    test('bevat nieuwe titel op basis van het titel attribuut', () => {
+      const element = fixture('vl-map-pane-fixture');
+      const vlmapPane = element.querySelector('vl-map-pane');
+
+      const text = 'Dit is een titel';
+      vlmapPane.setAttribute('data-vl-title', text);
+
+      const title = vlmapPane._titleElement;
+      assert.equal(title.innerText, text);
+    });
+
+    // test('bevat nieuwe href op basis van het href attribuut', () => {
+    //   const element = fixture('vl-map-pane-fixture');
+    //   const vlmapPane = element.querySelector('vl-map-pane');
+    //
+    //   const hrefPath = '/test-path';
+    //   vlmapPane.setAttribute('data-vl-link', hrefPath);
+    //   assert.equal(vlmapPane._hrefElement.href, hrefPath);
+    // });
   })
 </script>
 </body>
