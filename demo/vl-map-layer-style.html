@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>vl-map-layer-style voorbeeld</title>
+  <script type="module" src="/node_modules/vl-ui-demo/dist/vl-demo-all.js"></script>
+  <script type="module" src="/node_modules/vl-ui-body/dist/vl-body.js"></script>
+
+  <script type="module" src="/src/vl-map-all.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-body/dist/style.css"/>
+  <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-demo/dist/style.css"/>
+</head>
+
+<body is="vl-body">
+<vl-demo-page data-vl-webcomponent="vl-map-layer-style">
+  <vl-demo data-vl-title="Kaart met kaartlaag met feature en de standaard stijl">
+    <vl-map id="map-standard">
+      <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
+      <vl-map-layer data-vl-name="laag" data-vl-features='
+                    {
+                        "type": "FeatureCollection",
+                        "features": [{
+                            "type": "Feature",
+                            "geometry": {
+                                "type": "Polygon",
+                                "coordinates": [ [
+                                    [147055.0,197908.0],
+                                    [157055.0,197908.0],
+                                    [157055.0,187908.0],
+                                    [147055.0,187908.0],
+                                    [147055.0,197908.0]
+                                ] ]
+                            }
+                        }]
+                    }'>
+        <vl-map-layer-style id="map-standard-style"></vl-map-layer-style>
+      </vl-map-layer>
+    </vl-map>
+  </vl-demo>
+  <vl-demo data-vl-title="Kaart met kaartlaag met feature met label">
+    <vl-map id="map-label">
+      <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
+      <vl-map-layer data-vl-name="laag" data-vl-features='
+                    {
+                        "type": "FeatureCollection",
+                        "features": [{
+                            "type": "Feature",
+                            "geometry": {
+                                "type": "Polygon",
+                                "coordinates": [ [
+                                    [147055.0,197908.0],
+                                    [157055.0,197908.0],
+                                    [157055.0,187908.0],
+                                    [147055.0,187908.0],
+                                    [147055.0,197908.0]
+                                ] ]
+                            },
+                            "properties": {"label":"Label1"}
+                        }]
+                    }'>
+        <vl-map-layer-style id="map-label-style"
+                            data-vl-text-feature-attribute-name="label"
+        ></vl-map-layer-style>
+      </vl-map-layer>
+    </vl-map>
+  </vl-demo>
+  <vl-demo data-vl-title="Kaart met kaartlaag met feature en een aangepaste stijl met label">
+    <vl-map id="map-adjusted">
+      <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
+      <vl-map-layer data-vl-name="laag" data-vl-features='
+                    {
+                        "type": "FeatureCollection",
+                        "features": [{
+                            "type": "Feature",
+                            "geometry": {
+                                "type": "Polygon",
+                                "coordinates": [ [
+                                    [147055.0,197908.0],
+                                    [157055.0,197908.0],
+                                    [157055.0,187908.0],
+                                    [147055.0,187908.0],
+                                    [147055.0,197908.0]
+                                ] ]
+                            },
+                            "properties": {"label":"Label1"}
+                        }]
+                    }'>
+        <vl-map-layer-style id="map-adjusted-style"
+                            data-vl-color="rgba(255,0,0,0.5)"
+                            data-vl-border-color="rgba(255,255,100,1)"
+                            data-vl-border-size="2"
+                            data-vl-text-feature-attribute-name="label"
+                            data-vl-text-background-color="rgba(0,0,255,0.2)"
+                            data-vl-text-border-color="rgba(0,255,0,1)"
+                            data-vl-text-border-size="3"
+                            data-vl-text-color="rgba(255,0,0,1)"
+                            data-vl-text-offset-x="10"
+                            data-vl-text-offset-y="-10"
+                            data-vl-text-size="13px"
+        ></vl-map-layer-style>
+      </vl-map-layer>
+    </vl-map>
+  </vl-demo>
+  <vl-demo data-vl-title="Kaart met kaartlaag met meerdere stijlen">
+    <vl-map id="map-multiple-styles">
+      <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
+      <vl-map-layer data-vl-name="laag" data-vl-features='
+                    {
+                        "type": "FeatureCollection",
+                        "features": [{
+                            "type": "Feature",
+                            "geometry": {
+                                "type": "Polygon",
+                                "coordinates": [ [
+                                    [127055.0,197908.0],
+                                    [137055.0,197908.0],
+                                    [137055.0,187908.0],
+                                    [127055.0,187908.0],
+                                    [127055.0,197908.0]
+                                ] ]
+                            },
+                            "properties": {"status":"red"}
+                        }, {
+                            "type": "Feature",
+                            "geometry": {
+                                "type": "Polygon",
+                                "coordinates": [ [
+                                    [147055.0,197908.0],
+                                    [157055.0,197908.0],
+                                    [157055.0,187908.0],
+                                    [147055.0,187908.0],
+                                    [147055.0,197908.0]
+                                ] ]
+                            },
+                            "properties": {"status":"green"}
+                        }]
+                    }'>
+        <vl-map-layer-style id="map-layer-style-red" data-vl-color="rgba(255,0,0,0.8)"></vl-map-layer-style>
+        <script>
+          document.querySelector('#map-layer-style-red').appliesTo = (feature) => feature.get('status') === 'red';
+        </script>
+        <vl-map-layer-style id="map-layer-style-green" data-vl-color="rgba(0,255,0,0.8)"></vl-map-layer-style>
+        <script>
+          document.querySelector('#map-layer-style-green').appliesTo = (feature) => feature.get('status') === 'green';
+        </script>
+      </vl-map-layer>
+    </vl-map>
+  </vl-demo>
+</vl-demo-page>
+</body>
+
+</html>

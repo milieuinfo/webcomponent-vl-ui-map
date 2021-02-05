@@ -18,12 +18,17 @@
       </vl-map>
     </template>
   </test-fixture>
-  
+  <test-fixture id="vl-map-layer-style-fixture">
+    <template>
+      <vl-map-layer-style data-vl-color="rgba(255,0,0,1)"></vl-map-layer-style>
+    </template>
+  </test-fixture>
+
   <test-fixture id="vl-map-fixture">
     <template>
       <vl-map>
-        <vl-map-layer 
-          data-vl-name="testlaag" 
+        <vl-map-layer
+          data-vl-name="testlaag"
           data-vl-min-resolution="2"
           data-vl-max-resolution="4"
           data-vl-features='{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[147055,197908]},"properties":null,"id":1}]}'>
@@ -31,12 +36,12 @@
       </vl-map>
     </template>
   </test-fixture>
-  
+
   <test-fixture id="vl-map-auto-extent-fixture">
     <template>
       <vl-map>
-        <vl-map-layer 
-          data-vl-name="testlaag" 
+        <vl-map-layer
+          data-vl-name="testlaag"
           data-vl-features='{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[147055,197908]},"properties":null,"id":1}]}'
           data-vl-auto-extent>
         </vl-map-layer>
@@ -56,7 +61,7 @@
       </vl-map>
     </template>
   </test-fixture>
-  
+
   <test-fixture id="vl-map-layers-fixture">
     <template>
       <vl-map>
@@ -65,12 +70,12 @@
       </vl-map>
     </template>
   </test-fixture>
-  
+
   <test-fixture id="vl-map-cluster-fixture">
     <template>
       <vl-map>
-        <vl-map-layer 
-          data-vl-name="testlaag" 
+        <vl-map-layer
+          data-vl-name="testlaag"
           data-vl-features='{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[147055,197908]},"properties":null},{"type":"Feature","geometry":{"type":"Point","coordinates":[157055,207908]},"properties":null}]}'
           data-vl-cluster
           data-vl-cluster-distance="100">
@@ -81,7 +86,8 @@
 
   <script type="module">
     import {awaitUntil} from '/node_modules/vl-ui-core/dist/vl-core.js';
-    import {OlGeoJSON, OlFeature, OlPoint, OlStyle} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
+    import {OlGeoJSON, OlFeature, OlPoint, OlStyle, OlStyleFill} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
+    import {VlMapLayerStyle} from '../../src/vl-map-layer-style.js';
 
     suite('vl-map-layer', () => {
       const sandbox = sinon.createSandbox();
@@ -91,7 +97,7 @@
       setup((done) => {
         customElements.whenDefined('vl-map-layer').then(() => done());
       });
-    
+
       teardown(() => {
         sandbox.restore();
       });
@@ -111,7 +117,7 @@
         assert.equal(layer.getMaxResolution(), layerElement.getAttribute('max-resolution'));
         assert.equal(geoJSON.writeFeatures(layer.getSource().getFeatures()), layerElement.getAttribute('features'));
       });
-    
+
       test('na het toevoegen van de kaartlaag zal de kaart zoomen naar de extent van de kaartlaag indien de auto-extent geactiveerd werd', async () => {
         let map = fixture('vl-map-fixture');
         assert.deepEqual(map.map.getView().getCenter(), [140860.69299028325, 190532.7165957574]);
@@ -143,7 +149,7 @@
         assert.deepEqual(view.getCenter(), [147055, 197908]);
         assert.equal(view.getZoom(), 3);
       });
-    
+
       test('bij het toevoegen van een feature zal deze automatisch toegevoegd worden aan de laag en zal de kaart opnieuw zoomen naar de extent van de kaartlaag indien de auto-extent geactiveerd werd', async () => {
         const map = fixture('vl-map-fixture');
         const layerElement = map.querySelector('vl-map-layer');
@@ -165,7 +171,7 @@
           return hasCorrectFeatureLength && hasCorrectFeature && hasCorrectView;
         });
       });
-    
+
       test('elke kaartlaag zal een id krijgen', async () => {
         const map = fixture('vl-map-layers-fixture');
         await map.ready;
@@ -175,7 +181,7 @@
         assert(layer1.layer.get('id'), 1);
         assert(layer2.layer.get('id'), 2);
       });
-    
+
       test('kan de boundingbox opvragen van de features op de laag', async () => {
         const map = fixture('vl-map-layer-fixture');
         const layer = map.querySelector('vl-map-layer');
@@ -187,7 +193,7 @@
         const boundingBox = layer.__boundingBox;
         assert.equal(boundingBox, extent);
       });
-    
+
       test('kan een feature verkrijgen via id', async () => {
         const map = fixture('vl-map-fixture');
         const layer = map.querySelector('vl-map-layer');
@@ -195,7 +201,7 @@
         should.exist(layer.getFeature(1));
         should.not.exist(layer.getFeature(2));
       });
-    
+
       test('kan een cluster verkrijgen via een feature id in de cluster', async () => {
         const map = fixture('vl-map-fixture');
         const layer = map.querySelector('vl-map-layer');
@@ -216,7 +222,45 @@
         assert.deepEqual(layer.getCluster(2), cluster1);
         assert.deepEqual(layer.getCluster(3), cluster2);
       });
-    
+
+      test('de stijl kan op de layer gezet worden met een VlMapLayerStyle object', async () => {
+        const map = fixture('vl-map-layer-fixture');
+        const styleFixture = fixture('vl-map-layer-style-fixture');
+        const layer = map.querySelector('vl-map-layer');
+        await map.ready;
+
+        layer.style = styleFixture;
+
+        const style = layer.style()[0];
+        assert.equal(style.getFill().getColor(), 'rgba(255,0,0,1)');
+        assert.equal(style.getStroke().getColor(), 'rgba(2, 85, 204, 1)');
+      });
+
+      test('de stijl kan op de layer gezet worden met een openlayers stijl object', async () => {
+        const map = fixture('vl-map-layer-fixture');
+        const layer = map.querySelector('vl-map-layer');
+        await map.ready;
+
+        layer.style = new OlStyle({fill: new OlStyleFill({
+            color: 'rgba(255,0,0,0,1)',
+          })});
+
+        assert.equal(layer.style.getFill().getColor(), 'rgba(255,0,0,0,1)');
+      });
+
+      test('de stijl kan op de layer verwijderd worden met null', async () => {
+        const map = fixture('vl-map-layer-fixture');
+        const styleFixture = fixture('vl-map-layer-style-fixture');
+        const layer = map.querySelector('vl-map-layer');
+        const styleElement = styleFixture.querySelector('vl-map-layer-style');
+        await map.ready;
+
+        layer.style = styleElement;
+        layer.style = null;
+
+        assert.isNull(layer.style);
+      });
+
       test('al de feature specifieke stijl kan verwijderd worden', async () => {
         const map = fixture('vl-map-layer-fixture');
         const layer = map.querySelector('vl-map-layer');
@@ -227,7 +271,7 @@
         feature2.setStyle(new OlStyle({}));
         const features = [feature1, feature2];
         layer.setAttribute('features', geoJSON.writeFeatures(features));
-    
+
         layer.removeFeaturesStyle();
         assert.isNull(layer.features[0].getStyle());
         assert.isNull(layer.features[1].getStyle());
