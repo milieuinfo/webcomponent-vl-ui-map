@@ -135,8 +135,8 @@ export class VlMapLayer extends vlElement(HTMLElement) {
       this._styles.push(style);
       this._layer.setStyle((feature) => {
         return this._styles
-        .map((style) => style.style(feature))
-        .filter((style) => style != null);
+            .map((style) => style.style(feature))
+            .filter((style) => style != null);
       });
     } else {
       this._styles = [];
