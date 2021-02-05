@@ -226,11 +226,7 @@ export class VlMapLayerStyle extends vlElement(HTMLElement) {
 
   _setStyleOnParent() {
     if (this.parentElement) {
-      if (this.parentElement.addStyle) {
-        return this.parentElement.addStyle(this);
-      } else {
-        return this.parentElement.style = this.style;
-      }
+      return this.parentElement.style = this;
     }
   }
 }

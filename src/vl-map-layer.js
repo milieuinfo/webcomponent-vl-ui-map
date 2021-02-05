@@ -1,4 +1,5 @@
 import {vlElement} from '/node_modules/vl-ui-core/dist/vl-core.js';
+import {VlMapLayerStyle} from '/src/vl-map-layer-style.js';
 import {
   OlClusterSource,
   OlGeoJSON,
@@ -120,27 +121,27 @@ export class VlMapLayer extends vlElement(HTMLElement) {
   }
 
   /**
-   * Voeg een kaartlaag stijl toe.
+   * Zet de kaartlaag stijl.
+   * Indien een VlMapLayerStyle gekozen wordt, wordt die toegevoegd aan de reeds bestaande stijlen.
+   * Bij een OpenLayers StyleLike wordt de stijl overschreven.
+   * Bij voorkeur wordt een VlMapLayerStyle gekozen.
    *
-   * @param {VlMapLayerStyle} style een kaartlaag stijl
-   */
-  addStyle(style) {
-    this._styles.push(style);
-    this._layer.setStyle((feature) => {
-      return this._styles
-          .map((style) => style.style(feature))
-          .filter((style) => style != null);
-    });
-  }
-
-  /**
-   * Zet de OpenLayers kaartlaag stijl. Overschrijft alle huidige kaartlaag stijlen met de gekozen stijl.
+   * @param {VlMapLayerStyle|object|null} style een VlMapLayerStyle of een OpenLayers StyleLike, of null om de stijl te verwijderen.
    *
-   * @param {ol.style} style een OpenLayers stijl
+   * @see {@link https://openlayers.org/en/latest/apidoc/module-ol_style_Style.html#~StyleLike|OpenLayers StyleLike}
    */
   set style(style) {
-    this._styles = [style];
-    this._layer.setStyle(style);
+    if (style instanceof VlMapLayerStyle) {
+      this._styles.push(style);
+      this._layer.setStyle((feature) => {
+        return this._styles
+        .map((style) => style.style(feature))
+        .filter((style) => style != null);
+      });
+    } else {
+      this._styles = [];
+      this._layer.setStyle(style);
+    }
   }
 
   /**
