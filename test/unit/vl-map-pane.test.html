@@ -21,7 +21,6 @@
 
 <script type="module">
   suite('vl-map-pane', () => {
-
     setup((done) => {
       customElements.whenDefined('vl-map-pane').then(() => done());
     });
@@ -31,7 +30,7 @@
       const vlmapPane = element.querySelector('vl-map-pane');
 
       const title = vlmapPane._titleElement;
-      assert.equal(title.innerText, "Terug");
+      assert.equal(title.innerText, 'Terug');
     });
 
     // test('bevat default href', () => {
@@ -61,7 +60,7 @@
     //   vlmapPane.setAttribute('data-vl-link', hrefPath);
     //   assert.equal(vlmapPane._hrefElement.href, hrefPath);
     // });
-  })
+  });
 </script>
 </body>
 </html>
