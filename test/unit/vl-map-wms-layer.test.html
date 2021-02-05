@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="../../../@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../../../web-component-tester/browser.js"></script>
+
+  <script type="module" src="../../src/vl-map-all.js"></script>
+  <script src="/node_modules/sinon/pkg/sinon.js"></script>
+</head>
+
+<body>
+  <test-fixture id="vl-map-wms-layer-fixture">
+    <template>
+      <vl-map>
+        <vl-map-wms-layer></vl-map-wms-layer>
+      </vl-map>
+    </template>
+  </test-fixture>
+
+  <script type="module">
+
+    suite('vl-map-wms-layer', () => {
+      const sandbox = sinon.createSandbox();
+      const should = chai.should();
+
+      setup((done) => {
+        customElements.whenDefined('vl-map-wms-layer').then(() => done());
+      });
+
+      teardown(() => {
+        sandbox.restore();
+      });
+
+      test('wms layer kan toegevoegd worden aan een map met de correcte configuratie', async () => {
+        const mapElement = fixture('vl-map-wms-layer-fixture');
+        const layerElement = mapElement.querySelector('vl-map-wms-layer');
+
+        await mapElement.ready;
+        should.exist(layerElement.layer);
+
+        const layers = mapElement.map.getOverlayLayers();
+        assert.lengthOf(layers, 1);
+
+        // const layer = layers[0];
+        // assert.equal(layer.get('url'), layerElement.getAttribute('url')); //todo asserts
+      });
+    });
+  </script>
+</body>
+
+</html>

@@ -63,6 +63,26 @@ export class VlMapFeaturesLayer extends VlMapLayer {
     this.setAttribute('features', JSON.stringify(features));
   }
 
+  /**
+   * Geeft de OpenLayers kaartlaag stijl.
+   *
+   * @return {ol.style}
+   */
+  get style() {
+    if (this._layer) {
+      return this._layer.getStyle();
+    }
+  }
+
+  /**
+   * Zet de OpenLayers kaartlaag stijl.
+   *
+   * @param {ol.style} style
+   */
+  set style(style) {
+    this._layer.setStyle(style);
+  }
+
   get _autoExtent() {
     return this.getAttribute('auto-extent') != undefined;
   }

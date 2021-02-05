@@ -3,7 +3,7 @@ import {vlElement} from '/node_modules/vl-ui-core/dist/vl-core.js';
 /**
  * VlMapLayer
  * @class
- * @classdesc De kaart laag component.
+ * @classdesc De abstracte kaart laag klasse.
  *
  * @extends HTMLElement
  * @mixes vlElement
@@ -65,33 +65,12 @@ export class VlMapLayer extends vlElement(HTMLElement) {
   }
 
   /**
-   * Geeft de OpenLayers kaartlaag stijl.
-   *
-   * @return {ol.style}
-   */
-  get style() {
-    if (this._layer) {
-      return this._layer.getStyle();
-    }
-  }
-
-  /**
    * Geeft de kaartlaag titel terug.
    *
    * @return {String}
    */
   get title() {
     return this.get('title');
-  }
-
-  /**
-   * Zet de OpenLayers kaartlaag stijl.
-   *
-   * @param {ol.style} style
-   */
-  set style(style) {
-    this._style = style;
-    this._layer.setStyle(style);
   }
 
   /**
