@@ -1,9 +1,9 @@
 import {VlMapLayer} from '/src/vl-map-layer.js';
 import {
-  OlTileLayer,
-  OlTileWMS,
   OlImageLayer,
-  OlImageWMS,
+  OlImageWMSSource,
+  OlTileWMSSource,
+  OlTileLayer,
 } from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
 
 /**
@@ -28,11 +28,11 @@ import {
 export class VlMapWmsLayer extends VlMapLayer {
 
   get _url() {
-    return this.getAttribute('data-vl-url') || throw Error('url not defined');
+    return this.getAttribute('data-vl-url') || console.error('url not defined');
   }
 
   get _layers() {
-    return this.getAttribute('data-vl-layers') || throw Error('layers not defined');
+    return this.getAttribute('data-vl-layers') || console.error('layers not defined');
   }
 
   get _styles() {
@@ -89,9 +89,9 @@ export class VlMapWmsLayer extends VlMapLayer {
       },
     }
     if (this._tiled) {
-      return new OlTileWMS(sourceConfig);
+      return new OlTileWMSSource(sourceConfig);
     } else {
-      return new OlImageWMS(sourceConfig);
+      return new OlImageWMSSource(sourceConfig);
     }
   }
 }
