@@ -1,6 +1,6 @@
 import {VlMapLayerAction} from '/src/vl-map-layer-action.js';
+import {VlMapLayerStyle} from '/src/vl-map-layer-style.js';
 import {VlSelectAction} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
-import {VlMapLayerStyle} from './vl-map-layer-style';
 
 /**
  * VlMapSelectAction
