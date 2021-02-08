@@ -4,7 +4,7 @@ const VlMapSearchPage = require('./pages/vl-map-search.page');
 describe('vl-map-search', async () => {
   let vlMapPage;
 
-  before(() => {
+  beforeEach(() => {
     vlMapPage = new VlMapSearchPage(getDriver());
     return vlMapPage.load();
   });
