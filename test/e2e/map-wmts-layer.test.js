@@ -15,7 +15,7 @@ describe('vl-map-features-layer', async () => {
     assert.isTrue(visible);
     const name = await layer.getName();
     const url = await layer.getUrl();
-    assert.equal(name, "grb_sel");
-    assert.equal(url, "https://tile.informatievlaanderen.be/ws/raadpleegdiensten/wmts");
+    assert.equal(name, 'grb_sel');
+    assert.equal(url, 'https://tile.informatievlaanderen.be/ws/raadpleegdiensten/wmts');
   });
 });

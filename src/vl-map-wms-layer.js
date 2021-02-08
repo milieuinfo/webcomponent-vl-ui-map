@@ -43,7 +43,7 @@ export class VlMapWmsLayer extends VlMapLayer {
   }
 
   get _opacity() {
-    return this.getAttribute('data-vl-opacity') || 1;
+    return Number(this.getAttribute('data-vl-opacity') || 1);
   }
 
   get _tiled() {
