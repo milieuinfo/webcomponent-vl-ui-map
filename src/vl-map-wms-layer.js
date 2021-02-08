@@ -26,7 +26,6 @@ import {
  * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map-wms-layer.html|Demo}
  */
 export class VlMapWmsLayer extends VlMapLayer {
-
   get _url() {
     return this.getAttribute('data-vl-url') || console.error('url not defined');
   }
@@ -48,7 +47,7 @@ export class VlMapWmsLayer extends VlMapLayer {
   }
 
   get _tiled() {
-    return this.getAttribute('data-vl-tiled') !== "false";
+    return this.getAttribute('data-vl-tiled') !== 'false';
   }
 
   constructor() {
@@ -68,7 +67,7 @@ export class VlMapWmsLayer extends VlMapLayer {
       opacity: this._opacity,
       minResolution: this._minResolution,
       maxResolution: this._maxResolution,
-    }
+    };
     let layer;
     if (this._tiled) {
       layer = new OlTileLayer(layerConfig);
@@ -87,7 +86,7 @@ export class VlMapWmsLayer extends VlMapLayer {
         'STYLES': this._styles,
         'VERSION': this._version,
       },
-    }
+    };
     if (this._tiled) {
       return new OlTileWMSSource(sourceConfig);
     } else {

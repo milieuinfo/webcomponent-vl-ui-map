@@ -10,7 +10,7 @@ class VlMapLayer extends VlElement {
   }
 
   static get TAG() {
-    throw 'De tag werd nog niet opgegeven voor dit type layer';
+    throw new Error('De tag werd nog niet opgegeven voor dit type layer');
   }
 }
 

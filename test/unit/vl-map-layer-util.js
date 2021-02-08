@@ -32,7 +32,7 @@ export function testIDs(fixture, expectedNumberOfLayers) {
     await map.ready;
     const layers = getLayers(map);
 
-    assert.lengthOf(layers, expectedNumberOfLayers)
+    assert.lengthOf(layers, expectedNumberOfLayers);
     layers.forEach((layer, index) => assert(layer.layer.get('id'), index + 1));
   });
 }
@@ -62,7 +62,7 @@ export function testVisibilityAtResolution(fixture, minVisibility, maxVisibility
   test(`er kan gecontroleerd worden of de kaartlaag zichtbaar is op een bepaalde resolutie (minVisibility = ${minVisibility}, maxVisibility = ${maxVisibility})`, async () => {
     const map = fixture();
     await map.ready;
-    let layer = getLayer(map);
+    const layer = getLayer(map);
 
     if (minVisibility > 0) {
       assert.isFalse(layer.isVisibleAtResolution(null));
@@ -70,24 +70,24 @@ export function testVisibilityAtResolution(fixture, minVisibility, maxVisibility
 
     const visibleResolutions = range(
         minVisibility,
-        maxVisibility === Infinity ? minVisibility + 10 : maxVisibility
+        maxVisibility === Infinity ? minVisibility + 10 : maxVisibility,
     );
     let invisibleResolutions = range(0, minVisibility);
     if (maxVisibility !== Infinity) {
       invisibleResolutions = invisibleResolutions.concat(range(maxVisibility, maxVisibility + 5));
     }
 
-    invisibleResolutions.forEach(resolution =>
-        assert.isFalse(
-            layer.isVisibleAtResolution(resolution),
-            `zou niet zichtbaar mogen zijn op resolutie ${resolution}`
-        )
+    invisibleResolutions.forEach((resolution) =>
+      assert.isFalse(
+          layer.isVisibleAtResolution(resolution),
+          `zou niet zichtbaar mogen zijn op resolutie ${resolution}`,
+      ),
     );
-    visibleResolutions.forEach(resolution =>
-        assert.isTrue(
-            layer.isVisibleAtResolution(resolution),
-            `zou zichtbaar moeten zijn op resolutie ${resolution}`
-        )
+    visibleResolutions.forEach((resolution) =>
+      assert.isTrue(
+          layer.isVisibleAtResolution(resolution),
+          `zou zichtbaar moeten zijn op resolutie ${resolution}`,
+      ),
     );
   });
 }

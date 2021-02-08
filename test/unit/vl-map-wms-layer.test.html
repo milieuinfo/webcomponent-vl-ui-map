@@ -23,7 +23,6 @@
 
     suite('vl-map-wms-layer', () => {
       const sandbox = sinon.createSandbox();
-      const should = chai.should();
 
       setup((done) => {
         customElements.whenDefined('vl-map-wms-layer').then(() => done());
@@ -35,7 +34,7 @@
 
       test('wms layer kan toegevoegd worden aan een map met de correcte configuratie', async () => {
         const mapElement = fixture('vl-map-wms-layer-fixture');
-        const layerElement = mapElement.querySelector('vl-map-wms-layer');
+        // const layerElement = mapElement.querySelector('vl-map-wms-layer');
 
         await mapElement.ready;
         // should.exist(layerElement.layer); // todo fix

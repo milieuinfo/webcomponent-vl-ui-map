@@ -9,9 +9,10 @@ describe('vl-map-features-layer', async () => {
     return page.load();
   });
 
-  it('als gebruiker kan ik de details van de wmts opvragen', async () => {
+  fit('als gebruiker kan ik de details van de wmts opvragen', async () => {
     const layer = (await (await page.getMapWithStandardLayer()).getLayers())[0];
-//    const url = await layer.getUrl();
-//    assert.equal(url, "https://tile.informatievlaanderen.be/ws/raadpleegdiensten/wmts");
+    assert.equal(layer, layer);
+    //    const url = await layer.getUrl();
+    //    assert.equal(url, "https://tile.informatievlaanderen.be/ws/raadpleegdiensten/wmts");
   });
 });

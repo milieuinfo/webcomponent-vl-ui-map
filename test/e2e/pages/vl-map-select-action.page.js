@@ -42,8 +42,8 @@ class VlMapSelectActionPage extends Page {
     return new VlMapSelectAction(this.driver, selector);
   }
 
-  async _getLayer(layerClass, selector) {
-    return new layerClass(this.driver, selector);
+  async _getLayer(LayerClass, selector) {
+    return new LayerClass(this.driver, selector);
   }
 
   async _getMap(selector) {
