@@ -202,23 +202,17 @@ export class VlMap extends vlElement(HTMLElement) {
   }
 
   /**
-   * Zoomt op de kaart naar de bounding box.
+   * Zoomt op de kaart naar de meegegeven geometry of bounding box.
    *
-   * @param {Number[]} boundingbox
+   * @param {(ol/geom/Geometry|Number[])} geometryOrBoundingbox
    * @param {Number} max
    */
-  zoomToBoundingbox(boundingbox, max) {
-    this.map.zoomToExtent(boundingbox, max);
-  }
-
-  /**
-   * Zoomt op de kaart naar geometrie.
-   *
-   * @param {Geometry} geometry
-   * @param {Number} max
-   */
-  zoomToGeometry(geometry, max) {
-    this.map.zoomToGeometry(geometry, max);
+  zoomTo(geometryOrBoundingbox, max) {
+    if (Array.isArray(geometryOrBoundingbox)) {
+      this.map.zoomToExtent(geometryOrBoundingbox, max);
+    } else if (geometryOrBoundingbox instanceof Object) {
+      this.map.zoomToGeometry(geometryOrBoundingbox, max);
+    }
   }
 
   /**
