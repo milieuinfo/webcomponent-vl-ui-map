@@ -15,4 +15,5 @@ module.exports = {
   VlMapSearch: require('../dist/vl-map-all.src.js').VlMapSearch,
   VlMapSideSheet: require('../dist/vl-map-all.src.js').VlMapSideSheet,
   VlMapLayerSwitcher: require('../dist/vl-map-all.src.js').VlMapLayerSwitcher,
+  VlMapWmtsLayer: require('../dist/vl-map-all.src.js').VlMapWmtsLayer,
 };
