@@ -1,13 +1,13 @@
 const VlMap = require('../components/vl-map');
 const {Page, Config} = require('vl-ui-core').Test;
 
-class VlMapWmtsLayerPage extends Page {
+class VlMapWmsLayerPage extends Page {
   async getMapWithStandardLayer() {
-    return this._getMap('#map-with-wmts-layer');
+    return this._getMap('#map-with-wms-layer');
   }
 
   async load() {
-    await super.load(Config.baseUrl + '/demo/vl-map-wmts-layer.html');
+    await super.load(Config.baseUrl + '/demo/vl-map-wms-layer.html');
   }
 
   async _getMap(selector) {
@@ -15,4 +15,4 @@ class VlMapWmtsLayerPage extends Page {
   }
 }
 
-module.exports = VlMapWmtsLayerPage;
+module.exports = VlMapWmsLayerPage;

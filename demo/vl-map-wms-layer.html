@@ -2,27 +2,32 @@
 <html>
 
 <head>
-    <title>vl-map-wms-layer voorbeeld</title>
-    <script type="module" src="/node_modules/vl-ui-demo/dist/vl-demo-all.js"></script>
-    <script type="module" src="/node_modules/vl-ui-body/dist/vl-body.js"></script>
+  <title>vl-map-wms-layer voorbeeld</title>
+  <script type="module" src="/node_modules/vl-ui-demo/dist/vl-demo-all.js"></script>
+  <script type="module" src="/node_modules/vl-ui-body/dist/vl-body.js"></script>
 
-    <script type="module" src="/src/vl-map-all.js"></script>
+  <script type="module" src="/src/vl-map-all.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-body/dist/style.css" />
-    <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-demo/dist/style.css" />
+  <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-body/dist/style.css"/>
+  <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-demo/dist/style.css"/>
 </head>
 
 <body is="vl-body">
-    <vl-demo-page data-vl-webcomponent="vl-map-wms-layer">
-        <vl-demo data-vl-title="Kaart met WMS kaartlaag">
-            <vl-map id="map-with-wms-layer">
-                <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
-                <vl-map-wms-layer data-vl-url="https://www.dov.vlaanderen.be/geoserver/wms"
-                                  data-vl-layers="grondwater:beschermingszones_2014"
-                ></vl-map-wms-layer>
-            </vl-map>
-        </vl-demo>
-    </vl-demo-page>
+<vl-demo-page data-vl-webcomponent="vl-map-wms-layer">
+  <vl-demo data-vl-title="Kaart met WMS kaartlaag">
+    <vl-map id="map-with-wms-layer">
+      <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
+      <vl-map-wms-layer data-vl-name="Beschermingszones"
+                        data-vl-styles=""
+                        data-vl-version="1.3.0"
+                        data-vl-opacity="0.7"
+                        data-vl-tiled="false"
+                        data-vl-url="https://www.dov.vlaanderen.be/geoserver/wms"
+                        data-vl-layers="grondwater:beschermingszones_2014"
+      ></vl-map-wms-layer>
+    </vl-map>
+  </vl-demo>
+</vl-demo-page>
 </body>
 
 </html>

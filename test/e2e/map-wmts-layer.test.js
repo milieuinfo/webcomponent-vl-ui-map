@@ -1,7 +1,7 @@
 const {assert, getDriver} = require('vl-ui-core').Test.Setup;
 const VlWmtsLayerPage = require('./pages/vl-map-wmts-layer.page');
 
-describe('vl-map-features-layer', async () => {
+describe('vl-map-wmts-layer', async () => {
   let page;
 
   before(() => {
@@ -9,7 +9,7 @@ describe('vl-map-features-layer', async () => {
     return page.load();
   });
 
-  it.only('als gebruiker kan ik de details van de wmts opvragen', async () => {
+  it('als gebruiker kan ik de details van de wmts opvragen', async () => {
     const layer = (await (await page.getMapWithStandardLayer()).getWmtsLayers())[0];
     const visible = await layer.isVisible();
     assert.isTrue(visible);
