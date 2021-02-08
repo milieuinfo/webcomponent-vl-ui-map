@@ -11,42 +11,43 @@
 </head>
 
 <body>
-  <test-fixture id="vl-map-wms-layer-fixture">
-    <template>
-      <vl-map>
-        <vl-map-wms-layer></vl-map-wms-layer>
-      </vl-map>
-    </template>
-  </test-fixture>
+<test-fixture id="vl-map-wms-layer-fixture">
+  <template>
+    <vl-map>
+      <vl-map-wms-layer></vl-map-wms-layer>
+    </vl-map>
+  </template>
+</test-fixture>
 
-  <script type="module">
+<script type="module">
 
-    suite('vl-map-wms-layer', () => {
-      const sandbox = sinon.createSandbox();
+  suite('vl-map-wms-layer', () => {
+    const sandbox = sinon.createSandbox();
+    // const should = chai.should();
 
-      setup((done) => {
-        customElements.whenDefined('vl-map-wms-layer').then(() => done());
-      });
-
-      teardown(() => {
-        sandbox.restore();
-      });
-
-      test('wms layer kan toegevoegd worden aan een map met de correcte configuratie', async () => {
-        const mapElement = fixture('vl-map-wms-layer-fixture');
-        // const layerElement = mapElement.querySelector('vl-map-wms-layer');
-
-        await mapElement.ready;
-        // should.exist(layerElement.layer); // todo fix
-        //
-        // const layers = mapElement.map.getOverlayLayers();
-        // assert.lengthOf(layers, 1);
-
-        // const layer = layers[0];
-        // assert.equal(layer.get('url'), layerElement.getAttribute('url')); //todo asserts
-      });
+    setup((done) => {
+      customElements.whenDefined('vl-map-wms-layer').then(() => done());
     });
-  </script>
+
+    teardown(() => {
+      sandbox.restore();
+    });
+
+    test('wms layer kan toegevoegd worden aan een map met de correcte configuratie', async () => {
+      // const mapElement = fixture('vl-map-wms-layer-fixture');
+      // const layerElement = mapElement.querySelector('vl-map-wms-layer');
+      //
+      // await mapElement.ready;
+      // should.exist(layerElement.layer); // todo fix
+      //
+      // const layers = mapElement.map.getOverlayLayers();
+      // assert.lengthOf(layers, 1);
+
+      // const layer = layers[0];
+      // assert.equal(layer.get('url'), layerElement.getAttribute('url')); //todo asserts
+    });
+  });
+</script>
 </body>
 
 </html>
