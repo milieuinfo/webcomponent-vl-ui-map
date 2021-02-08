@@ -87,7 +87,6 @@
   <script type="module">
     import {awaitUntil} from '/node_modules/vl-ui-core/dist/vl-core.js';
     import {OlGeoJSON, OlFeature, OlPoint, OlStyle, OlStyleFill} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
-    import {VlMapLayerStyle} from '../../src/vl-map-layer-style.js';
 
     suite('vl-map-layer', () => {
       const sandbox = sinon.createSandbox();
@@ -242,8 +241,8 @@
         await map.ready;
 
         layer.style = new OlStyle({fill: new OlStyleFill({
-            color: 'rgba(255,0,0,0,1)',
-          })});
+          color: 'rgba(255,0,0,0,1)',
+        })});
 
         assert.equal(layer.style.getFill().getColor(), 'rgba(255,0,0,0,1)');
       });

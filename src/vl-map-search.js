@@ -2,6 +2,7 @@ import {vlElement} from '/node_modules/vl-ui-core/dist/vl-core.js';
 import '/node_modules/vl-ui-select/dist/vl-select.js';
 import '/node_modules/vl-ui-search/dist/vl-search.js';
 import {OlOverlay} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
+import LambertCoordinaat from '/src/lambert-coordinaat.js';
 
 /**
  * VlMapSearch
@@ -20,7 +21,7 @@ import {OlOverlay} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
  * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map-search.html|Demo}
  */
-export class VlMapSearch extends vlElement(HTMLElement) {
+class VlMapSearch extends vlElement(HTMLElement) {
   static get _observedAttributes() {
     return ['placeholder', 'search-placeholder', 'search-empty-text', 'search-no-results-text'];
   }
@@ -57,6 +58,10 @@ export class VlMapSearch extends vlElement(HTMLElement) {
 
   get locationUrl() {
     return this.url + '/Location?q=';
+  }
+
+  get locationXyUrl() {
+    return this.url + '/Location?c=5&xy=';
   }
 
   set placeholder(value) {
@@ -123,21 +128,65 @@ export class VlMapSearch extends vlElement(HTMLElement) {
       this.__searchEventListenerRegistered = true;
       this._selectElement.addEventListener('search', (event) => {
         if (event && event.detail && event.detail.value) {
-          fetch(this.searchUrl + event.detail.value).then((response) => {
-            return response.json();
-          }).then((data) => {
-            if (data && data.SuggestionResult) {
-              const resultaten = data.SuggestionResult.map((resultaat) => {
-                return {
-                  value: resultaat,
-                  label: resultaat,
-                };
-              });
-              this._selectElement.choices = resultaten;
-            }
-          });
+          const lambertCoordinaat = LambertCoordinaat.of(event.detail.value);
+
+          if (LambertCoordinaat.isLambertCoordinaat(lambertCoordinaat)) {
+            this._searchChoicesByLambertCoordinaat(lambertCoordinaat);
+          } else {
+            this._searchChoicesByValue(event.detail.value);
+          }
         }
       });
+    }
+  }
+
+  _searchChoicesByValue(searchValue) {
+    fetch(this.searchUrl + encodeURIComponent(searchValue)).then((response) => {
+      return response.json();
+    }).then((data) => {
+      this._selectElement.choices = this._mapSuggestionResultToChoices(data);
+    });
+  }
+
+  _mapSuggestionResultToChoices(data) {
+    if (data && data.SuggestionResult) {
+      return data.SuggestionResult.map((resultaat) => {
+        return {
+          value: resultaat,
+          label: resultaat,
+        };
+      });
+    } else {
+      return [];
+    }
+  }
+
+  _searchChoicesByLambertCoordinaat(lambertCoordinaat) {
+    fetch(this.locationXyUrl + lambertCoordinaat.x + ',' + lambertCoordinaat.y).then((response) => {
+      return response.json();
+    }).then((data) => {
+      this._selectElement.choices = [this._mapLambertCoordinaatToChoice(lambertCoordinaat)]
+          .concat(this._mapLocationResultToChoices(data));
+    });
+  }
+
+  _mapLambertCoordinaatToChoice(lambertCoordinaat) {
+    return {
+      value: lambertCoordinaat,
+      label: 'Lambert-coördinaat: ' + lambertCoordinaat.toString(),
+    };
+  }
+
+  _mapLocationResultToChoices(data) {
+    if (data && data.LocationResult) {
+      return data.LocationResult.map((locationResult) => {
+        return {
+          value: locationResult,
+          label: locationResult.FormattedAddress,
+        };
+      });
+    } else {
+      return [];
     }
   }
 
@@ -146,25 +195,55 @@ export class VlMapSearch extends vlElement(HTMLElement) {
       this.__choiceEventListenerRegistered = true;
       this.__choiceEventListener = this._selectElement.addEventListener('choice', (event) => {
         if (event && event.detail && event.detail.choice) {
-          fetch(this.locationUrl + event.detail.choice.value).then((response) => {
-            return response.json();
-          }).then((data) => {
-            if (data && data.LocationResult) {
-              if (this._onSelect) {
-                this._onSelect(data);
-              } else if (this._map) {
-                this._map.zoomTo([
-                  data.LocationResult[0].BoundingBox.LowerLeft.X_Lambert72,
-                  data.LocationResult[0].BoundingBox.LowerLeft.Y_Lambert72,
-                  data.LocationResult[0].BoundingBox.UpperRight.X_Lambert72,
-                  data.LocationResult[0].BoundingBox.UpperRight.Y_Lambert72,
-                ]);
-              }
-            }
-          });
+          const value = event.detail.choice.value;
+
+          if (LambertCoordinaat.isLambertCoordinaat(value)) {
+            this._zoomToLambertCoordinaat(value);
+          } else if (value instanceof Object) {
+            this._zoomToLocation(value);
+          } else {
+            this._searchLocationByValue(value).then((data) => this._zoomToLocationResult(data));
+          }
         }
       });
     }
+  }
+
+  _zoomToLambertCoordinaat(lambertCoordinaat) {
+    this._map.zoomTo({
+      type: 'Point',
+      coordinates: [lambertCoordinaat.x, lambertCoordinaat.y],
+    }, 10);
+  }
+
+  _zoomToLocation(location) {
+    this._map.zoomTo([
+      location.BoundingBox.LowerLeft.X_Lambert72,
+      location.BoundingBox.LowerLeft.Y_Lambert72,
+      location.BoundingBox.UpperRight.X_Lambert72,
+      location.BoundingBox.UpperRight.Y_Lambert72,
+    ], 14);
+  }
+
+  _zoomToLocationResult(data) {
+    if (data && data.LocationResult) {
+      if (this._onSelect) {
+        this._onSelect(data);
+      } else if (this._map) {
+        this._map.zoomTo([
+          data.LocationResult[0].BoundingBox.LowerLeft.X_Lambert72,
+          data.LocationResult[0].BoundingBox.LowerLeft.Y_Lambert72,
+          data.LocationResult[0].BoundingBox.UpperRight.X_Lambert72,
+          data.LocationResult[0].BoundingBox.UpperRight.Y_Lambert72,
+        ]);
+      }
+    }
+  }
+
+  _searchLocationByValue(searchValue) {
+    return fetch(this.locationUrl + encodeURIComponent(searchValue)).then((response) => {
+      return response.json();
+    });
   }
 
   _configure() {
@@ -181,8 +260,13 @@ export class VlMapSearch extends vlElement(HTMLElement) {
 
   _changeTranslations() {
     this.placeholder = 'Lokaliseer adres';
-    this.searchPlaceholder = 'Gemeente, straat en huisnummer';
+    this.searchPlaceholder = 'Gemeente, straat en huisnummer of Lambert-coördinaat';
     this.searchEmptyText = 'Geen adres gevonden';
     this.searchNoResultsText = 'Geen adres gevonden';
   }
 }
+
+export {
+  LambertCoordinaat,
+  VlMapSearch,
+};
