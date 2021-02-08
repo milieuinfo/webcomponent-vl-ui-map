@@ -1,4 +1,5 @@
 import {vlElement} from '/node_modules/vl-ui-core/dist/vl-core.js';
+import {VlMapLayerStyle} from '/src/vl-map-layer-style.js';
 import {
   OlClusterSource,
   OlGeoJSON,
@@ -36,6 +37,7 @@ export class VlMapLayer extends vlElement(HTMLElement) {
     VlMapLayer._counter = 0;
     this.__counter = ++VlMapLayer._counter;
     this._geoJSON = new OlGeoJSON();
+    this._styles = [];
   }
 
   async connectedCallback() {
@@ -119,13 +121,28 @@ export class VlMapLayer extends vlElement(HTMLElement) {
   }
 
   /**
-   * Zet de OpenLayers kaartlaag stijl.
+   * Zet de kaartlaag stijl.
+   * Indien een VlMapLayerStyle gekozen wordt, wordt die toegevoegd aan de reeds bestaande stijlen.
+   * Bij een OpenLayers StyleLike wordt de stijl overschreven.
+   * Bij voorkeur wordt een VlMapLayerStyle gekozen.
    *
-   * @param {ol.style} style
+   * @param {VlMapLayerStyle|object|null} style een VlMapLayerStyle of een OpenLayers StyleLike, of null om de stijl te verwijderen.
+   * @deprecated Gebruik van een OpenLayers style als argument wordt afgeraden. Gebruik in de plaats daarvan de VlMapLayerStyle component. In een latere versie zal de mogelijkheid om een OpenLayers style te zetten verdwijnen.
+   *
+   * @see {@link https://openlayers.org/en/latest/apidoc/module-ol_style_Style.html#~StyleLike|OpenLayers StyleLike}
    */
   set style(style) {
-    this._style = style;
-    this._layer.setStyle(style);
+    if (style instanceof VlMapLayerStyle) {
+      this._styles.push(style);
+      this._layer.setStyle((feature) => {
+        return this._styles
+            .map((style) => style.style(feature))
+            .filter((style) => style != null);
+      });
+    } else {
+      this._styles = [];
+      this._layer.setStyle(style);
+    }
   }
 
   /**
@@ -293,7 +310,8 @@ export class VlMapLayer extends vlElement(HTMLElement) {
     this._source = new OlVectorSource({
       features: features,
     });
-    return this.cluster ? this.__createClusterSource(this._source) : this._source;
+    return this.cluster ? this.__createClusterSource(this._source) :
+      this._source;
   }
 
   __createClusterSource(source) {

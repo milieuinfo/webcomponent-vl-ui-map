@@ -1,4 +1,5 @@
 import {VlMapLayerAction} from '/src/vl-map-layer-action.js';
+import {VlMapLayerStyle} from '/src/vl-map-layer-style.js';
 import {VlSelectAction} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
 
 /**
@@ -18,19 +19,23 @@ export class VlMapSelectAction extends VlMapLayerAction {
   /**
    * Geeft de stijl die een geselecteerd feature zal krijgen.
    *
-   * @return {Object}
+   * @return {Object} de stijl
    */
   get style() {
     return this._style;
   }
 
   /**
-   * Zet de stijl die een geselecteerd feature zal krijgen.
+   * Zet de stijl die een geselecteerde feature zal krijgen.
    *
-   * @param {Object} style
+   * @param {VlMapLayerStyle|Object} style - de stijl: een VlMapLayerStyle of een OpenLayers StyleLikeF
    */
   set style(style) {
-    this._style = style;
+    if (style instanceof VlMapLayerStyle) {
+      this._style = style.style;
+    } else {
+      this._style = style;
+    }
   }
 
   get _cluster() {
