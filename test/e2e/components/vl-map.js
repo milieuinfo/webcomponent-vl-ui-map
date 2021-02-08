@@ -25,7 +25,7 @@ class VlMap extends VlElement {
 
   async _getLayersOfType(layerClass) {
     const layerElements = await this.findElements(By.css(`:scope > ${layerClass.TAG}`));
-    return Promise.all(layerElements.map(element => new layerClass(this.driver, element)));
+    return Promise.all(layerElements.map((element) => new layerClass(this.driver, element)));
   }
 
   async isEscapeKeyDisabled() {
