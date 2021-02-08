@@ -4,7 +4,6 @@ import '/node_modules/vl-ui-search/dist/vl-search.js';
 import {OlOverlay} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
 import LambertCoordinaat from '/src/lambert-coordinaat.js';
 
-
 /**
  * VlMapSearch
  * @class
@@ -22,7 +21,7 @@ import LambertCoordinaat from '/src/lambert-coordinaat.js';
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
  * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map-search.html|Demo}
  */
-export class VlMapSearch extends vlElement(HTMLElement) {
+class VlMapSearch extends vlElement(HTMLElement) {
   static get _observedAttributes() {
     return ['placeholder', 'search-placeholder', 'search-empty-text', 'search-no-results-text'];
   }
@@ -266,3 +265,8 @@ export class VlMapSearch extends vlElement(HTMLElement) {
     this.searchNoResultsText = 'Geen adres gevonden';
   }
 }
+
+export {
+  LambertCoordinaat,
+  VlMapSearch,
+};

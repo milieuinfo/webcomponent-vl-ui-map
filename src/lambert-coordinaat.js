@@ -68,12 +68,12 @@ class LambertCoordinaat {
   }
 
   /**
-   * Bepaald of de opgegeven waarde een geldige Lambert-coördinaat is.
+   * Bepaalt of de opgegeven waarde een geldige Lambert-coördinaat is.
    * @param {*} value
    * @return {boolean}
    */
   static isLambertCoordinaat(value) {
-    return !!value && value.x !== undefined && value.y !== undefined;
+    return value instanceof LambertCoordinaat;
   }
 }
 
