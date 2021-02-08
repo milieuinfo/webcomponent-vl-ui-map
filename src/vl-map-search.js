@@ -211,14 +211,14 @@ export class VlMapSearch extends vlElement(HTMLElement) {
   }
 
   _zoomToLambertCoordinaat(lambertCoordinaat) {
-    this._map.zoomToGeometry({
+    this._map.zoomTo({
       type: 'Point',
       coordinates: [lambertCoordinaat.x, lambertCoordinaat.y],
     }, 10);
   }
 
   _zoomToLocation(location) {
-    this._map.zoomToBoundingbox([
+    this._map.zoomTo([
       location.BoundingBox.LowerLeft.X_Lambert72,
       location.BoundingBox.LowerLeft.Y_Lambert72,
       location.BoundingBox.UpperRight.X_Lambert72,
@@ -231,7 +231,7 @@ export class VlMapSearch extends vlElement(HTMLElement) {
       if (this._onSelect) {
         this._onSelect(data);
       } else if (this._map) {
-        this._map.zoomToBoundingbox([
+        this._map.zoomTo([
           data.LocationResult[0].BoundingBox.LowerLeft.X_Lambert72,
           data.LocationResult[0].BoundingBox.LowerLeft.Y_Lambert72,
           data.LocationResult[0].BoundingBox.UpperRight.X_Lambert72,
