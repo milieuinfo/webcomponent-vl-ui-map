@@ -12,9 +12,12 @@ const VlMapSideSheet = require('./vl-map-side-sheet');
 class VlMap extends VlElement {
   async getBaseLayers() {
     const childElements = await this.findElements(By.css(':scope > *'));
-    const tagNames = await Promise.all(childElements.map((element) => element.getTagName()));
-    const baseLayerElements = childElements.filter((element, index) => tagNames[index].startsWith('vl-map-baselayer'));
-    return Promise.all(baseLayerElements.map((element) => new VlMapBaseLayer(this.driver, element)));
+    const tagNames = await Promise.all(
+        childElements.map((element) => element.getTagName()));
+    const baseLayerElements = childElements.filter(
+        (element, index) => tagNames[index].startsWith('vl-map-baselayer'));
+    return Promise.all(baseLayerElements.map(
+        (element) => new VlMapBaseLayer(this.driver, element)));
   }
 
   async getLayers() {
@@ -22,11 +25,11 @@ class VlMap extends VlElement {
   }
 
   async getWmtsLayers() {
-	  return this._getLayersOfType(VlMapWmtsLayer);
+    return this._getLayersOfType(VlMapWmtsLayer);
   }
 
   async getWmsLayers() {
-	  return this._getLayersOfType(VlMapWmsLayer);
+    return this._getLayersOfType(VlMapWmsLayer);
   }
 
   async _getFeaturesLayers() {
@@ -34,8 +37,10 @@ class VlMap extends VlElement {
   }
 
   async _getLayersOfType(LayerClass) {
-    const layerElements = await this.findElements(By.css(`:scope > ${LayerClass.TAG}`));
-    return Promise.all(layerElements.map((element) => new LayerClass(this.driver, element)));
+    const layerElements = await this.findElements(
+        By.css(`:scope > ${LayerClass.TAG}`));
+    return Promise.all(
+        layerElements.map((element) => new LayerClass(this.driver, element)));
   }
 
   async isEscapeKeyDisabled() {
@@ -65,7 +70,9 @@ class VlMap extends VlElement {
   }
 
   async getActiveBaseLayerTitle() {
-    return this.driver.executeScript(`return arguments[0].map.baseLayers.find((layer) => layer.getVisible()).get('title')`, this);
+    return this.driver.executeScript(
+        `return arguments[0].map.baseLayers.find((layer) => layer.getVisible()).get('title')`,
+        this);
   }
 
   async getSideSheet() {
@@ -101,7 +108,8 @@ class VlMap extends VlElement {
   }
 
   async getZoom() {
-    return this.driver.executeScript(`return arguments[0].map.getView().getZoom()`, this);
+    return this.driver.executeScript(
+        `return arguments[0].map.getView().getZoom()`, this);
   }
 
   async hasZoom(zoom) {
@@ -112,7 +120,9 @@ class VlMap extends VlElement {
   }
 
   async clickOnCoordinates(coordinates) {
-    const pixels = await this.driver.executeScript(`return arguments[0].map.getPixelFromCoordinate(${JSON.stringify(coordinates)})`, this);
+    const pixels = await this.driver.executeScript(
+        `return arguments[0].map.getPixelFromCoordinate(${JSON.stringify(
+            coordinates)})`, this);
     const rect = await this.getRect();
     await this.driver.actions().move({
       origin: this,
