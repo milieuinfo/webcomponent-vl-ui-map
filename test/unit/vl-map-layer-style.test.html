@@ -55,11 +55,13 @@
           <vl-map-layer-style id="map-layer-style-red"
                               data-vl-color="rgba(255,0,0,0.8)"
           ></vl-map-layer-style>
-          <script>document.querySelector('#map-layer-style-red').appliesTo = (feature) => feature.get('status') === 'red';</script>
+          <script>document.querySelector('#map-layer-style-red').appliesTo = (feature) => feature.get('status') === 'red';
+</script>
           <vl-map-layer-style id="map-layer-style-green"
                               data-vl-color="rgba(0,255,0,0.8)"
           ></vl-map-layer-style>
-          <script>document.querySelector('#map-layer-style-green').appliesTo = (feature) => feature.get('status') === 'green';</script>
+          <script>document.querySelector('#map-layer-style-green').appliesTo = (feature) => feature.get('status') === 'green';
+</script>
         </vl-map-layer>
       </vl-map>
     </template>
@@ -168,9 +170,9 @@
         const styleGreen = vlMapLayerElement.style({get: () => 'green'});
         const styleOnbestaand = vlMapLayerElement.style({get: () => 'orange'});
 
-        assert.equal(styleRed.length, 1)
+        assert.equal(styleRed.length, 1);
         assert.equal(styleRed[0].getFill().getColor(), 'rgba(255,0,0,0.8)');
-        assert.equal(styleGreen.length, 1)
+        assert.equal(styleGreen.length, 1);
         assert.equal(styleGreen[0].getFill().getColor(), 'rgba(0,255,0,0.8)');
         assert.equal(styleOnbestaand.length, 0);
       });

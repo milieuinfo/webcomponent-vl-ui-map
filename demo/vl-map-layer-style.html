@@ -139,11 +139,13 @@
         <vl-map-layer-style id="map-layer-style-red"
                             data-vl-color="rgba(255,0,0,0.8)"
         ></vl-map-layer-style>
-        <script>document.querySelector('#map-layer-style-red').appliesTo = (feature) => feature.get('status') === 'red';</script>
+        <script>document.querySelector('#map-layer-style-red').appliesTo = (feature) => feature.get('status') === 'red';
+</script>
         <vl-map-layer-style id="map-layer-style-green"
                             data-vl-color="rgba(0,255,0,0.8)"
         ></vl-map-layer-style>
-        <script>document.querySelector('#map-layer-style-green').appliesTo = (feature) => feature.get('status') === 'green';</script>
+        <script>document.querySelector('#map-layer-style-green').appliesTo = (feature) => feature.get('status') === 'green';
+</script>
       </vl-map-layer>
     </vl-map>
   </vl-demo>
