@@ -2,6 +2,7 @@ const {VlElement} = require('vl-ui-core').Test;
 const {By} = require('vl-ui-core').Test.Setup;
 const VlMapBaseLayer = require('./vl-map-baselayer');
 const VlMapFeaturesLayer = require('./vl-map-features-layer');
+const VlMapWmtsLayer = require('./vl-map-wmts-layer');
 const VlMapSearch = require('./vl-map-search');
 const VlMapOverviewMap = require('./vl-map-overview-map');
 const VlMapLayerSwitcher = require('./vl-map-layer-switcher');
@@ -17,6 +18,10 @@ class VlMap extends VlElement {
 
   async getLayers() {
     return this._getFeaturesLayers();
+  }
+
+  async getWmtsLayers() {
+	  return this._getLayersOfType(VlMapWmtsLayer);
   }
 
   async _getFeaturesLayers() {
