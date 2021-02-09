@@ -14,19 +14,18 @@
 
 <body is="vl-body">
     <vl-demo-page data-vl-webcomponent="vl-map-side-sheet">
-        <vl-demo data-vl-title="Sidesheet default opengeklapt">
-            <vl-map id="map">
-                <vl-map-baselayer-grb-gray id="baselayer-grb-gray"></vl-map-baselayer-grb-gray>
-                <vl-map-side-sheet data-vl-open>
-                </vl-map-side-sheet>
-            </vl-map>
-        </vl-demo>
-
         <vl-demo data-vl-title="Menu item binnen sidesheet">
-            <vl-map id="map">
+            <vl-map id="vl-map-side-sheet-map">
                 <vl-map-baselayer-grb-gray id="baselayer-grb-gray"></vl-map-baselayer-grb-gray>
                 <vl-map-side-sheet data-vl-open>
-                    <vl-map-side-sheet-menu-item data-vl-title="Terug naar resultaten" data-vl-href="/"></vl-map-side-sheet-menu-item>
+                    <vl-map-side-sheet-menu>
+                        <vl-map-side-sheet-menu-item data-vl-title="Terug naar resultaten" data-vl-href="/">
+                            <span>tekst</span>
+                        </vl-map-side-sheet-menu-item>
+                        <vl-map-side-sheet-menu-item data-vl-title="Terug naar resultaten" data-vl-href="/">
+                            <span>andere tekst</span>
+                        </vl-map-side-sheet-menu-item>
+                    </vl-map-side-sheet-menu>
                 </vl-map-side-sheet>
             </vl-map>
         </vl-demo>

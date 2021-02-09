@@ -27,15 +27,17 @@ export class VlMapSideSheetMenuItem extends vlElement(HTMLElement) {
         .vl-map-side-sheet-menu-item {
           background: #e8ebee;
           padding: 2rem;
-          margin: -2rem;
           margin-bottom: 3rem;
         }
       </style>
-      <div class="vl-map-side-sheet-menu-item">
-          <a id="vl-map-side-sheet-menu-item-link" is="vl-link" href="#">
-            <span is="vl-icon" data-vl-icon="arrow-left-fat"
-                  data-vl-before></span><span id="title">Terug</span>
-          </a>
+      <div>
+        <div class="vl-map-side-sheet-menu-item">
+            <a id="vl-map-side-sheet-menu-item-link" is="vl-link" href="#">
+              <span is="vl-icon" data-vl-icon="arrow-left-fat"
+                    data-vl-before></span><span id="title">Terug</span>
+            </a>
+        </div>
+        <slot></slot>
       </div>
     `);
   }
