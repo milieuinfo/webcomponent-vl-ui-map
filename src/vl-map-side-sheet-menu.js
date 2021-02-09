@@ -5,7 +5,8 @@ import {vlElement} from '/node_modules/vl-ui-core/dist/vl-core.js';
  * @class
  * @classdesc De menu die verbonden is aan een side sheet.
  *
- * @extends VlElement
+ * @extends HTMLElement
+ * @mixes VlElement
  *
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
