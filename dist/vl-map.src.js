@@ -1,5 +1,10 @@
 import {vlElement} from 'vl-ui-core';
-import {VlCustomMap, OlLayerGroup, OlProjection, OlFullScreenControl} from 'vl-mapactions/dist/vl-mapactions.js';
+import {
+  OlFullScreenControl,
+  OlLayerGroup,
+  OlProjection,
+  VlCustomMap,
+} from 'vl-mapactions/dist/vl-mapactions.js';
 
 /**
  * VlMap
@@ -9,10 +14,12 @@ import {VlCustomMap, OlLayerGroup, OlProjection, OlFullScreenControl} from 'vl-m
  * @extends HTMLElement
  * @mixes vlElement
  *
- * @property {boolean} data-vl-allow-fullscreen - Attribuut wordt gebruikt om de gebruiker de mogelijkheid te geven om de kaart in fullscreen te visualiseren.
+ * @property {boolean} data-vl-allow-fullscreen - Attribuut wordt gebruikt om de gebruiker de mogelijkheid te geven om de kaart in fullscreen te
+ *     visualiseren.
  * @property {boolean} data-vl-disable-escape-key - Attribuut wordt gebruikt om ervoor te zorgen dat de escape toets niet gebruikt kan worden.
  * @property {boolean} data-vl-disable-rotation - Attribuut wordt gebruikt om ervoor te zorgen dat het niet mogelijk is om de kaart te draaien.
- * @property {boolean} data-vl-disable-mouse-wheel-zoom - Attribuut wordt gebruikt om ervoor te zorgen dat het niet mogelijk is om de kaart in te zoomen met het muiswiel.
+ * @property {boolean} data-vl-disable-mouse-wheel-zoom - Attribuut wordt gebruikt om ervoor te zorgen dat het niet mogelijk is om de kaart in te
+ *     zoomen met het muiswiel.
  *
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
@@ -196,13 +203,17 @@ export class VlMap extends vlElement(HTMLElement) {
   }
 
   /**
-   * Zoomt op de kaart naar de bounding box.
+   * Zoomt op de kaart naar de meegegeven geometry of bounding box.
    *
-   * @param {Number[]} boundingbox
+   * @param {(ol/geom/Geometry|Number[])} geometryOrBoundingbox
    * @param {Number} max
    */
-  zoomTo(boundingbox, max) {
-    this.map.zoomToExtent(boundingbox, max);
+  zoomTo(geometryOrBoundingbox, max) {
+    if (Array.isArray(geometryOrBoundingbox)) {
+      this.map.zoomToExtent(geometryOrBoundingbox, max);
+    } else if (geometryOrBoundingbox instanceof Object) {
+      this.map.zoomToGeometry(geometryOrBoundingbox, max);
+    }
   }
 
   /**
