@@ -101,6 +101,7 @@
     </vl-map>
     <div>
       <script type="application/javascript">
+        /* eslint-disable */ // foutieve lint: functies zijn wel gebruikt hieronder
         function addFeatures() {
           document.querySelector('#projectgebied-layer').setAttribute('features',
               '{"type": "FeatureCollection",  "features": [{"type": "Feature", "geometry": ' +
@@ -115,6 +116,7 @@
           document.querySelector('#projectgebied-map').zoomTo(
               [148055.0, 198908.0, 150055.0, 200908.0]);
         }
+        /* eslint-enable */
       </script>
       <button id="map-set-feature" is="vl-button" type="button" onclick="addFeatures()">Zet feature
         op projectlaag
