@@ -28,38 +28,30 @@
     test('bevat default titel', () => {
       const element = fixture('vl-map-pane-fixture');
       const vlmapPane = element.querySelector('vl-map-pane');
-
-      const title = vlmapPane._titleElement;
-      assert.equal(title.innerText, 'Terug');
+      assert.equal(vlmapPane._titleElement.innerText, 'Terug');
     });
 
-    // test('bevat default href', () => {
-    //   const element = fixture('vl-map-pane-fixture');
-    //   const vlmapPane = element.querySelector('vl-map-pane');
-    //
-    //   const link = vlmapPane._hrefElement;
-    //   assert.equal(link.href, "#");
-    // });
-
-    test('bevat nieuwe titel op basis van het titel attribuut', () => {
+    test('bevat default href', () => {
       const element = fixture('vl-map-pane-fixture');
       const vlmapPane = element.querySelector('vl-map-pane');
-
-      const text = 'Dit is een titel';
-      vlmapPane.setAttribute('data-vl-title', text);
-
-      const title = vlmapPane._titleElement;
-      assert.equal(title.innerText, text);
+      assert.equal(vlmapPane._hrefElement.getAttribute('href'), '#');
     });
 
-    // test('bevat nieuwe href op basis van het href attribuut', () => {
-    //   const element = fixture('vl-map-pane-fixture');
-    //   const vlmapPane = element.querySelector('vl-map-pane');
-    //
-    //   const hrefPath = '/test-path';
-    //   vlmapPane.setAttribute('data-vl-link', hrefPath);
-    //   assert.equal(vlmapPane._hrefElement.href, hrefPath);
-    // });
+    test('bevat titel op basis van het titel attribuut', () => {
+      const element = fixture('vl-map-pane-fixture');
+      const vlmapPane = element.querySelector('vl-map-pane');
+      const text = 'Dit is een titel';
+      vlmapPane.setAttribute('data-vl-title', text);
+      assert.equal(vlmapPane._titleElement.innerText, text);
+    });
+
+    test('bevat href op basis van het href attribuut', () => {
+      const element = fixture('vl-map-pane-fixture');
+      const vlmapPane = element.querySelector('vl-map-pane');
+      const hrefPath = '/test-path';
+      vlmapPane.setAttribute('data-vl-href', hrefPath);
+      assert.equal(vlmapPane._hrefElement.getAttribute('href'), hrefPath);
+    });
   });
 </script>
 </body>
