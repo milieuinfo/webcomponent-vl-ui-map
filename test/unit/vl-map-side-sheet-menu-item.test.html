@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="../../../@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../../../web-component-tester/browser.js"></script>
+
+  <script type="module" src="../../src/vl-map-all.js"></script>
+</head>
+<body>
+
+<test-fixture id="vl-map-side-sheet-menu-item-fixture">
+  <template>
+    <vl-map>
+      <vl-map-side-sheet data-vl-open>
+        <vl-map-side-sheet-menu-item></vl-map-side-sheet-menu-item>
+      </vl-map-side-sheet>
+    </vl-map>
+  </template>
+</test-fixture>
+
+<script type="module">
+  suite('vl-map-side-sheet-menu-item', () => {
+    setup((done) => {
+      customElements.whenDefined('vl-map-side-sheet-menu-item').then(() => done());
+    });
+
+    test('bevat default titel', () => {
+      const element = fixture('vl-map-side-sheet-menu-item-fixture');
+      const vlmapPane = element.querySelector('vl-map-side-sheet-menu-item');
+      assert.equal(vlmapPane._titleElement.innerText, 'Terug');
+    });
+
+    test('bevat default href', () => {
+      const element = fixture('vl-map-side-sheet-menu-item-fixture');
+      const vlmapPane = element.querySelector('vl-map-side-sheet-menu-item');
+      assert.equal(vlmapPane._hrefElement.getAttribute('href'), '#');
+    });
+
+    test('bevat titel op basis van het titel attribuut', () => {
+      const element = fixture('vl-map-side-sheet-menu-item-fixture');
+      const vlmapPane = element.querySelector('vl-map-side-sheet-menu-item');
+      const text = 'Dit is een titel';
+      vlmapPane.setAttribute('data-vl-title', text);
+      assert.equal(vlmapPane._titleElement.innerText, text);
+    });
+
+    test('bevat href op basis van het href attribuut', () => {
+      const element = fixture('vl-map-side-sheet-menu-item-fixture');
+      const vlmapPane = element.querySelector('vl-map-side-sheet-menu-item');
+      const hrefPath = '/test-path';
+      vlmapPane.setAttribute('data-vl-href', hrefPath);
+      assert.equal(vlmapPane._hrefElement.getAttribute('href'), hrefPath);
+    });
+  });
+</script>
+</body>
+</html>
