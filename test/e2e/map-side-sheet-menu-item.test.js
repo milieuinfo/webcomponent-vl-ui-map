@@ -12,7 +12,17 @@ describe('vl-map-side-sheet-menu-item', async () => {
   it('als gebruiker zie ik dat de titel een waarde heeft', async () => {
     const map = await vlMapPage.getMap();
     const sideSheet = await map.getSideSheet();
-    const menuItem = await sideSheet.getMenuItem();
+    const menu = await sideSheet.getMenu();
+    const menuItem = await menu.getMenuItem(1);
     await assert.eventually.equal(menuItem.getTitle(), 'Terug naar resultaten');
+  });
+
+  it('als gebruiker zie ik dat er inhoud binnen de menu item kan zitten', async () => {
+    const map = await vlMapPage.getMap();
+    const sideSheet = await map.getSideSheet();
+    const menu = await sideSheet.getMenu();
+    const menuItem = await menu.getMenuItem(1);
+    const slotElements = await menuItem.getMessagesSlotElements();
+    await assert.eventually.equal(slotElements[0].getText(), 'Gelieve een resultaat aan te maken');
   });
 });

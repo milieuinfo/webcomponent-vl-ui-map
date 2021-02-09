@@ -27,7 +27,10 @@ export class VlMapSideSheetMenuItem extends vlElement(HTMLElement) {
         .vl-map-side-sheet-menu-item {
           background: #e8ebee;
           padding: 2rem;
-          margin-bottom: 3rem;
+        }
+        slot {
+          padding: 1.5rem;
+          display: block;
         }
       </style>
       <div>

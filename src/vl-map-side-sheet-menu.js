@@ -17,7 +17,8 @@ export class VlMapSideSheetMenu extends vlElement(HTMLElement) {
       <style>
         @import '/node_modules/vl-ui-link/dist/style.css';
         :host {
-          margin: -2rem;
+          margin: -1.5rem;
+          display: block;
         }
       </style>
       <slot></slot>
