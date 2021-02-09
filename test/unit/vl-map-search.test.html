@@ -33,7 +33,10 @@
   </test-fixture>
 
 
-  <script>
+  <script type="module">
+    import {awaitUntil} from '/node_modules/vl-ui-core/dist/vl-core.js';
+    import {LambertCoordinaat} from '../../src/vl-map-search';
+
     suite('vl-map-search', () => {
       const sandbox = sinon.createSandbox();
       const should = chai.should();
@@ -71,21 +74,39 @@
         const fetchStub = sandbox.stub(window, 'fetch');
         fetchStub.withArgs('https://loc.geopunt.be/v4/Suggestion?q=' + value).returns(response);
         const element = fixture('vl-map-with-search-fixture');
-        return customElements.whenDefined('vl-map').then(() => {
+        return customElements.whenDefined('vl-map').then( async () => {
           const selectElement = element.shadowRoot.querySelector('vl-map-search').shadowRoot.querySelector('select');
           selectElement.dispatchEvent(new CustomEvent('search', {
             detail: {
               value: value,
             },
           }));
-          return new Promise((resolve) => {
-            (async () => {
-              while (!fetchStub.called) {
-                await new Promise((resolve) => setTimeout(resolve, 100));
-              }
-              resolve();
-            })();
-          });
+          await awaitUntil(() => fetchStub.called);
+        });
+      });
+
+      test('wanneer de gebruiker een Lambert-coördinaat zoekt, zullen bij geopunt de locaties opgehaald worden', () => {
+        const lambertCoordinaat = LambertCoordinaat.of('104719.27, 192387.25');
+        const value = lambertCoordinaat.toString();
+
+        const response = new Promise((resolve, reject) => {
+          resolve(new Response(JSON.stringify({}), {status: 200}));
+        });
+
+        const fetchStub = sandbox.stub(window, 'fetch');
+        fetchStub.withArgs('https://loc.geopunt.be/v4/Location?c=5&xy=' + lambertCoordinaat.x + ',' + lambertCoordinaat.y ).returns(response);
+
+        const element = fixture('vl-map-with-search-fixture');
+        return customElements.whenDefined('vl-map').then( async () => {
+          const selectElement = element.shadowRoot.querySelector('vl-map-search').shadowRoot.querySelector('select');
+
+          selectElement.dispatchEvent(new CustomEvent('search', {
+            detail: {
+              value: value,
+            },
+          }));
+
+          await awaitUntil(() => fetchStub.called);
         });
       });
 
@@ -111,7 +132,7 @@
         const fetchStub = sandbox.stub(window, 'fetch');
         fetchStub.withArgs('https://loc.geopunt.be/v4/Location?q=' + value).returns(response);
         const map = fixture('vl-map-with-search-fixture');
-        return customElements.whenDefined('vl-map').then(() => {
+        return customElements.whenDefined('vl-map').then( async () => {
           sandbox.spy(map, 'zoomTo');
           const selectElement = map.shadowRoot.querySelector('vl-map-search').shadowRoot.querySelector('select');
           selectElement.dispatchEvent(new CustomEvent('choice', {
@@ -123,14 +144,63 @@
             bubbles: false,
             composed: false,
           }));
-          return new Promise((resolve) => {
-            (async () => {
-              while (!map.zoomTo.calledWith([location.LocationResult[0].BoundingBox.LowerLeft.X_Lambert72, location.LocationResult[0].BoundingBox.LowerLeft.Y_Lambert72, location.LocationResult[0].BoundingBox.UpperRight.X_Lambert72, location.LocationResult[0].BoundingBox.UpperRight.Y_Lambert72])) {
-                await new Promise((resolve) => setTimeout(resolve, 100));
-              }
-              resolve();
-            })();
-          });
+
+          await awaitUntil(() => map.zoomTo.calledWith([location.LocationResult[0].BoundingBox.LowerLeft.X_Lambert72, location.LocationResult[0].BoundingBox.LowerLeft.Y_Lambert72, location.LocationResult[0].BoundingBox.UpperRight.X_Lambert72, location.LocationResult[0].BoundingBox.UpperRight.Y_Lambert72]));
+        });
+      });
+
+      test('wanneer de gebruiker een Lambert-coördinaat selecteert, zal niets opgehaald worden', () => {
+        const fetchSpy = sandbox.spy(window, 'fetch');
+
+        const map = fixture('vl-map-with-search-fixture');
+        return customElements.whenDefined('vl-map').then( async () => {
+          sandbox.spy(map, 'zoomTo');
+          const selectElement = map.shadowRoot.querySelector('vl-map-search').shadowRoot.querySelector('select');
+          selectElement.dispatchEvent(new CustomEvent('choice', {
+            detail: {
+              choice: {
+                value: LambertCoordinaat.of('104719.27, 192387.25'),
+              },
+            },
+            bubbles: false,
+            composed: false,
+          }));
+
+          await awaitUntil(() => fetchSpy.notCalled);
+        });
+      });
+
+      test('wanneer de gebruiker een Locatie selecteert zal niets opgehaald worden', () => {
+        const location = {
+          BoundingBox: {
+            LowerLeft: {
+              X_Lambert72: 0,
+              Y_Lambert72: 1,
+            },
+            UpperRight: {
+              X_Lambert72: 0,
+              Y_Lambert72: 1,
+            },
+          },
+        };
+
+        const fetchSpy = sandbox.spy(window, 'fetch');
+
+        const map = fixture('vl-map-with-search-fixture');
+        return customElements.whenDefined('vl-map').then( async () => {
+          sandbox.spy(map, 'zoomTo');
+          const selectElement = map.shadowRoot.querySelector('vl-map-search').shadowRoot.querySelector('select');
+          selectElement.dispatchEvent(new CustomEvent('choice', {
+            detail: {
+              choice: {
+                value: location,
+              },
+            },
+            bubbles: false,
+            composed: false,
+          }));
+
+          await awaitUntil(() => fetchSpy.notCalled);
         });
       });
 
@@ -171,7 +241,7 @@
       test('er zijn default placeholders voor het zoek adres select element', () => {
         const element = fixture('vl-map-search-fixture');
         assert.equal(element._placeholderElement.innerText, 'Lokaliseer adres');
-        assert.equal(element.getTranslation('select.search_placeholder_value'), 'Gemeente, straat en huisnummer');
+        assert.equal(element.getTranslation('select.search_placeholder_value'), 'Gemeente, straat en huisnummer of Lambert-coördinaat');
         assert.equal(element._selectElement.getAttribute('data-vl-select-search-empty-text'), 'Geen adres gevonden');
         assert.equal(element.getTranslation('select.no_more_options'), 'Geen adres gevonden');
       });
@@ -205,6 +275,7 @@
         assert.equal(element.getTranslation('select.no_more_options'), text4);
       });
     });
+
   </script>
 </body>
 

@@ -109,6 +109,17 @@
       assert(element._map.zoomToExtent.calledWith(boundingbox));
     });
 
+    test('er kan gezoomd worden naar een geometry', () => {
+      const element = fixture('vl-map-fixture');
+      sandbox.spy(element._map, 'zoomToGeometry');
+      const geometry = {
+        type: 'Point',
+        coordinates: [104719.27, 192387.25],
+      };
+      element.zoomTo(geometry);
+      assert(element._map.zoomToGeometry.calledWith(geometry));
+    });
+
     test('wanneer een kaart het fullscreen attribuut heeft zal de fullscreen control toegevoegd worden', () => {
       let map = fixture('vl-map-fixture');
       assert.isUndefined(map._map.controls.getArray().find((control) => control instanceof OlFullScreenControl));
