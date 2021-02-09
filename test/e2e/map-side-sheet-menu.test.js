@@ -9,7 +9,7 @@ describe('vl-map-side-sheet-menu-item', async () => {
     return vlMapPage.load();
   });
 
-  it('Als gebruiker zie ik de menu titel', async () => {
+  it('als gebruiker zie ik de menu titel', async () => {
     const map = await vlMapPage.getMap();
     const sideSheet = await map.getSideSheet();
     const menu = await sideSheet.getMenu();
@@ -17,7 +17,7 @@ describe('vl-map-side-sheet-menu-item', async () => {
     await assert.eventually.equal(menuItem.getTitle(), 'Terug naar resultaten');
   });
 
-  it('Als gebruiker zie ik de menu inhoud', async () => {
+  it('als gebruiker zie ik de menu inhoud', async () => {
     const map = await vlMapPage.getMap();
     const sideSheet = await map.getSideSheet();
     const menu = await sideSheet.getMenu();
