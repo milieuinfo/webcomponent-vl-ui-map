@@ -1,6 +1,6 @@
 import {vlElement} from '/node_modules/vl-ui-core/dist/vl-core.js';
 
-export class VlMapPane extends vlElement(HTMLElement) {
+export class VlMapSideSheetMenuItem extends vlElement(HTMLElement) {
   static get _observedAttributes() {
     return ['title', 'href'];
   }
@@ -9,15 +9,15 @@ export class VlMapPane extends vlElement(HTMLElement) {
     super(`
       <style>
         @import '/node_modules/vl-ui-link/dist/style.css';
-        .vl-map-pane {
+        .vl-map-sidesheet-menu-item {
           background: #e8ebee;
           padding: 2rem;
           margin: -2rem;
           margin-bottom: 3rem;
         }
       </style>
-      <div class="vl-map-pane">
-          <a id="vl-map-pane-link" is="vl-link" href="#">
+      <div class="vl-map-sidesheet-menu-item">
+          <a id="vl-map-sidesheet-menu-item-link" is="vl-link" href="#">
             <span is="vl-icon" data-vl-icon="arrow-left-fat"
                   data-vl-before></span><span id="title">Terug</span>
           </a>
@@ -36,7 +36,7 @@ export class VlMapPane extends vlElement(HTMLElement) {
   }
 
   get _hrefElement() {
-    return this._shadow.querySelector('#vl-map-pane-link');
+    return this._shadow.querySelector('#vl-map-sidesheet-menu-item-link');
   }
 
   _hrefChangedCallback(oldValue, newValue) {

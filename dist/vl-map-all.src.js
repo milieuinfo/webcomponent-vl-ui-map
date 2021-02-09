@@ -18,7 +18,7 @@ import {VlMapLayerCircleStyle} from '../dist/vl-map-layer-circle-style.src.js';
 import {VlMapSearch} from '../dist/vl-map-search.src.js';
 import {VlMapSideSheet} from '../dist/vl-map-side-sheet.src.js';
 import {VlMapLayerSwitcher} from '../dist/vl-map-layer-switcher.src.js';
-import {VlMapPane} from '../dist/vl-map-pane.src.js';
+import {VlMapPane} from '../dist/vl-map-sidesheet-menu-item.src.js';
 
 Promise.all([
   awaitScript('vl-map-proj4', 'proj4/dist/proj4.js'),
