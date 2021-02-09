@@ -1,12 +1,12 @@
 import {vlElement} from '/node_modules/vl-ui-core/dist/vl-core.js';
 
-
 /**
  * VlMapSideSheetMenuItem
  * @class
  * @classdesc De menu item die verbonden is aan een side sheet.
  *
- * @extends VlElement
+ * @extends HTMLElement
+ * @mixes VlElement
  *
  * @property {string} data-vl-title - Attribuut wordt gebruikt als titel van een menu item.
  * @property {string} data-vl-href - Attribuut wordt gebruikt om via het href attribuut de link te koppelen aan een menu item.
@@ -24,18 +24,24 @@ export class VlMapSideSheetMenuItem extends vlElement(HTMLElement) {
     super(`
       <style>
         @import '/node_modules/vl-ui-link/dist/style.css';
+
         .vl-map-side-sheet-menu-item {
           background: #e8ebee;
           padding: 2rem;
-          margin: -2rem;
-          margin-bottom: 3rem;
+        }
+
+        slot {
+          padding: 1.5rem;
+          display: block;
         }
       </style>
-      <div class="vl-map-side-sheet-menu-item">
+      <div>
+        <div class="vl-map-side-sheet-menu-item">
           <a id="vl-map-side-sheet-menu-item-link" is="vl-link" href="#">
-            <span is="vl-icon" data-vl-icon="arrow-left-fat"
-                  data-vl-before></span><span id="title">Terug</span>
+            <span is="vl-icon" data-vl-icon="arrow-left-fat" data-vl-before></span><span id="title">Terug</span>
           </a>
+        </div>
+        <slot></slot>
       </div>
     `);
   }
