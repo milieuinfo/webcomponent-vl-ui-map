@@ -1,7 +1,7 @@
 import {VlMapLayerAction} from '/src/vl-map-layer-action.js';
 import {VlModifyAction} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
 
-// TODO stefanborghys: 8/02/21  
+// TODO stefanborghys: 8/02/21
 
 /**
  * VlMapModifyPointAction
