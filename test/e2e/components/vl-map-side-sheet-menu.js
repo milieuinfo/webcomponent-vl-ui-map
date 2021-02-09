@@ -5,7 +5,7 @@ const VlMapSideSheetMenuItem = require('./vl-map-side-sheet-menu-item');
 class VlMapSideSheetMenu extends VlElement {
   async getMenuItem(number) {
     const menuItems = await this.getMenuItems();
-    return menuItems[number++];
+    return menuItems[--number];
   }
 
   async getMenuItems() {
