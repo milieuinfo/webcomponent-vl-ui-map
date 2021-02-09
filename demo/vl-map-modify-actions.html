@@ -1,4 +1,3 @@
-<!-- TODO stefanborghys: 8/02/21  -->
 <!DOCTYPE html>
 <html>
 
@@ -16,11 +15,11 @@
 <body is="vl-body">
     <vl-demo-page data-vl-webcomponent="vl-map-draw-action">
         <vl-demo data-vl-title="Kaart met punt aanpas actie">
-            <vl-map id="map-with-draw-point-action">
+            <vl-map id="map-with-modify-point-action">
                 <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
                 <vl-map-baselayer-grb></vl-map-baselayer-grb>
                 <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
-                <vl-map-layer id="point-layer" data-vl-name="laag" data-vl-features='
+                <vl-map-layer id="point-layer" data-vl-name="punt-laag" data-vl-features='
                     {
                         "type": "FeatureCollection",
                         "features": [{
@@ -40,10 +39,61 @@
                         }]
                     }'>
                     <vl-map-layer-circle-style></vl-map-layer-circle-style>
-                    <vl-map-modify-point-action id="modify-point-action" data-vl-default-active></vl-map-modify-point-action>
+                    <vl-map-modify-action id="modify-point-action" data-vl-default-active></vl-map-modify-action>
                 </vl-map-layer>
             </vl-map>
         </vl-demo>
+
+        <vl-demo data-vl-title="Kaart met lijn aanpas actie">
+            <vl-map id="map-with-modify-line-action">
+                <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
+                <vl-map-baselayer-grb></vl-map-baselayer-grb>
+                <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
+                <vl-map-layer id="line-layer" data-vl-name="lijn-laag" data-vl-features='
+                    {
+                        "type": "FeatureCollection",
+                        "features": [{
+                            "type": "Feature",
+                            "id": 1,
+                            "geometry": {
+                                "type": "LineString",
+                                "coordinates": [
+                                    [157836.54,190879.51],
+                                    [152161.53,212358.26]
+                                ]
+                            }
+                        }]
+                    }'>
+                    <vl-map-layer-style></vl-map-layer-style>
+                    <vl-map-modify-action id="modify-point-action" data-vl-default-active></vl-map-modify-action>
+                </vl-map-layer>
+            </vl-map>
+        </vl-demo>
+
+        <vl-demo data-vl-title="Kaart met polygoon aanpas actie">
+            <vl-map id="map-with-modify-polygon-action">
+                <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
+                <vl-map-baselayer-grb></vl-map-baselayer-grb>
+                <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
+                <vl-map-layer id="polygon-layer" data-vl-name="polygoon-laag" data-vl-features='
+                    {
+                        "type": "FeatureCollection",
+                        "features": [{
+                            "type": "Feature",
+                            "id": 1,
+                            "geometry": {
+                                "type": "Polygon",
+                                "coordinates": [
+                                    [[104896.56,193972.22],[157836.54,190879.51],[152161.53,212358.26],[173780.97,174292.43]]
+                                ]
+                            }
+                        }]
+                    }'>
+                    <vl-map-modify-action id="modify-point-action" data-vl-default-active></vl-map-modify-action>
+                </vl-map-layer>
+            </vl-map>
+        </vl-demo>
+
     </vl-demo-page>
 </body>
 
