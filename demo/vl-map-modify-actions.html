@@ -3,7 +3,7 @@
 <html>
 
 <head>
-    <title>vl-map-draw-action voorbeeld</title>
+    <title>vl-map-modify-actions voorbeeld</title>
     <script type="module" src="/node_modules/vl-ui-demo/dist/vl-demo-all.js"></script>
     <script type="module" src="/node_modules/vl-ui-body/dist/vl-body.js"></script>
 
@@ -28,28 +28,20 @@
                             "id": 1,
                             "geometry": {
                                 "type": "Point",
-                                "coordinates": [147055.0,197908.0]
+                                "coordinates": [157836.54,190879.51]
                             }
                         }, {
                             "type": "Feature",
                             "id": 2,
                             "geometry": {
                                 "type": "Point",
-                                "coordinates": [149055.0,199908.0]
+                                "coordinates": [152161.53,212358.26]
                             }
                         }]
                     }'>
                     <vl-map-layer-circle-style></vl-map-layer-circle-style>
+                    <vl-map-modify-point-action id="modify-point-action" data-vl-default-active></vl-map-modify-point-action>
                 </vl-map-layer>
-                <vl-map-layer id="point-layer">
-                    <vl-map-layer-circle-style></vl-map-layer-circle-style>
-                    <vl-map-draw-point-action id="draw-point-action">
-                    </vl-map-draw-point-action>
-                </vl-map-layer>
-                <vl-map-modify-point-action id="modify-point-action" data-vl-default-active>
-                    <vl-map-layer-circle-style data-vl-text-color="#000" data-vl-color="#FFE616" data-vl-border-color="#FFE615">
-                    </vl-map-layer-circle-style>
-                </vl-map-modify-point-action>
             </vl-map>
         </vl-demo>
     </vl-demo-page>
