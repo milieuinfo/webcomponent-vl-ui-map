@@ -13,7 +13,7 @@ import LambertCoordinaat from '/src/lambert-coordinaat.js';
  * @mixes vlElement
  *
  * @property {string} [data-vl-placeholder=Lokaliseer adres] - Attribuut bepaalt de placeholder van het zoek adres select element.
- * @property {string} [data-vl-search-placeholder=Zoek gemeente, straat en huisnummer] - Attribuut bepaalt de placeholder van het zoek adres input element.
+ * @property {string} [data-vl-search-placeholder=Zoeken op adres of coördinaat] - Attribuut bepaalt de placeholder van het zoek adres input element.
  * @property {string} [data-vl-search-empty-text=Geen adres gevonden] - Attribuut bepaalt de tekst wanneer er geen zoekresultaten zijn.
  * @property {string} [data-vl-search-no-results-text=Geen adres resultaat] - Attribuut bepaalt de tekst wanneer er geen zoekresultaten meer zijn.
  *
@@ -260,7 +260,7 @@ class VlMapSearch extends vlElement(HTMLElement) {
 
   _changeTranslations() {
     this.placeholder = 'Lokaliseer adres';
-    this.searchPlaceholder = 'Gemeente, straat en huisnummer of Lambert-coördinaat';
+    this.searchPlaceholder = 'Zoeken op adres of coördinaat';
     this.searchEmptyText = 'Geen adres gevonden';
     this.searchNoResultsText = 'Geen adres gevonden';
   }
