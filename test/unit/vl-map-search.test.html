@@ -241,7 +241,7 @@
       test('er zijn default placeholders voor het zoek adres select element', () => {
         const element = fixture('vl-map-search-fixture');
         assert.equal(element._placeholderElement.innerText, 'Lokaliseer adres');
-        assert.equal(element.getTranslation('select.search_placeholder_value'), 'Gemeente, straat en huisnummer of Lambert-coördinaat');
+        assert.equal(element.getTranslation('select.search_placeholder_value'), 'Zoeken op adres of coördinaat');
         assert.equal(element._selectElement.getAttribute('data-vl-select-search-empty-text'), 'Geen adres gevonden');
         assert.equal(element.getTranslation('select.no_more_options'), 'Geen adres gevonden');
       });
