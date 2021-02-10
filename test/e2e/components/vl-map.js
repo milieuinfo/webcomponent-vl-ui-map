@@ -8,6 +8,14 @@ const VlMapLayerSwitcher = require('./vl-map-layer-switcher');
 const VlMapSideSheet = require('./vl-map-side-sheet');
 
 class VlMap extends VlElement {
+  constructor(driver, selector) {
+    return (async () => {
+      super(driver, selector);
+      driver.wait(async () => driver.executeScript('return arguments[0].clientHeight > 0', this));
+      return this;
+    })();
+  }
+
   async getBaseLayers() {
     const childElements = await this.findElements(By.css(':scope > *'));
     const tagNames = await Promise.all(childElements.map((element) => element.getTagName()));
