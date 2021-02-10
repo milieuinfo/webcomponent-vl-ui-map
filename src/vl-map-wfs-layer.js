@@ -24,6 +24,7 @@ import {
 export class VlMapWfsLayer extends VlMapLayer {
   constructor() {
     super();
+    this._styles = [];
     this._source = this.__createSource();
     this._layer = this.__createLayer();
   }
@@ -40,12 +41,17 @@ export class VlMapWfsLayer extends VlMapLayer {
   }
 
   /**
-   * Zet de OpenLayers kaartlaag stijl.
+   * Voeg een kaartlaag stijl toe.
    *
-   * @param {ol.style} style
+   * @param {VlMapLayerStyle} style een kaartlaag stijl
    */
   set style(style) {
-    this._layer.setStyle(style);
+    this._styles.push(style);
+    this._layer.setStyle((feature) => {
+      return this._styles
+          .map((style) => style.style(feature))
+          .filter((style) => style != null);
+    });
   }
 
   get _url() {

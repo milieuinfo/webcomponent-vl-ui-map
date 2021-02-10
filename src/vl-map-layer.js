@@ -20,7 +20,6 @@ export class VlMapLayer extends vlElement(HTMLElement) {
     VlMapLayer._counter = 0;
     this.__counter = ++VlMapLayer._counter;
     this.__setIsLayerMarkerAttribute();
-    this._styles = [];
   }
 
   async connectedCallback() {
