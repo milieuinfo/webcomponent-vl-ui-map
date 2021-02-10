@@ -5,8 +5,36 @@ class VlMapLayerStyle extends VlElement {
     return this.getAttribute('color');
   }
 
+  async getBorderColor() {
+    return this.getAttribute('border-color');
+  }
+
+  async getBorderSize() {
+    return this.getAttribute('border-size');
+  }
+
   async getTextColor() {
     return this.getAttribute('text-color');
+  }
+
+  async getTextBackgroundColor() {
+    return this.getAttribute('text-background-color');
+  }
+
+  async getTextSize() {
+    return this.getAttribute('text-size');
+  }
+
+  async getTextBorderColor() {
+    return this.getAttribute('text-border-color');
+  }
+
+  async getTextBorderSize() {
+    return this.getAttribute('text-border-size');
+  }
+
+  async getTextFeatureAttributeName() {
+    return this.getAttribute('text-feature-attribute-name');
   }
 
   async getTextOffsetX() {

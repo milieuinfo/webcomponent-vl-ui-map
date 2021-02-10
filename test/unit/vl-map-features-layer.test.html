@@ -19,6 +19,12 @@
     </template>
   </test-fixture>
 
+  <test-fixture id="vl-map-layer-style-fixture">
+      <template>
+          <vl-map-layer-style data-vl-color="rgba(255,0,0,1)"></vl-map-layer-style>
+      </template>
+  </test-fixture>
+
   <test-fixture id="vl-map-fixture">
     <template>
       <vl-map>
@@ -81,8 +87,8 @@
 
   <script type="module">
     import {awaitUntil} from '/node_modules/vl-ui-core/dist/vl-core.js';
-    import {OlGeoJSON, OlFeature, OlPoint, OlStyle} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
     import {testOpvragenVanTitel, testVisibility, testVisibilityAtResolution, testIDs, testToevoegingAanMap} from './vl-map-layer-util.js';
+    import {OlGeoJSON, OlFeature, OlPoint, OlStyle, OlStyleFill} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
 
     suite('vl-map-features-layer', () => {
       const sandbox = sinon.createSandbox();
@@ -211,6 +217,44 @@
         assert.deepEqual(layer.getCluster(1), cluster1);
         assert.deepEqual(layer.getCluster(2), cluster1);
         assert.deepEqual(layer.getCluster(3), cluster2);
+      });
+
+      test('de stijl kan op de layer gezet worden met een VlMapLayerStyle object', async () => {
+        const map = fixture('vl-map-layer-fixture');
+        const styleFixture = fixture('vl-map-layer-style-fixture');
+        const layer = map.querySelector('vl-map-features-layer');
+        await map.ready;
+
+        layer.style = styleFixture;
+
+        const style = layer.style()[0];
+        assert.equal(style.getFill().getColor(), 'rgba(255,0,0,1)');
+        assert.equal(style.getStroke().getColor(), 'rgba(2, 85, 204, 1)');
+      });
+
+      test('de stijl kan op de layer gezet worden met een openlayers stijl object', async () => {
+        const map = fixture('vl-map-layer-fixture');
+        const layer = map.querySelector('vl-map-features-layer');
+        await map.ready;
+
+        layer.style = new OlStyle({fill: new OlStyleFill({
+          color: 'rgba(255,0,0,0,1)',
+        })});
+
+        assert.equal(layer.style.getFill().getColor(), 'rgba(255,0,0,0,1)');
+      });
+
+      test('de stijl kan op de layer verwijderd worden met null', async () => {
+        const map = fixture('vl-map-layer-fixture');
+        const styleFixture = fixture('vl-map-layer-style-fixture');
+        const layer = map.querySelector('vl-map-features-layer');
+        const styleElement = styleFixture.querySelector('vl-map-layer-style');
+        await map.ready;
+
+        layer.style = styleElement;
+        layer.style = null;
+
+        assert.isNull(layer.style);
       });
 
       test('al de feature specifieke stijl kan verwijderd worden', async () => {

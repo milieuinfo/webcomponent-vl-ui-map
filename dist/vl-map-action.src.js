@@ -1,5 +1,5 @@
 import {vlElement} from 'vl-ui-core';
-import {VlMap} from 'vl-ui-map/dist/vl-map.src.js';
+import {VlMap} from '../dist/vl-map.src.js';
 
 /**
  * VlMapAction
