@@ -1,6 +1,5 @@
-import {VlMapLayer} from '/src/vl-map-layer.js';
+import {VlMapVectorLayer} from '/src/vl-map-vector-layer.js';
 import {
-  OlVectorLayer,
   OlVectorSource,
   OlGeoJSON,
   OlClusterSource,
@@ -12,7 +11,7 @@ import {
  * @class
  * @classdesc Deze kaartlaag staat je toe om een set van te tonen features in te stellen.
  *
- * @extends VlMapLayer
+ * @extends VlMapVectorLayer
  *
  * @property {string} data-vl-name - Attribuut bepaalt de kaartlaag naam.
  * @property {boolean} data-vl-auto-extent - Attribuut geeft aan of er automatisch gezoomt wordt op de kaartlaag zodat al de features zichtbaar zijn.
@@ -25,17 +24,16 @@ import {
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
  * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map-features-layer.html|Demo}
  */
-export class VlMapFeaturesLayer extends VlMapLayer {
+export class VlMapFeaturesLayer extends VlMapVectorLayer {
   static get _observedAttributes() {
     return ['auto-extent', 'features'];
   }
 
   constructor() {
     super();
-    this._styles = [];
     this._geoJSON = new OlGeoJSON();
     this._source = this.__createSource();
-    this._layer = this.__createLayer();
+    this._layer = this._createLayer();
   }
 
   async connectedCallback() {
@@ -62,31 +60,6 @@ export class VlMapFeaturesLayer extends VlMapLayer {
    */
   set features(features) {
     this.setAttribute('features', JSON.stringify(features));
-  }
-
-  /**
-   * Geeft de OpenLayers kaartlaag stijl.
-   *
-   * @return {ol.style}
-   */
-  get style() {
-    if (this._layer) {
-      return this._layer.getStyle();
-    }
-  }
-
-  /**
-   * Voeg een kaartlaag stijl toe.
-   *
-   * @param {VlMapLayerStyle} style een kaartlaag stijl
-   */
-  set style(style) {
-    this._styles.push(style);
-    this._layer.setStyle((feature) => {
-      return this._styles
-          .map((style) => style.style(feature))
-          .filter((style) => style != null);
-    });
   }
 
   get _autoExtent() {
@@ -183,19 +156,6 @@ export class VlMapFeaturesLayer extends VlMapLayer {
     if (this.source && this.source.getFeatures().length > 0) {
       return this.source.getExtent();
     }
-  }
-
-  __createLayer() {
-    const layer = new OlVectorLayer({
-      title: this._name,
-      source: this._source,
-      updateWhileAnimating: true,
-      updateWhileInteracting: true,
-      minResolution: this._minResolution,
-      maxResolution: this._maxResolution,
-    });
-    layer.set('id', VlMapLayer._counter);
-    return layer;
   }
 
   __createSource() {

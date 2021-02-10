@@ -1,4 +1,4 @@
-import {VlMapLayerAction} from 'vl-ui-map/dist/vl-map-layer-action.src.js';
+import {VlMapLayerAction} from '../dist/vl-map-layer-action.src.js';
 import {VlDrawAction, OlGeometryType} from 'vl-mapactions/dist/vl-mapactions.js';
 
 /**

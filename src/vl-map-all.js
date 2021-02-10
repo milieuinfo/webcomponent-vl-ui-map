@@ -3,6 +3,7 @@ import {define, awaitScript} from '/node_modules/vl-ui-core/dist/vl-core.js';
 import {VlMap} from '/src/vl-map.js';
 import {VlMapOverviewMap} from '/src/vl-map-overview-map.js';
 import {VlMapLayer} from '/src/vl-map-layer.js';
+import {VlMapVectorLayer} from '/src/vl-map-vector-layer.js';
 import {VlMapFeaturesLayer} from '/src/vl-map-features-layer.js';
 import {VlMapWmsLayer} from '/src/vl-map-wms-layer.js';
 import {VlMapWfsLayer} from '/src/vl-map-wfs-layer.js';
@@ -22,6 +23,8 @@ import {VlMapLayerCircleStyle} from '/src/vl-map-layer-circle-style.js';
 import {VlMapSearch} from '/src/vl-map-search.js';
 import {VlMapSideSheet} from '/src/vl-map-side-sheet.js';
 import {VlMapLayerSwitcher} from '/src/vl-map-layer-switcher.js';
+import {VlMapSideSheetMenu} from '/src/vl-map-side-sheet-menu.js';
+import {VlMapSideSheetMenuItem} from '/src/vl-map-side-sheet-menu-item.js';
 
 Promise.all([
   awaitScript('vl-map-proj4', '/node_modules/proj4/dist/proj4.js'),
@@ -47,12 +50,15 @@ Promise.all([
   define('vl-map-search', VlMapSearch);
   define('vl-map-side-sheet', VlMapSideSheet);
   define('vl-map-layer-switcher', VlMapLayerSwitcher);
+  define('vl-map-side-sheet-menu', VlMapSideSheetMenu);
+  define('vl-map-side-sheet-menu-item', VlMapSideSheetMenuItem);
 });
 
 export {
   VlMap,
   VlMapOverviewMap,
   VlMapLayer,
+  VlMapVectorLayer,
   VlMapFeaturesLayer,
   VlMapWmsLayer,
   VlMapWfsLayer,
@@ -72,4 +78,6 @@ export {
   VlMapSearch,
   VlMapSideSheet,
   VlMapLayerSwitcher,
+  VlMapSideSheetMenu,
+  VlMapSideSheetMenuItem,
 };
