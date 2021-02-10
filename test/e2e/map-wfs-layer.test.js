@@ -9,7 +9,7 @@ describe('vl-map-wfs-layer', async () => {
     return page.load();
   });
 
-  it.only('als gebruiker kan ik de details van de wfs opvragen', async () => {
+  it('als gebruiker kan ik de details van de wfs opvragen', async () => {
     const layer = (await (await page.getMapWithStandardLayer()).getWfsLayers())[0];
 
     await assert.eventually.isTrue(layer.isVisible());
