@@ -220,7 +220,7 @@
       });
 
       test('de stijl kan op de layer gezet worden met een VlMapLayerStyle object', async () => {
-        const map = fixture('vl-map-layer-fixture');
+        const map = fixture('vl-map-features-layer-fixture');
         const styleFixture = fixture('vl-map-layer-style-fixture');
         const layer = map.querySelector('vl-map-features-layer');
         await map.ready;
@@ -233,7 +233,7 @@
       });
 
       test('de stijl kan op de layer gezet worden met een openlayers stijl object', async () => {
-        const map = fixture('vl-map-layer-fixture');
+        const map = fixture('vl-map-features-layer-fixture');
         const layer = map.querySelector('vl-map-features-layer');
         await map.ready;
 
@@ -245,7 +245,7 @@
       });
 
       test('de stijl kan op de layer verwijderd worden met null', async () => {
-        const map = fixture('vl-map-layer-fixture');
+        const map = fixture('vl-map-features-layer-fixture');
         const styleFixture = fixture('vl-map-layer-style-fixture');
         const layer = map.querySelector('vl-map-features-layer');
         const styleElement = styleFixture.querySelector('vl-map-layer-style');
