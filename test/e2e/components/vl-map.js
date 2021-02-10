@@ -11,7 +11,7 @@ class VlMap extends VlElement {
   constructor(driver, selector) {
     return (async () => {
       super(driver, selector);
-      await driver.wait(async () => driver.executeScript('return arguments[0].clientHeight > 0', this));
+      await driver.executeScript('arguments[0].ready', this);
       return this;
     })();
   }
