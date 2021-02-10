@@ -16,6 +16,7 @@ describe('vl-map-draw-action', async () => {
     const layer = layers[0];
     let features = await layer.getFeatures();
     assert.lengthOf(features, 0);
+    await sleep (100);
     await action.draw();
     features = await layer.getFeatures();
     assert.lengthOf(features, 1);
@@ -23,6 +24,10 @@ describe('vl-map-draw-action', async () => {
     features = await layer.getFeatures();
     assert.lengthOf(features, 2);
   });
+
+  function sleep(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
 
   it('als gebruiker kan ik lijnen tekenen op een kaart', async () => {
     const map = await vlMapPage.getMapWithDrawLineAction();

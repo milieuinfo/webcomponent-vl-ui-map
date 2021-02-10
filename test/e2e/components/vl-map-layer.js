@@ -10,7 +10,7 @@ class VlMapLayer extends VlElement {
   }
 
   async getFeatures() {
-    return this.driver.executeScript(`return arguments[0].layer.getSource().getFeatures();`, this);
+    return this.driver.executeScript(`return arguments[0].features;`, this);
   }
 
   async getFeature(id) {

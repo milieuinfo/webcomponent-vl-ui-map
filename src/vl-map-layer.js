@@ -78,6 +78,10 @@ export class VlMapLayer extends vlElement(HTMLElement) {
    * @return {object}
    */
   get features() {
+    return this.source ? this.source.getFeatures() : this._featuresFromAttribute;
+  }
+
+  get _featuresFromAttribute() {
     const features = this.getAttribute('features');
     return features ? this._geoJSON.readFeatures(features) : [];
   }
