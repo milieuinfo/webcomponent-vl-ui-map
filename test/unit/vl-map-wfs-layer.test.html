@@ -40,6 +40,11 @@
         </vl-map>
     </template>
 </test-fixture>
+<test-fixture id="vl-map-layer-style-fixture">
+    <template>
+        <vl-map-layer-style data-vl-color="rgba(255,0,0,1)"></vl-map-layer-style>
+    </template>
+</test-fixture>
 
 <script type="module">
   import {
@@ -49,7 +54,12 @@
     testIDs,
     testToevoegingAanMap,
   } from './vl-map-layer-util.js';
-  import {OlStyle, OlProjection} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
+  import {
+    testConfigurerenVanStijlMetVlMapLayerStyle,
+    testConfigurerenVanStijlMetOlStyle,
+    testNullifyStijl,
+  } from './vl-map-vector-layer-util.js';
+  import {OlProjection} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
 
   suite('vl-map-wfs-layer', () => {
     const sandbox = sinon.createSandbox();
@@ -70,6 +80,10 @@
     testVisibilityAtResolution(() => fixture('vl-map-wfs-layer-fixture'));
     testVisibilityAtResolution(() => fixture('vl-map-wfs-layer-fixture-visibility'), 10, 1000);
     testOpvragenVanTitel(() => fixture('vl-map-wfs-layer-fixture'), 'foobar');
+    testConfigurerenVanStijlMetVlMapLayerStyle(() => fixture('vl-map-wfs-layer-fixture'),
+        () => fixture('vl-map-layer-style-fixture'));
+    testConfigurerenVanStijlMetOlStyle(() => fixture('vl-map-wfs-layer-fixture'));
+    testNullifyStijl(() => fixture('vl-map-wfs-layer-fixture'));
 
     test('wfs layer kan toegevoegd worden aan een map met de correcte configuratie', async () => {
       const mapElement = fixture('vl-map-wfs-layer-fixture');
@@ -101,20 +115,6 @@
           layer.getSource().getUrl()([1.2, 3.4, 5.6, 7.8], 123, projection).toString(),
           'http://dummy/wfs?foo=bar&request=GetFeature&typename=layer1%2Clayer2&bbox=1.2%2C3.4%2C5.6%2C7.8&srsname=EPSG%3A31370&outputFormat=application%2Fjson',
       );
-    });
-
-    test('er wordt stijl toegepast op de layer', async () => {
-      const mapElement = fixture('vl-map-wfs-layer-fixture');
-      const layerElement = mapElement.querySelector('vl-map-wfs-layer');
-      const configuredStyle = new OlStyle({
-        fill: 'rgba(55, 44, 33, 0.22)',
-      });
-      layerElement.style = configuredStyle;
-
-      await mapElement.ready;
-      should.exist(layerElement.layer);
-      const layer = layerElement.layer;
-      assert.equal(layer.getStyle(), configuredStyle);
     });
   });
 </script>

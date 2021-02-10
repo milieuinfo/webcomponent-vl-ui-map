@@ -3,6 +3,7 @@ import {define, awaitScript} from '/node_modules/vl-ui-core/dist/vl-core.js';
 import {VlMap} from '/src/vl-map.js';
 import {VlMapOverviewMap} from '/src/vl-map-overview-map.js';
 import {VlMapLayer} from '/src/vl-map-layer.js';
+import {VlMapVectorLayer} from '/src/vl-map-vector-layer.js';
 import {VlMapFeaturesLayer} from '/src/vl-map-features-layer.js';
 import {VlMapWmsLayer} from '/src/vl-map-wms-layer.js';
 import {VlMapWfsLayer} from '/src/vl-map-wfs-layer.js';
@@ -57,6 +58,7 @@ export {
   VlMap,
   VlMapOverviewMap,
   VlMapLayer,
+  VlMapVectorLayer,
   VlMapFeaturesLayer,
   VlMapWmsLayer,
   VlMapWfsLayer,

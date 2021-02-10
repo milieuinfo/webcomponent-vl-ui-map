@@ -92,11 +92,11 @@ export function testVisibilityAtResolution(fixture, minVisibility, maxVisibility
   });
 }
 
-function getLayer(map) {
+export function getLayer(map) {
   return map.querySelector(LAYER_SELECTOR);
 }
 
-function getLayers(map) {
+export function getLayers(map) {
   return map.querySelectorAll(LAYER_SELECTOR);
 }
 

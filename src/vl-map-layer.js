@@ -12,7 +12,6 @@ import {vlElement} from '/node_modules/vl-ui-core/dist/vl-core.js';
  *
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
- * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map-layer.html|Demo}
  */
 export class VlMapLayer extends vlElement(HTMLElement) {
   constructor() {
