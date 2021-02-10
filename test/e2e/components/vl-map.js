@@ -4,6 +4,7 @@ const VlMapBaseLayer = require('./vl-map-baselayer');
 const VlMapFeaturesLayer = require('./vl-map-features-layer');
 const VlMapWmtsLayer = require('./vl-map-wmts-layer');
 const VlMapWmsLayer = require('./vl-map-wms-layer');
+const VlMapWfsLayer = require('./vl-map-wfs-layer');
 const VlMapSearch = require('./vl-map-search');
 const VlMapOverviewMap = require('./vl-map-overview-map');
 const VlMapLayerSwitcher = require('./vl-map-layer-switcher');
@@ -21,7 +22,11 @@ class VlMap extends VlElement {
   }
 
   async getLayers() {
-    return this._getFeaturesLayers();
+    const featuresLayers = await this.getFeaturesLayers();
+    const wmtsLayers = await this.getWmtsLayers();
+    const wmsLayers = await this.getWmsLayers();
+    const wfsLayers = await this.getWfsLayers();
+    return featuresLayers.concat(wmtsLayers).concat(wmsLayers).concat(wfsLayers);
   }
 
   async getWmtsLayers() {
@@ -32,7 +37,11 @@ class VlMap extends VlElement {
     return this._getLayersOfType(VlMapWmsLayer);
   }
 
-  async _getFeaturesLayers() {
+  async getWfsLayers() {
+    return this._getLayersOfType(VlMapWfsLayer);
+  }
+
+  async getFeaturesLayers() {
     return this._getLayersOfType(VlMapFeaturesLayer);
   }
 

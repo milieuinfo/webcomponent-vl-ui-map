@@ -5,6 +5,7 @@ import {VlMapOverviewMap} from '/src/vl-map-overview-map.js';
 import {VlMapLayer} from '/src/vl-map-layer.js';
 import {VlMapFeaturesLayer} from '/src/vl-map-features-layer.js';
 import {VlMapWmsLayer} from '/src/vl-map-wms-layer.js';
+import {VlMapWfsLayer} from '/src/vl-map-wfs-layer.js';
 import {VlMapWmtsLayer} from '/src/vl-map-wmts-layer.js';
 import {VlMapBaseLayer} from '/src/vl-map-baselayer.js';
 import {VlMapBaseLayerGRBGray} from '/src/vl-map-baselayer-grb-gray.js';
@@ -29,6 +30,7 @@ Promise.all([
   define('vl-map-overview-map', VlMapOverviewMap);
   define('vl-map-features-layer', VlMapFeaturesLayer);
   define('vl-map-wms-layer', VlMapWmsLayer);
+  define('vl-map-wfs-layer', VlMapWfsLayer);
   define('vl-map-wmts-layer', VlMapWmtsLayer);
   define('vl-map-baselayer', VlMapBaseLayer);
   define('vl-map-baselayer-grb-gray', VlMapBaseLayerGRBGray);
@@ -53,6 +55,7 @@ export {
   VlMapLayer,
   VlMapFeaturesLayer,
   VlMapWmsLayer,
+  VlMapWfsLayer,
   VlMapWmtsLayer,
   VlMapBaseLayer,
   VlMapBaseLayerGRBGray,
