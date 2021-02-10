@@ -102,6 +102,65 @@ class VlMap extends VlElement {
       y: Math.round(pixels[1] - (rect.height / 2)),
     }).click().perform();
   }
+  
+  async _getPixelsFromCoordinate(coordinates = [0,0]) {
+    return await this.driver.executeScript(`return arguments[0].map.getPixelFromCoordinate(${JSON.stringify(coordinates)})`, this);
+  }
+  
+  async _movePointByPixels(fromPixels = [0,0], toPixels = [0,0]){
+    const map = await this._getMap();
+    const rect = await this.getRect();
+    
+    const isFirefox = false;
+    // Click the coordinate:
+    await this.driver.actions({bridge: isFirefox})
+    .move( {
+      duration: 2000,
+      origin: map,
+      x: Math.round(fromPixels[0] - (rect.width / 2)),
+      y: Math.round(fromPixels[1] - (rect.height / 2))
+    })
+    .click()
+    .perform();
+    
+    // Move the coordinate:
+    await this.driver.actions({bridge: isFirefox})
+    .move( {
+      duration: 2000,
+      origin: map,
+      x: Math.round(fromPixels[0] - (rect.width / 2)),
+      y: Math.round(fromPixels[1] - (rect.height / 2))
+    })
+    .press()
+    .move( {
+      duration: 2000,
+      origin: map,
+      x: Math.round(toPixels[0] - (rect.width / 2)),
+      y: Math.round(toPixels[1] - (rect.height / 2))
+    })
+    .release()
+    .perform();
+  }
+  
+  async movePointByCoordinates (from = [0,0], to = [0,0]) {
+    const fromPixels = await this._getPixelsFromCoordinate(from);
+    
+    console.group('Move Point by Coordinates:')
+    console.debug('- from: ',{
+      coordinates: from,
+      pixels: fromPixels
+    });
+  
+    const toPixels = await this._getPixelsFromCoordinate(to);
+  
+    console.debug('- to: ',{
+      coordinates: to,
+      pixels: toPixels
+    });
+    console.groupEnd();
+    
+    await this._movePointByPixels(fromPixels , toPixels);
+  }
 
   async getScale() {
     const map = await this._getMap();
