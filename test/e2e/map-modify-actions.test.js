@@ -3,6 +3,7 @@ const VlMapModifyActionsPage = require('./pages/vl-map-modify-actions.page');
 
 describe('vl-map-modify-action', async () => {
   let vlMapPage;
+  const willebroek = [150390.63, 193371.12];
 
   before(() => {
     vlMapPage = new VlMapModifyActionsPage(getDriver());
@@ -38,7 +39,6 @@ describe('vl-map-modify-action', async () => {
     const leuven = points[3];
     assert.lengthOf(leuven, 2);
 
-    const willebroek = [150390.63, 193371.12];
     await map.movePointByCoordinates(gent, willebroek);
 
     features = await layer.getFeatures();
@@ -87,7 +87,6 @@ describe('vl-map-modify-action', async () => {
     const antwerpen = point2Feature.geometry.coordinates;
     assert.lengthOf(antwerpen, 2);
 
-    const willebroek = [150390.63, 193371.12];
     await map.movePointByCoordinates(mechelen, willebroek);
 
     features = await layer.getFeatures();
@@ -125,7 +124,6 @@ describe('vl-map-modify-action', async () => {
     const antwerpen = lineCoordinates[1];
     assert.lengthOf(antwerpen, 2);
 
-    const willebroek = [150390.63, 193371.12];
     await map.movePointByCoordinates(antwerpen, willebroek);
 
     features = await layer.getFeatures();
