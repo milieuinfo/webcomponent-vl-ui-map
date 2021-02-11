@@ -64,7 +64,20 @@
                             }
                         }]
                     }'>
-                    <vl-map-layer-style></vl-map-layer-style>
+                    <!-- WARN: border-size has an impact on the e2e tests -->
+                    <vl-map-layer-style id="map-adjusted-style"
+                                        data-vl-color="rgba(255,0,0,0.5)"
+                                        data-vl-border-color="rgba(255,255,100,1)"
+                                        data-vl-border-size="4"
+                                        data-vl-text-feature-attribute-name="label"
+                                        data-vl-text-background-color="rgba(0,0,255,0.2)"
+                                        data-vl-text-border-color="rgba(0,255,0,1)"
+                                        data-vl-text-border-size="3"
+                                        data-vl-text-color="rgba(255,0,0,1)"
+                                        data-vl-text-offset-x="10"
+                                        data-vl-text-offset-y="-10"
+                                        data-vl-text-size="13px"
+                    ></vl-map-layer-style>
                     <vl-map-modify-action id="modify-line-action" data-vl-default-active></vl-map-modify-action>
                 </vl-map-layer>
             </vl-map>
@@ -89,6 +102,20 @@
                             }
                         }]
                     }'>
+                    <!-- WARN: border-size has an impact on the e2e tests -->
+                    <vl-map-layer-style id="map-adjusted-style"
+                                        data-vl-color="rgba(255,0,0,0.5)"
+                                        data-vl-border-color="rgba(255,255,100,1)"
+                                        data-vl-border-size="4"
+                                        data-vl-text-feature-attribute-name="label"
+                                        data-vl-text-background-color="rgba(0,0,255,0.2)"
+                                        data-vl-text-border-color="rgba(0,255,0,1)"
+                                        data-vl-text-border-size="3"
+                                        data-vl-text-color="rgba(255,0,0,1)"
+                                        data-vl-text-offset-x="10"
+                                        data-vl-text-offset-y="-10"
+                                        data-vl-text-size="13px"
+                    ></vl-map-layer-style>
                     <vl-map-modify-action id="modify-polygon-action" data-vl-default-active></vl-map-modify-action>
                 </vl-map-layer>
             </vl-map>
