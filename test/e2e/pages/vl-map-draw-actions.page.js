@@ -8,7 +8,7 @@ class VlMapDrawActionsPage extends Page {
   async getMapWithDrawPointAction() {
     return new VlMap(this.driver, '#map-with-draw-point-action');
   }
-  
+
   async getMapWithDrawLineAction() {
     return new VlMap(this.driver, '#map-with-draw-line-action');
   }

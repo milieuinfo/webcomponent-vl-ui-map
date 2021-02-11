@@ -92,26 +92,26 @@ class VlMap extends VlElement {
       return currentZoom >= zoom && currentZoom <= zoom + 1;
     }, 2000).then(() => true).catch(() => false);
   }
-  
+
   /**
    * Geef de pixels voor een coördinaat op de kaart.
    * Relatief t.o.v. de hoogte en breedte van diezelfde kaart.
    *
    * @param {Number[]} coordinates - coördinaat op de kaart
-   * @returns {Promise<{x: number, y: number}>}
+   * @return {Promise<{x: number, y: number}>}
    * @private
    * @see {@link https://openlayers.org/en/latest/apidoc/module-ol_Map-Map.html#getPixelFromCoordinate}
    * @see {@link https://www.selenium.dev/selenium/docs/api/javascript/module/selenium-webdriver/lib/webdriver_exports_WebElement.html#getRect}
    */
-  async _getPixelsFromCoordinate(coordinates = [0,0]) {
+  async _getPixelsFromCoordinate(coordinates = [0, 0]) {
     const pixels = await this.driver.executeScript(`return arguments[0].map.getPixelFromCoordinate(${JSON.stringify(coordinates)})`, this);
     const rect = await this.getRect();
     return {
       x: Math.round(pixels[0] - (rect.width / 2)),
-      y: Math.round(pixels[1] - (rect.height / 2))
-    }
+      y: Math.round(pixels[1] - (rect.height / 2)),
+    };
   }
-  
+
   async clickOnCoordinates(coordinates) {
     const pixels = await this._getPixelsFromCoordinate(coordinates );
     await this.driver.actions().move({
@@ -120,40 +120,35 @@ class VlMap extends VlElement {
       y: pixels.y,
     }).click().perform();
   }
-  
-  async movePointByCoordinates (from = [0,0], to = [0,0]) {
+
+  /**
+   * Beweeg een punt o.b.v zijn coördinaat naar een andere plaats op de kaart.
+   *
+   * @param {Number[]} from - coördinaat om vanuit te bewegen
+   * @param {Number[]} to - coördinaat om naar te bewegen
+   * @return {Promise<void>}
+   */
+  async movePointByCoordinates(from = [0, 0], to = [0, 0]) {
     const fromPixels = await this._getPixelsFromCoordinate(from);
     const toPixels = await this._getPixelsFromCoordinate(to);
-    
-    console.group('Move Point:')
-    console.debug('from: ',{
-      coordinates: from,
-      pixels: fromPixels
-    });
-    
-    console.debug('to: ',{
-      coordinates: to,
-      pixels: toPixels
-    });
-    console.groupEnd();
-  
+
     await this.clickOnCoordinates(from);
     await this.driver.actions()
-    .move( {
-      duration: 500,
-      origin: this,
-      x: fromPixels.x,
-      y: fromPixels.y
-    })
-    .press()
-    .move( {
-      duration: 500,
-      origin: this,
-      x: toPixels.x,
-      y: toPixels.y
-    })
-    .release()
-    .perform();
+        .move( {
+          duration: 500,
+          origin: this,
+          x: fromPixels.x,
+          y: fromPixels.y,
+        })
+        .press()
+        .move( {
+          duration: 500,
+          origin: this,
+          x: toPixels.x,
+          y: toPixels.y,
+        })
+        .release()
+        .perform();
   }
 
   async getScale() {
