@@ -16,7 +16,6 @@ describe('vl-map-wms-layer', async () => {
     await assert.eventually.equal(layer.getName(), 'Beschermingszones');
     await assert.eventually.equal(layer.getUrl(), 'https://www.dov.vlaanderen.be/geoserver/wms');
     await assert.eventually.equal(layer.getLayers(), 'grondwater:beschermingszones_2014');
-    await assert.eventually.equal(layer.getStyles(), '');
     await assert.eventually.equal(layer.getVersion(), '1.3.0');
     await assert.eventually.equal(layer.getOpacity(), '0.7');
     await assert.eventually.equal(layer.isTiled(), 'false');
