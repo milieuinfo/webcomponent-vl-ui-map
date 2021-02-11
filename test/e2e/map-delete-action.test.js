@@ -33,7 +33,6 @@ describe('vl-map-delete-action', async () => {
 		  const aantalFeatures = await layer.getAantalFeatures();
 		  return aantalFeatures == 1;
 	  });
-	  await new Promise(r => setTimeout(r, 2000));
 	  await deleteAction.removeFeature(3);
 	  await driver.wait(async () => {
 		  const aantalFeatures = await layer.getAantalFeatures();
