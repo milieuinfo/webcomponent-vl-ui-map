@@ -92,74 +92,68 @@ class VlMap extends VlElement {
       return currentZoom >= zoom && currentZoom <= zoom + 1;
     }, 2000).then(() => true).catch(() => false);
   }
-
-  async clickOnCoordinates(coordinates) {
+  
+  /**
+   * Geef de pixels voor een coördinaat op de kaart.
+   * Relatief t.o.v. de hoogte en breedte van diezelfde kaart.
+   *
+   * @param {Number[]} coordinates - coördinaat op de kaart
+   * @returns {Promise<{x: number, y: number}>}
+   * @private
+   * @see {@link https://openlayers.org/en/latest/apidoc/module-ol_Map-Map.html#getPixelFromCoordinate}
+   * @see {@link https://www.selenium.dev/selenium/docs/api/javascript/module/selenium-webdriver/lib/webdriver_exports_WebElement.html#getRect}
+   */
+  async _getPixelsFromCoordinate(coordinates = [0,0]) {
     const pixels = await this.driver.executeScript(`return arguments[0].map.getPixelFromCoordinate(${JSON.stringify(coordinates)})`, this);
     const rect = await this.getRect();
+    return {
+      x: Math.round(pixels[0] - (rect.width / 2)),
+      y: Math.round(pixels[1] - (rect.height / 2))
+    }
+  }
+  
+  async clickOnCoordinates(coordinates) {
+    const pixels = await this._getPixelsFromCoordinate(coordinates );
     await this.driver.actions().move({
       origin: this,
-      x: Math.round(pixels[0] - (rect.width / 2)),
-      y: Math.round(pixels[1] - (rect.height / 2)),
+      x: pixels.x,
+      y: pixels.y,
     }).click().perform();
-  }
-  
-  async _getPixelsFromCoordinate(coordinates = [0,0]) {
-    return await this.driver.executeScript(`return arguments[0].map.getPixelFromCoordinate(${JSON.stringify(coordinates)})`, this);
-  }
-  
-  async _movePointByPixels(fromPixels = [0,0], toPixels = [0,0]){
-    const map = await this._getMap();
-    const rect = await this.getRect();
-    
-    const isFirefox = false;
-    // Click the coordinate:
-    await this.driver.actions({bridge: isFirefox})
-    .move( {
-      duration: 2000,
-      origin: map,
-      x: Math.round(fromPixels[0] - (rect.width / 2)),
-      y: Math.round(fromPixels[1] - (rect.height / 2))
-    })
-    .click()
-    .perform();
-    
-    // Move the coordinate:
-    await this.driver.actions({bridge: isFirefox})
-    .move( {
-      duration: 2000,
-      origin: map,
-      x: Math.round(fromPixels[0] - (rect.width / 2)),
-      y: Math.round(fromPixels[1] - (rect.height / 2))
-    })
-    .press()
-    .move( {
-      duration: 2000,
-      origin: map,
-      x: Math.round(toPixels[0] - (rect.width / 2)),
-      y: Math.round(toPixels[1] - (rect.height / 2))
-    })
-    .release()
-    .perform();
   }
   
   async movePointByCoordinates (from = [0,0], to = [0,0]) {
     const fromPixels = await this._getPixelsFromCoordinate(from);
+    const toPixels = await this._getPixelsFromCoordinate(to);
     
-    console.group('Move Point by Coordinates:')
-    console.debug('- from: ',{
+    console.group('Move Point:')
+    console.debug('from: ',{
       coordinates: from,
       pixels: fromPixels
     });
-  
-    const toPixels = await this._getPixelsFromCoordinate(to);
-  
-    console.debug('- to: ',{
+    
+    console.debug('to: ',{
       coordinates: to,
       pixels: toPixels
     });
     console.groupEnd();
-    
-    await this._movePointByPixels(fromPixels , toPixels);
+  
+    await this.clickOnCoordinates(from);
+    await this.driver.actions()
+    .move( {
+      duration: 500,
+      origin: this,
+      x: fromPixels.x,
+      y: fromPixels.y
+    })
+    .press()
+    .move( {
+      duration: 500,
+      origin: this,
+      x: toPixels.x,
+      y: toPixels.y
+    })
+    .release()
+    .perform();
   }
 
   async getScale() {
