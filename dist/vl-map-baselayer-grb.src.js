@@ -16,7 +16,7 @@ export class VlMapBaseLayerGRB extends VlMapBaseLayer {
     super();
     this.setAttribute('url', 'https://tile.informatievlaanderen.be/ws/raadpleegdiensten/wmts');
     this.setAttribute('layer', 'grb_bsk');
-    this.setAttribute('title', 'GRB basis test');
+    this.setAttribute('title', 'GRB basis laag');
   }
 }
 
