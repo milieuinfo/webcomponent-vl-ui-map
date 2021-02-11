@@ -2,7 +2,7 @@ import {VlMapVectorLayer} from '/src/vl-map-vector-layer.js';
 import {
   OlVectorSource,
   OlLoadingstrategy,
-  OlGeoJSON,
+  OlGML2,
 } from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
 
 /**
@@ -59,6 +59,7 @@ export class VlMapWfsLayer extends VlMapVectorLayer {
     searchParams.set('bbox', extent.join(','));
     searchParams.set('srsname', projection.getCode());
     searchParams.set('outputFormat', this.__wfsOutputFormat);
+    searchParams.set('version', this.__wfsVersion);
     return url;
   }
 
@@ -67,10 +68,14 @@ export class VlMapWfsLayer extends VlMapVectorLayer {
   }
 
   get __sourceFormat() {
-    return new OlGeoJSON();
+    return new OlGML2();
   }
 
   get __wfsOutputFormat() {
-    return 'application/json';
+    return 'GML2';
+  }
+
+  get __wfsVersion() {
+    return '1.1.0';
   }
 }
