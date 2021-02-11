@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>vl-map-modify-actions voorbeeld</title>
+    <script type="module" src="/node_modules/vl-ui-demo/dist/vl-demo-all.js"></script>
+    <script type="module" src="/node_modules/vl-ui-body/dist/vl-body.js"></script>
+
+    <script type="module" src="/src/vl-map-all.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-body/dist/style.css" />
+    <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-demo/dist/style.css" />
+</head>
+
+<body is="vl-body">
+    <vl-demo-page data-vl-webcomponent="vl-map-delete-action">
+        <vl-demo data-vl-title="Kaart met delete actie">
+            <vl-map id="map-with-delete-action">
+                <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
+                <vl-map-layer id="layer" data-vl-name="Laag" data-vl-auto-extent data-vl-features='
+                    {
+                        "type": "FeatureCollection",
+                        "features": [{
+                            "type": "Feature",
+                            "id": 1,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [157800,190000]
+                            }
+                        }, {
+                            "type": "Feature",
+                            "id": 2,
+                            "geometry": {
+                               "type": "LineString",
+                                "coordinates": [[157800,190100], [157700,190200]]
+                            }
+                        }, {
+                            "type": "Feature",
+                            "id": 3,
+                            "geometry": {
+                               "type": "Polygon",
+                                "coordinates": [[[157600,189700],[157700,189700],[157700,189800],[157600,189800],[157600,189700]]]
+                            }
+                        }]
+                    }'>
+                    <vl-map-delete-action id="delete-action" data-vl-default-active></vl-map-modify-action>
+                </vl-map-layer>
+            </vl-map>
+        </vl-demo>
+
+    </vl-demo-page>
+    
+    
+</body>
+
+</html>
