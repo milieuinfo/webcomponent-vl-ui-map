@@ -94,13 +94,9 @@ class VlMap extends VlElement {
   }
 
   async clickOnCoordinates(coordinates) {
-    const pixels = await this.driver.executeScript(`return arguments[0].map.getPixelFromCoordinate(${JSON.stringify(coordinates)})`, this);
-    const rect = await this.getRect();
-    await this.driver.actions().move({
-      origin: this,
-      x: Math.round(pixels[0] - (rect.width / 2)),
-      y: Math.round(pixels[1] - (rect.height / 2)),
-    }).click().perform();
+    const pixel = await this.driver.executeScript(`return arguments[0].map.getPixelFromCoordinate(${JSON.stringify(coordinates)})`, this);
+    const movePoint = await this._moveToPointOnMap(pixel);
+    await this.driver.actions().move(movePoint).click().perform();
   }
 
   async getScale() {
@@ -128,6 +124,29 @@ class VlMap extends VlElement {
 
   async _getToggleFullscreenButton() {
     return this.shadowRoot.findElement(By.css('.ol-full-screen'));
+  }
+  
+  async _moveToPointOnMap(pixel) {
+    const rect = await this.getRect();
+    return {
+    	origin: this,
+    	x: Math.round(pixel[0] - (rect.width / 2)),
+    	y: Math.round(pixel[1] - (rect.height / 2)),
+    	duration: 1000
+    };
+  }
+  
+  async sleepRechthoek(coordinatesStart, coordinatesEnd) {
+    const pixelStart = await this.driver.executeScript(`return arguments[0].map.getPixelFromCoordinate(${JSON.stringify(coordinatesStart)})`, this);
+    const pixelEnd = await this.driver.executeScript(`return arguments[0].map.getPixelFromCoordinate(${JSON.stringify(coordinatesEnd)})`, this);
+    const moveStart = await this._moveToPointOnMap(pixelStart);
+    const moveEnd = await this._moveToPointOnMap(pixelEnd);
+    return this.driver.actions()
+		.move(moveStart)
+		.press()
+		.move(moveEnd)
+		.release()
+		.perform();
   }
 }
 

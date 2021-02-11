@@ -12,6 +12,10 @@ class VlMapDeleteAction extends VlMapAction {
     	await layer.clickPointFeatureOnMap(id, map);
     }
 
+    async removeAllIn(coordinatesStart, coordinatesEnd) {
+    	const map = await this.getMap();
+    	await map.sleepRechthoek(coordinatesStart, coordinatesEnd);
+    }
 }
 
 module.exports = VlMapDeleteAction;

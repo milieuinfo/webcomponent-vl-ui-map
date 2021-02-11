@@ -5,7 +5,7 @@ describe('vl-map-delete-action', async () => {
   let vlMapPage;
   let driver;
 
-  before(() => {
+  beforeEach(() => {
     driver = getDriver();
     vlMapPage = new VlMapDeleteActionPage(getDriver());
     return vlMapPage.load();
@@ -34,6 +34,21 @@ describe('vl-map-delete-action', async () => {
 		  return aantalFeatures == 1;
 	  });
 	  await deleteAction.removeFeature(3);
+	  await driver.wait(async () => {
+		  const aantalFeatures = await layer.getAantalFeatures();
+		  return aantalFeatures == 0;
+	  });
+  });
+  
+  
+  it('kan features deleten door rechthoek te trekken over alle features die weg mogen', async () => {
+	  const deleteAction = await vlMapPage.getDeleteAction();
+	  const layer = await deleteAction.getLayer();
+	  await driver.wait(async () => {
+		  const aantalFeatures = await layer.getAantalFeatures();
+		  return aantalFeatures == 3;
+	  });
+	  await deleteAction.removeAllIn([80000, 210000], [145000,170000]);
 	  await driver.wait(async () => {
 		  const aantalFeatures = await layer.getAantalFeatures();
 		  return aantalFeatures == 0;
