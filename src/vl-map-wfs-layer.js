@@ -54,6 +54,7 @@ export class VlMapWfsLayer extends VlMapVectorLayer {
   __getWfsUrl(extent, resolution, projection) {
     const url = this._url;
     const searchParams = url.searchParams;
+    searchParams.set('service', 'WFS');
     searchParams.set('request', 'GetFeature');
     searchParams.set('typename', this._layers);
     searchParams.set('bbox', extent.join(','));
@@ -76,6 +77,6 @@ export class VlMapWfsLayer extends VlMapVectorLayer {
   }
 
   get __wfsVersion() {
-    return '1.1.0';
+    return '2.0.0';
   }
 }
