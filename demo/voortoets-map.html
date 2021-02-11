@@ -2,153 +2,187 @@
 <html>
 
 <head>
-  <title>vl-map voorbeeld</title>
-  <script type="module" src="/node_modules/vl-ui-demo/dist/vl-demo-all.js"></script>
-  <script type="module" src="/node_modules/vl-ui-body/dist/vl-body.js"></script>
-  <script type="module" src="/node_modules/vl-ui-grid/dist/vl-grid.js"></script>
-  <script type="module" src="/node_modules/vl-ui-form-message/dist/vl-form-message.js"></script>
-  <script type="module" src="/node_modules/vl-ui-checkbox/dist/vl-checkbox.js"></script>
-  <script type="module" src="/node_modules/vl-ui-button/dist/vl-button.js"></script>
+    <title>vl-map voorbeeld</title>
+    <script type="module" src="/node_modules/vl-ui-demo/dist/vl-demo-all.js"></script>
+    <script type="module" src="/node_modules/vl-ui-body/dist/vl-body.js"></script>
+    <script type="module" src="/node_modules/vl-ui-grid/dist/vl-grid.js"></script>
+    <script type="module" src="/node_modules/vl-ui-form-message/dist/vl-form-message.js"></script>
+    <script type="module" src="/node_modules/vl-ui-checkbox/dist/vl-checkbox.js"></script>
+    <script type="module" src="/node_modules/vl-ui-button/dist/vl-button.js"></script>
 
-  <script type="module" src="/src/vl-map-all.js"></script>
+    <script type="module" src="/src/vl-map-all.js"></script>
 
-  <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-body/dist/style.css"/>
-  <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-demo/dist/style.css"/>
-  <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-grid/dist/style.css"/>
-  <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-form-message/dist/style.css"/>
-  <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-button/dist/style.css"/>
+    <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-body/dist/style.css"/>
+    <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-demo/dist/style.css"/>
+    <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-grid/dist/style.css"/>
+    <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-form-message/dist/style.css"/>
+    <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-button/dist/style.css"/>
 </head>
 
 <body is="vl-body">
 <vl-demo-page data-vl-webcomponent="Voortoets">
-  <vl-demo data-vl-title="Voortoets demo">
-    <vl-map id="projectgebied-map" data-vl-allow-fullscreen>
-      <vl-map-search></vl-map-search>
-      <!-- TODO: Hier wordt wel nogal veel ingezoomd: https://github.com/milieuinfo/webcomponent-vl-ui-map/issues/198 -->
+    <vl-demo data-vl-title="Voortoets demo">
+        <vl-map id="projectgebied-map" data-vl-allow-fullscreen>
+            <vl-map-search></vl-map-search>
+            <!-- TODO: Hier wordt wel nogal veel ingezoomd: https://github.com/milieuinfo/webcomponent-vl-ui-map/issues/198 -->
 
-      <vl-map-side-sheet>
-        <vl-map-layer-switcher></vl-map-layer-switcher>
-      </vl-map-side-sheet>
-      <!-- TODO: Knop staat niet goed: https://github.com/milieuinfo/webcomponent-vl-ui-map/issues/197 -->
+            <vl-map-side-sheet>
+                <vl-map-layer-switcher></vl-map-layer-switcher>
+            </vl-map-side-sheet>
+            <!-- TODO: Knop staat niet goed: https://github.com/milieuinfo/webcomponent-vl-ui-map/issues/197 -->
 
-      <vl-map-overview-map></vl-map-overview-map>
-      <vl-map-baselayer data-vl-type="wmts"
-                        data-vl-url="https://tile.informatievlaanderen.be/ws/raadpleegdiensten/wmts"
-                        data-vl-layer="omwrgbmrvl" data-vl-title="GRB-Basiskaart*"></vl-map-baselayer>
-      <vl-map-baselayer data-vl-type="wmts"
-                        data-vl-url="https://tile.informatievlaanderen.be/ws/raadpleegdiensten/wmts"
-                        data-vl-layer="grb_bsk" data-vl-title="GRB-Basiskaart*"></vl-map-baselayer>
+            <vl-map-overview-map></vl-map-overview-map>
+            <vl-map-baselayer data-vl-type="wmts"
+                              data-vl-url="https://tile.informatievlaanderen.be/ws/raadpleegdiensten/wmts"
+                              data-vl-layer="omwrgbmrvl" data-vl-title="GRB-Basiskaart*"></vl-map-baselayer>
+            <vl-map-baselayer data-vl-type="wmts"
+                              data-vl-url="https://tile.informatievlaanderen.be/ws/raadpleegdiensten/wmts"
+                              data-vl-layer="grb_bsk" data-vl-title="GRB-Basiskaart*"></vl-map-baselayer>
 
-      <vl-map-layer id="projectgebied-layer" data-vl-name="Projectgebied">
-        <vl-map-layer-circle-style data-vl-color="rgba(238,153,0,0.4)" data-vl-border-color="rgba(238,153,0,0.4)" data-vl-border-size="4" data-vl-size="6"></vl-map-layer-circle-style>
-        <vl-map-layer-style data-vl-color="rgba(238,153,0,0.4)"
-                            data-vl-border-color="rgba(238,153,0,0.4)"
-                            data-vl-border-size="1"></vl-map-layer-style>
-        <vl-map-draw-point-action id="draw-point-action"></vl-map-draw-point-action>
-        <vl-map-draw-line-action id="draw-line-action"></vl-map-draw-line-action>
-        <vl-map-draw-polygon-action id="draw-polygon-action"></vl-map-draw-polygon-action>
-      </vl-map-layer>
-      <vl-map-layer id="rapportering-layer" data-vl-name="Reikwijdte effect"
-                    data-vl-features='{"type": "FeatureCollection","name": "effect","crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::31370" } },"features": [{ "type": "Feature", "properties": { "waarde": "200", "eenheid": "m" }, "geometry": { "type": "MultiPolygon", "coordinates": [ [ [ [ 149255.0, 199908.0 ], [ 149252.537668119039154, 199876.71310699195601 ], [ 149245.211303259042324, 199846.196601125004236 ], [ 149233.201304837682983, 199817.201900052081328 ], [ 149216.803398874995764, 199790.442949541495182 ], [ 149196.421356237318832, 199766.578643762681168 ], [ 149172.557050458504818, 199746.196601125004236 ], [ 149145.798099947918672, 199729.798695162317017 ], [ 149116.803398874995764, 199717.788696740957676 ], [ 149086.28689300804399, 199710.462331880960846 ], [ 149055.0, 199708.0 ], [ 149023.71310699195601, 199710.462331880960846 ], [ 148993.196601125004236, 199717.788696740957676 ], [ 148964.201900052081328, 199729.798695162317017 ], [ 148937.442949541495182, 199746.196601125004236 ], [ 148913.578643762681168, 199766.578643762681168 ], [ 148893.196601125004236, 199790.442949541495182 ], [ 148876.798695162317017, 199817.201900052081328 ], [ 148864.788696740957676, 199846.196601125004236 ], [ 148857.462331880960846, 199876.71310699195601 ], [ 148855.0, 199908.0 ], [ 148857.462331880960846, 199939.28689300804399 ], [ 148864.788696740957676, 199969.803398874995764 ], [ 148876.798695162317017, 199998.798099947918672 ], [ 148893.196601125004236, 200025.557050458504818 ], [ 148913.578643762681168, 200049.421356237318832 ], [ 148937.442949541495182, 200069.803398874995764 ], [ 148964.201900052081328, 200086.201304837682983 ], [ 148993.196601125004236, 200098.211303259042324 ], [ 149023.71310699195601, 200105.537668119039154 ], [ 149055.0, 200108.0 ], [ 149086.28689300804399, 200105.537668119039154 ], [ 149116.803398874995764, 200098.211303259042324 ], [ 149145.798099947918672, 200086.201304837682983 ], [ 149172.557050458504818, 200069.803398874995764 ], [ 149196.421356237318832, 200049.421356237318832 ], [ 149216.803398874995764, 200025.557050458504818 ], [ 149233.201304837682983, 199998.798099947918672 ], [ 149245.211303259042324, 199969.803398874995764 ], [ 149252.537668119039154, 199939.28689300804399 ], [ 149255.0, 199908.0 ] ] ] ] } }]}'>
-        <vl-map-layer-style id="rapportering-layer-style" data-vl-color="rgba(255,251,124,0.4)"
-                            data-vl-border-color="rgba(127,124,24,1)"
-                            data-vl-text-size="12px"
-                            data-vl-text-color="black"
-                            data-vl-text-border-color="white"
-                            data-vl-text-border-size="2"
-                            data-vl-text-offset-y="15"
-        ></vl-map-layer-style>
-        <script>
-          document.querySelector('#rapportering-layer-style').featureLabelFunction = (feature) => feature.get('waarde') + ' ' + feature.get('eenheid');
-</script>
-      </vl-map-layer>
-      <vl-map-layer data-vl-name="Effectbron"
-                    data-vl-features='{"type": "FeatureCollection","name": "effectbron","crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::31370" } },"features": [{ "type": "Feature", "properties": { "status": "ROOD" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 149049.842855008639162, 200057.836751907132566 ], [ 149008.523230480641359, 200011.508688041009009 ], [ 149056.103404170076828, 199986.466491367667913 ], [ 149096.170918863412226, 200027.786115895025432 ], [ 149096.170918863412226, 200027.786115895025432 ], [ 149049.842855008639162, 200057.836751907132566 ] ] ] } },{ "type": "Feature", "properties": { "status": "GROEN" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 148923.379761764226714, 199983.962271682918072 ], [ 148890.824906070745783, 199907.583571802824736 ], [ 148929.640310921357013, 199877.532935792580247 ], [ 148967.203605949762277, 199942.642647162079811 ], [ 148967.203605949762277, 199942.642647162079811 ], [ 148967.203605949762277, 199942.642647162079811 ], [ 148923.379761764226714, 199983.962271682918072 ] ] ] } },{ "type": "Feature", "properties": { "status": "INVALID" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 149160.028520380990813, 199885.045594822615385 ], [ 149101.179358171852073, 199798.650016268715262 ], [ 149198.843925223744009, 199789.885247440077364 ], [ 149205.104474402731284, 199862.507617817260325 ], [ 149205.104474402731284, 199862.507617817260325 ], [ 149160.028520380990813, 199885.045594822615385 ] ] ] } },{ "type": "Feature", "properties": { "status": "ROOD" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 148957.186727260967018, 199804.910565420985222 ], [ 148948.421958418446593, 199767.347270401194692 ], [ 149007.271120615361724, 199752.32195239700377 ], [ 149003.514791119465372, 199803.658455593511462 ], [ 149003.514791119465372, 199803.658455593511462 ], [ 148957.186727260967018, 199804.910565420985222 ] ] ] } }]}'>
-        <vl-map-layer-style id="status-rood" data-vl-color="rgba(255,0,0,0.6)"
-                            data-vl-border-color="rgba(255,0,0,1)"></vl-map-layer-style>
-        <script>
-          document.querySelector('#status-rood').appliesTo = (feature) => feature.get('status') === 'ROOD';
-</script>
-        <vl-map-layer-style id="status-invalid" data-vl-color="rgba(255,0,0,0.6)"
-                            data-vl-border-color="rgba(169,68,66,1)"></vl-map-layer-style>
-        <script>
-          document.querySelector('#status-invalid').appliesTo = (feature) => feature.get('status') === 'INVALID';
-</script>
-        <vl-map-layer-style id="status-groen" data-vl-color="rgba(0,5,218,0.6)"
-                            data-vl-border-color="rgba(0,5,218,1)"></vl-map-layer-style>
-        <script>
-          document.querySelector('#status-groen').appliesTo = (feature) => feature.get('status') === 'GROEN';
-</script>
-      </vl-map-layer>
-      </vl-map-layer>
-      <vl-map-layer data-vl-name="Gevoelige habitats"
-                    data-vl-features='{"type": "FeatureCollection","name": "gevoeligehabitats","crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::31370" } },"features": [{ "type": "Feature", "properties": { }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 149113.051673701702384, 200007.618345967959613 ], [ 149083.10540162640973, 199990.041186271584593 ], [ 149119.561732848495012, 199978.974085722031305 ], [ 149133.883862971473718, 200003.712310479866574 ], [ 149127.373803824651986, 200011.524381456052652 ], [ 149113.051673701702384, 200007.618345967959613 ] ] ] } },{ "type": "Feature", "properties": { }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 148973.085402045398951, 199987.4371626128559 ], [ 148971.132384301366983, 199973.115032489906298 ], [ 148996.521614973898977, 199969.860002916509984 ], [ 148994.568597229867009, 199984.833138954156311 ], [ 148994.568597229867009, 199984.833138954156311 ], [ 148983.501496680284617, 199995.900239503709599 ], [ 148983.501496680284617, 199995.900239503709599 ], [ 148973.085402045398951, 199987.4371626128559 ] ] ] } }]}'>
-        <vl-map-layer-style data-vl-color="rgba(255,76,76,0.3)"
-                            data-vl-border-color="rgb(127,0,0)"></vl-map-layer-style>
-      </vl-map-layer>
-      <vl-map-layer data-vl-name="Gevoelige zoekzones"
-                    data-vl-features='{"type": "FeatureCollection","name": "gevoeligezoekzones","crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::31370" } },"features": [{ "type": "Feature", "properties": { }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 148962.018017021502601, 199853.330215545371175 ], [ 148915.145591178588802, 199853.330215536989272 ], [ 148916.447603001724929, 199805.806783781386912 ], [ 148962.669022930174833, 199805.806783785112202 ], [ 148962.669022930174833, 199805.806783785112202 ], [ 148962.018017021502601, 199853.330215545371175 ] ] ] } },{ "type": "Feature", "properties": { }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 148965.273046593763866, 199852.028203713707626 ], [ 148965.924052502610721, 199805.155777871608734 ], [ 149004.333401457319269, 199805.806783792562783 ], [ 149001.72937780508073, 199852.679209634661674 ], [ 149001.72937780508073, 199852.679209634661674 ], [ 148965.273046593763866, 199852.028203713707626 ] ] ] } },{ "type": "Feature", "properties": { }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 148967.226064330927329, 199799.947730555199087 ], [ 148967.226064325572224, 199755.67932836804539 ], [ 148995.870324562885799, 199754.377316545695066 ], [ 148994.568312738963868, 199796.692700984887779 ], [ 148994.568312738963868, 199796.692700984887779 ], [ 148967.226064330927329, 199799.947730555199087 ] ] ] } }]}'>
-        <vl-map-layer-style data-vl-color="rgba(255,255,255,0.3)"
-                            data-vl-border-color="rgb(221,221,221)"></vl-map-layer-style>
-      </vl-map-layer>
-      <vl-map-layer data-vl-name="Verborgen laag tot ingezoomd" data-vl-max-resolution="128"
-                    data-vl-features='{
+            <vl-map-features-layer id="projectgebied-layer" data-vl-name="Projectgebied">
+                <vl-map-layer-circle-style data-vl-color="rgba(238,153,0,0.4)"
+                                           data-vl-border-color="rgba(238,153,0,0.4)" data-vl-border-size="4"
+                                           data-vl-size="6"></vl-map-layer-circle-style>
+                <vl-map-layer-style data-vl-color="rgba(238,153,0,0.4)"
+                                    data-vl-border-color="rgba(238,153,0,0.4)"
+                                    data-vl-border-size="1"></vl-map-layer-style>
+                <vl-map-draw-point-action id="draw-point-action"></vl-map-draw-point-action>
+                <vl-map-draw-line-action id="draw-line-action"></vl-map-draw-line-action>
+                <vl-map-draw-polygon-action id="draw-polygon-action"></vl-map-draw-polygon-action>
+            </vl-map-features-layer>
+            <vl-map-features-layer id="rapportering-layer" data-vl-name="Reikwijdte effect"
+                                   data-vl-features='{"type": "FeatureCollection","name": "effect","crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::31370" } },"features": [{ "type": "Feature", "properties": { "waarde": "200", "eenheid": "m" }, "geometry": { "type": "MultiPolygon", "coordinates": [ [ [ [ 149255.0, 199908.0 ], [ 149252.537668119039154, 199876.71310699195601 ], [ 149245.211303259042324, 199846.196601125004236 ], [ 149233.201304837682983, 199817.201900052081328 ], [ 149216.803398874995764, 199790.442949541495182 ], [ 149196.421356237318832, 199766.578643762681168 ], [ 149172.557050458504818, 199746.196601125004236 ], [ 149145.798099947918672, 199729.798695162317017 ], [ 149116.803398874995764, 199717.788696740957676 ], [ 149086.28689300804399, 199710.462331880960846 ], [ 149055.0, 199708.0 ], [ 149023.71310699195601, 199710.462331880960846 ], [ 148993.196601125004236, 199717.788696740957676 ], [ 148964.201900052081328, 199729.798695162317017 ], [ 148937.442949541495182, 199746.196601125004236 ], [ 148913.578643762681168, 199766.578643762681168 ], [ 148893.196601125004236, 199790.442949541495182 ], [ 148876.798695162317017, 199817.201900052081328 ], [ 148864.788696740957676, 199846.196601125004236 ], [ 148857.462331880960846, 199876.71310699195601 ], [ 148855.0, 199908.0 ], [ 148857.462331880960846, 199939.28689300804399 ], [ 148864.788696740957676, 199969.803398874995764 ], [ 148876.798695162317017, 199998.798099947918672 ], [ 148893.196601125004236, 200025.557050458504818 ], [ 148913.578643762681168, 200049.421356237318832 ], [ 148937.442949541495182, 200069.803398874995764 ], [ 148964.201900052081328, 200086.201304837682983 ], [ 148993.196601125004236, 200098.211303259042324 ], [ 149023.71310699195601, 200105.537668119039154 ], [ 149055.0, 200108.0 ], [ 149086.28689300804399, 200105.537668119039154 ], [ 149116.803398874995764, 200098.211303259042324 ], [ 149145.798099947918672, 200086.201304837682983 ], [ 149172.557050458504818, 200069.803398874995764 ], [ 149196.421356237318832, 200049.421356237318832 ], [ 149216.803398874995764, 200025.557050458504818 ], [ 149233.201304837682983, 199998.798099947918672 ], [ 149245.211303259042324, 199969.803398874995764 ], [ 149252.537668119039154, 199939.28689300804399 ], [ 149255.0, 199908.0 ] ] ] ] } }]}'>
+                <vl-map-layer-style id="rapportering-layer-style" data-vl-color="rgba(255,251,124,0.4)"
+                                    data-vl-border-color="rgba(127,124,24,1)"
+                                    data-vl-text-size="12px"
+                                    data-vl-text-color="black"
+                                    data-vl-text-border-color="white"
+                                    data-vl-text-border-size="2"
+                                    data-vl-text-offset-y="15"
+                ></vl-map-layer-style>
+                <script>
+                  document.querySelector('#rapportering-layer-style').featureLabelFunction = (feature) => feature.get(
+                      'waarde') + ' ' + feature.get('eenheid');
+                </script>
+            </vl-map-features-layer>
+            <vl-map-features-layer data-vl-name="Effectbron"
+                                   data-vl-features='{"type": "FeatureCollection","name": "effectbron","crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::31370" } },"features": [{ "type": "Feature", "properties": { "status": "ROOD" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 149049.842855008639162, 200057.836751907132566 ], [ 149008.523230480641359, 200011.508688041009009 ], [ 149056.103404170076828, 199986.466491367667913 ], [ 149096.170918863412226, 200027.786115895025432 ], [ 149096.170918863412226, 200027.786115895025432 ], [ 149049.842855008639162, 200057.836751907132566 ] ] ] } },{ "type": "Feature", "properties": { "status": "GROEN" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 148923.379761764226714, 199983.962271682918072 ], [ 148890.824906070745783, 199907.583571802824736 ], [ 148929.640310921357013, 199877.532935792580247 ], [ 148967.203605949762277, 199942.642647162079811 ], [ 148967.203605949762277, 199942.642647162079811 ], [ 148967.203605949762277, 199942.642647162079811 ], [ 148923.379761764226714, 199983.962271682918072 ] ] ] } },{ "type": "Feature", "properties": { "status": "INVALID" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 149160.028520380990813, 199885.045594822615385 ], [ 149101.179358171852073, 199798.650016268715262 ], [ 149198.843925223744009, 199789.885247440077364 ], [ 149205.104474402731284, 199862.507617817260325 ], [ 149205.104474402731284, 199862.507617817260325 ], [ 149160.028520380990813, 199885.045594822615385 ] ] ] } },{ "type": "Feature", "properties": { "status": "ROOD" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 148957.186727260967018, 199804.910565420985222 ], [ 148948.421958418446593, 199767.347270401194692 ], [ 149007.271120615361724, 199752.32195239700377 ], [ 149003.514791119465372, 199803.658455593511462 ], [ 149003.514791119465372, 199803.658455593511462 ], [ 148957.186727260967018, 199804.910565420985222 ] ] ] } }]}'>
+                <vl-map-layer-style id="status-rood" data-vl-color="rgba(255,0,0,0.6)"
+                                    data-vl-border-color="rgba(255,0,0,1)"></vl-map-layer-style>
+                <script>
+                  document.querySelector('#status-rood').appliesTo = (feature) => feature.get('status') === 'ROOD';
+                </script>
+                <vl-map-layer-style id="status-invalid" data-vl-color="rgba(255,0,0,0.6)"
+                                    data-vl-border-color="rgba(169,68,66,1)"></vl-map-layer-style>
+                <script>
+                  document.querySelector('#status-invalid').appliesTo = (feature) => feature.get('status') ===
+                    'INVALID';
+                </script>
+                <vl-map-layer-style id="status-groen" data-vl-color="rgba(0,5,218,0.6)"
+                                    data-vl-border-color="rgba(0,5,218,1)"></vl-map-layer-style>
+                <script>
+                  document.querySelector('#status-groen').appliesTo = (feature) => feature.get('status') === 'GROEN';
+                </script>
+            </vl-map-features-layer>
+            <vl-map-features-layer data-vl-name="Gevoelige habitats"
+                                   data-vl-features='{"type": "FeatureCollection","name": "gevoeligehabitats","crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::31370" } },"features": [{ "type": "Feature", "properties": { }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 149113.051673701702384, 200007.618345967959613 ], [ 149083.10540162640973, 199990.041186271584593 ], [ 149119.561732848495012, 199978.974085722031305 ], [ 149133.883862971473718, 200003.712310479866574 ], [ 149127.373803824651986, 200011.524381456052652 ], [ 149113.051673701702384, 200007.618345967959613 ] ] ] } },{ "type": "Feature", "properties": { }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 148973.085402045398951, 199987.4371626128559 ], [ 148971.132384301366983, 199973.115032489906298 ], [ 148996.521614973898977, 199969.860002916509984 ], [ 148994.568597229867009, 199984.833138954156311 ], [ 148994.568597229867009, 199984.833138954156311 ], [ 148983.501496680284617, 199995.900239503709599 ], [ 148983.501496680284617, 199995.900239503709599 ], [ 148973.085402045398951, 199987.4371626128559 ] ] ] } }]}'>
+                <vl-map-layer-style data-vl-color="rgba(255,76,76,0.3)"
+                                    data-vl-border-color="rgb(127,0,0)"></vl-map-layer-style>
+            </vl-map-features-layer>
+            <vl-map-features-layer data-vl-name="Gevoelige zoekzones"
+                                   data-vl-features='{"type": "FeatureCollection","name": "gevoeligezoekzones","crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::31370" } },"features": [{ "type": "Feature", "properties": { }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 148962.018017021502601, 199853.330215545371175 ], [ 148915.145591178588802, 199853.330215536989272 ], [ 148916.447603001724929, 199805.806783781386912 ], [ 148962.669022930174833, 199805.806783785112202 ], [ 148962.669022930174833, 199805.806783785112202 ], [ 148962.018017021502601, 199853.330215545371175 ] ] ] } },{ "type": "Feature", "properties": { }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 148965.273046593763866, 199852.028203713707626 ], [ 148965.924052502610721, 199805.155777871608734 ], [ 149004.333401457319269, 199805.806783792562783 ], [ 149001.72937780508073, 199852.679209634661674 ], [ 149001.72937780508073, 199852.679209634661674 ], [ 148965.273046593763866, 199852.028203713707626 ] ] ] } },{ "type": "Feature", "properties": { }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 148967.226064330927329, 199799.947730555199087 ], [ 148967.226064325572224, 199755.67932836804539 ], [ 148995.870324562885799, 199754.377316545695066 ], [ 148994.568312738963868, 199796.692700984887779 ], [ 148994.568312738963868, 199796.692700984887779 ], [ 148967.226064330927329, 199799.947730555199087 ] ] ] } }]}'>
+                <vl-map-layer-style data-vl-color="rgba(255,255,255,0.3)"
+                                    data-vl-border-color="rgb(221,221,221)"></vl-map-layer-style>
+            </vl-map-features-layer>
+            <vl-map-features-layer data-vl-name="Verborgen laag tot ingezoomd" data-vl-max-resolution="128"
+                                   data-vl-features='{
                         "type": "FeatureCollection", "features": [{
                             "type": "Feature",
                             "geometry": {"type": "Point", "coordinates": [149055.0,199908.0]}}]}'>
-        <vl-map-layer-circle-style data-vl-color="black"></vl-map-layer-circle-style>
-      </vl-map-layer>
-    </vl-map>
-    <div>
-      <script type="application/javascript">
-        /* eslint-disable */ // foutieve lint: functies zijn wel gebruikt hieronder
-        function addFeatures() {
-          document.querySelector('#projectgebied-layer').setAttribute('features',
-              '{"type": "FeatureCollection",  "features": [{"type": "Feature", "geometry": ' +
-              '{"type": "Point","coordinates": [149055.0,199908.0]}}]}');
-        }
+                <vl-map-layer-circle-style data-vl-color="black"></vl-map-layer-circle-style>
+            </vl-map-features-layer>
 
-        function zoomToLayer() {
-          document.querySelector('#rapportering-layer').zoomToExtent();
-        }
 
-        function zoomToBoundingBox() {
-          document.querySelector('#projectgebied-map').zoomTo(
-              [148055.0, 198908.0, 150055.0, 200908.0]);
-        }
-        /* eslint-enable */
-      </script>
-      <button id="map-set-feature" is="vl-button" type="button" onclick="addFeatures()">Zet feature
-        op projectlaag
-      </button>
+            <vl-map-wfs-layer data-vl-name="Stromend waterlichamen"
+                              data-vl-url="https://geoserver.vmm.be/geoserver/vmm/wfs"
+                              data-vl-layers="owl_l"
+                              data-vl-max-resolution="4">
+                <vl-map-layer-style data-vl-color="rgba(6, 163, 247, 0.4)"
+                                    data-vl-border-size="4"
+                                    data-vl-border-color="rgba(6, 163, 247, 1)"></vl-map-layer-style>
+            </vl-map-wfs-layer>
+            <vl-map-wfs-layer data-vl-name="Stilstaand waterlichamen"
+                              data-vl-url="https://gisservices.inbo.be/arcgis/services/Watervlakken/MapServer/WFSServer?service=wfs"
+                              data-vl-layers="Watervlakken"
+                              data-vl-max-resolution="4">
+                <vl-map-layer-style data-vl-color="rgba(6, 163, 247, 0.4)"
+                                    data-vl-border-size="4"
+                                    data-vl-border-color="rgba(6, 163, 247, 1)"></vl-map-layer-style>
+            </vl-map-wfs-layer>
+            <vl-map-wms-layer data-vl-name="Beschermingszones"
+                              data-vl-styles=""
+                              data-vl-version="1.3.0"
+                              data-vl-opacity="0.5"
+                              data-vl-tiled="false"
+                              data-vl-url="https://www.dov.vlaanderen.be/geoserver/wms"
+                              data-vl-layers="grondwater:beschermingszones_2014">
+            </vl-map-wms-layer>
+            <vl-map-wmts-layer data-vl-url="https://tile.informatievlaanderen.be/ws/raadpleegdiensten/wmts"
+                               data-vl-layer="grb_sel"
+                               data-vl-name="GRB Wegenkaart">
+            </vl-map-wmts-layer>
+        </vl-map>
+        <div>
+            <script type="application/javascript">
+              /* eslint-disable */ // foutieve lint: functies zijn wel gebruikt hieronder
+              function addFeatures() {
+                document.querySelector('#projectgebied-layer').setAttribute('features',
+                  '{"type": "FeatureCollection",  "features": [{"type": "Feature", "geometry": ' +
+                  '{"type": "Point","coordinates": [149055.0,199908.0]}}]}');
+              }
 
-      <button id="map-projectgebied-teken-punt" is="vl-button" type="button"
-              onclick="document.querySelector('#draw-point-action').activate()">Projectgebied als
-        punt
-      </button>
-      <button id="map-projectgebied-teken-lijn" is="vl-button" type="button"
-              onclick="document.querySelector('#draw-line-action').activate()">Projectgebied als
-        lijn
-      </button>
-      <button id="map-projectgebied-teken-polygoon" is="vl-button" type="button"
-              onclick="document.querySelector('#draw-polygon-action').activate()">Projectgebied als
-        polygoon
-      </button>
+              function zoomToLayer() {
+                document.querySelector('#rapportering-layer').zoomToExtent();
+              }
 
-      <button id="map-button-zoom-layer" is="vl-button" type="button" onclick="zoomToLayer()">Zoom
-        naar extent van kaartlaag
-      </button>
-      <button id="map-button-zoom-bbox" is="vl-button" type="button" onclick="zoomToBoundingBox()">
-        Zoom naar bounding box
-      </button>
-      <button id="map-button-get-features" is="vl-button" type="button"
-              onclick="alert(document.querySelector('#projectgebied-layer').features.length + ' feature(s) opgehaald')">
-        Haal projectgebieden op
-      </button>
-      <!-- TODO: lijkt niet te werken voor getekende features: https://github.com/milieuinfo/webcomponent-vl-ui-map/issues/201 -->
+              function zoomToBoundingBox() {
+                document.querySelector('#projectgebied-map').zoomTo(
+                  [148055.0, 198908.0, 150055.0, 200908.0]);
+              }
 
-    </div>
-  </vl-demo>
+              /* eslint-enable */
+            </script>
+            <button id="map-set-feature" is="vl-button" type="button" onclick="addFeatures()">Zet feature
+                op projectlaag
+            </button>
+
+            <button id="map-projectgebied-teken-punt" is="vl-button" type="button"
+                    onclick="document.querySelector('#draw-point-action').activate()">Projectgebied als
+                punt
+            </button>
+            <button id="map-projectgebied-teken-lijn" is="vl-button" type="button"
+                    onclick="document.querySelector('#draw-line-action').activate()">Projectgebied als
+                lijn
+            </button>
+            <button id="map-projectgebied-teken-polygoon" is="vl-button" type="button"
+                    onclick="document.querySelector('#draw-polygon-action').activate()">Projectgebied als
+                polygoon
+            </button>
+
+            <button id="map-button-zoom-layer" is="vl-button" type="button" onclick="zoomToLayer()">Zoom
+                naar extent van kaartlaag
+            </button>
+            <button id="map-button-zoom-bbox" is="vl-button" type="button" onclick="zoomToBoundingBox()">
+                Zoom naar bounding box
+            </button>
+            <button id="map-button-get-features" is="vl-button" type="button"
+                    onclick="alert(document.querySelector('#projectgebied-layer').features.length + ' feature(s) opgehaald')">
+                Haal projectgebieden op
+            </button>
+            <!-- TODO: lijkt niet te werken voor getekende features: https://github.com/milieuinfo/webcomponent-vl-ui-map/issues/201 -->
+
+        </div>
+    </vl-demo>
 </vl-demo-page>
 </body>
 
