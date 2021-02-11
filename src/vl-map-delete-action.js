@@ -1,5 +1,6 @@
 import {VlMapLayerAction} from '/src/vl-map-layer-action.js';
 import {VlDeleteAction} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
+import {VlMapLayerStyle} from '/src/vl-map-layer-style.js';
 
 
 /**
@@ -14,10 +15,34 @@ import {VlDeleteAction} from '/node_modules/vl-mapactions/dist/vl-mapactions.js'
  * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map-delete-action.html|Demo}
  */
 export class VlMapDeleteAction extends VlMapLayerAction {
+  /**
+   * Geeft de stijl die een geselecteerd feature zal krijgen.
+   *
+   * @return {Object} de stijl
+   */
+  get style() {
+    return this._style;
+  }
+
+  /**
+   * Zet de stijl die een geselecteerde feature zal krijgen.
+   *
+   * @param {VlMapLayerStyle|Object} style - de stijl: een VlMapLayerStyle of een OpenLayers StyleLikeF
+   */
+  set style(style) {
+    if (style instanceof VlMapLayerStyle) {
+      this._style = style.style;
+    } else {
+      this._style = style;
+    }
+  }
+
   _createAction(layer) {
-    const options = {};
+    const options = {
+      style: this._style
+    };
     const callback = (features, success, cancel) => {
-    	features.forEach(success);
+      features.forEach(success);
     };
     return new VlDeleteAction(layer, callback, options);
   }

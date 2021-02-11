@@ -10,6 +10,7 @@ import {VlMapBaseLayerGRBOrtho} from '/src/vl-map-baselayer-grb-ortho.js';
 import {VlMapAction} from '/src/vl-map-action.js';
 import {VlMapLayerAction} from '/src/vl-map-layer-action.js';
 import {VlMapSelectAction} from '/src/vl-map-select-action.js';
+import {VlMapDeleteAction} from '/src/vl-map-delete-action.js';
 import {VlMapDrawPointAction} from '/src/vl-map-draw-point-action.js';
 import {VlMapDrawLineAction} from '/src/vl-map-draw-line-action.js';
 import {VlMapDrawPolygonAction} from '/src/vl-map-draw-polygon-action.js';
@@ -20,7 +21,6 @@ import {VlMapSideSheet} from '/src/vl-map-side-sheet.js';
 import {VlMapLayerSwitcher} from '/src/vl-map-layer-switcher.js';
 import {VlMapSideSheetMenu} from '/src/vl-map-side-sheet-menu.js';
 import {VlMapSideSheetMenuItem} from '/src/vl-map-side-sheet-menu-item.js';
-import {VlMapDeleteAction} from '/src/vl-map-delete-action.js';
 
 Promise.all([
   awaitScript('vl-map-proj4', '/node_modules/proj4/dist/proj4.js'),
@@ -35,6 +35,7 @@ Promise.all([
   define('vl-map-action', VlMapAction);
   define('vl-map-layer-action', VlMapLayerAction);
   define('vl-map-select-action', VlMapSelectAction);
+  define('vl-map-delete-action', VlMapDeleteAction);
   define('vl-map-draw-point-action', VlMapDrawPointAction);
   define('vl-map-draw-line-action', VlMapDrawLineAction);
   define('vl-map-draw-polygon-action', VlMapDrawPolygonAction);
@@ -45,7 +46,6 @@ Promise.all([
   define('vl-map-layer-switcher', VlMapLayerSwitcher);
   define('vl-map-side-sheet-menu', VlMapSideSheetMenu);
   define('vl-map-side-sheet-menu-item', VlMapSideSheetMenuItem);
-  define('vl-map-delete-action', VlMapDeleteAction);
 });
 
 export {
@@ -59,6 +59,7 @@ export {
   VlMapAction,
   VlMapLayerAction,
   VlMapSelectAction,
+  VlMapDeleteAction,
   VlMapDrawPointAction,
   VlMapDrawLineAction,
   VlMapDrawPolygonAction,
@@ -69,5 +70,4 @@ export {
   VlMapLayerSwitcher,
   VlMapSideSheetMenu,
   VlMapSideSheetMenuItem,
-  VlMapDeleteAction,
 };
