@@ -64,7 +64,7 @@
     testVisibilityAtResolution(() => fixture('vl-map-image-wms-layer-fixture-adjusted-config'), 10, 1000);
     testOpvragenVanTitel(() => fixture('vl-map-image-wms-layer-fixture-adjusted-config'), 'adjusted');
 
-    test('wms layer kan toegevoegd worden aan een map met de correcte configuratie', async () => {
+    test('wms image layer kan toegevoegd worden aan een map met de correcte configuratie', async () => {
       const mapElement = fixture('vl-map-image-wms-layer-fixture');
       const layerElement = mapElement.querySelector('vl-map-image-wms-layer');
 
@@ -78,7 +78,7 @@
       assert.equal(layer.getOpacity(), 1);
     });
 
-    test('wms layer kan toegevoegd worden met een aangepaste configuratie', async () => {
+    test('wms image layer kan toegevoegd worden met een aangepaste configuratie', async () => {
       const mapElement = fixture('vl-map-image-wms-layer-fixture-adjusted-config');
       const layerElement = mapElement.querySelector('vl-map-image-wms-layer');
 
