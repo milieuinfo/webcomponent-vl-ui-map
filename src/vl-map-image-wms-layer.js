@@ -17,15 +17,10 @@ import {
  * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map-wms-layer.html|Demo}
  */
 export class VlMapImageWmsLayer extends VlMapWmsLayer {
-
   constructor() {
     super();
     this._source = this.__createSource();
     this._layer = this.__createLayer();
-  }
-
-  async connectedCallback() {
-    await super.connectedCallback();
   }
 
   __createLayer() {

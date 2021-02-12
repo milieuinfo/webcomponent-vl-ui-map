@@ -23,10 +23,6 @@ export class VlMapTiledWmsLayer extends VlMapWmsLayer {
     this._layer = this.__createLayer();
   }
 
-  async connectedCallback() {
-    await super.connectedCallback();
-  }
-
   __createLayer() {
     const layer = new OlTileLayer(this._createLayerConfig(this._source));
     layer.set('id', VlMapLayer._counter);
