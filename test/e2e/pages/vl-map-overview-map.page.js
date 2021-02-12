@@ -1,9 +1,9 @@
-const VlMap = require('../components/vl-map');
-const {Page, Config} = require('vl-ui-core').Test;
+const {Config} = require('vl-ui-core').Test;
+const VlMapPage = require('./vl-map.page');
 
-class VlMapOverviewMapPage extends Page {
+class VlMapOverviewMapPage extends VlMapPage {
   async getMap() {
-    return new VlMap(this.driver, '#map');
+    return this._getMap('#map');
   }
 
   async load() {
