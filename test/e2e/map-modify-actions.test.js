@@ -12,8 +12,7 @@ describe('vl-map-modify-action', async () => {
 
   it('als gebruiker kan ik een polygoon aanpassen op een kaart', async () => {
     const map = await vlMapPage.getMapWithModifyPolygonAction();
-    await map.scrollIntoView();
-    // const action = await vlMapPage.getModifyPolygonAction();
+    const action = await vlMapPage.getModifyPolygonAction();
 
     const layers = await map.getLayers();
     const layer = layers[0];
@@ -39,7 +38,7 @@ describe('vl-map-modify-action', async () => {
     const leuven = points[3];
     assert.lengthOf(leuven, 2);
 
-    await map.movePointByCoordinates(gent, willebroek);
+    await action.movePointByCoordinates(gent, willebroek);
 
     features = await layer.getFeatures();
     assert.lengthOf(features, 1);
@@ -53,7 +52,6 @@ describe('vl-map-modify-action', async () => {
 
     const modifiedPoint = modifiedPoints[0];
     assert.lengthOf(modifiedPoint, 2);
-    // assert.sameOrderedMembers(modifiedPoint, [149948.69299028325, 193760.7165957574]);
     assert.notSameOrderedMembers(modifiedPoint, gent);
 
     const unmodifiedPoint2 = modifiedPoints[1];
@@ -71,8 +69,7 @@ describe('vl-map-modify-action', async () => {
 
   it('als gebruiker kan ik een punt aanpassen op een kaart', async () => {
     const map = await vlMapPage.getMapWithModifyPointAction();
-    await map.scrollIntoView();
-    // const action = await vlMapPage.getModifyPointAction();
+    const action = await vlMapPage.getModifyPointAction();
 
     const layers = await map.getLayers();
     const layer = layers[0];
@@ -87,7 +84,7 @@ describe('vl-map-modify-action', async () => {
     const antwerpen = point2Feature.geometry.coordinates;
     assert.lengthOf(antwerpen, 2);
 
-    await map.movePointByCoordinates(mechelen, willebroek);
+    await action.movePointByCoordinates(mechelen, willebroek);
 
     features = await layer.getFeatures();
     assert.lengthOf(features, 2);
@@ -95,7 +92,6 @@ describe('vl-map-modify-action', async () => {
     const modifiedPoint1Feature = await layer.getFeature(1);
     const modifiedCoordinates = modifiedPoint1Feature.geometry.coordinates;
     assert.lengthOf(modifiedCoordinates, 2);
-    // assert.sameOrderedMembers(modifiedCoordinates, [149948.69299028325, 193760.7165957574]);
     assert.notSameOrderedMembers(modifiedCoordinates, mechelen);
 
     const unmodifiedPoint2Feature = await layer.getFeature(2);
@@ -106,8 +102,7 @@ describe('vl-map-modify-action', async () => {
 
   it('als gebruiker kan ik een lijn aanpassen op een kaart', async () => {
     const map = await vlMapPage.getMapWithModifyLineAction();
-    await map.scrollIntoView();
-    // const action = await vlMapPage.getModifyLineAction();
+    const action = await vlMapPage.getModifyLineAction();
 
     const layers = await map.getLayers();
     const layer = layers[0];
@@ -124,7 +119,7 @@ describe('vl-map-modify-action', async () => {
     const antwerpen = lineCoordinates[1];
     assert.lengthOf(antwerpen, 2);
 
-    await map.movePointByCoordinates(antwerpen, willebroek);
+    await action.movePointByCoordinates(antwerpen, willebroek);
 
     features = await layer.getFeatures();
     assert.lengthOf(features, 1);
@@ -139,7 +134,6 @@ describe('vl-map-modify-action', async () => {
 
     const modifiedPoint = modifiedLineCoordinates[1];
     assert.lengthOf(modifiedPoint, 2);
-    // assert.sameOrderedMembers(modifiedPoint, [149948.69299028325, 193760.7165957574]);
     assert.notSameOrderedMembers(modifiedPoint, antwerpen);
   });
 });
