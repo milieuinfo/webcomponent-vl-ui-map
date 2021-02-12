@@ -4,7 +4,7 @@ import {VlMapLayerStyle} from '/src/vl-map-layer-style.js';
 
 
 /**
- * VlMapModifyAction
+ * VlMapDeleteAction
  * @class
  * @classdesc Actie om features te deleten van een layer
  *
