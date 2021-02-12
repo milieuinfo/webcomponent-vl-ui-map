@@ -133,41 +133,23 @@ class VlMap extends VlElement {
     const toPixels = await this._getPixelsFromCoordinate(to);
 
     await this.clickOnCoordinates(from);
-    const isFirefox = false; // TODO stefanborghys: 12/02/21 under construction
-    if(isFirefox){
-      const actions =  this.driver.actions();
-      await actions.move( {
-        duration: 500,
-        origin: this,
-        x: fromPixels.x,
-        y: fromPixels.y,
-      }).click().press().perform();
-      
-      actions.move( {
-        duration: 500,
-        origin: this,
-        x: toPixels.x,
-        y: toPixels.y,
-      }).release().perform();
-      
-    }else {
-      await this.driver.actions({bridge: true})
-      .move( {
-        duration: 500,
-        origin: this,
-        x: fromPixels.x,
-        y: fromPixels.y,
-      })
-      .press()
-      .move( {
-        duration: 500,
-        origin: this,
-        x: toPixels.x,
-        y: toPixels.y,
-      })
-      .release()
-      .perform();
-    }
+
+    await this.driver.actions({bridge: true})
+        .move( {
+          duration: 500,
+          origin: this,
+          x: fromPixels.x,
+          y: fromPixels.y,
+        })
+        .press()
+        .move( {
+          duration: 500,
+          origin: this,
+          x: toPixels.x,
+          y: toPixels.y,
+        })
+        .release()
+        .perform();
   }
 
   async getScale() {
