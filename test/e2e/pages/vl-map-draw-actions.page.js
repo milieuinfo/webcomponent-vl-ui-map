@@ -6,18 +6,18 @@ const {Page, Config} = require('vl-ui-core').Test;
 
 class VlMapDrawActionsPage extends Page {
   async getMapWithDrawPointAction() {
-    return new VlMap(this.driver, '#map-with-draw-point-action');
+    return this._getMap('#map-with-draw-point-action');
   }
   async getMapWithDrawLineAction() {
-    return new VlMap(this.driver, '#map-with-draw-line-action');
+    return this._getMap('#map-with-draw-line-action');
   }
 
   async getMapWithDrawLineAction() {
-    return new VlMap(this.driver, '#map-with-draw-line-action');
+    return this._getMap('#map-with-draw-line-action');
   }
 
   async getMapWithDrawPolygonAction() {
-    return new VlMap(this.driver, '#map-with-draw-polygon-action');
+    return this._getMap('#map-with-draw-polygon-action');
   }
 
   async getDrawPointAction() {
@@ -34,6 +34,12 @@ class VlMapDrawActionsPage extends Page {
 
   async load() {
     await super.load(Config.baseUrl + '/demo/vl-map-draw-actions.html');
+  }
+
+  async _getMap(id) {
+    const map = await new VlMap(this.driver, id);
+    await this.driver.wait(async () => !!(await this.driver.executeScript('return arguments[0].ready', map)));
+    return map;
   }
 }
 
