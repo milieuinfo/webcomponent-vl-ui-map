@@ -285,7 +285,7 @@ export class VlMapLayer extends vlElement(HTMLElement) {
   _featuresChangedCallback(oldValue, newValue) {
     if (newValue && this._layer) {
       this._source.clear();
-      this._source.addFeatures(this.features);
+      this._source.addFeatures(this._geoJSON.readFeatures(JSON.parse(newValue)));
       this.__autoZoomToExtent();
       this.rerender();
     }
