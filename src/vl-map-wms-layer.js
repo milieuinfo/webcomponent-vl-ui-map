@@ -27,11 +27,19 @@ import {
  */
 export class VlMapWmsLayer extends VlMapLayer {
   get _url() {
-    return this.getAttribute('data-vl-url') || console.error('url not defined');
+    const url = this.getAttribute('data-vl-url');
+    if (!url) {
+      throw new Error('URL not defined');
+    }
+    return url;
   }
 
   get _layers() {
-    return this.getAttribute('data-vl-layers') || console.error('layers not defined');
+    const layers = this.getAttribute('data-vl-layers');
+    if (!layers) {
+      throw new Error('Layers not defined');
+    }
+    return layers;
   }
 
   get _styles() {
@@ -54,10 +62,6 @@ export class VlMapWmsLayer extends VlMapLayer {
     super();
     this._source = this.__createSource();
     this._layer = this.__createLayer();
-  }
-
-  async connectedCallback() {
-    await super.connectedCallback();
   }
 
   __createLayer() {

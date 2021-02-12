@@ -15,13 +15,9 @@ import {OlWMTSSource, OlWMTSTileGrid, OlTileLayer, OlExtent} from '/node_modules
 export class VlMapWmtsLayer extends VlMapLayer {
   constructor() {
     super();
-    this._layer = this._createWmtsLayer();
+    this._source = this.__createSource();
+    this._layer = this._createLayer();
   }
-
-  async connectedCallback() {
-    await super.connectedCallback();
-  }
-
 
   get _projection() {
     if (this.parentNode) {
@@ -30,10 +26,59 @@ export class VlMapWmtsLayer extends VlMapLayer {
   }
 
   get url() {
-    return this.getAttribute('data-vl-url');
+    const url = this.getAttribute('data-vl-url');
+    if (!url) {
+      throw new Error('URL not defined');
+    }
+    return url;
   }
 
-  _createWmtsLayer() {
+  get _wmtsLayer() {
+    const layer = this.getAttribute('data-vl-layer');
+    if (!layer) {
+      throw new Error('Layer not defined');
+    }
+    return layer;
+  }
+
+  _createLayer() {
+    const layer = new OlTileLayer({
+      title: this._name,
+      source: this._source,
+      minResolution: this._minResolution,
+      maxResolution: this._maxResolution,
+    });
+    layer.set('id', VlMapLayer._counter);
+    return layer;
+  }
+
+  __createSource() {
+    const tileLimits = this.__grbTileLimits;
+    return new OlWMTSSource({
+      url: this.url,
+      layer: this._wmtsLayer,
+      matrixSet: this.__grbMatrixSet,
+      format: this.__wmtsFormat,
+      projection: this._projection,
+      tileGrid: new OlWMTSTileGrid({
+        extent: this._projection.getExtent(),
+        origin: OlExtent.getTopLeft(this._projection.getExtent()),
+        resolutions: tileLimits.resolutions,
+        matrixIds: tileLimits.matrixIds,
+      }),
+      style: '',
+    });
+  }
+
+  get __wmtsFormat() {
+    return 'image/png';
+  }
+
+  get __grbMatrixSet() {
+    return 'BPL72VL';
+  }
+
+  get __grbTileLimits() {
     const size = OlExtent.getWidth(this._projection.getExtent()) / 256;
     const resolutions = new Array(16);
     const matrixIds = new Array(16);
@@ -41,29 +86,6 @@ export class VlMapWmtsLayer extends VlMapLayer {
       resolutions[z] = size / Math.pow(2, z);
       matrixIds[z] = z;
     }
-
-    const source = new OlWMTSSource({
-      url: this.url,
-      layer: this.getAttribute('data-vl-layer'),
-      matrixSet: 'BPL72VL',
-      format: 'image/png',
-      projection: this._projection,
-      tileGrid: new OlWMTSTileGrid({
-        extent: this._projection.getExtent(),
-        origin: OlExtent.getTopLeft(this._projection.getExtent()),
-        resolutions: resolutions,
-        matrixIds: matrixIds,
-      }),
-      style: '',
-    });
-
-    const layer = new OlTileLayer({
-      title: this._name,
-      source: source,
-      minResolution: this._minResolution,
-      maxResolution: this._maxResolution,
-    });
-    layer.set('id', VlMapLayer._counter);
-    return layer;
+    return {matrixIds, resolutions};
   }
 }
