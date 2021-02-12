@@ -65,15 +65,6 @@
     testVisibilityAtResolution(() => fixture('vl-map-wms-layer-fixture-adjusted-config'), 10, 1000);
     testOpvragenVanTitel(() => fixture('vl-map-wms-layer-fixture-adjusted-config'), 'adjusted');
 
-    test('wms layer kan niet toegevoegd worden aan de map als de layer geen url heeft',
-        async () => {
-          const mapElement = fixture('vl-map-wms-layer-fixture-without-url');
-          const layerElement = mapElement.querySelector('vl-map-wms-layer');
-
-          await mapElement.ready;
-          should.not.exist(layerElement.layer);
-        });
-
     test('wms layer kan toegevoegd worden aan een map met de correcte configuratie', async () => {
       const mapElement = fixture('vl-map-wms-layer-fixture');
       const layerElement = mapElement.querySelector('vl-map-wms-layer');
