@@ -24,10 +24,6 @@ class VlMapWmsLayer extends VlMapLayer {
   async isTiled() {
     return this.getAttribute('tiled');
   }
-
-  static get TAG() {
-    return 'vl-map-wms-layer';
-  }
 }
 
 module.exports = VlMapWmsLayer;
