@@ -14,7 +14,7 @@ class VlMapLayer extends VlElement {
   }
 
   async getAantalFeatures() {
-	  return this.driver.executeScript(`return arguments[0].layer.getSource().getFeatures().length;`, this);
+    return this.driver.executeScript(`return arguments[0].layer.getSource().getFeatures().length;`, this);
   }
 
   async getFeature(id) {
@@ -23,7 +23,7 @@ class VlMapLayer extends VlElement {
   }
 
   async getCoordinateOfInteriorPointOfFeature(id) {
-	  return await this.driver.executeScript(`return arguments[0].layer.getSource().getFeatureById(${id}).getGeometry().getInteriorPoint().getFirstCoordinate();`, this);
+    return await this.driver.executeScript(`return arguments[0].layer.getSource().getFeatureById(${id}).getGeometry().getInteriorPoint().getFirstCoordinate();`, this);
   }
 
   async isClustered() {
@@ -47,14 +47,14 @@ class VlMapLayer extends VlElement {
     const {type, coordinates} = feature.geometry;
     await map.scrollIntoView();
     if (type == 'Point') {
-    	await map.clickOnCoordinates(coordinates);
+      await map.clickOnCoordinates(coordinates);
     } else {
-    	if (type == 'LineString') {
-    		await map.clickOnCoordinates(coordinates[0]);
-    	} else {
-    		const interiorCoordinate = await this.getCoordinateOfInteriorPointOfFeature(id);
-    		await map.clickOnCoordinates(interiorCoordinate);
-    	}
+      if (type == 'LineString') {
+        await map.clickOnCoordinates(coordinates[0]);
+      } else {
+        const interiorCoordinate = await this.getCoordinateOfInteriorPointOfFeature(id);
+        await map.clickOnCoordinates(interiorCoordinate);
+      }
     }
   }
 }

@@ -125,28 +125,28 @@ class VlMap extends VlElement {
   async _getToggleFullscreenButton() {
     return this.shadowRoot.findElement(By.css('.ol-full-screen'));
   }
-  
+
   async _moveToPointOnMap(pixel) {
     const rect = await this.getRect();
     return {
-    	origin: this,
-    	x: Math.round(pixel[0] - (rect.width / 2)),
-    	y: Math.round(pixel[1] - (rect.height / 2)),
-    	duration: 1000
+      origin: this,
+      x: Math.round(pixel[0] - (rect.width / 2)),
+      y: Math.round(pixel[1] - (rect.height / 2)),
+      duration: 1000,
     };
   }
-  
+
   async sleepRechthoek(coordinatesStart, coordinatesEnd) {
     const pixelStart = await this.driver.executeScript(`return arguments[0].map.getPixelFromCoordinate(${JSON.stringify(coordinatesStart)})`, this);
     const pixelEnd = await this.driver.executeScript(`return arguments[0].map.getPixelFromCoordinate(${JSON.stringify(coordinatesEnd)})`, this);
     const moveStart = await this._moveToPointOnMap(pixelStart);
     const moveEnd = await this._moveToPointOnMap(pixelEnd);
     return this.driver.actions()
-		.move(moveStart)
-		.press()
-		.move(moveEnd)
-		.release()
-		.perform();
+        .move(moveStart)
+        .press()
+        .move(moveEnd)
+        .release()
+        .perform();
   }
 }
 

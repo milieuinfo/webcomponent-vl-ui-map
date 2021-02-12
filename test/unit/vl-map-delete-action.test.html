@@ -35,7 +35,6 @@
   </test-fixture>
 
   <script type="module">
-    import {OlFeature, OlPoint} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
     import {VlMapDeleteAction} from '../../src/vl-map-delete-action.js';
 
     suite('vl-map-delete-action', () => {
@@ -59,8 +58,8 @@
 
         map.ready.then(() => {
           const action = map.map.actions[0];
-	      assert.deepEqual(action.layer, layer);
-          assert.equal(action.style.getFill().getColor(), "rgba(217, 83, 79, 0.6)");
+          assert.deepEqual(action.layer, layer);
+          assert.equal(action.style.getFill().getColor(), 'rgba(217, 83, 79, 0.6)');
           done();
         });
       });
@@ -77,7 +76,6 @@
           done();
         });
       });
-    
     });
   </script>
 </body>

@@ -39,11 +39,8 @@ export class VlMapDeleteAction extends VlMapLayerAction {
 
   _createAction(layer) {
     const options = {
-      style: this._style
+      style: this._style,
     };
-    const callback = (features, success, cancel) => {
-      features.forEach(success);
-    };
-    return new VlDeleteAction(layer, callback, options);
+    return new VlDeleteAction(layer, null, options);
   }
 }
