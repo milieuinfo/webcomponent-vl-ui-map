@@ -136,4 +136,9 @@ describe('vl-map-modify-action', async () => {
     assert.lengthOf(modifiedPoint, 2);
     assert.notSameOrderedMembers(modifiedPoint, antwerpen);
   });
+
+  it('als gebruiker zie ik dat de aanpas actie actief staat', async () => {
+    const action = await vlMapPage.getModifyPointAction();
+    await assert.eventually.isTrue(action.isActive());
+  });
 });
