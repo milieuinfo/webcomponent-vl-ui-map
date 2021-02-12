@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>vl-map-delete-action voorbeeld</title>
+    <script type="module" src="/node_modules/vl-ui-demo/dist/vl-demo-all.js"></script>
+    <script type="module" src="/node_modules/vl-ui-body/dist/vl-body.js"></script>
+
+    <script type="module" src="/src/vl-map-all.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-body/dist/style.css" />
+    <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-demo/dist/style.css" />
+</head>
+
+<body is="vl-body">
+    <vl-demo-page data-vl-webcomponent="vl-map-delete-action">
+        <vl-demo data-vl-title="Kaart met delete actie">
+            <vl-map id="map-with-delete-action">
+                <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
+                <vl-map-features-layer id="layer" data-vl-name="Laag" data-vl-features='
+                    {
+                        "type": "FeatureCollection",
+                        "features": [{
+                            "type": "Feature",
+                            "id": 1,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [140000,190000]
+                            }
+                        }, {
+                            "type": "Feature",
+                            "id": 2,
+                            "geometry": {
+                               "type": "LineString",
+                                "coordinates": [[120000,162000], [120000,206000]]
+                            }
+                        }, {
+                            "type": "Feature",
+                            "id": 3,
+                            "geometry": {
+                               "type": "Polygon",
+                                "coordinates": [[[44000,171000],[100000,171000],[100000,205000],[44000,205000],[44000,171000]]]
+                            }
+                        }]
+                    }'>
+                    <vl-map-delete-action id="delete-action" data-vl-default-active></vl-map-delete-action>
+                </vl-map-features-layer>
+            </vl-map>
+        </vl-demo>
+
+        <vl-demo data-vl-title="Kaart met delete actie met custom stijl">
+            <vl-map id="map-with-delete-action-custom-stijl">
+                <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
+                <vl-map-features-layer id="layer" data-vl-name="Laag" data-vl-features='
+                    {
+                        "type": "FeatureCollection",
+                        "features": [{
+                            "type": "Feature",
+                            "id": 1,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [140000,190000]
+                            }
+                        }, {
+                            "type": "Feature",
+                            "id": 2,
+                            "geometry": {
+                               "type": "LineString",
+                                "coordinates": [[120000,162000], [120000,206000]]
+                            }
+                        }, {
+                            "type": "Feature",
+                            "id": 3,
+                            "geometry": {
+                               "type": "Polygon",
+                                "coordinates": [[[44000,171000],[100000,171000],[100000,205000],[44000,205000],[44000,171000]]]
+                            }
+                        }]
+                    }'>
+                    
+                    <vl-map-delete-action id="delete-action" data-vl-default-active>
+                    	<vl-map-layer-style data-vl-text-color="#000" data-vl-color="#FFE615" data-vl-border-color="#FFE615"></vl-map-layer-style>
+                    </vl-map-delete-action>
+                </vl-map-features-layer>
+            </vl-map>
+        </vl-demo>
+
+    </vl-demo-page>
+    
+    
+</body>
+
+</html>

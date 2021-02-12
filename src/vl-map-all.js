@@ -16,6 +16,7 @@ import {VlMapBaseLayerGRBOrtho} from '/src/vl-map-baselayer-grb-ortho.js';
 import {VlMapAction} from '/src/vl-map-action.js';
 import {VlMapLayerAction} from '/src/vl-map-layer-action.js';
 import {VlMapSelectAction} from '/src/vl-map-select-action.js';
+import {VlMapDeleteAction} from '/src/vl-map-delete-action.js';
 import {VlMapDrawPointAction} from '/src/vl-map-draw-point-action.js';
 import {VlMapDrawLineAction} from '/src/vl-map-draw-line-action.js';
 import {VlMapDrawPolygonAction} from '/src/vl-map-draw-polygon-action.js';
@@ -44,6 +45,7 @@ Promise.all([
   define('vl-map-action', VlMapAction);
   define('vl-map-layer-action', VlMapLayerAction);
   define('vl-map-select-action', VlMapSelectAction);
+  define('vl-map-delete-action', VlMapDeleteAction);
   define('vl-map-draw-point-action', VlMapDrawPointAction);
   define('vl-map-draw-line-action', VlMapDrawLineAction);
   define('vl-map-draw-polygon-action', VlMapDrawPolygonAction);
@@ -73,6 +75,7 @@ export {
   VlMapAction,
   VlMapLayerAction,
   VlMapSelectAction,
+  VlMapDeleteAction,
   VlMapDrawPointAction,
   VlMapDrawLineAction,
   VlMapDrawPolygonAction,
