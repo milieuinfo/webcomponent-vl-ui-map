@@ -119,13 +119,22 @@
                                     data-vl-border-size="4"
                                     data-vl-border-color="rgba(6, 163, 247, 1)"></vl-map-layer-style>
             </vl-map-wfs-layer>
-            <vl-map-wms-layer data-vl-name="Beschermingszones"
-                              data-vl-version="1.3.0"
-                              data-vl-opacity="0.5"
-                              data-vl-tiled="false"
-                              data-vl-url="https://www.dov.vlaanderen.be/geoserver/wms"
-                              data-vl-layers="grondwater:beschermingszones_2014">
-            </vl-map-wms-layer>
+
+            <vl-map-tiled-wms-layer data-vl-name="Habitats"
+                                    data-vl-version="1.1.1"
+                                    data-vl-opacity="0.5"
+                                    data-vl-url="https://geoservices.informatievlaanderen.be/raadpleegdiensten/INBO/wms"
+                                    data-vl-layers="BWK2Hab,BWK2Hab3260"
+                                    data-vl-max-resolution="4">
+            </vl-map-tiled-wms-layer>
+            <vl-map-image-wms-layer data-vl-name="Voorlopige zoekzones"
+                                    data-vl-version="1.1.1"
+                                    data-vl-opacity="0.5"
+                                    data-vl-url="https://www.mercator.vlaanderen.be/raadpleegdienstenmercatorpubliek/wms"
+                                    data-vl-layers="hb:hb_zzihd_line,hb:hb_zzihd_poly"
+                                    data-vl-max-resolution="4">
+            </vl-map-image-wms-layer>
+
             <vl-map-wmts-layer data-vl-url="https://tile.informatievlaanderen.be/ws/raadpleegdiensten/wmts"
                                data-vl-layer="grb_sel"
                                data-vl-name="GRB Wegenkaart">
