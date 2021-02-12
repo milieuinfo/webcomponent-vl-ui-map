@@ -1,15 +1,9 @@
 import {VlMapLayer} from '/src/vl-map-layer.js';
-import {
-  OlImageLayer,
-  OlImageWMSSource,
-  OlTileWMSSource,
-  OlTileLayer,
-} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
 
 /**
  * VlMapWmsLayer
  * @class
- * @classdesc Deze kaartlaag staat toe om een WMS laag aan te maken.
+ * @classdesc Abstract klasse voor WMS Layers.
  *
  * @extends VlMapLayer
  *
@@ -19,7 +13,6 @@ import {
  * @property {string} [data-vl-styles=] - Attribuut bepaalt de WMS stijlen.
  * @property {string} [data-vl-version=1.3.0] - Attribuut bepaalt de WMS versie.
  * @property {number} [data-vl-opacity=1] - Attribuut bepaalt de WMS transparantie.
- * @property {boolean} [data-vl-tiled=true] - Attribuut bepaalt of de WMS tiled wordt opgehaald.
  *
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
@@ -54,36 +47,22 @@ export class VlMapWmsLayer extends VlMapLayer {
     return Number(this.getAttribute('data-vl-opacity') || 1);
   }
 
-  get _tiled() {
-    return this.getAttribute('data-vl-tiled') !== 'false';
+  async connectedCallback() {
+    await super.connectedCallback();
   }
 
-  constructor() {
-    super();
-    this._source = this.__createSource();
-    this._layer = this.__createLayer();
-  }
-
-  __createLayer() {
-    const layerConfig = {
+  _createLayerConfig(source) {
+    return {
       title: this._name,
-      source: this._source,
+      source: source,
       opacity: this._opacity,
       minResolution: this._minResolution,
       maxResolution: this._maxResolution,
     };
-    let layer;
-    if (this._tiled) {
-      layer = new OlTileLayer(layerConfig);
-    } else {
-      layer = new OlImageLayer(layerConfig);
-    }
-    layer.set('id', VlMapLayer._counter);
-    return layer;
   }
 
-  __createSource() {
-    const sourceConfig = {
+  get _sourceConfig() {
+    return {
       url: this._url,
       params: {
         'LAYERS': this._layers,
@@ -91,10 +70,5 @@ export class VlMapWmsLayer extends VlMapLayer {
         'VERSION': this._version,
       },
     };
-    if (this._tiled) {
-      return new OlTileWMSSource(sourceConfig);
-    } else {
-      return new OlImageWMSSource(sourceConfig);
-    }
   }
 }

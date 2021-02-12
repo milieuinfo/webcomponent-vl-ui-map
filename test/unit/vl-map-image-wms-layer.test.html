@@ -11,25 +11,25 @@
 </head>
 
 <body>
-<test-fixture id="vl-map-wms-layer-fixture-without-url">
+<test-fixture id="vl-map-image-wms-layer-fixture-without-url">
   <template>
     <vl-map>
-      <vl-map-wms-layer></vl-map-wms-layer>
+      <vl-map-image-wms-layer></vl-map-image-wms-layer>
     </vl-map>
   </template>
 </test-fixture>
-<test-fixture id="vl-map-wms-layer-fixture">
+<test-fixture id="vl-map-image-wms-layer-fixture">
   <template>
     <vl-map>
-      <vl-map-wms-layer data-vl-url="http://dummy/wms"
-                        data-vl-layers="layer1,layer2"></vl-map-wms-layer>
+      <vl-map-image-wms-layer data-vl-url="http://dummy/wms"
+                        data-vl-layers="layer1,layer2"></vl-map-image-wms-layer>
     </vl-map>
   </template>
 </test-fixture>
-<test-fixture id="vl-map-wms-layer-fixture-adjusted-config">
+<test-fixture id="vl-map-image-wms-layer-fixture-adjusted-config">
   <template>
     <vl-map>
-      <vl-map-wms-layer data-vl-url="http://dummy/wms-adjusted"
+      <vl-map-image-wms-layer data-vl-url="http://dummy/wms-adjusted"
                         data-vl-layers="layer1"
                         data-vl-styles="style1,style2"
                         data-vl-version="1.1.1"
@@ -37,8 +37,7 @@
                         data-vl-min-resolution="10"
                         data-vl-max-resolution="1000"
                         data-vl-name="adjusted"
-                        data-vl-tiled="false"
-      ></vl-map-wms-layer>
+      ></vl-map-image-wms-layer>
     </vl-map>
   </template>
 </test-fixture>
@@ -46,28 +45,28 @@
 <script type="module">
   import {testOpvragenVanTitel, testVisibility, testVisibilityAtResolution, testIDs, testToevoegingAanMap} from './vl-map-layer-util.js';
 
-  suite('vl-map-wms-layer', () => {
+  suite('vl-map-image-wms-layer', () => {
     const sandbox = sinon.createSandbox();
     const should = chai.should();
 
     setup((done) => {
-      customElements.whenDefined('vl-map-wms-layer').then(() => done());
+      customElements.whenDefined('vl-map-image-wms-layer').then(() => done());
     });
 
     teardown(() => {
       sandbox.restore();
     });
 
-    testToevoegingAanMap(() => fixture('vl-map-wms-layer-fixture-adjusted-config'));
-    testIDs(() => fixture('vl-map-wms-layer-fixture'), 1);
-    testVisibility(() => fixture('vl-map-wms-layer-fixture'));
-    testVisibilityAtResolution(() => fixture('vl-map-wms-layer-fixture'));
-    testVisibilityAtResolution(() => fixture('vl-map-wms-layer-fixture-adjusted-config'), 10, 1000);
-    testOpvragenVanTitel(() => fixture('vl-map-wms-layer-fixture-adjusted-config'), 'adjusted');
+    testToevoegingAanMap(() => fixture('vl-map-image-wms-layer-fixture-adjusted-config'));
+    testIDs(() => fixture('vl-map-image-wms-layer-fixture'), 1);
+    testVisibility(() => fixture('vl-map-image-wms-layer-fixture'));
+    testVisibilityAtResolution(() => fixture('vl-map-image-wms-layer-fixture'));
+    testVisibilityAtResolution(() => fixture('vl-map-image-wms-layer-fixture-adjusted-config'), 10, 1000);
+    testOpvragenVanTitel(() => fixture('vl-map-image-wms-layer-fixture-adjusted-config'), 'adjusted');
 
     test('wms layer kan toegevoegd worden aan een map met de correcte configuratie', async () => {
-      const mapElement = fixture('vl-map-wms-layer-fixture');
-      const layerElement = mapElement.querySelector('vl-map-wms-layer');
+      const mapElement = fixture('vl-map-image-wms-layer-fixture');
+      const layerElement = mapElement.querySelector('vl-map-image-wms-layer');
 
       await mapElement.ready;
       should.exist(layerElement.layer);
@@ -75,13 +74,13 @@
       assert.equal(layer.getSource().getParams().LAYERS, 'layer1,layer2');
       assert.equal(layer.getSource().getParams().STYLES, '');
       assert.equal(layer.getSource().getParams().VERSION, '1.3.0');
-      assert.equal(layer.getSource().getUrls()[0], 'http://dummy/wms');
+      assert.equal(layer.getSource().getUrl(), 'http://dummy/wms');
       assert.equal(layer.getOpacity(), 1);
     });
 
     test('wms layer kan toegevoegd worden met een aangepaste configuratie', async () => {
-      const mapElement = fixture('vl-map-wms-layer-fixture-adjusted-config');
-      const layerElement = mapElement.querySelector('vl-map-wms-layer');
+      const mapElement = fixture('vl-map-image-wms-layer-fixture-adjusted-config');
+      const layerElement = mapElement.querySelector('vl-map-image-wms-layer');
 
       await mapElement.ready;
       should.exist(layerElement.layer);

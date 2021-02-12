@@ -9,8 +9,8 @@ describe('vl-map-wms-layer', async () => {
     return page.load();
   });
 
-  it('als gebruiker kan ik de details van de wms opvragen', async () => {
-    const layer = (await (await page.getMapWithStandardLayer()).getWmsLayers())[0];
+  it('als gebruiker kan ik de details van de tiled wms opvragen', async () => {
+    const layer = (await (await page.getMapWithTiledWmsLayer()).getTiledWmsLayers())[0];
 
     await assert.eventually.isTrue(layer.isVisible());
     await assert.eventually.equal(layer.getName(), 'Beschermingszones');
@@ -18,6 +18,16 @@ describe('vl-map-wms-layer', async () => {
     await assert.eventually.equal(layer.getLayers(), 'grondwater:beschermingszones_2014');
     await assert.eventually.equal(layer.getVersion(), '1.3.0');
     await assert.eventually.equal(layer.getOpacity(), '0.7');
-    await assert.eventually.equal(layer.isTiled(), 'false');
+  });
+
+  it('als gebruiker kan ik de details van de image wms opvragen', async () => {
+    const layer = (await (await page.getMapWithImageWmsLayer()).getImageWmsLayers())[0];
+
+    await assert.eventually.isTrue(layer.isVisible());
+    await assert.eventually.equal(layer.getName(), 'Beschermingszones');
+    await assert.eventually.equal(layer.getUrl(), 'https://www.dov.vlaanderen.be/geoserver/wms');
+    await assert.eventually.equal(layer.getLayers(), 'grondwater:beschermingszones_2014');
+    await assert.eventually.equal(layer.getVersion(), '1.3.0');
+    await assert.eventually.equal(layer.getOpacity(), '0.7');
   });
 });

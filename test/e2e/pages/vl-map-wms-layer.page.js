@@ -2,8 +2,12 @@ const VlMap = require('../components/vl-map');
 const {Page, Config} = require('vl-ui-core').Test;
 
 class VlMapWmsLayerPage extends Page {
-  async getMapWithStandardLayer() {
-    return this._getMap('#map-with-wms-layer');
+  async getMapWithTiledWmsLayer() {
+    return this._getMap('#map-with-tiled-wms-layer');
+  }
+
+  async getMapWithImageWmsLayer() {
+    return this._getMap('#map-with-image-wms-layer');
   }
 
   async load() {

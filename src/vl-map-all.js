@@ -5,7 +5,8 @@ import {VlMapOverviewMap} from '/src/vl-map-overview-map.js';
 import {VlMapLayer} from '/src/vl-map-layer.js';
 import {VlMapVectorLayer} from '/src/vl-map-vector-layer.js';
 import {VlMapFeaturesLayer} from '/src/vl-map-features-layer.js';
-import {VlMapWmsLayer} from '/src/vl-map-wms-layer.js';
+import {VlMapTiledWmsLayer} from '/src/vl-map-tiled-wms-layer.js';
+import {VlMapImageWmsLayer} from '/src/vl-map-image-wms-layer.js';
 import {VlMapWfsLayer} from '/src/vl-map-wfs-layer.js';
 import {VlMapWmtsLayer} from '/src/vl-map-wmts-layer.js';
 import {VlMapBaseLayer} from '/src/vl-map-baselayer.js';
@@ -32,7 +33,8 @@ Promise.all([
   define('vl-map', VlMap);
   define('vl-map-overview-map', VlMapOverviewMap);
   define('vl-map-features-layer', VlMapFeaturesLayer);
-  define('vl-map-wms-layer', VlMapWmsLayer);
+  define('vl-map-tiled-wms-layer', VlMapTiledWmsLayer);
+  define('vl-map-image-wms-layer', VlMapImageWmsLayer);
   define('vl-map-wfs-layer', VlMapWfsLayer);
   define('vl-map-wmts-layer', VlMapWmtsLayer);
   define('vl-map-baselayer', VlMapBaseLayer);
@@ -60,7 +62,8 @@ export {
   VlMapLayer,
   VlMapVectorLayer,
   VlMapFeaturesLayer,
-  VlMapWmsLayer,
+  VlMapImageWmsLayer,
+  VlMapTiledWmsLayer,
   VlMapWfsLayer,
   VlMapWmtsLayer,
   VlMapBaseLayer,
