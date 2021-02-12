@@ -13,12 +13,10 @@
 </head>
 
 <body is="vl-body">
-    <vl-demo-page data-vl-webcomponent="vl-map-draw-action">
+    <vl-demo-page data-vl-webcomponent="vl-map-modify-action">
         <vl-demo data-vl-title="Kaart met punt aanpas actie">
             <vl-map id="map-with-modify-point-action">
                 <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
-                <vl-map-baselayer-grb></vl-map-baselayer-grb>
-                <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
                 <vl-map-layer id="point-layer" data-vl-name="punt-laag" data-vl-features='
                     {
                         "type": "FeatureCollection",
@@ -38,7 +36,8 @@
                             }
                         }]
                     }'>
-                    <vl-map-layer-circle-style></vl-map-layer-circle-style>
+                    <!-- Note: size improves e2e testing -->
+                    <vl-map-layer-circle-style data-vl-size="6"></vl-map-layer-circle-style>
                     <vl-map-modify-action id="modify-point-action" data-vl-default-active></vl-map-modify-action>
                 </vl-map-layer>
             </vl-map>
@@ -47,8 +46,6 @@
         <vl-demo data-vl-title="Kaart met lijn aanpas actie">
             <vl-map id="map-with-modify-line-action">
                 <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
-                <vl-map-baselayer-grb></vl-map-baselayer-grb>
-                <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
                 <vl-map-layer id="line-layer" data-vl-name="lijn-laag" data-vl-features='
                     {
                         "type": "FeatureCollection",
@@ -65,19 +62,7 @@
                         }]
                     }'>
                     <!-- WARN: border-size has an impact on the e2e tests -->
-                    <vl-map-layer-style id="map-adjusted-style"
-                                        data-vl-color="rgba(255,0,0,0.5)"
-                                        data-vl-border-color="rgba(255,255,100,1)"
-                                        data-vl-border-size="4"
-                                        data-vl-text-feature-attribute-name="label"
-                                        data-vl-text-background-color="rgba(0,0,255,0.2)"
-                                        data-vl-text-border-color="rgba(0,255,0,1)"
-                                        data-vl-text-border-size="3"
-                                        data-vl-text-color="rgba(255,0,0,1)"
-                                        data-vl-text-offset-x="10"
-                                        data-vl-text-offset-y="-10"
-                                        data-vl-text-size="13px"
-                    ></vl-map-layer-style>
+                    <vl-map-layer-style id="map-adjusted-style" data-vl-border-size="6"></vl-map-layer-style>
                     <vl-map-modify-action id="modify-line-action" data-vl-default-active></vl-map-modify-action>
                 </vl-map-layer>
             </vl-map>
@@ -86,8 +71,6 @@
         <vl-demo data-vl-title="Kaart met polygoon aanpas actie">
             <vl-map id="map-with-modify-polygon-action">
                 <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
-                <vl-map-baselayer-grb></vl-map-baselayer-grb>
-                <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
                 <vl-map-layer id="polygon-layer" data-vl-name="polygoon-laag" data-vl-features='
                     {
                         "type": "FeatureCollection",
@@ -103,19 +86,7 @@
                         }]
                     }'>
                     <!-- WARN: border-size has an impact on the e2e tests -->
-                    <vl-map-layer-style id="map-adjusted-style"
-                                        data-vl-color="rgba(255,0,0,0.5)"
-                                        data-vl-border-color="rgba(255,255,100,1)"
-                                        data-vl-border-size="4"
-                                        data-vl-text-feature-attribute-name="label"
-                                        data-vl-text-background-color="rgba(0,0,255,0.2)"
-                                        data-vl-text-border-color="rgba(0,255,0,1)"
-                                        data-vl-text-border-size="3"
-                                        data-vl-text-color="rgba(255,0,0,1)"
-                                        data-vl-text-offset-x="10"
-                                        data-vl-text-offset-y="-10"
-                                        data-vl-text-size="13px"
-                    ></vl-map-layer-style>
+                    <vl-map-layer-style id="map-adjusted-style" data-vl-border-size="6"></vl-map-layer-style>
                     <vl-map-modify-action id="modify-polygon-action" data-vl-default-active></vl-map-modify-action>
                 </vl-map-layer>
             </vl-map>
