@@ -11,13 +11,10 @@ describe('vl-map-modify-action', async () => {
   });
 
   it('als gebruiker kan ik een polygoon aanpassen op een kaart', async () => {
-    const map = await vlMapPage.getMapWithModifyPolygonAction();
     const action = await vlMapPage.getModifyPolygonAction();
 
-    const layers = await map.getLayers();
-    const layer = layers[0];
-    let features = await layer.getFeatures();
-    assert.lengthOf(features, 1);
+    const layer = await action.getLayer();
+    await getDriver().wait(async () => (await layer.getNumberOfFeatures()) === 1);
 
     const polygonFeature = await layer.getFeature(1);
     const polygonCoordinates = polygonFeature.geometry.coordinates;
@@ -40,6 +37,7 @@ describe('vl-map-modify-action', async () => {
 
     await action.movePointByCoordinates(gent, willebroek);
 
+    await getDriver().wait(async () => (await layer.getNumberOfFeatures()) === 1);
     features = await layer.getFeatures();
     assert.lengthOf(features, 1);
 
@@ -68,13 +66,10 @@ describe('vl-map-modify-action', async () => {
   });
 
   it('als gebruiker kan ik een punt aanpassen op een kaart', async () => {
-    const map = await vlMapPage.getMapWithModifyPointAction();
     const action = await vlMapPage.getModifyPointAction();
 
-    const layers = await map.getLayers();
-    const layer = layers[0];
-    let features = await layer.getFeatures();
-    assert.lengthOf(features, 2);
+    const layer = await action.getLayer();
+    await getDriver().wait(async () => (await layer.getNumberOfFeatures()) === 2);
 
     const point1Feature = await layer.getFeature(1);
     const mechelen = point1Feature.geometry.coordinates;
@@ -86,6 +81,7 @@ describe('vl-map-modify-action', async () => {
 
     await action.movePointByCoordinates(mechelen, willebroek);
 
+    await getDriver().wait(async () => (await layer.getNumberOfFeatures()) === 2);
     features = await layer.getFeatures();
     assert.lengthOf(features, 2);
 
@@ -101,13 +97,10 @@ describe('vl-map-modify-action', async () => {
   });
 
   it('als gebruiker kan ik een lijn aanpassen op een kaart', async () => {
-    const map = await vlMapPage.getMapWithModifyLineAction();
     const action = await vlMapPage.getModifyLineAction();
 
-    const layers = await map.getLayers();
-    const layer = layers[0];
-    let features = await layer.getFeatures();
-    assert.lengthOf(features, 1);
+    const layer = await action.getLayer();
+    await getDriver().wait(async () => (await layer.getNumberOfFeatures()) === 1);
 
     const lineFeature = await layer.getFeature(1);
     const lineCoordinates = lineFeature.geometry.coordinates;
@@ -121,6 +114,7 @@ describe('vl-map-modify-action', async () => {
 
     await action.movePointByCoordinates(antwerpen, willebroek);
 
+    await getDriver().wait(async () => (await layer.getNumberOfFeatures()) === 1);
     features = await layer.getFeatures();
     assert.lengthOf(features, 1);
 
