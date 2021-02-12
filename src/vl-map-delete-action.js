@@ -27,7 +27,7 @@ export class VlMapDeleteAction extends VlMapLayerAction {
   /**
    * Zet de stijl die een geselecteerde feature zal krijgen.
    *
-   * @param {VlMapLayerStyle|Object} style - de stijl: een VlMapLayerStyle of een OpenLayers StyleLikeF
+   * @param {VlMapLayerStyle|Object} style - de stijl: een VlMapLayerStyle of een OpenLayers Style
    */
   set style(style) {
     if (style instanceof VlMapLayerStyle) {

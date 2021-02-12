@@ -12,9 +12,9 @@ class VlMapDeleteAction extends VlMapAction {
     await layer.clickPointFeatureOnMap(id, map);
   }
 
-  async removeAllIn(coordinatesStart, coordinatesEnd) {
+  async removeAllInRectangle(coordinatesTopLeft, coordinatesBottomRight) {
     const map = await this.getMap();
-    await map.sleepRechthoek(coordinatesStart, coordinatesEnd);
+    await map.dragRectangle(coordinatesTopLeft, coordinatesBottomRight);
   }
 }
 

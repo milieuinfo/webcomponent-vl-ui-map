@@ -20,22 +20,22 @@ describe('vl-map-delete-action', async () => {
     const deleteAction = await vlMapPage.getDeleteAction();
     const layer = await deleteAction.getLayer();
     await driver.wait(async () => {
-      const aantalFeatures = await layer.getAantalFeatures();
+      const aantalFeatures = await layer.getNumberOfFeatures();
       return aantalFeatures == 3;
     });
     await deleteAction.removeFeature(1);
     await driver.wait(async () => {
-      const aantalFeatures = await layer.getAantalFeatures();
+      const aantalFeatures = await layer.getNumberOfFeatures();
       return aantalFeatures == 2;
     });
     await deleteAction.removeFeature(2);
     await driver.wait(async () => {
-      const aantalFeatures = await layer.getAantalFeatures();
+      const aantalFeatures = await layer.getNumberOfFeatures();
       return aantalFeatures == 1;
     });
     await deleteAction.removeFeature(3);
     await driver.wait(async () => {
-      const aantalFeatures = await layer.getAantalFeatures();
+      const aantalFeatures = await layer.getNumberOfFeatures();
       return aantalFeatures == 0;
     });
   });
@@ -44,12 +44,12 @@ describe('vl-map-delete-action', async () => {
     const deleteAction = await vlMapPage.getDeleteAction();
     const layer = await deleteAction.getLayer();
     await driver.wait(async () => {
-      const aantalFeatures = await layer.getAantalFeatures();
+      const aantalFeatures = await layer.getNumberOfFeatures();
       return aantalFeatures == 3;
     });
-    await deleteAction.removeAllIn([80000, 210000], [145000, 170000]);
+    await deleteAction.removeAllInRectangle([80000, 210000], [145000, 170000]);
     await driver.wait(async () => {
-      const aantalFeatures = await layer.getAantalFeatures();
+      const aantalFeatures = await layer.getNumberOfFeatures();
       return aantalFeatures == 0;
     });
   });

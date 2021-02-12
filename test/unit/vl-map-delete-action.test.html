@@ -73,6 +73,7 @@
           const action = map.map.actions[0];
           assert.deepEqual(action.layer, layer);
           assert.deepEqual(action.style(), styleElement.style());
+          assert.equal(action.style().getFill().getColor(), '#FFE615');
           done();
         });
       });

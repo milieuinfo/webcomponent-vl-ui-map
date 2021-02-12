@@ -136,9 +136,9 @@ class VlMap extends VlElement {
     };
   }
 
-  async sleepRechthoek(coordinatesStart, coordinatesEnd) {
-    const pixelStart = await this.driver.executeScript(`return arguments[0].map.getPixelFromCoordinate(${JSON.stringify(coordinatesStart)})`, this);
-    const pixelEnd = await this.driver.executeScript(`return arguments[0].map.getPixelFromCoordinate(${JSON.stringify(coordinatesEnd)})`, this);
+  async dragRectangle(topLeft, bottomRight) {
+    const pixelStart = await this.driver.executeScript(`return arguments[0].map.getPixelFromCoordinate(${JSON.stringify(topLeft)})`, this);
+    const pixelEnd = await this.driver.executeScript(`return arguments[0].map.getPixelFromCoordinate(${JSON.stringify(bottomRight)})`, this);
     const moveStart = await this._moveToPointOnMap(pixelStart);
     const moveEnd = await this._moveToPointOnMap(pixelEnd);
     return this.driver.actions()
