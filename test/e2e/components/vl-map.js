@@ -134,7 +134,7 @@ class VlMap extends VlElement {
 
     await this.clickOnCoordinates(from);
 
-    await this.driver.actions({bridge: true})
+    await this.driver.actions()
         .move( {
           duration: 500,
           origin: this,
