@@ -14,7 +14,9 @@ import {VlModifyAction} from '/node_modules/vl-mapactions/dist/vl-mapactions.js'
  */
 export class VlMapModifyAction extends VlMapLayerAction {
   _createAction(layer) {
-    const options = {};
+    const options = {
+      snapping: true,
+    };
     return new VlModifyAction(layer, this._callback, options);
   }
 }
