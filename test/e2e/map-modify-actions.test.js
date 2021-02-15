@@ -24,16 +24,9 @@ describe('vl-map-modify-action', async () => {
     assert.lengthOf(points, 4);
 
     const gent = points[0];
-    assert.lengthOf(gent, 2);
-
     const mechelen = points[1];
-    assert.lengthOf(mechelen, 2);
-
     const antwerpen = points[2];
-    assert.lengthOf(antwerpen, 2);
-
     const leuven = points[3];
-    assert.lengthOf(leuven, 2);
 
     await action.movePointByCoordinates(gent, willebroek);
 
@@ -73,11 +66,9 @@ describe('vl-map-modify-action', async () => {
 
     const point1Feature = await layer.getFeature(1);
     const mechelen = point1Feature.geometry.coordinates;
-    assert.lengthOf(mechelen, 2);
 
     const point2Feature = await layer.getFeature(2);
     const antwerpen = point2Feature.geometry.coordinates;
-    assert.lengthOf(antwerpen, 2);
 
     await action.movePointByCoordinates(mechelen, willebroek);
 
@@ -107,10 +98,7 @@ describe('vl-map-modify-action', async () => {
     assert.lengthOf(lineCoordinates, 2);
 
     const mechelen = lineCoordinates[0];
-    assert.lengthOf(mechelen, 2);
-
     const antwerpen = lineCoordinates[1];
-    assert.lengthOf(antwerpen, 2);
 
     await action.movePointByCoordinates(antwerpen, willebroek);
 
