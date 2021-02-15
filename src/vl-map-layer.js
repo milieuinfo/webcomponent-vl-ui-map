@@ -38,12 +38,16 @@ export class VlMapLayer extends vlElement(HTMLElement) {
     this.__counter = ++VlMapLayer._counter;
     this._geoJSON = new OlGeoJSON();
     this._styles = [];
+    this.__prepareReadyPromise();
+  }
+
+  __prepareReadyPromise() {
+    this.__ready = new Promise((resolve) => this.__layerReadyResolver = resolve);
   }
 
   async connectedCallback() {
     this._layer = this.__createLayer();
-    await this.mapElement.ready;
-    this._configureMap();
+    await this._configureMap();
   }
 
   static get _counter() {
@@ -171,7 +175,7 @@ export class VlMapLayer extends vlElement(HTMLElement) {
   }
 
   get ready() {
-    return this.mapElement.ready;
+    return this.__ready;
   }
 
   get _name() {
@@ -343,10 +347,12 @@ export class VlMapLayer extends vlElement(HTMLElement) {
     return null;
   }
 
-  _configureMap() {
+  async _configureMap() {
+    await this.mapElement.ready;
     if (this.mapElement) {
       this.mapElement.addLayer(this._layer);
       this.__autoZoomToExtent();
     }
+    this.__layerReadyResolver();
   }
 }
