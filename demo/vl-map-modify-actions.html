@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>vl-map-modify-actions voorbeeld</title>
+    <script type="module" src="/node_modules/vl-ui-demo/dist/vl-demo-all.js"></script>
+    <script type="module" src="/node_modules/vl-ui-body/dist/vl-body.js"></script>
+
+    <script type="module" src="/src/vl-map-all.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-body/dist/style.css" />
+    <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-demo/dist/style.css" />
+</head>
+
+<body is="vl-body">
+    <vl-demo-page data-vl-webcomponent="vl-map-modify-action">
+        <vl-demo data-vl-title="Kaart met punt aanpas actie">
+            <vl-map id="map-with-modify-point-action">
+                <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
+                <vl-map-layer id="point-layer" data-vl-name="punt-laag" data-vl-features='
+                    {
+                        "type": "FeatureCollection",
+                        "features": [{
+                            "type": "Feature",
+                            "id": 1,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [157836.54,190879.51]
+                            }
+                        }, {
+                            "type": "Feature",
+                            "id": 2,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [152161.53,212358.26]
+                            }
+                        }]
+                    }'>
+                    <!-- Note: size improves e2e testing -->
+                    <vl-map-layer-circle-style data-vl-size="6"></vl-map-layer-circle-style>
+                    <vl-map-modify-action id="modify-point-action" data-vl-default-active></vl-map-modify-action>
+                </vl-map-layer>
+            </vl-map>
+        </vl-demo>
+
+        <vl-demo data-vl-title="Kaart met lijn aanpas actie">
+            <vl-map id="map-with-modify-line-action">
+                <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
+                <vl-map-layer id="line-layer" data-vl-name="lijn-laag" data-vl-features='
+                    {
+                        "type": "FeatureCollection",
+                        "features": [{
+                            "type": "Feature",
+                            "id": 1,
+                            "geometry": {
+                                "type": "LineString",
+                                "coordinates": [
+                                    [157836.54,190879.51],
+                                    [152161.53,212358.26]
+                                ]
+                            }
+                        }]
+                    }'>
+                    <!-- WARN: border-size has an impact on the e2e tests -->
+                    <vl-map-layer-style id="map-adjusted-style" data-vl-border-size="6"></vl-map-layer-style>
+                    <vl-map-modify-action id="modify-line-action" data-vl-default-active></vl-map-modify-action>
+                </vl-map-layer>
+            </vl-map>
+        </vl-demo>
+
+        <vl-demo data-vl-title="Kaart met polygoon aanpas actie">
+            <vl-map id="map-with-modify-polygon-action">
+                <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
+                <vl-map-layer id="polygon-layer" data-vl-name="polygoon-laag" data-vl-features='
+                    {
+                        "type": "FeatureCollection",
+                        "features": [{
+                            "type": "Feature",
+                            "id": 1,
+                            "geometry": {
+                                "type": "Polygon",
+                                "coordinates": [
+                                    [[104896.56,193972.22],[157836.54,190879.51],[152161.53,212358.26],[173780.97,174292.43]]
+                                ]
+                            }
+                        }]
+                    }'>
+                    <!-- WARN: border-size has an impact on the e2e tests -->
+                    <vl-map-layer-style id="map-adjusted-style" data-vl-border-size="6"></vl-map-layer-style>
+                    <vl-map-modify-action id="modify-polygon-action" data-vl-default-active></vl-map-modify-action>
+                </vl-map-layer>
+            </vl-map>
+        </vl-demo>
+
+    </vl-demo-page>
+</body>
+
+</html>
