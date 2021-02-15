@@ -13,6 +13,10 @@ import {VlModifyAction} from '/node_modules/vl-mapactions/dist/vl-mapactions.js'
  * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map-modify-actions.html|Demo}
  */
 export class VlMapModifyAction extends VlMapLayerAction {
+  onModify(callback) {
+    this.__callback = callback;
+  }
+
   _createAction(layer) {
     const options = {
       snapping: true,

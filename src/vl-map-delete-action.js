@@ -37,10 +37,23 @@ export class VlMapDeleteAction extends VlMapLayerAction {
     }
   }
 
+  /**
+   * Zet de functie die wordt uitgevoerd na het uitvoeren van de verwijder actie
+   *
+   * @param onDelete
+   */
+  onDelete(onDelete) {
+    this.__callback = onDelete;
+  }
+
+  get _callback() {
+    return this.__callback;
+  }
+
   _createAction(layer) {
     const options = {
       style: this._style,
     };
-    return new VlDeleteAction(layer, null, options);
+    return new VlDeleteAction(layer, this._callback, options);
   }
 }

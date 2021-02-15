@@ -1,4 +1,4 @@
-import {VlMapLayerAction} from '/src/vl-map-layer-action.js';
+import {VlMapDrawAction} from '/src/vl-map-draw-action.js';
 import {VlDrawPolygonAction} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
 
 /**
@@ -6,13 +6,13 @@ import {VlDrawPolygonAction} from '/node_modules/vl-mapactions/dist/vl-mapaction
  * @class
  * @classdesc De kaart polygoon teken actie component.
  *
- * @extends VlMapLayerAction
+ * @extends VlMapDrawAction
  *
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
  * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map-draw-actions.html|Demo}
  */
-export class VlMapDrawPolygonAction extends VlMapLayerAction {
+export class VlMapDrawPolygonAction extends VlMapDrawAction {
   _createAction(layer) {
     return new VlDrawPolygonAction(layer, this._callback);
   }

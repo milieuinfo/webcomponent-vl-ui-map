@@ -10,17 +10,43 @@
   <script src="/node_modules/sinon/pkg/sinon.js"></script>
 </head>
 
+<test-fixture id="vl-map-draw-line-action-fixture">
+  <template>
+    <vl-map>
+      <vl-map id="map-with-draw-line-action">
+        <vl-map-layer id="line-layer">
+          <vl-map-draw-line-action id="draw-line-action" data-vl-default-active></vl-map-draw-line-action>
+        </vl-map-layer>
+      </vl-map>
+    </vl-map>
+  </template>
+</test-fixture>
 <body>
   <script type="module">
     import {VlMapDrawLineAction} from '../../src/vl-map-draw-line-action.js';
+    import {awaitUntil} from '/node_modules/vl-ui-core/dist/vl-core.js';
 
     suite('vl-map-draw-line-action', () => {
       setup((done) => {
         customElements.whenDefined('vl-map-draw-line-action').then(() => done());
       });
-    
+
       test('een lijn teken actie is een map actie', () => {
         assert.isTrue(VlMapDrawLineAction.isVlMapAction());
+      });
+
+      test('nadat de tekenactie voltooid is, zal de onDraw worden opgeroepen', async () => {
+        const map = fixture('vl-map-draw-line-action-fixture');
+        await map.ready;
+        const drawAction = map.querySelector('vl-map-draw-line-action');
+        await awaitUntil(() => drawAction.action != null);
+        let featureDrawn = false;
+        drawAction.onDraw(() => {
+          featureDrawn = true;
+        });
+        drawAction.action.drawInteraction.dispatchEvent('drawend');
+
+        await awaitUntil(() => featureDrawn === true);
       });
     });
   </script>
