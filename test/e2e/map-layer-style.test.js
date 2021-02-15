@@ -10,7 +10,9 @@ describe('vl-map-layer-style', async () => {
   });
 
   it('als gebruiker kan ik een layer definiëren met standaard stijl', async () => {
-    const style = await vlMapPage.getStandardStyle();
+    const map = await vlMapPage.getStandardMap();
+    const style = await vlMapPage.getLayerStyle(map);
+
     await assert.eventually.equal(style.getColor(), 'rgba(2, 85, 204, 0.8)');
     await assert.eventually.isNull(style.getBorderColor());
     await assert.eventually.isNull(style.getBorderSize());
@@ -25,7 +27,8 @@ describe('vl-map-layer-style', async () => {
   });
 
   it('als gebruiker kan ik een layer definiëren met een label', async () => {
-    const style = await vlMapPage.getLabelStyle();
+    const map = await vlMapPage.getLabelMap();
+    const style = await vlMapPage.getLayerStyle(map);
 
     await assert.eventually.equal(style.getColor(), 'rgba(2, 85, 204, 0.8)');
     await assert.eventually.isNull(style.getBorderColor());
@@ -41,7 +44,8 @@ describe('vl-map-layer-style', async () => {
   });
 
   it('als gebruiker kan ik een layer definiëren met aangepaste stijl', async () => {
-    const style = await vlMapPage.getAdjustedStyle();
+    const map = await vlMapPage.getAdjustedMap();
+    const style = await vlMapPage.getLayerStyle(map);
 
     await assert.eventually.equal(style.getColor(), 'rgba(255,0,0,0.5)');
     await assert.eventually.equal(style.getBorderColor(), 'rgba(255,255,100,1)');
@@ -57,10 +61,10 @@ describe('vl-map-layer-style', async () => {
   });
 
   it('als gebruiker kan ik een layer definiëren met meerdere stijl', async () => {
-    const styleRed = await vlMapPage.getStyleRedFromLayerWithMultipleStyles();
-    const styleGreen = await vlMapPage.getStyleGreenFromLayerWithMultipleStyles();
+    const map = await vlMapPage.getMultipleStylesMap();
+    const styles = await vlMapPage.getLayerStyles(map);
 
-    await assert.eventually.equal(styleRed.getColor(), 'rgba(255,0,0,0.8)');
-    await assert.eventually.equal(styleGreen.getColor(), 'rgba(0,255,0,0.8)');
+    await assert.eventually.equal(styles[0].getColor(), 'rgba(255,0,0,0.8)');
+    await assert.eventually.equal(styles[1].getColor(), 'rgba(0,255,0,0.8)');
   });
 });
