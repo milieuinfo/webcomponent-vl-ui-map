@@ -188,6 +188,18 @@ class VlMap extends VlElement {
     return this.driver.executeScript(`return document.fullscreen`);
   }
 
+  async isReady() {
+    await this.driver.wait(async () => {
+      try {
+        await this.driver.wait(this.driver.executeScript('return arguments[0].ready', this), 1000);
+        return true;
+      } catch (error) {
+        return false;
+      }
+    });
+    return true;
+  }
+
   async _getMap() {
     return this.shadowRoot;
   }
