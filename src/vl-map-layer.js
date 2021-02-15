@@ -83,7 +83,7 @@ export class VlMapLayer extends vlElement(HTMLElement) {
 
   get _featuresFromAttribute() {
     const features = this.getAttribute('features');
-    return features ? this._geoJSON.readFeatures(features) : [];
+    return features ? this.__readGeoJsonFeatures(features) : [];
   }
 
   /**
@@ -285,10 +285,14 @@ export class VlMapLayer extends vlElement(HTMLElement) {
   _featuresChangedCallback(oldValue, newValue) {
     if (newValue && this._layer) {
       this._source.clear();
-      this._source.addFeatures(this._geoJSON.readFeatures(JSON.parse(newValue)));
+      this._source.addFeatures(this.__readGeoJsonFeatures(newValue));
       this.__autoZoomToExtent();
       this.rerender();
     }
+  }
+
+  __readGeoJsonFeatures(value) {
+    return this._geoJSON.readFeatures(value);
   }
 
   __autoZoomToExtent() {
