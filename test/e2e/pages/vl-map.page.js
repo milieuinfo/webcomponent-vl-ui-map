@@ -31,12 +31,15 @@ class VlMapPage extends Page {
     return this._getMap('#map-fullscreen');
   }
 
-  async load() {
-    await super.load(Config.baseUrl + '/demo/vl-map.html');
+  async load(url) {
+    await super.load(url || Config.baseUrl + '/demo/vl-map.html');
   }
 
   async _getMap(selector) {
-    return new VlMap(this.driver, selector);
+    const map = await new VlMap(this.driver, selector);
+    await map.isReady();
+    await map.scrollIntoView();
+    return map;
   }
 
   async _getBaseLayer(selector) {
