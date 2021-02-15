@@ -41,6 +41,7 @@ export class VlMapFeaturesLayer extends VlMapVectorLayer {
     if (this.mapElement) {
       this._autoZoomToExtent();
     }
+    this._markAsReady();
   }
 
   /**
@@ -49,8 +50,12 @@ export class VlMapFeaturesLayer extends VlMapVectorLayer {
    * @return {object}
    */
   get features() {
+    return this.source ? this.source.getFeatures() : this._featuresFromAttribute;
+  }
+
+  get _featuresFromAttribute() {
     const features = this.getAttribute('features');
-    return features ? this._geoJSON.readFeatures(features) : [];
+    return features ? this.__readGeoJsonFeatures(features) : [];
   }
 
   /**
@@ -140,7 +145,7 @@ export class VlMapFeaturesLayer extends VlMapVectorLayer {
   _featuresChangedCallback(oldValue, newValue) {
     if (newValue && this._layer) {
       this.source.clear();
-      this.source.addFeatures(this.features);
+      this.source.addFeatures(this.__readGeoJsonFeatures(newValue));
       this._autoZoomToExtent();
       this.rerender();
     }
@@ -182,5 +187,9 @@ export class VlMapFeaturesLayer extends VlMapVectorLayer {
 
   __ignoreClustering() {
     return null;
+  }
+
+  __readGeoJsonFeatures(value) {
+    return this._geoJSON.readFeatures(value);
   }
 }

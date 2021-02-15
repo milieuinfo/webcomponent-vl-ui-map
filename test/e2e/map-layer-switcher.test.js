@@ -26,11 +26,9 @@ describe('vl-map-layer-switcher', async () => {
     const layers = await map.getLayers();
     const layer = layers[0];
 
-    await assert.eventually.isFalse(sideSheet.isOpen());
-    await sideSheet.open();
-    await assert.eventually.isTrue(sideSheet.isOpen());
     await assert.eventually.isTrue(layer.isVisible());
 
+    await sideSheet.open();
     const checkbox = await layerSwitcher.getCheckboxForLayer('layer-1');
     await assert.eventually.isTrue(layer.isVisible());
     await checkbox.click();
