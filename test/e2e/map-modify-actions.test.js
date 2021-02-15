@@ -15,11 +15,8 @@ describe('vl-map-modify-action', async () => {
 
     const layer = await action.getLayer();
     await getDriver().wait(async () => (await layer.getNumberOfFeatures()) === 1);
-    const points = (await layer.getFeature(1)).geometry.coordinates[0];
-    const gent = points[0];
-    const mechelen = points[1];
-    const antwerpen = points[2];
-    const leuven = points[3];
+    const geometry = (await layer.getFeature(1)).geometry;
+    const gent = geometry.coordinates[0][0];
 
     await action.movePointByCoordinates(gent, willebroek);
 
@@ -28,8 +25,7 @@ describe('vl-map-modify-action', async () => {
 
     const modifiedGeometry = (await layer.getFeature(1)).geometry;
     assert.include(modifiedGeometry, {type: 'Polygon'});
-    assert.includeDeepMembers(modifiedGeometry.coordinates[0], [mechelen, antwerpen, leuven]);
-    assert.notIncludeDeepMembers(modifiedGeometry.coordinates[0], [gent]);
+    assert.notDeepEqual(modifiedGeometry, geometry);
   });
 
   it('als gebruiker kan ik een punt aanpassen op een kaart', async () => {
@@ -37,8 +33,9 @@ describe('vl-map-modify-action', async () => {
 
     const layer = await action.getLayer();
     await getDriver().wait(async () => (await layer.getNumberOfFeatures()) === 2);
-    const mechelen = (await layer.getFeature(1)).geometry.coordinates;
-    const antwerpen = (await layer.getFeature(2)).geometry.coordinates;
+    const geometry1 = (await layer.getFeature(1)).geometry;
+    const mechelen = geometry1.coordinates;
+    const feature2 = await layer.getFeature(2);
 
     await action.movePointByCoordinates(mechelen, willebroek);
 
@@ -47,9 +44,8 @@ describe('vl-map-modify-action', async () => {
 
     const modifiedGeometry = (await layer.getFeature(1)).geometry;
     assert.include(modifiedGeometry, {type: 'Point'});
-    assert.notIncludeDeepMembers(modifiedGeometry.coordinates, mechelen);
-
-    assert.deepOwnInclude((await layer.getFeature(2)).geometry, {type: 'Point', coordinates: antwerpen});
+    assert.notDeepEqual(modifiedGeometry, geometry1);
+    assert.deepEqual(await layer.getFeature(2), feature2);
   });
 
   it('als gebruiker kan ik een lijn aanpassen op een kaart', async () => {
@@ -57,9 +53,8 @@ describe('vl-map-modify-action', async () => {
 
     const layer = await action.getLayer();
     await getDriver().wait(async () => (await layer.getNumberOfFeatures()) === 1);
-    const lineCoordinates = (await layer.getFeature(1)).geometry.coordinates;
-    const mechelen = lineCoordinates[0];
-    const antwerpen = lineCoordinates[1];
+    const geometry = (await layer.getFeature(1)).geometry;
+    const antwerpen = geometry.coordinates[1];
 
     await action.movePointByCoordinates(antwerpen, willebroek);
 
@@ -68,8 +63,7 @@ describe('vl-map-modify-action', async () => {
 
     const modifiedGeometry = (await layer.getFeature(1)).geometry;
     assert.include(modifiedGeometry, {type: 'LineString'});
-    assert.includeDeepMembers(modifiedGeometry.coordinates[0], mechelen);
-    assert.notIncludeDeepMembers(modifiedGeometry.coordinates[0], antwerpen);
+    assert.notDeepEqual(modifiedGeometry, geometry);
   });
 
   it('als gebruiker zie ik dat de aanpas actie actief staat', async () => {
