@@ -266,10 +266,10 @@ export class VlMapLayer extends vlElement(HTMLElement) {
    * @param {string} featureCollection
    */
   addFeatureCollection(featureCollection) {
-	  if (this._source) {
-		  this._source.addFeatures(this._geoJSON.readFeatures(featureCollection));
-	      this._featuresChanged();
-	  }
+    if (this._source) {
+      this._source.addFeatures(this._geoJSON.readFeatures(featureCollection));
+      this._featuresChanged();
+    }
   }
 
   /**
@@ -324,10 +324,10 @@ export class VlMapLayer extends vlElement(HTMLElement) {
   }
 
   _featuresChanged() {
-	  this.__autoZoomToExtent();
-	  this.rerender();
+    this.__autoZoomToExtent();
+    this.rerender();
   }
-  
+
   __autoZoomToExtent() {
     if (this._autoExtent) {
       this.zoomToExtent(this._autoExtentMaxZoom);
