@@ -42,7 +42,7 @@
       <vl-map>
         <vl-map-layer
           data-vl-name="testlaag"
-          data-vl-features='{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[147055,197908]},"properties":null,"id":1}]}'
+          data-vl-features='{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[147055,197908]},"properties":null,"id":1}, {"type":"Feature","geometry":{"type":"Point","coordinates":[148055,197908]},"properties":null,"id":2}]}'
           data-vl-auto-extent>
         </vl-map-layer>
       </vl-map>
@@ -123,7 +123,7 @@
 
         map = fixture('vl-map-auto-extent-fixture');
         await awaitUntil(() => map.map.getView().getZoom() > 3).then(async () => {
-          assert.deepEqual(map.map.getView().getCenter(), [147055, 197908]);
+          assert.deepEqual(map.map.getView().getCenter(), [147555, 197908]);
 
           map = fixture('vl-map-auto-extent-max-zoom-fixture');
           await awaitUntil(() => map.map.getView().getZoom() === 3).then(() => {
@@ -199,6 +199,53 @@
         await map.ready;
         should.exist(layer.getFeature(1));
         should.not.exist(layer.getFeature(2));
+      });
+
+      test('kan programmatorisch features verwijderen', async () => {
+        const map = fixture('vl-map-fixture');
+        const layer = map.querySelector('vl-map-layer');
+        await map.ready;
+        assert.equal(layer.layer.getSource().getFeatures().length, 1);
+        layer.clearFeatures();
+        assert.equal(layer.layer.getSource().getFeatures().length, 0);
+      });
+
+      test('kan programmatorisch features toevoegen', async () => {
+        const map = fixture('vl-map-fixture');
+        const layer = map.querySelector('vl-map-layer');
+        await map.ready;
+        assert.equal(layer.layer.getSource().getFeatures().length, 1);
+        layer.addFeature('{"type":"Feature","geometry":{"type":"Point","coordinates":[148055,197908]},"properties":null,"id":2}');
+        assert.equal(layer.layer.getSource().getFeatures().length, 2);
+      });
+
+      test('wanneer programmatorisch features van een laag met auto zoom verwijderd worden zal deze niet zoomen omdat er geen extent van de features meer is', async () => {
+        const map = fixture('vl-map-auto-extent-fixture');
+        const layer = map.querySelector('vl-map-layer');
+        await map.ready;
+        await awaitUntil(() => map.map.getView().getZoom() > 3).then(async () => {
+          assert.deepEqual(map.map.getView().getCenter(), [147555, 197908]);
+        });
+        layer.clearFeatures();
+        assert.deepEqual(map.map.getView().getCenter(), [147555, 197908]);
+      });
+
+      test('wanneer programmatorisch features van een laag met auto zoom toegevoegd worden zal de map daar naartoe zoomen', async () => {
+        const map = fixture('vl-map-auto-extent-fixture');
+        const layer = map.querySelector('vl-map-layer');
+        await map.ready;
+        await awaitUntil(() => map.map.getView().getZoom() > 3).then(async () => {
+          assert.deepEqual(map.map.getView().getCenter(), [147555, 197908]);
+        });
+        layer.addFeature('{"type":"Feature","geometry":{"type":"Point","coordinates":[146055,197908]},"properties":null,"id":3}');
+        await awaitUntil(() => map.map.getView().getZoom() > 3).then(async () => {
+          assert.deepEqual(map.map.getView().getCenter(), [147055, 197908]);
+        });
+        layer.clearFeatures();
+        layer.addFeature('{"type":"Feature","geometry":{"type":"Point","coordinates":[146055,197908]},"properties":null,"id":3}');
+        await awaitUntil(() => map.map.getView().getZoom() > 3).then(async () => {
+          assert.deepEqual(map.map.getView().getCenter(), [146055, 197908]);
+        });
       });
 
       test('kan een cluster verkrijgen via een feature id in de cluster', async () => {

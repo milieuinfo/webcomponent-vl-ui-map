@@ -239,6 +239,30 @@ export class VlMapLayer extends vlElement(HTMLElement) {
   }
 
   /**
+   * Verwijdert alle features van de laag
+   */
+  clearFeatures() {
+    if (this._source) {
+      this._source.clear();
+      this.__autoZoomToExtent();
+      this.rerender();
+    }
+  }
+
+  /**
+   * Voegt een feature toe aan de kaartlaag via geojson
+   *
+   * @param {string} feature
+   */
+  addFeature(feature) {
+    if (this._source) {
+      this._source.addFeatures([this._geoJSON.readFeature(feature)]);
+      this.__autoZoomToExtent();
+      this.rerender();
+    }
+  }
+
+  /**
    * Geeft de cluster terug op basis van het id attribuut.
    *
    * @param {number} id
@@ -265,7 +289,10 @@ export class VlMapLayer extends vlElement(HTMLElement) {
    * @param {number} maxZoom - Hoe diep er maximaal ingezoomd mag worden.
    */
   async zoomToExtent(maxZoom) {
-    this.mapElement.zoomTo(this.__boundingBox, maxZoom);
+    const boundingBox = this.__boundingBox;
+    if (boundingBox) {
+      this.mapElement.zoomTo(this.__boundingBox, maxZoom);
+    }
   }
 
   isVisibleAtResolution(resolution) {
