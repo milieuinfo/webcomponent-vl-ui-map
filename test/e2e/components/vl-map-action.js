@@ -16,6 +16,7 @@ class VlMapAction extends VlElement {
         return false;
       }
     });
+    await map.scrollIntoView();
     return map;
   }
 }
