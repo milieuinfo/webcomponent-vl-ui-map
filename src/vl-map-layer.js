@@ -38,11 +38,7 @@ export class VlMapLayer extends vlElement(HTMLElement) {
     this.__counter = ++VlMapLayer._counter;
     this._geoJSON = new OlGeoJSON();
     this._styles = [];
-    this.__prepareReadyPromise();
-  }
-
-  __prepareReadyPromise() {
-    this.__ready = new Promise((resolve) => this.__layerReadyResolver = resolve);
+    this.__ready = false;
   }
 
   async connectedCallback() {
@@ -353,6 +349,6 @@ export class VlMapLayer extends vlElement(HTMLElement) {
       this.mapElement.addLayer(this._layer);
       this.__autoZoomToExtent();
     }
-    this.__layerReadyResolver();
+    this.__ready = true;
   }
 }
