@@ -2,7 +2,7 @@ const VlMapLayer = require('./vl-map-layer');
 
 class VlMapFeaturesLayer extends VlMapLayer {
   async getFeatures() {
-    return this.driver.executeScript(`return arguments[0].layer.getSource().getFeatures();`, this);
+    return this.driver.executeScript(`return arguments[0].features;`, this);
   }
 
   async getFeature(id) {

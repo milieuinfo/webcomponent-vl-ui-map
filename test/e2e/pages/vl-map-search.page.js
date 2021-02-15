@@ -1,9 +1,9 @@
-const VlMap = require('../components/vl-map');
 const VlMapSearch = require('../components/vl-map-search');
-const {Page, Config} = require('vl-ui-core').Test;
+const {Config} = require('vl-ui-core').Test;
 const {By} = require('vl-ui-core').Test.Setup;
+const VlMapPage = require('./vl-map.page');
 
-class VlMapSearchPage extends Page {
+class VlMapSearchPage extends VlMapPage {
   async getMap() {
     return this._getMap('#map-with-search');
   }
@@ -23,10 +23,6 @@ class VlMapSearchPage extends Page {
 
   async load() {
     await super.load(Config.baseUrl + '/demo/vl-map-search.html');
-  }
-
-  async _getMap(selector) {
-    return new VlMap(this.driver, selector);
   }
 
   async _getSearch(selector) {

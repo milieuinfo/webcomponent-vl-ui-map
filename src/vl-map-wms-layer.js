@@ -49,6 +49,7 @@ export class VlMapWmsLayer extends VlMapLayer {
 
   async connectedCallback() {
     await super.connectedCallback();
+    this._markAsReady();
   }
 
   _createLayerConfig(source) {

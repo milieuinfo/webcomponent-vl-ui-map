@@ -1,9 +1,9 @@
 const VlMapSelectAction = require('../components/vl-map-select-action');
-const VlMap = require('../components/vl-map');
-const {Page, Config} = require('vl-ui-core').Test;
-const {By, assert} = require('vl-ui-core').Test.Setup;
+const {Config} = require('vl-ui-core').Test;
+const {assert, By} = require('vl-ui-core').Test.Setup;
+const VlMapPage = require('./vl-map.page');
 
-class VlMapSelectActionPage extends Page {
+class VlMapSelectActionPage extends VlMapPage {
   async getSelectAction() {
     return this._getSelectAction('#select-action');
   }
@@ -44,10 +44,6 @@ class VlMapSelectActionPage extends Page {
 
   async _getLayer(LayerClass, selector) {
     return new LayerClass(this.driver, selector);
-  }
-
-  async _getMap(selector) {
-    return new VlMap(this.driver, selector);
   }
 }
 

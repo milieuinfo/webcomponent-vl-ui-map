@@ -18,6 +18,7 @@ export class VlMapLayer extends vlElement(HTMLElement) {
     super();
     VlMapLayer._counter = 0;
     this.__counter = ++VlMapLayer._counter;
+    this.__ready = false;
     this.__setIsLayerMarkerAttribute();
   }
 
@@ -90,7 +91,7 @@ export class VlMapLayer extends vlElement(HTMLElement) {
   }
 
   get ready() {
-    return this.mapElement.ready;
+    return this.__ready;
   }
 
   get _name() {
@@ -132,5 +133,9 @@ export class VlMapLayer extends vlElement(HTMLElement) {
 
   __setIsLayerMarkerAttribute() {
     this.dataset.vlIsLayer = true;
+  }
+
+  _markAsReady() {
+    this.__ready = true;
   }
 }

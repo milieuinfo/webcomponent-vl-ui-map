@@ -1,17 +1,17 @@
-const VlMap = require('../components/vl-map');
-const {Page, Config} = require('vl-ui-core').Test;
+const {Config} = require('vl-ui-core').Test;
+const VlMapPage = require('./vl-map.page');
 
-class VlMapLayerSwitcherPage extends Page {
+class VlMapLayerSwitcherPage extends VlMapPage {
   async getMapWithLayerSwitcher() {
-    return new VlMap(this.driver, '#map-with-layer-switcher');
+    return this._getMap('#map-with-layer-switcher');
   }
 
   async getMapWithCustomLayerSwitcher() {
-    return new VlMap(this.driver, '#map-with-custom-layer-switcher');
+    return this._getMap('#map-with-custom-layer-switcher');
   }
 
   async getMapWithResolutionLayerSwitcher() {
-    return new VlMap(this.driver, '#map-with-resolution-layer-switcher');
+    return this._getMap('#map-with-resolution-layer-switcher');
   }
 
   async load() {
