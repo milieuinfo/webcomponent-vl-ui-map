@@ -39,10 +39,9 @@ class VlMapPage extends Page {
     const map = await new VlMap(this.driver, selector);
     await this.driver.wait(async () => {
       let resolved = false;
-      const promise = this.driver.executeScript('return arguments[0].ready', map);
       try {
-        await this.driver.wait(async () => await promise.then(() => resolved = true), 1000);
-        return resolved;
+        await this.driver.wait(this.driver.executeScript('return arguments[0].ready', map), 1000);
+        return true;
       } catch (error) {
         return false;
       }
