@@ -13,10 +13,6 @@ class VlMapDrawActionsPage extends VlMapPage {
     return this._getMap('#map-with-draw-line-action');
   }
 
-  async getMapWithDrawLineAction() {
-    return this._getMap('#map-with-draw-line-action');
-  }
-
   async getMapWithDrawPolygonAction() {
     return this._getMap('#map-with-draw-polygon-action');
   }
