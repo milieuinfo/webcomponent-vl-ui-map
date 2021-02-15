@@ -47,6 +47,7 @@ class VlMapPage extends Page {
         return false;
       }
     });
+    await map.scrollIntoView();
     return map;
   }
 
