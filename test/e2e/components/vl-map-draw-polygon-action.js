@@ -4,7 +4,6 @@ class VlMapDrawPolygonAction extends VlMapAction {
   async draw(...coordinates) {
     coordinates = coordinates.length > 0 ? coordinates : [{x: 10, y: 10}, {x: 10, y: 20}, {x: 20, y: 20}, {x: 20, y: 10}];
     const map = await this.getMap();
-    await map.scrollIntoView();
     const actions = this.driver.actions();
     for (let i = 0; i < coordinates.length; i++) {
       const coordinate = coordinates[i];

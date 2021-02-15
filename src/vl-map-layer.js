@@ -38,12 +38,12 @@ export class VlMapLayer extends vlElement(HTMLElement) {
     this.__counter = ++VlMapLayer._counter;
     this._geoJSON = new OlGeoJSON();
     this._styles = [];
+    this.__ready = false;
   }
 
   async connectedCallback() {
     this._layer = this.__createLayer();
-    await this.mapElement.ready;
-    this._configureMap();
+    await this._configureMap();
   }
 
   static get _counter() {
@@ -78,8 +78,12 @@ export class VlMapLayer extends vlElement(HTMLElement) {
    * @return {object}
    */
   get features() {
+    return this.source ? this.source.getFeatures() : this._featuresFromAttribute;
+  }
+
+  get _featuresFromAttribute() {
     const features = this.getAttribute('features');
-    return features ? this._geoJSON.readFeatures(features) : [];
+    return features ? this.__readGeoJsonFeatures(features) : [];
   }
 
   /**
@@ -167,7 +171,7 @@ export class VlMapLayer extends vlElement(HTMLElement) {
   }
 
   get ready() {
-    return this.mapElement.ready;
+    return this.__ready;
   }
 
   get _name() {
@@ -318,7 +322,7 @@ export class VlMapLayer extends vlElement(HTMLElement) {
   _featuresChangedCallback(oldValue, newValue) {
     if (newValue && this._layer) {
       this._source.clear();
-      this._source.addFeatures(this.features);
+      this._source.addFeatures(this.__readGeoJsonFeatures(newValue));
       this._featuresChanged();
     }
   }
@@ -326,6 +330,10 @@ export class VlMapLayer extends vlElement(HTMLElement) {
   _featuresChanged() {
     this.__autoZoomToExtent();
     this.rerender();
+  }
+
+  __readGeoJsonFeatures(value) {
+    return this._geoJSON.readFeatures(value);
   }
 
   __autoZoomToExtent() {
@@ -380,10 +388,12 @@ export class VlMapLayer extends vlElement(HTMLElement) {
     return null;
   }
 
-  _configureMap() {
+  async _configureMap() {
+    await this.mapElement.ready;
     if (this.mapElement) {
       this.mapElement.addLayer(this._layer);
       this.__autoZoomToExtent();
     }
+    this.__ready = true;
   }
 }
