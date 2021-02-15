@@ -244,8 +244,7 @@ export class VlMapLayer extends vlElement(HTMLElement) {
   clearFeatures() {
     if (this._source) {
       this._source.clear();
-      this.__autoZoomToExtent();
-      this.rerender();
+      this._featuresChanged();
     }
   }
 
@@ -257,9 +256,20 @@ export class VlMapLayer extends vlElement(HTMLElement) {
   addFeature(feature) {
     if (this._source) {
       this._source.addFeatures([this._geoJSON.readFeature(feature)]);
-      this.__autoZoomToExtent();
-      this.rerender();
+      this._featuresChanged();
     }
+  }
+
+  /**
+   * Voegt een featurecollection toe aan de kaartlaag via geojson
+   *
+   * @param {string} featureCollection
+   */
+  addFeatureCollection(featureCollection) {
+	  if (this._source) {
+		  this._source.addFeatures(this._geoJSON.readFeatures(featureCollection));
+	      this._featuresChanged();
+	  }
   }
 
   /**
@@ -309,11 +319,15 @@ export class VlMapLayer extends vlElement(HTMLElement) {
     if (newValue && this._layer) {
       this._source.clear();
       this._source.addFeatures(this.features);
-      this.__autoZoomToExtent();
-      this.rerender();
+      this._featuresChanged();
     }
   }
 
+  _featuresChanged() {
+	  this.__autoZoomToExtent();
+	  this.rerender();
+  }
+  
   __autoZoomToExtent() {
     if (this._autoExtent) {
       this.zoomToExtent(this._autoExtentMaxZoom);
