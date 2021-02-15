@@ -31,8 +31,7 @@ describe('vl-map-modify-action', async () => {
     await action.movePointByCoordinates(gent, willebroek);
 
     await getDriver().wait(async () => (await layer.getNumberOfFeatures()) === 1);
-    features = await layer.getFeatures();
-    assert.lengthOf(features, 1);
+    assert.lengthOf(await layer.getFeatures(), 1);
 
     const modifiedPolygonFeature = await layer.getFeature(1);
     const modifiedPolygonCoordinates = modifiedPolygonFeature.geometry.coordinates;
@@ -64,17 +63,13 @@ describe('vl-map-modify-action', async () => {
     const layer = await action.getLayer();
     await getDriver().wait(async () => (await layer.getNumberOfFeatures()) === 2);
 
-    const point1Feature = await layer.getFeature(1);
-    const mechelen = point1Feature.geometry.coordinates;
-
-    const point2Feature = await layer.getFeature(2);
-    const antwerpen = point2Feature.geometry.coordinates;
+    const mechelen = (await layer.getFeature(1)).geometry.coordinates;
+    const antwerpen = (await layer.getFeature(2)).geometry.coordinates;
 
     await action.movePointByCoordinates(mechelen, willebroek);
 
     await getDriver().wait(async () => (await layer.getNumberOfFeatures()) === 2);
-    features = await layer.getFeatures();
-    assert.lengthOf(features, 2);
+    assert.lengthOf(await layer.getFeatures(), 2);
 
     const modifiedPoint1Feature = await layer.getFeature(1);
     const modifiedCoordinates = modifiedPoint1Feature.geometry.coordinates;
@@ -103,8 +98,7 @@ describe('vl-map-modify-action', async () => {
     await action.movePointByCoordinates(antwerpen, willebroek);
 
     await getDriver().wait(async () => (await layer.getNumberOfFeatures()) === 1);
-    features = await layer.getFeatures();
-    assert.lengthOf(features, 1);
+    assert.lengthOf(await layer.getFeatures(), 1);
 
     const modifiedLineFeature = await layer.getFeature(1);
     const modifiedLineCoordinates = modifiedLineFeature.geometry.coordinates;
