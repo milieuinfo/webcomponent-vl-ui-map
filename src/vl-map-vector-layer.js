@@ -9,8 +9,6 @@ import {OlVectorLayer} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
  *
  * @extends VlMapLayer
  *
- * @property {string} data-vl-name - Attribuut bepaalt de kaartlaag naam.
- *
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
  */

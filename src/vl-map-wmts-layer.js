@@ -6,7 +6,7 @@ import {OlWMTSSource, OlWMTSTileGrid, OlTileLayer, OlExtent} from '/node_modules
  * @class
  * @classdesc Een WMTS (overlay) layer
  *
- * @extends VlMapBaseLayer
+ * @extends VlMapLayer
  *
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}

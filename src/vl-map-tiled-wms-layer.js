@@ -1,4 +1,3 @@
-import {VlMapLayer} from '/src/vl-map-layer.js';
 import {VlMapWmsLayer} from '/src/vl-map-wms-layer.js';
 import {
   OlTileWMSSource,
@@ -18,18 +17,6 @@ import {
  */
 export class VlMapTiledWmsLayer extends VlMapWmsLayer {
   constructor() {
-    super();
-    this._source = this.__createSource();
-    this._layer = this.__createLayer();
-  }
-
-  __createLayer() {
-    const layer = new OlTileLayer(this._createLayerConfig(this._source));
-    layer.set('id', VlMapLayer._counter);
-    return layer;
-  }
-
-  __createSource() {
-    return new OlTileWMSSource(this._sourceConfig);
+    super(OlTileLayer, OlTileWMSSource);
   }
 }
