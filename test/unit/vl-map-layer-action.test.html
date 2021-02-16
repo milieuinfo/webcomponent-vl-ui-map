@@ -14,9 +14,9 @@
   <test-fixture id="vl-map-layer-action-fixture">
     <template>
       <vl-map>
-        <vl-map-layer>
+        <vl-map-features-layer>
           <vl-map-layer-action></vl-map-layer-action>
-        </vl-map-layer>
+        </vl-map-features-layer>
       </vl-map>
     </template>
   </test-fixture>
@@ -24,9 +24,9 @@
   <test-fixture id="vl-map-layer-action-default-active-fixture">
     <template>
       <vl-map>
-        <vl-map-layer>
+        <vl-map-features-layer>
           <vl-map-layer-action data-vl-default-active></vl-map-layer-action>
-        </vl-map-layer>
+        </vl-map-features-layer>
       </vl-map>
     </template>
   </test-fixture>
@@ -34,7 +34,7 @@
   <test-fixture id="vl-map-layer-action-layer-fixture">
     <template>
       <vl-map>
-        <vl-map-layer></vl-map-layer>
+        <vl-map-features-layer></vl-map-features-layer>
         <vl-map-layer-action></vl-map-layer-action>
       </vl-map>
     </template>
@@ -43,7 +43,7 @@
   <test-fixture id="vl-map-layer-action-layer-by-name-fixture">
     <template>
       <vl-map>
-        <vl-map-layer data-vl-name="layer"></vl-map-layer>
+        <vl-map-features-layer data-vl-name="layer"></vl-map-features-layer>
         <vl-map-layer-action data-vl-layer="layer"></vl-map-layer-action>
       </vl-map>
     </template>
@@ -60,7 +60,7 @@
         deactivate: sandbox.spy(),
         activate: sandbox.spy(),
       };
-    
+
       setup((done) => {
         customElements.whenDefined('vl-map-layer-action').then(() => done());
       });
@@ -68,11 +68,11 @@
       teardown(() => {
         sandbox.restore();
       });
-    
+
       test('de actie wordt standaard gekoppeld aan de kaartlaag waarin gedeclareerd', (done) => {
         const map = fixture('vl-map-layer-action-fixture');
         const actionElement = map.querySelector('vl-map-layer-action');
-        const layerElement = map.querySelector('vl-map-layer');
+        const layerElement = map.querySelector('vl-map-features-layer');
         sandbox.stub(actionElement, '_createAction').withArgs(layerElement.layer).returns(action);
         map.ready.then(() => {
           assert.lengthOf(map._map.actions, 1);
@@ -87,7 +87,7 @@
       test('de actie kan standaard geactiveerd worden via het default active attribuut', (done) => {
         const map = fixture('vl-map-layer-action-default-active-fixture');
         const actionElement = map.querySelector('vl-map-layer-action');
-        const layerElement = map.querySelector('vl-map-layer');
+        const layerElement = map.querySelector('vl-map-features-layer');
         sandbox.stub(actionElement, '_createAction').withArgs(layerElement.layer).returns(action);
         map.ready.then(() => {
           assert.lengthOf(map._map.actions, 1);
@@ -102,7 +102,7 @@
       test('de actie kaartlaag koppeling kan gebeuren via een attribuut', (done) => {
         const map = fixture('vl-map-layer-action-layer-by-name-fixture');
         const actionElement = map.querySelector('vl-map-layer-action');
-        const layerElement = map.querySelector('vl-map-layer');
+        const layerElement = map.querySelector('vl-map-features-layer');
         sandbox.stub(actionElement, '_createAction').withArgs(layerElement.layer).returns(action);
         map.ready.then(() => {
           assert.lengthOf(map._map.actions, 1);
@@ -113,7 +113,7 @@
 
       test('de actie kaartlaag kan gezet worden zodat één actie voor meerdere kaartlagen gebruikt kan worden', (done) => {
         const map = fixture('vl-map-layer-action-layer-fixture');
-        const layerElement = map.querySelector('vl-map-layer');
+        const layerElement = map.querySelector('vl-map-features-layer');
         const actionElement = map.querySelector('vl-map-layer-action');
         sandbox.stub(actionElement, '_createAction').returns(action);
         map.ready.then(() => {
