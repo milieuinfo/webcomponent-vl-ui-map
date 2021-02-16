@@ -13,6 +13,12 @@ import {VlModifyAction} from '/node_modules/vl-mapactions/dist/vl-mapactions.js'
  * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map-modify-actions.html|Demo}
  */
 export class VlMapModifyAction extends VlMapLayerAction {
+
+  /**
+   * Zet de functie die wordt uitgevoerd na het uitvoeren van de aanpas actie
+   *
+   * @param callback
+   */
   onModify(callback) {
     this.__callback = callback;
   }

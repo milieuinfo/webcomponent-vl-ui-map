@@ -97,6 +97,29 @@
 
       await awaitUntil(() => featureDeleted === true);
     });
+
+    test('nadat de delete actie voltooid is, zullen de features verdwijnen', async () => {
+      const map = fixture('vl-map-delete-action-fixture');
+      await map.ready;
+      const deleteAction = map.querySelector('vl-map-delete-action');
+      await awaitUntil(() => deleteAction.action != null);
+      const removeFeatureStub = sinon.stub();
+      sinon.stub(deleteAction.layer, 'getSource').returns({
+        removeFeature: removeFeatureStub
+      });
+      const feature = {
+        getStyle: () => {},
+        setStyle: () => {},
+        getId: () => null,
+      };
+      deleteAction.action.hoverInteraction.getFeatures().push(feature);
+
+      deleteAction.action.dragBoxInteraction.dispatchEvent('boxend');
+
+      await awaitUntil(() => deleteAction.action.hoverInteraction.getFeatures().getLength() === 0);
+      assert.isTrue(removeFeatureStub.calledOnce);
+      assert.deepEqual(removeFeatureStub.args[0][0], feature);
+    });
   });
 </script>
 </body>
