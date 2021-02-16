@@ -132,8 +132,9 @@
 
   <script>
     suite('vl-map-layer', () => {
+      const tags = ['vl-map-features-layer', 'vl-map-image-wms-layer', 'vl-map-tiled-wms-layer', 'vl-map-wfs-layer', 'vl-map-wmts-layer'];
+    
       setup((done) => {
-        const tags = ['vl-map-features-layer', 'vl-map-image-wms-layer', 'vl-map-tiled-wms-layer', 'vl-map-wfs-layer', 'vl-map-wmts-layer'];
         Promise.all(tags.map((tag) => customElements.whenDefined(tag))).then(() => done());
       });
 
@@ -152,15 +153,14 @@
       };
 
       test('kan een attribuut, titel, opvragen van de kaartlaag op basis van zijn sleutel', (done) => {
-        const ids = ['vl-map-features-layer', 'vl-map-image-wms-layer', 'vl-map-tiled-wms-layer', 'vl-map-wfs-layer', 'vl-map-wmts-layer'];
-        ids.forEach((id, index) => {
-          const map = fixture(`${id}-fixture`);
+        tags.forEach((tag, index) => {
+          const map = fixture(`${tag}-fixture`);
           map.ready.then(() => {
             const layer = getLayer(map);
             assert.equal(layer.get('title'), layer.getAttribute('data-vl-name'));
             assert.equal(layer.get('title'), layer._layer.get('title'));
 
-            if (ids.length == index+1) {
+            if (tags.length == index+1) {
               done();
             }
           });
@@ -168,9 +168,8 @@
       });
 
       test('kan de zichtbaarheid van de kaartlaag opvragen en wijzigen', (done) => {
-        const ids = ['vl-map-features-layer', 'vl-map-image-wms-layer', 'vl-map-tiled-wms-layer', 'vl-map-wfs-layer', 'vl-map-wmts-layer'];
-        ids.forEach((id, index) => {
-          const map = fixture(`${id}-fixture`);
+        tags.forEach((tag, index) => {
+          const map = fixture(`${tag}-fixture`);
           map.ready.then(() => {
             const layer = getLayer(map);
 
@@ -181,7 +180,7 @@
             assert.isFalse(layer.visible);
             assert.isFalse(layer._layer.getVisible());
 
-            if (ids.length == index+1) {
+            if (tags.length == index+1) {
               done();
             }
           });
@@ -189,9 +188,8 @@
       });
 
       test(`er kan gecontroleerd worden of de kaartlaag zichtbaar is op een bepaalde resolutie (minVisibility = , maxVisibility = )`, (done) => {
-        const ids = ['vl-map-features-layer', 'vl-map-image-wms-layer', 'vl-map-tiled-wms-layer', 'vl-map-wfs-layer', 'vl-map-wmts-layer'];
-        ids.forEach((id, index) => {
-          const map = fixture(`${id}-fixture`);
+        tags.forEach((tag, index) => {
+          const map = fixture(`${tag}-fixture`);
           map.ready.then(() => {
             const layer = getLayer(map);
             const minVisibility = Number.valueOf(layer.getAttribute('data-vl-min-resolution'));
@@ -201,7 +199,7 @@
             invisibleResolutions.forEach((resolution) => assert.isFalse(layer.isVisibleAtResolution(resolution), `zou niet zichtbaar mogen zijn op resolutie ${resolution}`));
             visibleResolutions.forEach((resolution) => assert.isTrue(layer.isVisibleAtResolution(resolution), `zou zichtbaar moeten zijn op resolutie ${resolution}`));
 
-            if (ids.length == index+1) {
+            if (tags.length == index+1) {
               done();
             }
           });
@@ -209,15 +207,14 @@
       });
 
       test('elke kaartlaag zal een id krijgen', (done) => {
-        const ids = ['vl-map-features-layers', 'vl-map-image-wms-layers', 'vl-map-tiled-wms-layers', 'vl-map-wfs-layers', 'vl-map-wmts-layers'];
-        ids.forEach((id, index) => {
-          const map = fixture(`${id}-fixture`);
+        tags.forEach((tag, index) => {
+          const map = fixture(`${tag}s-fixture`);
           map.ready.then(() => {
             const layers = getLayers(map);
             assert.lengthOf(layers, map.children.length);
             layers.forEach((layer, index) => assert(layer.layer.get('id'), index + 1));
 
-            if (ids.length == index+1) {
+            if (tags.length == index+1) {
               done();
             }
           });
@@ -225,9 +222,8 @@
       });
 
       test('de kaartlaag zal toegevoegd worden aan de map', (done) => {
-        const ids = ['vl-map-features-layer', 'vl-map-image-wms-layer', 'vl-map-tiled-wms-layer', 'vl-map-wfs-layer', 'vl-map-wmts-layer'];
-        ids.forEach((id, index) => {
-          const map = fixture(`${id}-fixture`);
+        tags.forEach((tag, index) => {
+          const map = fixture(`${tag}-fixture`);
           map.ready.then(() => {
             const layerElement = getLayer(map);
             const layers = map.map.getOverlayLayers();
@@ -239,7 +235,7 @@
             assert.equal(layer.getMinResolution(), layerElement.getAttribute('min-resolution'));
             assert.equal(layer.getMaxResolution(), layerElement.getAttribute('max-resolution'));
 
-            if (ids.length == index+1) {
+            if (tags.length == index+1) {
               done();
             }
           });
