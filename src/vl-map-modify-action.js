@@ -17,7 +17,9 @@ export class VlMapModifyAction extends VlMapLayerAction {
   /**
    * Zet de functie die wordt uitgevoerd na het uitvoeren van de aanpas actie
    *
-   * @param callback
+   * @param {Function} callback functie met volgende argumenten:
+   *                            - {ol.Feature} de aangepaste feature
+   *                            - {Function} reject callback met argument de aangepaste feature waarbij de feature terug op zijn oorspronkelijke staat wordt gezet
    */
   onModify(callback) {
     this.__callback = callback;
