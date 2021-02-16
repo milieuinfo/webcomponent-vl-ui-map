@@ -13,7 +13,6 @@ import {
  *
  * @extends VlMapVectorLayer
  *
- * @property {string} data-vl-name - Attribuut bepaalt de kaartlaag naam.
  * @property {boolean} data-vl-auto-extent - Attribuut geeft aan of er automatisch gezoomt wordt op de kaartlaag zodat al de features zichtbaar zijn.
  * @property {number} data-vl-auto-extent-max-zoom - Attribuut geeft aan tot op welk niveau er maximaal automatisch gezoomd wordt bij een extent.
  * @property {boolean} data-vl-cluster - Attribuut geeft aan of de features geclusterd moeten worden of niet.

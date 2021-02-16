@@ -7,7 +7,6 @@ import {VlMapLayer} from '/src/vl-map-layer.js';
  *
  * @extends VlMapLayer
  *
- * @property {string} data-vl-name - Attribuut bepaalt de kaartlaag naam.
  * @property {string} data-vl-url - Attribuut bepaalt de WMS url. Verplicht.
  * @property {string} data-vl-layers - Attribuut bepaalt de layers van de WMS. Verplicht.
  * @property {string} [data-vl-styles=] - Attribuut bepaalt de WMS stijlen.
@@ -19,6 +18,12 @@ import {VlMapLayer} from '/src/vl-map-layer.js';
  * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map-wms-layer.html|Demo}
  */
 export class VlMapWmsLayer extends VlMapLayer {
+  constructor(layerClass, sourceClass) {
+    super();
+    this._source = this.__createSource(sourceClass);
+    this._layer = this.__createLayer(layerClass);
+  }
+
   get _url() {
     const url = this.getAttribute('data-vl-url');
     if (!url) {
@@ -66,5 +71,15 @@ export class VlMapWmsLayer extends VlMapLayer {
         'VERSION': this._version,
       },
     };
+  }
+
+  __createLayer(LayerClass) {
+    const layer = new LayerClass(this._createLayerConfig(this._source));
+    layer.set('id', VlMapLayer._counter);
+    return layer;
+  }
+
+  __createSource(SourceClass) {
+    return new SourceClass(this._sourceConfig);
   }
 }

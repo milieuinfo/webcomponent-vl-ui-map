@@ -12,7 +12,6 @@ import {
  *
  * @extends VlMapVectorLayer
  *
- * @property {string} data-vl-name - Attribuut bepaalt de kaartlaag naam.
  * @property {string} data-vl-url - Attribuut bepaalt de WFS url. Verplicht.
  * @property {string} data-vl-layers - Attribuut bepaalt de layers van de WFS. Verplicht.
  *
