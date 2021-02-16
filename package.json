@@ -34,8 +34,7 @@
     "release": "npm explore vl-ui-util -- npm run release",
     "release:prepare": "npm explore vl-ui-util -- npm run release-component:prepare $(pwd) map",
     "release:testless": "np --yolo",
-    "demo": "http-server",
-    "autofix-eslint": "npm explore vl-ui-util -- npm run fix"
+    "demo": "http-server"
   },
   "dependencies": {
     "vl-mapactions": "^3.0.5",
