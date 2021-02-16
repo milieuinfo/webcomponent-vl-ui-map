@@ -27,6 +27,7 @@ export class VlMapLayer extends vlElement(HTMLElement) {
       await this.mapElement.ready;
       this.mapElement.addLayer(this._layer);
     }
+    this.__markAsReady();
   }
 
   static get _counter() {
@@ -135,7 +136,7 @@ export class VlMapLayer extends vlElement(HTMLElement) {
     this.dataset.vlIsLayer = true;
   }
 
-  _markAsReady() {
+  __markAsReady() {
     this.__ready = true;
   }
 }

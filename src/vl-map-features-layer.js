@@ -40,7 +40,6 @@ export class VlMapFeaturesLayer extends VlMapVectorLayer {
     if (this.mapElement) {
       this._autoZoomToExtent();
     }
-    this._markAsReady();
   }
 
   /**

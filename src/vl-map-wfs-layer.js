@@ -26,11 +26,6 @@ export class VlMapWfsLayer extends VlMapVectorLayer {
     this._layer = this._createLayer();
   }
 
-  async connectedCallback() {
-    await super.connectedCallback();
-    this._markAsReady();
-  }
-
   get _url() {
     const url = this.getAttribute('url');
     if (!url) {
