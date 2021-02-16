@@ -19,11 +19,6 @@ export class VlMapWmtsLayer extends VlMapLayer {
     this._layer = this._createLayer();
   }
 
-  async connectedCallback() {
-    await super.connectedCallback();
-    this._markAsReady();
-  }
-
   get _projection() {
     if (this.parentNode) {
       return this.parentNode._projection;

@@ -47,11 +47,6 @@ export class VlMapWmsLayer extends VlMapLayer {
     return Number(this.getAttribute('data-vl-opacity') || 1);
   }
 
-  async connectedCallback() {
-    await super.connectedCallback();
-    this._markAsReady();
-  }
-
   _createLayerConfig(source) {
     return {
       title: this._name,
