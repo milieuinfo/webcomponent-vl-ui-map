@@ -47,7 +47,7 @@ describe('vl-map-delete-action', async () => {
       const aantalFeatures = await layer.getNumberOfFeatures();
       return aantalFeatures == 3;
     });
-    await deleteAction.removeAllInRectangle([80000, 210000], [145000, 170000]);
+    await deleteAction.removeAllInRectangle([80000, 210000], [230000, 170000]);
     await driver.wait(async () => {
       const aantalFeatures = await layer.getNumberOfFeatures();
       return aantalFeatures == 0;
