@@ -7,9 +7,8 @@ class VlMapModifyAction extends VlMapAction {
     return new VlMapFeaturesLayer(this.driver, await this.driver.executeScript('return arguments[0].parentElement', this));
   }
 
-  async movePointByCoordinates(from, to ) {
+  async movePointByCoordinates(from, to) {
     const map = await this.getMap();
-    await map.scrollIntoView();
     await map.movePointByCoordinates(from, to );
   }
 }
