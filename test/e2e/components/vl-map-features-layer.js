@@ -10,6 +10,10 @@ class VlMapFeaturesLayer extends VlMapLayer {
     return JSON.parse(feature);
   }
 
+  async getNumberOfFeatures() {
+    return (await this.getFeatures()).length;
+  }
+
   async isClustered() {
     return this.hasAttribute('data-vl-cluster');
   }
