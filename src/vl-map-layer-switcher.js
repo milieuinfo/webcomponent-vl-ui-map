@@ -1,5 +1,6 @@
 import {vlElement} from '/node_modules/vl-ui-core/dist/vl-core.js';
 import '/node_modules/vl-ui-form-message/dist/vl-form-message.js';
+import '/node_modules/vl-ui-checkbox/dist/vl-checkbox.js';
 
 /**
  * VlMapLayerSwitcher

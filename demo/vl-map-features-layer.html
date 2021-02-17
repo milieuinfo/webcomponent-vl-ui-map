@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>vl-map-layer voorbeeld</title>
+    <title>vl-map-features-layer voorbeeld</title>
     <script type="module" src="/node_modules/vl-ui-demo/dist/vl-demo-all.js"></script>
     <script type="module" src="/node_modules/vl-ui-body/dist/vl-body.js"></script>
 
@@ -13,13 +13,13 @@
 </head>
 
 <body is="vl-body">
-    <vl-demo-page data-vl-webcomponent="vl-map-layer">
+    <vl-demo-page data-vl-webcomponent="vl-map-features-layer">
         <vl-demo data-vl-title="Kaart met kaartlaag met features">
             <vl-map id="map-with-standard-layer">
                 <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
                 <vl-map-baselayer-grb></vl-map-baselayer-grb>
                 <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
-                <vl-map-layer data-vl-name="layer" data-vl-features='
+                <vl-map-features-layer data-vl-name="layer" data-vl-features='
                     {
                         "type": "FeatureCollection",
                         "features": [{
@@ -43,7 +43,7 @@
                         }]
                     }'>
                     <vl-map-layer-circle-style></vl-map-layer-circle-style>
-                </vl-map-layer>
+                </vl-map-features-layer>
             </vl-map>
         </vl-demo>
 
@@ -52,7 +52,7 @@
                 <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
                 <vl-map-baselayer-grb></vl-map-baselayer-grb>
                 <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
-                <vl-map-layer data-vl-name="layer" data-vl-features='
+                <vl-map-features-layer data-vl-name="layer" data-vl-features='
                     {
                         "type": "FeatureCollection",
                         "features": [{
@@ -76,7 +76,7 @@
                         }]
                     }' data-vl-cluster data-vl-cluster-distance="100">
                     <vl-map-layer-circle-style></vl-map-layer-circle-style>
-                </vl-map-layer>
+                </vl-map-features-layer>
             </vl-map>
         </vl-demo>
 
@@ -85,7 +85,7 @@
                 <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
                 <vl-map-baselayer-grb></vl-map-baselayer-grb>
                 <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
-                <vl-map-layer data-vl-name="layer" data-vl-features='
+                <vl-map-features-layer data-vl-name="layer" data-vl-features='
                     {
                         "type": "FeatureCollection",
                         "features": [{
@@ -109,7 +109,7 @@
                         }]
                     }' data-vl-auto-extent data-vl-auto-extent-max-zoom="3">
                     <vl-map-layer-circle-style></vl-map-layer-circle-style>
-                </vl-map-layer>
+                </vl-map-features-layer>
             </vl-map>
         </vl-demo>
     </vl-demo-page>
