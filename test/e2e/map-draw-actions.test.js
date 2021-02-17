@@ -13,12 +13,16 @@ describe('vl-map-draw-action', async () => {
     const map = await vlMapPage.getMapWithDrawPointAction();
     const action = await vlMapPage.getDrawPointAction();
     const layers = await map.getLayers();
+    assert.isNotEmpty(layers);
     const layer = layers[0];
+
     let features = await layer.getFeatures();
     assert.lengthOf(features, 0);
+
     await action.draw();
     features = await layer.getFeatures();
     assert.lengthOf(features, 1);
+
     await action.draw({x: 100, y: 100});
     features = await layer.getFeatures();
     assert.lengthOf(features, 2);
@@ -28,12 +32,16 @@ describe('vl-map-draw-action', async () => {
     const map = await vlMapPage.getMapWithDrawLineAction();
     const action = await vlMapPage.getDrawLineAction();
     const layers = await map.getLayers();
+    assert.isNotEmpty(layers);
     const layer = layers[0];
+
     let features = await layer.getFeatures();
     assert.lengthOf(features, 0);
+
     await action.draw();
     features = await layer.getFeatures();
     assert.lengthOf(features, 1);
+
     await action.draw({x: 50, y: 50}, {x: 100, y: 100});
     features = await layer.getFeatures();
     assert.lengthOf(features, 2);
@@ -43,12 +51,16 @@ describe('vl-map-draw-action', async () => {
     const map = await vlMapPage.getMapWithDrawPolygonAction();
     const action = await vlMapPage.getDrawPolygonAction();
     const layers = await map.getLayers();
+    assert.isNotEmpty(layers);
     const layer = layers[0];
+
     let features = await layer.getFeatures();
     assert.lengthOf(features, 0);
+
     await action.draw();
     features = await layer.getFeatures();
     assert.lengthOf(features, 1);
+
     await action.draw({x: 30, y: 30}, {x: 30, y: 60}, {x: 60, y: 60}, {x: 60, y: 30});
     features = await layer.getFeatures();
     assert.lengthOf(features, 2);

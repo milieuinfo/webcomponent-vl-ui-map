@@ -17,7 +17,7 @@
         <vl-demo data-vl-title="Kaart met delete actie">
             <vl-map id="map-with-delete-action">
                 <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
-                <vl-map-layer id="layer" data-vl-name="Laag" data-vl-features='
+                <vl-map-features-layer id="layer" data-vl-name="Laag" data-vl-features='
                     {
                         "type": "FeatureCollection",
                         "features": [{
@@ -44,14 +44,14 @@
                         }]
                     }'>
                     <vl-map-delete-action id="delete-action" data-vl-default-active></vl-map-delete-action>
-                </vl-map-layer>
+                </vl-map-features-layer>
             </vl-map>
         </vl-demo>
 
         <vl-demo data-vl-title="Kaart met delete actie met custom stijl">
             <vl-map id="map-with-delete-action-custom-stijl">
                 <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
-                <vl-map-layer id="layer" data-vl-name="Laag" data-vl-features='
+                <vl-map-features-layer id="layer" data-vl-name="Laag" data-vl-features='
                     {
                         "type": "FeatureCollection",
                         "features": [{
@@ -77,17 +77,17 @@
                             }
                         }]
                     }'>
-                    
+
                     <vl-map-delete-action id="delete-action" data-vl-default-active>
                     	<vl-map-layer-style data-vl-text-color="#000" data-vl-color="#FFE615" data-vl-border-color="#FFE615"></vl-map-layer-style>
                     </vl-map-delete-action>
-                </vl-map-layer>
+                </vl-map-features-layer>
             </vl-map>
         </vl-demo>
 
     </vl-demo-page>
-    
-    
+
+
 </body>
 
 </html>

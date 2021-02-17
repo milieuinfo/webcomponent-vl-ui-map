@@ -1,8 +1,13 @@
 const {VlElement} = require('vl-ui-core').Test;
 const {By} = require('vl-ui-core').Test.Setup;
 const VlMapBaseLayer = require('./vl-map-baselayer');
-const VlMapLayer = require('./vl-map-layer');
 const VlMapSearch = require('./vl-map-search');
+const VlMapLayers = require('./vl-map-layers');
+const VlMapWfsLayer = require('./vl-map-wfs-layer');
+const VlMapTiledWmsLayer = require('./vl-map-tiled-wms-layer');
+const VlMapImageWmsLayer = require('./vl-map-image-wms-layer');
+const VlMapWmtsLayer = require('./vl-map-wmts-layer');
+const VlMapFeaturesLayer = require('./vl-map-features-layer');
 const VlMapOverviewMap = require('./vl-map-overview-map');
 const VlMapLayerSwitcher = require('./vl-map-layer-switcher');
 const VlMapSideSheet = require('./vl-map-side-sheet');
@@ -10,14 +15,36 @@ const VlMapSideSheet = require('./vl-map-side-sheet');
 class VlMap extends VlElement {
   async getBaseLayers() {
     const childElements = await this.findElements(By.css(':scope > *'));
-    const tagNames = await Promise.all(childElements.map((element) => element.getTagName()));
-    const baseLayerElements = childElements.filter((element, index) => tagNames[index].startsWith('vl-map-baselayer'));
-    return Promise.all(baseLayerElements.map((element) => new VlMapBaseLayer(this.driver, element)));
+    const tagNames = await Promise.all(
+        childElements.map((element) => element.getTagName()));
+    const baseLayerElements = childElements.filter(
+        (element, index) => tagNames[index].startsWith('vl-map-baselayer'));
+    return Promise.all(baseLayerElements.map(
+        (element) => new VlMapBaseLayer(this.driver, element)));
   }
 
   async getLayers() {
-    const layerElements = await this.findElements(By.css(':scope > vl-map-layer'));
-    return Promise.all(layerElements.map((element) => new VlMapLayer(this.driver, element)));
+    return VlMapLayers.getLayers(this);
+  }
+
+  async getFeaturesLayers() {
+    return VlMapLayers.getLayersOfType(this, VlMapFeaturesLayer);
+  }
+
+  async getWfsLayers() {
+    return VlMapLayers.getLayersOfType(this, VlMapWfsLayer);
+  }
+
+  async getTiledWmsLayers() {
+    return VlMapLayers.getLayersOfType(this, VlMapTiledWmsLayer);
+  }
+
+  async getImageWmsLayers() {
+    return VlMapLayers.getLayersOfType(this, VlMapImageWmsLayer);
+  }
+
+  async getWmtsLayers() {
+    return VlMapLayers.getLayersOfType(this, VlMapWmtsLayer);
   }
 
   async isEscapeKeyDisabled() {
@@ -47,7 +74,9 @@ class VlMap extends VlElement {
   }
 
   async getActiveBaseLayerTitle() {
-    return this.driver.executeScript(`return arguments[0].map.baseLayers.find((layer) => layer.getVisible()).get('title')`, this);
+    return this.driver.executeScript(
+        `return arguments[0].map.baseLayers.find((layer) => layer.getVisible()).get('title')`,
+        this);
   }
 
   async getSideSheet() {
@@ -83,7 +112,8 @@ class VlMap extends VlElement {
   }
 
   async getZoom() {
-    return this.driver.executeScript(`return arguments[0].map.getView().getZoom()`, this);
+    return this.driver.executeScript(
+        `return arguments[0].map.getView().getZoom()`, this);
   }
 
   async hasZoom(zoom) {
@@ -112,6 +142,18 @@ class VlMap extends VlElement {
 
   async isFullScreen() {
     return this.driver.executeScript(`return document.fullscreen`);
+  }
+
+  async isReady() {
+    await this.driver.wait(async () => {
+      try {
+        await this.driver.wait(this.driver.executeScript('return arguments[0].ready', this), 1000);
+        return true;
+      } catch (error) {
+        return false;
+      }
+    });
+    return true;
   }
 
   async _getMap() {

@@ -1,33 +1,37 @@
 const VlMapLayerStyle = require('../components/vl-map-layer-style');
-const {Page, Config} = require('vl-ui-core').Test;
+const {Config} = require('vl-ui-core').Test;
+const {By} = require('vl-ui-core').Test.Setup;
+const VlMapPage = require('./vl-map.page');
 
-class VlMapLayerStylePage extends Page {
-  async getStandardStyle() {
-    return this._getStyle('#map-standard-style');
+class VlMapLayerStylePage extends VlMapPage {
+  async getStandardMap() {
+    return this._getMap('#map-standard');
   }
 
-  async getLabelStyle() {
-    return this._getStyle('#map-label-style');
+  async getLabelMap() {
+    return this._getMap('#map-label');
   }
 
-  async getAdjustedStyle() {
-    return this._getStyle('#map-adjusted-style');
+  async getAdjustedMap() {
+    return this._getMap('#map-adjusted');
   }
 
-  async getStyleRedFromLayerWithMultipleStyles() {
-    return this._getStyle('#map-layer-style-red');
+  async getMultipleStylesMap() {
+    return this._getMap('#map-multiple-styles');
   }
 
-  async getStyleGreenFromLayerWithMultipleStyles() {
-    return this._getStyle('#map-layer-style-green');
+  async getLayerStyle(map) {
+    const styles = await this.getLayerStyles(map);
+    return styles[0];
+  }
+
+  async getLayerStyles(map) {
+    const styles = await map.findElements(By.css('vl-map-layer-style'));
+    return Promise.all(styles.map((style) => new VlMapLayerStyle(this.driver, style)));
   }
 
   async load() {
     await super.load(Config.baseUrl + '/demo/vl-map-layer-style.html');
-  }
-
-  async _getStyle(selector) {
-    return new VlMapLayerStyle(this.driver, selector);
   }
 }
 

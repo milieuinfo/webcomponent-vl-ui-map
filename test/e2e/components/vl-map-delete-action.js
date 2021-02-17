@@ -1,9 +1,9 @@
 const VlMapAction = require('./vl-map-action');
-const VlMapLayer = require('./vl-map-layer');
+const VlMapLayers = require('./vl-map-layers');
 
 class VlMapDeleteAction extends VlMapAction {
   async getLayer() {
-    return new VlMapLayer(this.driver, await this.driver.executeScript('return arguments[0].parentElement', this));
+    return await VlMapLayers.asLayer(this.driver, await this.parent());
   }
 
   async removeFeature(id) {
