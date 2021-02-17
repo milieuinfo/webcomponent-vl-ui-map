@@ -16,6 +16,9 @@
 <vl-demo-page data-vl-webcomponent="vl-map-tiled-wms-layer">
   <vl-demo data-vl-title="Kaart met Tiled WMS kaartlaag">
     <vl-map id="map-with-tiled-wms-layer">
+      <vl-map-side-sheet>
+        <vl-map-layer-switcher></vl-map-layer-switcher>
+      </vl-map-side-sheet>
       <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
       <vl-map-tiled-wms-layer data-vl-name="Gemeentegrenzen"
                               data-vl-version="1.3.0"
@@ -27,6 +30,9 @@
   </vl-demo>
   <vl-demo data-vl-title="Kaart met Image WMS kaartlaag">
     <vl-map id="map-with-image-wms-layer">
+      <vl-map-side-sheet>
+        <vl-map-layer-switcher></vl-map-layer-switcher>
+      </vl-map-side-sheet>
       <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
       <vl-map-image-wms-layer data-vl-name="Beschermingszones"
                         data-vl-version="1.3.0"
