@@ -10,22 +10,9 @@ describe('vl-map-modify-action', async () => {
     return vlMapPage.load();
   });
 
-  it('als gebruiker kan ik een polygoon aanpassen op een kaart', async () => {
-    const action = await vlMapPage.getModifyPolygonAction();
-
-    const featuresLayer = await action.getFeaturesLayer();
-    await getDriver().wait(async () => (await featuresLayer.getNumberOfFeatures()) === 1);
-    const geometry = (await featuresLayer.getFeature(1)).geometry;
-    const gent = geometry.coordinates[0][0];
-
-    await action.movePointByCoordinates(gent, willebroek);
-
-    await getDriver().wait(async () => (await featuresLayer.getNumberOfFeatures()) === 1);
-    assert.lengthOf(await featuresLayer.getFeatures(), 1);
-
-    const modifiedGeometry = (await featuresLayer.getFeature(1)).geometry;
-    assert.include(modifiedGeometry, {type: 'Polygon'});
-    assert.notDeepEqual(modifiedGeometry, geometry);
+  it('als gebruiker zie ik dat de aanpas actie actief staat', async () => {
+    const action = await vlMapPage.getModifyPointAction();
+    await assert.eventually.isTrue(action.isActive());
   });
 
   it('als gebruiker kan ik een punt aanpassen op een kaart', async () => {
@@ -66,8 +53,21 @@ describe('vl-map-modify-action', async () => {
     assert.notDeepEqual(modifiedGeometry, geometry);
   });
 
-  it('als gebruiker zie ik dat de aanpas actie actief staat', async () => {
-    const action = await vlMapPage.getModifyPointAction();
-    await assert.eventually.isTrue(action.isActive());
+  it('als gebruiker kan ik een polygoon aanpassen op een kaart', async () => {
+    const action = await vlMapPage.getModifyPolygonAction();
+
+    const featuresLayer = await action.getFeaturesLayer();
+    await getDriver().wait(async () => (await featuresLayer.getNumberOfFeatures()) === 1);
+    const geometry = (await featuresLayer.getFeature(1)).geometry;
+    const gent = geometry.coordinates[0][0];
+
+    await action.movePointByCoordinates(gent, willebroek);
+
+    await getDriver().wait(async () => (await featuresLayer.getNumberOfFeatures()) === 1);
+    assert.lengthOf(await featuresLayer.getFeatures(), 1);
+
+    const modifiedGeometry = (await featuresLayer.getFeature(1)).geometry;
+    assert.include(modifiedGeometry, {type: 'Polygon'});
+    assert.notDeepEqual(modifiedGeometry, geometry);
   });
 });
