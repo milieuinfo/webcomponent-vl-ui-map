@@ -41,10 +41,6 @@ class VlMapSelectActionPage extends VlMapPage {
   async _getSelectAction(selector) {
     return new VlMapSelectAction(this.driver, selector);
   }
-
-  async _getLayer(LayerClass, selector) {
-    return new LayerClass(this.driver, selector);
-  }
 }
 
 module.exports = VlMapSelectActionPage;

@@ -18,10 +18,6 @@ class VlMapDeleteActionPage extends VlMapPage {
   async _getDeleteAction(selector) {
     return new VlMapDeleteAction(this.driver, selector);
   }
-
-  async _getLayer(LayerClass, selector) {
-    return new LayerClass(this.driver, selector);
-  }
 }
 
 module.exports = VlMapDeleteActionPage;
