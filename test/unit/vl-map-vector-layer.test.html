@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="../../../@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../../../web-component-tester/browser.js"></script>
+
+  <script type="module" src="../../src/vl-map-all.js"></script>
+  <script src="/node_modules/sinon/pkg/sinon.js"></script>
+</head>
+
+<body>
+  <test-fixture id="vl-map-features-layer-fixture">
+    <template>
+      <vl-map>
+        <vl-map-features-layer
+          data-vl-name="testlaag"
+          data-vl-min-resolution="2"
+          data-vl-max-resolution="4"
+          data-vl-features='{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[147055,197908]},"properties":null,"id":1}]}'>
+        </vl-map-features-layer>
+        <vl-map-layer-style data-vl-color="rgba(255,0,0,1)"></vl-map-layer-style>
+      </vl-map>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="vl-map-wfs-layer-fixture">
+    <template>
+      <vl-map>
+        <vl-map-wfs-layer 
+          data-vl-name="foobar"
+          data-vl-url="http://dummy/wfs"
+          data-vl-layers="layer1,layer2">
+        </vl-map-wfs-layer>
+        <vl-map-layer-style data-vl-color="rgba(255,0,0,1)"></vl-map-layer-style>
+      </vl-map>
+    </template>
+  </test-fixture>
+
+  <script type="module">
+    import {OlStyle, OlStyleFill} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
+
+    suite('vl-map-vector-layer', () => {
+      const tags = ['vl-map-features-layer', 'vl-map-wfs-layer'];
+    
+      setup((done) => {
+        Promise.all(tags.map((tag) => customElements.whenDefined(tag))).then(() => done());
+      });
+
+      const LAYER_SELECTOR = '[data-vl-is-layer]';
+    
+      const getLayer = (map) => {
+        return map.querySelector(LAYER_SELECTOR);
+      };
+
+      test('de stijl kan op de layer gezet worden met een VlMapLayerStyle object', (done) => {
+        tags.forEach((tag, index) => {
+          const map = fixture(`${tag}-fixture`);
+          map.ready.then(() => {
+            const layer = getLayer(map);
+            layer.style = map.querySelector('vl-map-layer-style');
+            const style = layer.style()[0];
+            assert.equal(style.getFill().getColor(), 'rgba(255,0,0,1)');
+            assert.equal(style.getStroke().getColor(), 'rgba(2, 85, 204, 1)');
+
+            if (tags.length == index+1) {
+              done();
+            }
+          });
+        });
+      });
+
+      test('de stijl kan op de layer gezet worden met een OpenLayers stijl object', (done) => {
+        tags.forEach((tag, index) => {
+          const map = fixture(`${tag}-fixture`);
+          map.ready.then(() => {
+            const layer = getLayer(map);
+            const color = map.querySelector('vl-map-layer-style').getAttribute('data-vl-color');
+            layer.style = new OlStyle({fill: new OlStyleFill({color: color})});
+            assert.equal(layer.style.getFill().getColor(), color);
+
+            if (tags.length == index+1) {
+              done();
+            }
+          });
+        });
+      });
+
+      test('de stijl kan op de layer verwijderd worden met null', (done) => {
+        tags.forEach((tag, index) => {
+          const map = fixture(`${tag}-fixture`);
+          map.ready.then(() => {
+            const layer = getLayer(map);
+            const color = map.querySelector('vl-map-layer-style').getAttribute('data-vl-color');
+            layer.style = new OlStyle({fill: new OlStyleFill({color: color})});
+            layer.style = null;
+            assert.isNull(layer.style);
+
+            if (tags.length == index+1) {
+              done();
+            }
+          });
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

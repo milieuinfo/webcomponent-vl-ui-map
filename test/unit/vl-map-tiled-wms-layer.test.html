@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="../../../@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../../../web-component-tester/browser.js"></script>
+
+  <script type="module" src="../../src/vl-map-all.js"></script>
+  <script src="/node_modules/sinon/pkg/sinon.js"></script>
+</head>
+
+<body>
+  <test-fixture id="vl-map-tiled-wms-layer-fixture">
+    <template>
+      <vl-map>
+        <vl-map-tiled-wms-layer
+          data-vl-url="http://dummy/wms"
+          data-vl-layers="layer1,layer2">
+        </vl-map-tiled-wms-layer>
+      </vl-map>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="vl-map-tiled-wms-layer-adjusted-config-fixture">
+    <template>
+      <vl-map>
+        <vl-map-tiled-wms-layer
+          data-vl-url="http://dummy/wms-adjusted"
+          data-vl-layers="layer1"
+          data-vl-styles="style1,style2"
+          data-vl-version="1.1.1"
+          data-vl-opacity="0.75"
+          data-vl-min-resolution="10"
+          data-vl-max-resolution="1000"
+          data-vl-name="adjusted">
+        </vl-map-tiled-wms-layer>
+      </vl-map>
+    </template>
+  </test-fixture>
+
+  <script>
+    suite('vl-map-tiled-wms-layer', () => {
+      const should = chai.should();
+
+      setup((done) => {
+        customElements.whenDefined('vl-map-tiled-wms-layer').then(() => done());
+      });
+
+      test('wms tiled layer kan toegevoegd worden aan een map met de correcte configuratie', async () => {
+        const mapElement = fixture('vl-map-tiled-wms-layer-fixture');
+        const layerElement = mapElement.querySelector('vl-map-tiled-wms-layer');
+
+        await mapElement.ready;
+        should.exist(layerElement.layer);
+        const layer = layerElement.layer;
+        assert.equal(layer.getSource().getParams().LAYERS, 'layer1,layer2');
+        assert.equal(layer.getSource().getParams().STYLES, '');
+        assert.equal(layer.getSource().getParams().VERSION, '1.3.0');
+        assert.equal(layer.getSource().getUrls()[0], 'http://dummy/wms');
+        assert.equal(layer.getOpacity(), 1);
+      });
+
+      test('wms tiled layer kan toegevoegd worden met een aangepaste configuratie', async () => {
+        const mapElement = fixture('vl-map-tiled-wms-layer-adjusted-config-fixture');
+        const layerElement = mapElement.querySelector('vl-map-tiled-wms-layer');
+
+        await mapElement.ready;
+        should.exist(layerElement.layer);
+        const layer = layerElement.layer;
+        assert.equal(layer.getSource().getParams().LAYERS, 'layer1');
+        assert.equal(layer.getSource().getParams().STYLES, 'style1,style2');
+        assert.equal(layer.getSource().getParams().VERSION, '1.1.1');
+        assert.equal(layer.getSource().getUrls()[0], 'http://dummy/wms-adjusted');
+        assert.equal(layer.getOpacity(), 0.75);
+      });
+    });
+  </script>
+</body>
+
+</html>

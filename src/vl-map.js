@@ -91,7 +91,7 @@ export class VlMap extends vlElement(HTMLElement) {
    * @return {Object[]}
    */
   get nonBaseLayers() {
-    return [...this.querySelectorAll('vl-map-layer')];
+    return [...this.querySelectorAll('[data-vl-is-layer]')];
   }
 
   get disableEscapeKey() {

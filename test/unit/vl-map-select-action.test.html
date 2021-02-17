@@ -14,11 +14,11 @@
   <test-fixture id="vl-map-select-action-fixture">
     <template>
       <vl-map>
-        <vl-map-layer>
+        <vl-map-features-layer>
           <vl-map-select-action>
             <vl-map-layer-circle-style></vl-map-layer-circle-style>
           </vl-map-select-action>
-        </vl-map-layer>
+        </vl-map-features-layer>
       </vl-map>
     </template>
   </test-fixture>
@@ -29,23 +29,23 @@
 
     suite('vl-map-select-action', () => {
       const sandbox = sinon.createSandbox();
-    
+
       setup((done) => {
         customElements.whenDefined('vl-map-select-action').then(() => done());
       });
-    
+
       teardown(() => {
         sandbox.restore();
       });
-    
+
       test('een selecteer actie is een map actie', () => {
         assert.isTrue(VlMapSelectAction.isVlMapAction());
       });
-    
+
       test('controle van de selecteer actie configuratie', (done) => {
         const map = fixture('vl-map-select-action-fixture');
         const styleElement = map.querySelector('vl-map-layer-circle-style');
-        const layer = map.querySelector('vl-map-layer').layer;
+        const layer = map.querySelector('vl-map-features-layer').layer;
 
         map.ready.then(() => {
           const action = map.map.actions[0];
@@ -54,7 +54,7 @@
           done();
         });
       });
-    
+
       test('er kunnen features op de kaart gemarkeerd worden', (done) => {
         const map = fixture('vl-map-select-action-fixture');
         const actionElement = map.querySelector('vl-map-select-action');
@@ -67,7 +67,7 @@
           done();
         });
       });
-    
+
       test('de gemarkeerde features op de kaart kunnen gedemarkeerd worden', (done) => {
         const map = fixture('vl-map-select-action-fixture');
         const actionElement = map.querySelector('vl-map-select-action');
@@ -79,7 +79,7 @@
           done();
         });
       });
-    
+
       test('er kan een feature op de kaart geselecteerd worden', (done) => {
         const map = fixture('vl-map-select-action-fixture');
         const actionElement = map.querySelector('vl-map-select-action');

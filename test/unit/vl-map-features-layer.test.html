@@ -1,0 +1,205 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="../../../@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../../web-component-tester/browser.js"></script>
+
+    <script type="module" src="../../src/vl-map-all.js"></script>
+    <script src="/node_modules/sinon/pkg/sinon.js"></script>
+</head>
+
+<body>
+  <test-fixture id="vl-map-features-layer-fixture">
+    <template>
+      <vl-map>
+        <vl-map-features-layer></vl-map-features-layer>
+      </vl-map>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="vl-map-fixture">
+    <template>
+      <vl-map>
+        <vl-map-features-layer
+          data-vl-name="testlaag"
+          data-vl-min-resolution="2"
+          data-vl-max-resolution="4"
+          data-vl-features='{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[147055,197908]},"properties":null,"id":1}]}'>
+        </vl-map-features-layer>
+      </vl-map>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="vl-map-auto-extent-fixture">
+    <template>
+      <vl-map>
+        <vl-map-features-layer
+          data-vl-name="testlaag"
+          data-vl-features='{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[147055,197908]},"properties":null,"id":1}]}'
+          data-vl-auto-extent>
+        </vl-map-features-layer>
+      </vl-map>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="vl-map-auto-extent-max-zoom-fixture">
+    <template>
+      <vl-map>
+        <vl-map-features-layer
+          data-vl-name="testlaag"
+          data-vl-features='{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[147055,197908]},"properties":null,"id":1}]}'
+          data-vl-auto-extent
+          data-vl-auto-extent-max-zoom="3">
+        </vl-map-features-layer>
+      </vl-map>
+    </template>
+  </test-fixture>
+
+  <script type="module">
+    import {awaitUntil} from '/node_modules/vl-ui-core/dist/vl-core.js';
+    import {OlGeoJSON, OlFeature, OlPoint, OlStyle} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
+
+    suite('vl-map-features-layer', () => {
+      const sandbox = sinon.createSandbox();
+      const should = chai.should();
+      const geoJSON = new OlGeoJSON();
+
+      setup((done) => {
+        customElements.whenDefined('vl-map-features-layer').then(() => done());
+      });
+
+      teardown(() => {
+        sandbox.restore();
+      });
+
+      test('het features attribuut op de kaartlaag bevat dezelfde features als in de source', async () => {
+        const mapElement = fixture('vl-map-fixture');
+        const layerElement = mapElement.querySelector('vl-map-features-layer');
+
+        await mapElement.ready;
+        should.exist(layerElement.layer);
+
+        const layers = mapElement.map.getOverlayLayers();
+        assert.lengthOf(layers, 1);
+
+        const layer = layers[0];
+        assert.equal(geoJSON.writeFeatures(layer.getSource().getFeatures()), layerElement.getAttribute('features'));
+      });
+
+      test('na het toevoegen van de kaartlaag zal de kaart zoomen naar de extent van de kaartlaag indien de auto-extent geactiveerd werd', async () => {
+        let map = fixture('vl-map-fixture');
+        assert.deepEqual(map.map.getView().getCenter(), [140860.69299028325, 190532.7165957574]);
+
+        map = fixture('vl-map-auto-extent-fixture');
+        await awaitUntil(() => map.map.getView().getZoom() > 3).then(async () => {
+          assert.deepEqual(map.map.getView().getCenter(), [147055, 197908]);
+
+          map = fixture('vl-map-auto-extent-max-zoom-fixture');
+          await awaitUntil(() => map.map.getView().getZoom() === 3).then(() => {
+            assert.deepEqual(map.map.getView().getCenter(), [147055, 197908]);
+          });
+        });
+      });
+
+      test('het aanroepen van zoomToExtent zal de kaart doen inzoomen op de bounding box', async () => {
+        const map = fixture('vl-map-fixture');
+        const layerElement = map.querySelector('vl-map-features-layer');
+
+        await map.ready;
+        const view = map.map.getView();
+        assert.notDeepEqual(view.getCenter(), [147055, 197908]);
+
+        await layerElement.zoomToExtent();
+        assert.deepEqual(view.getCenter(), [147055, 197908]);
+        assert.isAbove(view.getZoom(), 3);
+
+        await layerElement.zoomToExtent(3);
+        assert.deepEqual(view.getCenter(), [147055, 197908]);
+        assert.equal(view.getZoom(), 3);
+      });
+
+      test('bij het toevoegen van een feature zal deze automatisch toegevoegd worden aan de laag en zal de kaart opnieuw zoomen naar de extent van de kaartlaag indien de auto-extent geactiveerd werd', async () => {
+        const map = fixture('vl-map-fixture');
+        const layerElement = map.querySelector('vl-map-features-layer');
+
+        await map.ready;
+        const layer = map.map.getOverlayLayers()[0];
+        assert.lengthOf(layer.getSource().getFeatures(), 1);
+        assert.equal(geoJSON.writeFeatures(layer.getSource().getFeatures()), layerElement.getAttribute('data-vl-features'));
+        assert.deepEqual(map.map.getView().getCenter(), [140860.69299028325, 190532.7165957574]);
+
+        layerElement.setAttribute('data-vl-features', '{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[147055,197908]},"properties":null},{"type":"Feature","geometry":{"type":"Point","coordinates":[157055,207908]},"properties":null}]}');
+        layerElement.setAttribute('data-vl-auto-extent', '');
+        await awaitUntil(() => {
+          const layer = map.map.getOverlayLayers()[0];
+          const feature = geoJSON.writeFeatures(layer.getSource().getFeatures());
+          const hasCorrectFeatureLength = layer.getSource().getFeatures().length === 2;
+          const hasCorrectFeature = feature === layerElement.getAttribute('data-vl-features');
+          const hasCorrectView = map.map.getView().getCenter()[0] == 152055 && map.map.getView().getCenter()[1] == 202908;
+          return hasCorrectFeatureLength && hasCorrectFeature && hasCorrectView;
+        });
+      });
+
+      test('kan de boundingbox opvragen van de features op de laag', async () => {
+        const map = fixture('vl-map-features-layer-fixture');
+        const layer = map.querySelector('vl-map-features-layer');
+        await map.ready;
+        const extent = sandbox.spy();
+        layer.setAttribute('features', '{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[147055,197908]},"properties":null},{"type":"Feature","geometry":{"type":"Point","coordinates":[157055,207908]},"properties":null}]}');
+
+        sandbox.stub(layer.source, 'getExtent').returns(extent);
+        const boundingBox = layer.__boundingBox;
+        assert.equal(boundingBox, extent);
+      });
+
+      test('kan een feature verkrijgen via id', async () => {
+        const map = fixture('vl-map-fixture');
+        const layer = map.querySelector('vl-map-features-layer');
+        await map.ready;
+        should.exist(layer.getFeature(1));
+        should.not.exist(layer.getFeature(2));
+      });
+
+      test('kan een cluster verkrijgen via een feature id in de cluster', async () => {
+        const map = fixture('vl-map-fixture');
+        const layer = map.querySelector('vl-map-features-layer');
+        await map.ready;
+        const feature1 = new OlFeature({geometry: new OlPoint([109100, 204175])});
+        const feature2 = new OlFeature({geometry: new OlPoint([109100, 204175])});
+        const feature3 = new OlFeature({geometry: new OlPoint([109100, 204175])});
+        feature1.setId(1);
+        feature2.setId(2);
+        feature3.setId(3);
+        const cluster1 = new OlFeature({});
+        const cluster2 = new OlFeature({});
+        cluster1.set('features', [feature1, feature2]);
+        cluster2.set('features', [feature3]);
+        layer.setAttribute('data-vl-cluster', '');
+        layer.layer.getSource().addFeatures([cluster1, cluster2]);
+        assert.deepEqual(layer.getCluster(1), cluster1);
+        assert.deepEqual(layer.getCluster(2), cluster1);
+        assert.deepEqual(layer.getCluster(3), cluster2);
+      });
+
+      test('al de feature specifieke stijl kan verwijderd worden', async () => {
+        const map = fixture('vl-map-features-layer-fixture');
+        const layer = map.querySelector('vl-map-features-layer');
+        await map.ready;
+        const feature1 = new OlFeature();
+        const feature2 = new OlFeature();
+        feature1.setStyle(new OlStyle({}));
+        feature2.setStyle(new OlStyle({}));
+        const features = [feature1, feature2];
+        layer.setAttribute('features', geoJSON.writeFeatures(features));
+
+        layer.removeFeaturesStyle();
+        assert.isNull(layer.features[0].getStyle());
+        assert.isNull(layer.features[1].getStyle());
+      });
+    });
+  </script>
+</body>
+
+</html>
