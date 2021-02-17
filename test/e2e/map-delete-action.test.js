@@ -3,10 +3,8 @@ const VlMapDeleteActionPage = require('./pages/vl-map-delete-action.page');
 
 describe('vl-map-delete-action', async () => {
   let vlMapPage;
-  let driver;
 
   beforeEach(() => {
-    driver = getDriver();
     vlMapPage = new VlMapDeleteActionPage(getDriver());
     return vlMapPage.load();
   });
