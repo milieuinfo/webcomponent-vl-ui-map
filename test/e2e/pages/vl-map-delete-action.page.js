@@ -1,5 +1,4 @@
 const VlMapDeleteAction = require('../components/vl-map-delete-action');
-const VlMapLayer = require('../components/vl-map-layer');
 const {Config} = require('vl-ui-core').Test;
 const VlMapPage = require('./vl-map.page');
 
@@ -20,8 +19,8 @@ class VlMapDeleteActionPage extends VlMapPage {
     return new VlMapDeleteAction(this.driver, selector);
   }
 
-  async _getLayer(selector) {
-    return new VlMapLayer(this.driver, selector);
+  async _getLayer(LayerClass, selector) {
+    return new LayerClass(this.driver, selector);
   }
 }
 
