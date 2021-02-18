@@ -2,11 +2,13 @@ const {assert, getDriver} = require('vl-ui-core').Test.Setup;
 const VlMapModifyActionsPage = require('./pages/vl-map-modify-actions.page');
 
 describe('vl-map-modify-action', async () => {
+  let driver;
   let vlMapPage;
   const willebroek = [150390.63, 193371.12];
 
   before(() => {
-    vlMapPage = new VlMapModifyActionsPage(getDriver());
+    driver = getDriver();
+    vlMapPage = new VlMapModifyActionsPage(driver);
     return vlMapPage.load();
   });
 
@@ -19,15 +21,15 @@ describe('vl-map-modify-action', async () => {
     const action = await vlMapPage.getModifyPointAction();
 
     const featuresLayer = await action.getFeaturesLayer();
-    await getDriver().wait(async () => (await featuresLayer.getNumberOfFeatures()) === 2);
+    await driver.wait(async () => (await featuresLayer.getNumberOfFeatures()) === 2);
     const geometry1 = (await featuresLayer.getFeature(1)).geometry;
     const mechelen = geometry1.coordinates;
     const feature2 = await featuresLayer.getFeature(2);
 
     await action.movePointByCoordinates(mechelen, willebroek);
 
-    await getDriver().wait(async () => (await featuresLayer.getNumberOfFeatures()) === 2);
-    await getDriver().wait(async () => ((await featuresLayer.getFeature(1)).geometry !== geometry1), 10000);
+    await driver.wait(async () => (await featuresLayer.getNumberOfFeatures()) === 2);
+    await driver.wait(async () => ((await featuresLayer.getFeature(1)).geometry !== geometry1), 10000);
 
     const modifiedGeometry = (await featuresLayer.getFeature(1)).geometry;
     assert.include(modifiedGeometry, {type: 'Point'});
@@ -39,14 +41,14 @@ describe('vl-map-modify-action', async () => {
     const action = await vlMapPage.getModifyLineAction();
 
     const featuresLayer = await action.getFeaturesLayer();
-    await getDriver().wait(async () => (await featuresLayer.getNumberOfFeatures()) === 1);
+    await driver.wait(async () => (await featuresLayer.getNumberOfFeatures()) === 1);
     const geometry = (await featuresLayer.getFeature(1)).geometry;
     const antwerpen = geometry.coordinates[1];
 
     await action.movePointByCoordinates(antwerpen, willebroek);
 
-    await getDriver().wait(async () => (await featuresLayer.getNumberOfFeatures()) === 1);
-    await getDriver().wait(async () => ((await featuresLayer.getFeature(1)).geometry !== geometry), 10000);
+    await driver.wait(async () => (await featuresLayer.getNumberOfFeatures()) === 1);
+    await driver.wait(async () => ((await featuresLayer.getFeature(1)).geometry !== geometry), 10000);
 
     const modifiedGeometry = (await featuresLayer.getFeature(1)).geometry;
     assert.include(modifiedGeometry, {type: 'LineString'});
@@ -57,14 +59,14 @@ describe('vl-map-modify-action', async () => {
     const action = await vlMapPage.getModifyPolygonAction();
 
     const featuresLayer = await action.getFeaturesLayer();
-    await getDriver().wait(async () => (await featuresLayer.getNumberOfFeatures()) === 1);
+    await driver.wait(async () => (await featuresLayer.getNumberOfFeatures()) === 1);
     const geometry = (await featuresLayer.getFeature(1)).geometry;
     const gent = geometry.coordinates[0][0];
 
     await action.movePointByCoordinates(gent, willebroek);
 
-    await getDriver().wait(async () => (await featuresLayer.getNumberOfFeatures()) === 1);
-    await getDriver().wait(async () => ((await featuresLayer.getFeature(1)).geometry !== geometry), 10000);
+    await driver.wait(async () => (await featuresLayer.getNumberOfFeatures()) === 1);
+    await driver.wait(async () => ((await featuresLayer.getFeature(1)).geometry !== geometry), 10000);
 
     const modifiedGeometry = (await featuresLayer.getFeature(1)).geometry;
     assert.include(modifiedGeometry, {type: 'Polygon'});
