@@ -58,7 +58,6 @@ export class VlMapLayerSwitcher extends vlElement(HTMLElement) {
     return this._slot.assignedElements().filter((input) => input.hasAttribute('data-vl-layer'));
   }
 
-
   get _mapElement() {
     return this.closest('vl-map');
   }

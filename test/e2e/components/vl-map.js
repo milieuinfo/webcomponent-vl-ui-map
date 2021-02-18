@@ -1,12 +1,13 @@
 const {VlElement} = require('vl-ui-core').Test;
 const {By} = require('vl-ui-core').Test.Setup;
 const VlMapBaseLayer = require('./vl-map-baselayer');
-const VlMapFeaturesLayer = require('./vl-map-features-layer');
-const VlMapWmtsLayer = require('./vl-map-wmts-layer');
-const VlMapImageWmsLayer = require('./vl-map-image-wms-layer');
-const VlMapTiledWmsLayer = require('./vl-map-tiled-wms-layer');
-const VlMapWfsLayer = require('./vl-map-wfs-layer');
 const VlMapSearch = require('./vl-map-search');
+const VlMapLayers = require('./vl-map-layers');
+const VlMapWfsLayer = require('./vl-map-wfs-layer');
+const VlMapTiledWmsLayer = require('./vl-map-tiled-wms-layer');
+const VlMapImageWmsLayer = require('./vl-map-image-wms-layer');
+const VlMapWmtsLayer = require('./vl-map-wmts-layer');
+const VlMapFeaturesLayer = require('./vl-map-features-layer');
 const VlMapOverviewMap = require('./vl-map-overview-map');
 const VlMapLayerSwitcher = require('./vl-map-layer-switcher');
 const VlMapSideSheet = require('./vl-map-side-sheet');
@@ -23,39 +24,27 @@ class VlMap extends VlElement {
   }
 
   async getLayers() {
-    const featuresLayers = await this.getFeaturesLayers();
-    const wmtsLayers = await this.getWmtsLayers();
-    const imageWmsLayers = await this.getImageWmsLayers();
-    const tiledWmsLayers = await this.getTiledWmsLayers();
-    const wfsLayers = await this.getWfsLayers();
-    return featuresLayers.concat(wmtsLayers).concat(imageWmsLayers).concat(tiledWmsLayers).concat(wfsLayers);
-  }
-
-  async getWmtsLayers() {
-    return this._getLayersOfType(VlMapWmtsLayer);
-  }
-
-  async getImageWmsLayers() {
-    return this._getLayersOfType(VlMapImageWmsLayer);
-  }
-
-  async getTiledWmsLayers() {
-    return this._getLayersOfType(VlMapTiledWmsLayer);
-  }
-
-  async getWfsLayers() {
-    return this._getLayersOfType(VlMapWfsLayer);
+    return VlMapLayers.getLayers(this);
   }
 
   async getFeaturesLayers() {
-    return this._getLayersOfType(VlMapFeaturesLayer);
+    return VlMapLayers.getLayersOfType(this, VlMapFeaturesLayer);
   }
 
-  async _getLayersOfType(LayerClass) {
-    const layerElements = await this.findElements(
-        By.css(`:scope > ${LayerClass.TAG}`));
-    return Promise.all(
-        layerElements.map((element) => new LayerClass(this.driver, element)));
+  async getWfsLayers() {
+    return VlMapLayers.getLayersOfType(this, VlMapWfsLayer);
+  }
+
+  async getTiledWmsLayers() {
+    return VlMapLayers.getLayersOfType(this, VlMapTiledWmsLayer);
+  }
+
+  async getImageWmsLayers() {
+    return VlMapLayers.getLayersOfType(this, VlMapImageWmsLayer);
+  }
+
+  async getWmtsLayers() {
+    return VlMapLayers.getLayersOfType(this, VlMapWmtsLayer);
   }
 
   async isEscapeKeyDisabled() {
@@ -154,12 +143,9 @@ class VlMap extends VlElement {
   }
 
   async clickOnCoordinates(coordinates) {
-    const pixels = await this._getPixelsFromCoordinate(coordinates);
-    await this.driver.actions().move({
-      origin: this,
-      x: pixels.x,
-      y: pixels.y,
-    }).click().perform();
+    const pixel = await this.driver.executeScript(`return arguments[0].map.getPixelFromCoordinate(${JSON.stringify(coordinates)})`, this);
+    const movePoint = await this._moveToPointOnMap(pixel);
+    await this.driver.actions().move(movePoint).click().perform();
   }
 
   /**
@@ -229,6 +215,29 @@ class VlMap extends VlElement {
 
   async _getToggleFullscreenButton() {
     return this.shadowRoot.findElement(By.css('.ol-full-screen'));
+  }
+
+  async _moveToPointOnMap(pixel) {
+    const rect = await this.getRect();
+    return {
+      origin: this,
+      x: Math.round(pixel[0] - (rect.width / 2)),
+      y: Math.round(pixel[1] - (rect.height / 2)),
+      duration: 1000,
+    };
+  }
+
+  async dragRectangle(topLeft, bottomRight) {
+    const pixelStart = await this.driver.executeScript(`return arguments[0].map.getPixelFromCoordinate(${JSON.stringify(topLeft)})`, this);
+    const pixelEnd = await this.driver.executeScript(`return arguments[0].map.getPixelFromCoordinate(${JSON.stringify(bottomRight)})`, this);
+    const moveStart = await this._moveToPointOnMap(pixelStart);
+    const moveEnd = await this._moveToPointOnMap(pixelEnd);
+    return this.driver.actions()
+        .move(moveStart)
+        .press()
+        .move(moveEnd)
+        .release()
+        .perform();
   }
 }
 

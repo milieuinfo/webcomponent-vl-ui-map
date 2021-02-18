@@ -22,7 +22,7 @@ import {VlMapSideSheetMenu} from '../dist/vl-map-side-sheet-menu.src.js';
 import {VlMapSideSheetMenuItem} from '../dist/vl-map-side-sheet-menu-item.src.js';
 
 Promise.all([
-  awaitScript('vl-map-proj4', 'proj4/dist/proj4.js'),
+  awaitScript('vl-map-proj4', '/node_modules/proj4/dist/proj4.js'),
 ]).then(() => {
   define('vl-map', VlMap);
   define('vl-map-overview-map', VlMapOverviewMap);
