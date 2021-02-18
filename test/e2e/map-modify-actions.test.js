@@ -13,15 +13,16 @@ describe('vl-map-modify-action', async () => {
   });
 
   it('als gebruiker zie ik dat de aanpas actie actief staat', async () => {
-    const action = await vlMapPage.getModifyPointAction();
+    const map = await vlMapPage.getMapWithModifyPointAction();
+    const action = await vlMapPage.getModifyAction(map);
     await assert.eventually.isTrue(action.isActive());
   });
 
   it('als gebruiker kan ik een punt aanpassen op een kaart', async () => {
-    const action = await vlMapPage.getModifyPointAction();
+    const map = await vlMapPage.getMapWithModifyPointAction();
+    const action = await vlMapPage.getModifyAction(map);
 
     const featuresLayer = await action.getFeaturesLayer();
-    await driver.wait(async () => (await featuresLayer.getNumberOfFeatures()) === 2);
     const geometry1 = (await featuresLayer.getFeature(1)).geometry;
     const mechelen = geometry1.coordinates;
     const feature2 = await featuresLayer.getFeature(2);
@@ -38,10 +39,10 @@ describe('vl-map-modify-action', async () => {
   });
 
   it('als gebruiker kan ik een lijn aanpassen op een kaart', async () => {
-    const action = await vlMapPage.getModifyLineAction();
+    const map = await vlMapPage.getMapWithModifyLineAction();
+    const action = await vlMapPage.getModifyAction(map);
 
     const featuresLayer = await action.getFeaturesLayer();
-    await driver.wait(async () => (await featuresLayer.getNumberOfFeatures()) === 1);
     const geometry = (await featuresLayer.getFeature(1)).geometry;
     const antwerpen = geometry.coordinates[1];
 
@@ -56,10 +57,10 @@ describe('vl-map-modify-action', async () => {
   });
 
   it('als gebruiker kan ik een polygoon aanpassen op een kaart', async () => {
-    const action = await vlMapPage.getModifyPolygonAction();
+    const map = await vlMapPage.getMapWithModifyPolygonAction();
+    const action = await vlMapPage.getModifyAction(map);
 
     const featuresLayer = await action.getFeaturesLayer();
-    await driver.wait(async () => (await featuresLayer.getNumberOfFeatures()) === 1);
     const geometry = (await featuresLayer.getFeature(1)).geometry;
     const gent = geometry.coordinates[0][0];
 
