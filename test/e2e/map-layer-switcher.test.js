@@ -52,5 +52,57 @@ describe('vl-map-layer-switcher', async () => {
     await driver.wait(async () => await checkbox.isDisabled());
     await assert.eventually.isTrue(checkbox.isDisabled());
   });
+  
+  it('als gebruiker kan ik een wfs kaartlaag tonen en verbergen op het juiste zoom niveau', async () => {
+    const map = await vlMapPage.getMapWithWfsLayerAndSwitcher();
+  
+    const sideSheet = await map.getSideSheet();
+    const layerSwitcher = await map.getLayerSwitcher();
+    await sideSheet.open();
+    const checkbox = await layerSwitcher.getCheckboxForLayer('wfs-layer');
+  
+    await driver.wait(async () => await checkbox.isDisabled());
+    await assert.eventually.isTrue(checkbox.isDisabled());
+    
+    do {await map.zoomIn()} while (await checkbox.isDisabled());
+    await assert.eventually.isTrue(checkbox.isChecked());
+    await assert.eventually.isTrue((await map.getWfsLayers())[0].isVisible());
+  
+    await checkbox.click();
+    await assert.eventually.isFalse((await map.getWfsLayers())[0].isVisible());
+  });
+  
+  it('als gebruiker kan ik een wms kaartlaag tonen en verbergen op het juiste zoom niveau', async () => {
+    const map = await vlMapPage.getMapWithWmsLayerAndSwitcher();
+  
+    const sideSheet = await map.getSideSheet();
+    const layerSwitcher = await map.getLayerSwitcher();
+    await sideSheet.open();
+    const checkbox = await layerSwitcher.getCheckboxForLayer('wms-layer');
+  
+    await driver.wait(async () => !(await checkbox.isDisabled()));
+    await assert.eventually.isTrue(checkbox.isChecked());
+    await assert.eventually.isTrue((await map.getTiledWmsLayers())[0].isVisible());
+  
+    await checkbox.click();
+    await assert.eventually.isFalse((await map.getTiledWmsLayers())[0].isVisible());
+  });
+  
+  it('als gebruiker kan ik een wmts kaartlaag tonen en verbergen op het juiste zoom niveau', async () => {
+    const map = await vlMapPage.getMapWithWmtsLayerAndSwitcher();
+  
+    const sideSheet = await map.getSideSheet();
+    const layerSwitcher = await map.getLayerSwitcher();
+    await sideSheet.open();
+    const checkbox = await layerSwitcher.getCheckboxForLayer('wmts-layer');
+  
+    await driver.wait(async () => !(await checkbox.isDisabled()));
+    await assert.eventually.isTrue(checkbox.isChecked());
+    await assert.eventually.isTrue((await map.getWmtsLayers())[0].isVisible());
+  
+    await checkbox.click();
+    await assert.eventually.isFalse((await map.getWmtsLayers())[0].isVisible());
+  });
+  
 });
 
