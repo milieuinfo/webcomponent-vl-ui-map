@@ -20,6 +20,33 @@ describe('vl-map-layer-switcher', async () => {
   });
 
   it('als gebruiker kan ik een kaartlaag tonen en verbergen', async () => {
+    const map = await vlMapPage.getMapWithLayerSwitcher();
+    const sideSheet = await map.getSideSheet();
+    const layerSwitcher = await map.getLayerSwitcher();
+    const layers = await map.getLayers();
+
+    await sideSheet.open();
+    const checkboxes = await layerSwitcher.getCheckboxes();
+
+    let values;
+    do {
+      await map.zoomIn();
+      values = await Promise.all(checkboxes.map(async (checkbox) => await checkbox.isDisabled()));
+    } while (values.some(Boolean));
+
+    const names = ['Kaartlaag 1', 'Kaartlaag 2', 'Kaartlaag 3', 'WMTS kaartlaag', 'WMS kaartlaag', 'WFS kaartlaag'];
+    for (let index = 0; index < names.length; index++) {
+      const checkbox = await layerSwitcher.getCheckboxForLayer(names[index]);
+      const layer = layers[index];
+      await assert.eventually.isTrue(layer.isVisible());
+      await checkbox.click();
+      await assert.eventually.isFalse(layer.isVisible());
+      await checkbox.click();
+      await assert.eventually.isTrue(layer.isVisible());
+    }
+  });
+
+  it('als gebruiker kan ik een kaartlaag tonen en verbergen via een gepersonaliseerde kaartlaag optie', async () => {
     const map = await vlMapPage.getMapWithCustomLayerSwitcher();
     const sideSheet = await map.getSideSheet();
     const layerSwitcher = await map.getLayerSwitcher();
