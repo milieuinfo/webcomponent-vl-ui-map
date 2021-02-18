@@ -136,6 +136,40 @@ export class VlMapFeaturesLayer extends VlMapVectorLayer {
     this.mapElement.zoomTo(this.__boundingBox, maxZoom);
   }
 
+  /**
+   * Verwijdert alle features van de laag
+   */
+  clearFeatures() {
+    if (this._source) {
+      this._source.clear();
+      this._featuresChanged();
+    }
+  }
+
+  /**
+   * Voegt een feature toe aan de kaartlaag via geojson
+   *
+   * @param {string} feature
+   */
+  addFeature(feature) {
+    if (this._source) {
+      this._source.addFeatures([this._geoJSON.readFeature(feature)]);
+      this._featuresChanged();
+    }
+  }
+
+  /**
+   * Voegt een featurecollection toe aan de kaartlaag via geojson
+   *
+   * @param {string} featureCollection
+   */
+  addFeatureCollection(featureCollection) {
+    if (this._source) {
+      this._source.addFeatures(this._geoJSON.readFeatures(featureCollection));
+      this._featuresChanged();
+    }
+  }
+
   _autoExtentChangedCallback() {
     this._autoZoomToExtent();
   }
@@ -144,9 +178,13 @@ export class VlMapFeaturesLayer extends VlMapVectorLayer {
     if (newValue && this._layer) {
       this.source.clear();
       this.source.addFeatures(this.__readGeoJsonFeatures(newValue));
-      this._autoZoomToExtent();
-      this.rerender();
+      this._featuresChanged();
     }
+  }
+
+  _featuresChanged() {
+    this._autoZoomToExtent();
+    this.rerender();
   }
 
   _autoZoomToExtent() {
