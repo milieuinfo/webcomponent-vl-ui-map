@@ -47,6 +47,7 @@ describe('vl-map-search', async () => {
     await assert.eventually.isTrue(map.hasZoom(2));
 
     await vlMapPage.clickBindMapButton();
+    await search.open();
     await search.zoomTo('Tems');
 
     await assert.eventually.equal(search.getSelectedValue(), 'Temse');

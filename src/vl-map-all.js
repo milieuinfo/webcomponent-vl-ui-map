@@ -3,6 +3,12 @@ import {define, awaitScript} from '/node_modules/vl-ui-core/dist/vl-core.js';
 import {VlMap} from '/src/vl-map.js';
 import {VlMapOverviewMap} from '/src/vl-map-overview-map.js';
 import {VlMapLayer} from '/src/vl-map-layer.js';
+import {VlMapVectorLayer} from '/src/vl-map-vector-layer.js';
+import {VlMapFeaturesLayer} from '/src/vl-map-features-layer.js';
+import {VlMapTiledWmsLayer} from '/src/vl-map-tiled-wms-layer.js';
+import {VlMapImageWmsLayer} from '/src/vl-map-image-wms-layer.js';
+import {VlMapWfsLayer} from '/src/vl-map-wfs-layer.js';
+import {VlMapWmtsLayer} from '/src/vl-map-wmts-layer.js';
 import {VlMapBaseLayer} from '/src/vl-map-baselayer.js';
 import {VlMapBaseLayerGRBGray} from '/src/vl-map-baselayer-grb-gray.js';
 import {VlMapBaseLayerGRB} from '/src/vl-map-baselayer-grb.js';
@@ -10,6 +16,7 @@ import {VlMapBaseLayerGRBOrtho} from '/src/vl-map-baselayer-grb-ortho.js';
 import {VlMapAction} from '/src/vl-map-action.js';
 import {VlMapLayerAction} from '/src/vl-map-layer-action.js';
 import {VlMapSelectAction} from '/src/vl-map-select-action.js';
+import {VlMapDeleteAction} from '/src/vl-map-delete-action.js';
 import {VlMapDrawPointAction} from '/src/vl-map-draw-point-action.js';
 import {VlMapDrawLineAction} from '/src/vl-map-draw-line-action.js';
 import {VlMapDrawPolygonAction} from '/src/vl-map-draw-polygon-action.js';
@@ -26,7 +33,11 @@ Promise.all([
 ]).then(() => {
   define('vl-map', VlMap);
   define('vl-map-overview-map', VlMapOverviewMap);
-  define('vl-map-layer', VlMapLayer);
+  define('vl-map-features-layer', VlMapFeaturesLayer);
+  define('vl-map-tiled-wms-layer', VlMapTiledWmsLayer);
+  define('vl-map-image-wms-layer', VlMapImageWmsLayer);
+  define('vl-map-wfs-layer', VlMapWfsLayer);
+  define('vl-map-wmts-layer', VlMapWmtsLayer);
   define('vl-map-baselayer', VlMapBaseLayer);
   define('vl-map-baselayer-grb-gray', VlMapBaseLayerGRBGray);
   define('vl-map-baselayer-grb', VlMapBaseLayerGRB);
@@ -34,6 +45,7 @@ Promise.all([
   define('vl-map-action', VlMapAction);
   define('vl-map-layer-action', VlMapLayerAction);
   define('vl-map-select-action', VlMapSelectAction);
+  define('vl-map-delete-action', VlMapDeleteAction);
   define('vl-map-draw-point-action', VlMapDrawPointAction);
   define('vl-map-draw-line-action', VlMapDrawLineAction);
   define('vl-map-draw-polygon-action', VlMapDrawPolygonAction);
@@ -50,6 +62,12 @@ export {
   VlMap,
   VlMapOverviewMap,
   VlMapLayer,
+  VlMapVectorLayer,
+  VlMapFeaturesLayer,
+  VlMapImageWmsLayer,
+  VlMapTiledWmsLayer,
+  VlMapWfsLayer,
+  VlMapWmtsLayer,
   VlMapBaseLayer,
   VlMapBaseLayerGRBGray,
   VlMapBaseLayerGRB,
@@ -57,6 +75,7 @@ export {
   VlMapAction,
   VlMapLayerAction,
   VlMapSelectAction,
+  VlMapDeleteAction,
   VlMapDrawPointAction,
   VlMapDrawLineAction,
   VlMapDrawPolygonAction,

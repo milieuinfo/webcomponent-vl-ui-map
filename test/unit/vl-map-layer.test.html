@@ -7,314 +7,239 @@
   <script src="../../../web-component-tester/browser.js"></script>
 
   <script type="module" src="../../src/vl-map-all.js"></script>
-  <script src="/node_modules/sinon/pkg/sinon.js"></script>
 </head>
 
 <body>
-  <test-fixture id="vl-map-layer-fixture">
+  <test-fixture id="vl-map-features-layer-fixture">
     <template>
       <vl-map>
-        <vl-map-layer></vl-map-layer>
-      </vl-map>
-    </template>
-  </test-fixture>
-  <test-fixture id="vl-map-layer-style-fixture">
-    <template>
-      <vl-map-layer-style data-vl-color="rgba(255,0,0,1)"></vl-map-layer-style>
-    </template>
-  </test-fixture>
-
-  <test-fixture id="vl-map-fixture">
-    <template>
-      <vl-map>
-        <vl-map-layer
+        <vl-map-features-layer
           data-vl-name="testlaag"
           data-vl-min-resolution="2"
           data-vl-max-resolution="4"
           data-vl-features='{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[147055,197908]},"properties":null,"id":1}]}'>
-        </vl-map-layer>
+        </vl-map-features-layer>
       </vl-map>
     </template>
   </test-fixture>
 
-  <test-fixture id="vl-map-auto-extent-fixture">
+  <test-fixture id="vl-map-image-wms-layer-fixture">
     <template>
       <vl-map>
-        <vl-map-layer
-          data-vl-name="testlaag"
-          data-vl-features='{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[147055,197908]},"properties":null,"id":1}]}'
-          data-vl-auto-extent>
-        </vl-map-layer>
+        <vl-map-image-wms-layer
+          data-vl-url="http://dummy/wms-adjusted"
+          data-vl-layers="layer1"
+          data-vl-styles="style1,style2"
+          data-vl-version="1.1.1"
+          data-vl-opacity="0.75"
+          data-vl-min-resolution="10"
+          data-vl-max-resolution="1000"
+          data-vl-name="adjusted">
+        </vl-map-image-wms-layer>
       </vl-map>
     </template>
   </test-fixture>
 
-  <test-fixture id="vl-map-auto-extent-max-zoom-fixture">
+  <test-fixture id="vl-map-tiled-wms-layer-fixture">
     <template>
       <vl-map>
-        <vl-map-layer
-          data-vl-name="testlaag"
-          data-vl-features='{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[147055,197908]},"properties":null,"id":1}]}'
-          data-vl-auto-extent
-          data-vl-auto-extent-max-zoom="3">
-        </vl-map-layer>
+        <vl-map-tiled-wms-layer
+          data-vl-url="http://dummy/wms-adjusted"
+          data-vl-layers="layer1"
+          data-vl-styles="style1,style2"
+          data-vl-version="1.1.1"
+          data-vl-opacity="0.75"
+          data-vl-min-resolution="10"
+          data-vl-max-resolution="1000"
+          data-vl-name="adjusted">
+        </vl-map-tiled-wms-layer>
       </vl-map>
     </template>
   </test-fixture>
 
-  <test-fixture id="vl-map-layers-fixture">
+  <test-fixture id="vl-map-wfs-layer-fixture">
     <template>
       <vl-map>
-        <vl-map-layer></vl-map-layer>
-        <vl-map-layer></vl-map-layer>
+        <vl-map-wfs-layer
+          data-vl-name="foobar"
+          data-vl-url="http://dummy/wfs"
+          data-vl-layers="layer1,layer2"
+          data-vl-min-resolution="10"
+          data-vl-max-resolution="1000">
+        </vl-map-wfs-layer>
       </vl-map>
     </template>
   </test-fixture>
 
-  <test-fixture id="vl-map-cluster-fixture">
+  <test-fixture id="vl-map-wmts-layer-fixture">
     <template>
       <vl-map>
-        <vl-map-layer
-          data-vl-name="testlaag"
-          data-vl-features='{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[147055,197908]},"properties":null},{"type":"Feature","geometry":{"type":"Point","coordinates":[157055,207908]},"properties":null}]}'
-          data-vl-cluster
-          data-vl-cluster-distance="100">
-        </vl-map-layer>
+        <vl-map-wmts-layer
+          data-vl-url="https://tile.informatievlaanderen.be/ws/raadpleegdiensten/wmts" 
+          data-vl-layer="grb_sel" 
+          data-vl-name="GRB Wegenkaart" 
+          data-vl-min-resolution="2" 
+          data-vl-max-resolution="4">
+        </vl-map-wmts-layer>
       </vl-map>
     </template>
   </test-fixture>
 
-  <script type="module">
-    import {awaitUntil} from '/node_modules/vl-ui-core/dist/vl-core.js';
-    import {OlGeoJSON, OlFeature, OlPoint, OlStyle, OlStyleFill} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
+  <test-fixture id="vl-map-features-layers-fixture">
+    <template>
+      <vl-map>
+        <vl-map-features-layer></vl-map-features-layer>
+        <vl-map-features-layer></vl-map-features-layer>
+      </vl-map>
+    </template>
+  </test-fixture>
 
+  <test-fixture id="vl-map-image-wms-layers-fixture">
+    <template>
+      <vl-map>
+        <vl-map-image-wms-layer data-vl-url="http://dummy/wms-adjusted" data-vl-layers="layer1"></vl-map-image-wms-layer>
+        <vl-map-image-wms-layer data-vl-url="http://dummy/wms-adjusted" data-vl-layers="layer1"></vl-map-image-wms-layer>
+      </vl-map>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="vl-map-tiled-wms-layers-fixture">
+    <template>
+      <vl-map>
+        <vl-map-tiled-wms-layer data-vl-url="http://dummy/wms-adjusted" data-vl-layers="layer1"></vl-map-tiled-wms-layer>
+        <vl-map-tiled-wms-layer data-vl-url="http://dummy/wms-adjusted" data-vl-layers="layer1"></vl-map-tiled-wms-layer>
+      </vl-map>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="vl-map-wfs-layers-fixture">
+    <template>
+      <vl-map>
+        <vl-map-wfs-layer></vl-map-wfs-layer>
+        <vl-map-wfs-layer></vl-map-wfs-layer>
+      </vl-map>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="vl-map-wmts-layers-fixture">
+    <template>
+      <vl-map>
+        <vl-map-wmts-layer data-vl-url="https://tile.informatievlaanderen.be/ws/raadpleegdiensten/wmts" data-vl-layer="grb_sel"></vl-map-wmts-layer>
+        <vl-map-wmts-layer data-vl-url="https://tile.informatievlaanderen.be/ws/raadpleegdiensten/wmts" data-vl-layer="grb_sel"></vl-map-wmts-layer>
+      </vl-map>
+    </template>
+  </test-fixture>
+
+  <script>
     suite('vl-map-layer', () => {
-      const sandbox = sinon.createSandbox();
-      const should = chai.should();
-      const geoJSON = new OlGeoJSON();
-
+      const tags = ['vl-map-features-layer', 'vl-map-image-wms-layer', 'vl-map-tiled-wms-layer', 'vl-map-wfs-layer', 'vl-map-wmts-layer'];
+    
       setup((done) => {
-        customElements.whenDefined('vl-map-layer').then(() => done());
+        Promise.all(tags.map((tag) => customElements.whenDefined(tag))).then(() => done());
       });
 
-      teardown(() => {
-        sandbox.restore();
-      });
+      const LAYER_SELECTOR = '[data-vl-is-layer]';
 
-      test('de kaartlaag zal toegevoegd worden aan de map', async () => {
-        const mapElement = fixture('vl-map-fixture');
-        const layerElement = mapElement.querySelector('vl-map-layer');
+      const getLayer = (map) => {
+        return map.querySelector(LAYER_SELECTOR);
+      };
 
-        await mapElement.ready;
-        should.exist(layerElement.layer);
-        const layers = mapElement.map.getOverlayLayers();
-        const layer = layers[0];
-        assert.lengthOf(layers, 1);
-        assert.equal(layer, layerElement.layer);
-        assert.equal(layer.get('title'), layerElement.getAttribute('name'));
-        assert.equal(layer.getMinResolution(), layerElement.getAttribute('min-resolution'));
-        assert.equal(layer.getMaxResolution(), layerElement.getAttribute('max-resolution'));
-        assert.equal(geoJSON.writeFeatures(layer.getSource().getFeatures()), layerElement.getAttribute('features'));
-      });
+      const getLayers = (map) => {
+        return map.querySelectorAll(LAYER_SELECTOR);
+      };
 
-      test('na het toevoegen van de kaartlaag zal de kaart zoomen naar de extent van de kaartlaag indien de auto-extent geactiveerd werd', async () => {
-        let map = fixture('vl-map-fixture');
-        assert.deepEqual(map.map.getView().getCenter(), [140860.69299028325, 190532.7165957574]);
+      const range = (minInclusive, maxExclusive) => {
+        return Array.from({length: maxExclusive - minInclusive}, (x, i) => i + minInclusive);
+      };
 
-        map = fixture('vl-map-auto-extent-fixture');
-        await awaitUntil(() => map.map.getView().getZoom() > 3).then(async () => {
-          assert.deepEqual(map.map.getView().getCenter(), [147055, 197908]);
+      test('kan een attribuut, titel, opvragen van de kaartlaag op basis van zijn sleutel', (done) => {
+        tags.forEach((tag, index) => {
+          const map = fixture(`${tag}-fixture`);
+          map.ready.then(() => {
+            const layer = getLayer(map);
+            assert.equal(layer.get('title'), layer.getAttribute('data-vl-name'));
+            assert.equal(layer.get('title'), layer._layer.get('title'));
 
-          map = fixture('vl-map-auto-extent-max-zoom-fixture');
-          await awaitUntil(() => map.map.getView().getZoom() === 3).then(() => {
-            assert.deepEqual(map.map.getView().getCenter(), [147055, 197908]);
+            if (tags.length == index+1) {
+              done();
+            }
           });
         });
       });
 
-      test('het aanroepen van zoomToExtent zal de kaart doen inzoomen op de bounding box', async () => {
-        const map = fixture('vl-map-fixture');
-        const layerElement = map.querySelector('vl-map-layer');
+      test('kan de zichtbaarheid van de kaartlaag opvragen en wijzigen', (done) => {
+        tags.forEach((tag, index) => {
+          const map = fixture(`${tag}-fixture`);
+          map.ready.then(() => {
+            const layer = getLayer(map);
 
-        await map.ready;
-        const view = map.map.getView();
-        assert.notDeepEqual(view.getCenter(), [147055, 197908]);
+            assert.isTrue(layer.visible);
+            assert.isTrue(layer._layer.getVisible());
 
-        await layerElement.zoomToExtent();
-        assert.deepEqual(view.getCenter(), [147055, 197908]);
-        assert.isAbove(view.getZoom(), 3);
+            layer.visible = false;
+            assert.isFalse(layer.visible);
+            assert.isFalse(layer._layer.getVisible());
 
-        await layerElement.zoomToExtent(3);
-        assert.deepEqual(view.getCenter(), [147055, 197908]);
-        assert.equal(view.getZoom(), 3);
-      });
-
-      test('bij het toevoegen van een feature zal deze automatisch toegevoegd worden aan de laag en zal de kaart opnieuw zoomen naar de extent van de kaartlaag indien de auto-extent geactiveerd werd', async () => {
-        const map = fixture('vl-map-fixture');
-        const layerElement = map.querySelector('vl-map-layer');
-
-        await map.ready;
-        const layer = map.map.getOverlayLayers()[0];
-        assert.lengthOf(layer.getSource().getFeatures(), 1);
-        assert.equal(geoJSON.writeFeatures(layer.getSource().getFeatures()), layerElement.getAttribute('data-vl-features'));
-        assert.deepEqual(map.map.getView().getCenter(), [140860.69299028325, 190532.7165957574]);
-
-        layerElement.setAttribute('data-vl-features', '{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[147055,197908]},"properties":null},{"type":"Feature","geometry":{"type":"Point","coordinates":[157055,207908]},"properties":null}]}');
-        layerElement.setAttribute('data-vl-auto-extent', '');
-        await awaitUntil(() => {
-          const layer = map.map.getOverlayLayers()[0];
-          const feature = geoJSON.writeFeatures(layer.getSource().getFeatures());
-          const hasCorrectFeatureLength = layer.getSource().getFeatures().length === 2;
-          const hasCorrectFeature = feature === layerElement.getAttribute('data-vl-features');
-          const hasCorrectView = map.map.getView().getCenter()[0] == 152055 && map.map.getView().getCenter()[1] == 202908;
-          return hasCorrectFeatureLength && hasCorrectFeature && hasCorrectView;
+            if (tags.length == index+1) {
+              done();
+            }
+          });
         });
       });
 
-      test('elke kaartlaag zal een id krijgen', async () => {
-        const map = fixture('vl-map-layers-fixture');
-        await map.ready;
-        const layers = map.querySelectorAll('vl-map-layer');
-        const layer1 = layers[0];
-        const layer2 = layers[1];
-        assert(layer1.layer.get('id'), 1);
-        assert(layer2.layer.get('id'), 2);
+      test(`er kan gecontroleerd worden of de kaartlaag zichtbaar is op een bepaalde resolutie (minVisibility = , maxVisibility = )`, (done) => {
+        tags.forEach((tag, index) => {
+          const map = fixture(`${tag}-fixture`);
+          map.ready.then(() => {
+            const layer = getLayer(map);
+            const minVisibility = Number.valueOf(layer.getAttribute('data-vl-min-resolution'));
+            const maxVisibility = Number.valueOf(layer.getAttribute('data-vl-max-resolution'));
+            const visibleResolutions = range(minVisibility, maxVisibility);
+            const invisibleResolutions = range(0, minVisibility).concat(range(maxVisibility, maxVisibility + 5));
+            invisibleResolutions.forEach((resolution) => assert.isFalse(layer.isVisibleAtResolution(resolution), `zou niet zichtbaar mogen zijn op resolutie ${resolution}`));
+            visibleResolutions.forEach((resolution) => assert.isTrue(layer.isVisibleAtResolution(resolution), `zou zichtbaar moeten zijn op resolutie ${resolution}`));
+
+            if (tags.length == index+1) {
+              done();
+            }
+          });
+        });
       });
 
-      test('kan de boundingbox opvragen van de features op de laag', async () => {
-        const map = fixture('vl-map-layer-fixture');
-        const layer = map.querySelector('vl-map-layer');
-        await map.ready;
-        const extent = sandbox.spy();
-        layer.setAttribute('features', '{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[147055,197908]},"properties":null},{"type":"Feature","geometry":{"type":"Point","coordinates":[157055,207908]},"properties":null}]}');
+      test('elke kaartlaag zal een id krijgen', (done) => {
+        tags.forEach((tag, index) => {
+          const map = fixture(`${tag}s-fixture`);
+          map.ready.then(() => {
+            const layers = getLayers(map);
+            assert.lengthOf(layers, map.children.length);
+            layers.forEach((layer, index) => assert(layer.layer.get('id'), index + 1));
 
-        sandbox.stub(layer._source, 'getExtent').returns(extent);
-        const boundingBox = layer.__boundingBox;
-        assert.equal(boundingBox, extent);
+            if (tags.length == index+1) {
+              done();
+            }
+          });
+        });
       });
 
-      test('kan een feature verkrijgen via id', async () => {
-        const map = fixture('vl-map-fixture');
-        const layer = map.querySelector('vl-map-layer');
-        await map.ready;
-        should.exist(layer.getFeature(1));
-        should.not.exist(layer.getFeature(2));
-      });
+      test('de kaartlaag zal toegevoegd worden aan de map', (done) => {
+        tags.forEach((tag, index) => {
+          const map = fixture(`${tag}-fixture`);
+          map.ready.then(() => {
+            const layerElement = getLayer(map);
+            const layers = map.map.getOverlayLayers();
+            assert.lengthOf(layers, 1);
 
-      test('kan een cluster verkrijgen via een feature id in de cluster', async () => {
-        const map = fixture('vl-map-fixture');
-        const layer = map.querySelector('vl-map-layer');
-        await map.ready;
-        const feature1 = new OlFeature({geometry: new OlPoint([109100, 204175])});
-        const feature2 = new OlFeature({geometry: new OlPoint([109100, 204175])});
-        const feature3 = new OlFeature({geometry: new OlPoint([109100, 204175])});
-        feature1.setId(1);
-        feature2.setId(2);
-        feature3.setId(3);
-        const cluster1 = new OlFeature({});
-        const cluster2 = new OlFeature({});
-        cluster1.set('features', [feature1, feature2]);
-        cluster2.set('features', [feature3]);
-        layer.setAttribute('data-vl-cluster', '');
-        layer.layer.getSource().addFeatures([cluster1, cluster2]);
-        assert.deepEqual(layer.getCluster(1), cluster1);
-        assert.deepEqual(layer.getCluster(2), cluster1);
-        assert.deepEqual(layer.getCluster(3), cluster2);
-      });
+            const layer = layers[0];
+            assert.equal(layer, layerElement.layer);
+            assert.equal(layer.get('title'), layerElement.getAttribute('name'));
+            assert.equal(layer.getMinResolution(), layerElement.getAttribute('min-resolution'));
+            assert.equal(layer.getMaxResolution(), layerElement.getAttribute('max-resolution'));
 
-      test('de stijl kan op de layer gezet worden met een VlMapLayerStyle object', async () => {
-        const map = fixture('vl-map-layer-fixture');
-        const styleFixture = fixture('vl-map-layer-style-fixture');
-        const layer = map.querySelector('vl-map-layer');
-        await map.ready;
-
-        layer.style = styleFixture;
-
-        const style = layer.style()[0];
-        assert.equal(style.getFill().getColor(), 'rgba(255,0,0,1)');
-        assert.equal(style.getStroke().getColor(), 'rgba(2, 85, 204, 1)');
-      });
-
-      test('de stijl kan op de layer gezet worden met een openlayers stijl object', async () => {
-        const map = fixture('vl-map-layer-fixture');
-        const layer = map.querySelector('vl-map-layer');
-        await map.ready;
-
-        layer.style = new OlStyle({fill: new OlStyleFill({
-          color: 'rgba(255,0,0,0,1)',
-        })});
-
-        assert.equal(layer.style.getFill().getColor(), 'rgba(255,0,0,0,1)');
-      });
-
-      test('de stijl kan op de layer verwijderd worden met null', async () => {
-        const map = fixture('vl-map-layer-fixture');
-        const styleFixture = fixture('vl-map-layer-style-fixture');
-        const layer = map.querySelector('vl-map-layer');
-        const styleElement = styleFixture.querySelector('vl-map-layer-style');
-        await map.ready;
-
-        layer.style = styleElement;
-        layer.style = null;
-
-        assert.isNull(layer.style);
-      });
-
-      test('al de feature specifieke stijl kan verwijderd worden', async () => {
-        const map = fixture('vl-map-layer-fixture');
-        const layer = map.querySelector('vl-map-layer');
-        await map.ready;
-        const feature1 = new OlFeature();
-        const feature2 = new OlFeature();
-        feature1.setStyle(new OlStyle({}));
-        feature2.setStyle(new OlStyle({}));
-        const features = [feature1, feature2];
-        layer.setAttribute('features', geoJSON.writeFeatures(features));
-
-        layer.removeFeaturesStyle();
-        assert.isNull(layer.features[0].getStyle());
-        assert.isNull(layer.features[1].getStyle());
-      });
-
-      test('kan de zichtbaarheid van de kaartlaag opvragen en wijzigen', async () => {
-        const map = fixture('vl-map-layer-fixture');
-        const layer = map.querySelector('vl-map-layer');
-        await map.ready;
-        assert.isTrue(layer.visible);
-        assert.isTrue(layer._layer.getVisible());
-        layer.visible = false;
-        assert.isFalse(layer.visible);
-        assert.isFalse(layer._layer.getVisible());
-      });
-
-      test('kan attributen opvragen van de kaartlaag op basis van sleutels', async () => {
-        const map = fixture('vl-map-fixture');
-        const layer = map.querySelector('vl-map-layer');
-        await map.ready;
-        assert.equal(layer.get('title'), 'testlaag');
-        assert.equal(layer.get('title'), layer._layer.get('title'));
-      });
-
-      test('er kan gecontroleerd worden of de kaartlaag zichtbaar is op een bepaalde resolutie', async () => {
-        let map = fixture('vl-map-layer-fixture');
-        let layer = map.querySelector('vl-map-layer');
-        await map.ready;
-        assert.isTrue(layer.isVisibleAtResolution(null));
-        assert.isTrue(layer.isVisibleAtResolution(1));
-        assert.isTrue(layer.isVisibleAtResolution(2));
-        assert.isTrue(layer.isVisibleAtResolution(3));
-        assert.isTrue(layer.isVisibleAtResolution(4));
-        assert.isTrue(layer.isVisibleAtResolution(5));
-
-        map = fixture('vl-map-fixture');
-        layer = map.querySelector('vl-map-layer');
-        await map.ready;
-        assert.isFalse(layer.isVisibleAtResolution(null));
-        assert.isFalse(layer.isVisibleAtResolution(1));
-        assert.isTrue(layer.isVisibleAtResolution(2));
-        assert.isTrue(layer.isVisibleAtResolution(3));
-        assert.isFalse(layer.isVisibleAtResolution(4));
-        assert.isFalse(layer.isVisibleAtResolution(5));
+            if (tags.length == index+1) {
+              done();
+            }
+          });
+        });
       });
     });
   </script>

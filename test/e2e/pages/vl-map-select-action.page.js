@@ -1,10 +1,9 @@
 const VlMapSelectAction = require('../components/vl-map-select-action');
-const VlMap = require('../components/vl-map');
-const VlMapLayer = require('../components/vl-map-layer');
-const {Page, Config} = require('vl-ui-core').Test;
-const {By} = require('vl-ui-core').Test.Setup;
+const {Config} = require('vl-ui-core').Test;
+const {assert, By} = require('vl-ui-core').Test.Setup;
+const VlMapPage = require('./vl-map.page');
 
-class VlMapSelectActionPage extends Page {
+class VlMapSelectActionPage extends VlMapPage {
   async getSelectAction() {
     return this._getSelectAction('#select-action');
   }
@@ -14,9 +13,13 @@ class VlMapSelectActionPage extends Page {
   }
 
   async clickPointFeature(id) {
-    const layer = await this._getLayer('#map-layer');
     const map = await this._getMap('#map-with-select-action');
-    await layer.clickPointFeatureOnMap(id, map);
+    const layers = await map.getLayers();
+    assert.isNotEmpty(layers);
+    const layer = layers[0];
+    await map.scrollIntoView();
+    const coordinateForFeature = await layer.getCoordinateForFeature(id);
+    await map.clickOnCoordinates(coordinateForFeature);
     return this._waitForFeatureToBeSelected(id);
   }
 
@@ -39,14 +42,6 @@ class VlMapSelectActionPage extends Page {
 
   async _getSelectAction(selector) {
     return new VlMapSelectAction(this.driver, selector);
-  }
-
-  async _getLayer(selector) {
-    return new VlMapLayer(this.driver, selector);
-  }
-
-  async _getMap(selector) {
-    return new VlMap(this.driver, selector);
   }
 }
 
