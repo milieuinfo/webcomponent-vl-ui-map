@@ -28,10 +28,6 @@ describe('vl-map-modify-action', async () => {
     const feature2 = await featuresLayer.getFeature(2);
 
     await action.movePointByCoordinates(mechelen, willebroek);
-
-    await driver.wait(async () => (await featuresLayer.getNumberOfFeatures()) === 2);
-    await driver.wait(async () => ((await featuresLayer.getFeature(1)).geometry !== geometry1), 10000);
-
     const modifiedGeometry = (await featuresLayer.getFeature(1)).geometry;
     assert.include(modifiedGeometry, {type: 'Point'});
     assert.notDeepEqual(modifiedGeometry, geometry1);
@@ -47,10 +43,6 @@ describe('vl-map-modify-action', async () => {
     const antwerpen = geometry.coordinates[1];
 
     await action.movePointByCoordinates(antwerpen, willebroek);
-
-    await driver.wait(async () => (await featuresLayer.getNumberOfFeatures()) === 1);
-    await driver.wait(async () => ((await featuresLayer.getFeature(1)).geometry !== geometry), 10000);
-
     const modifiedGeometry = (await featuresLayer.getFeature(1)).geometry;
     assert.include(modifiedGeometry, {type: 'LineString'});
     assert.notDeepEqual(modifiedGeometry, geometry);
@@ -65,10 +57,6 @@ describe('vl-map-modify-action', async () => {
     const gent = geometry.coordinates[0][0];
 
     await action.movePointByCoordinates(gent, willebroek);
-
-    await driver.wait(async () => (await featuresLayer.getNumberOfFeatures()) === 1);
-    await driver.wait(async () => ((await featuresLayer.getFeature(1)).geometry !== geometry), 10000);
-
     const modifiedGeometry = (await featuresLayer.getFeature(1)).geometry;
     assert.include(modifiedGeometry, {type: 'Polygon'});
     assert.notDeepEqual(modifiedGeometry, geometry);
