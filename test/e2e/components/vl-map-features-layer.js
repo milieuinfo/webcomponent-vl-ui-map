@@ -34,18 +34,17 @@ class VlMapFeaturesLayer extends VlMapLayer {
     return this.getAttribute('data-vl-auto-extent-max-zoom');
   }
 
-  async clickPointFeatureOnMap(id, map) {
+  async getCoordinateForFeature(id) {
     const feature = await this.getFeature(id);
     const {type, coordinates} = feature.geometry;
-    await map.scrollIntoView();
     if (type == 'Point') {
-      await map.clickOnCoordinates(coordinates);
+      return coordinates;
     } else {
       if (type == 'LineString') {
-        await map.clickOnCoordinates(coordinates[0]);
+        return coordinates[0];
       } else {
         const interiorCoordinate = await this.getCoordinateOfInteriorPointOfFeature(id);
-        await map.clickOnCoordinates(interiorCoordinate);
+        return interiorCoordinate;
       }
     }
   }

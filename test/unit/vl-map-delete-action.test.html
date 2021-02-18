@@ -38,14 +38,8 @@
     import {VlMapDeleteAction} from '../../src/vl-map-delete-action.js';
 
     suite('vl-map-delete-action', () => {
-      const sandbox = sinon.createSandbox();
-
       setup((done) => {
         customElements.whenDefined('vl-map-delete-action').then(() => done());
-      });
-
-      teardown(() => {
-        sandbox.restore();
       });
 
       test('een delete actie is een map actie', () => {
