@@ -14,18 +14,6 @@ class VlMapLayerSwitcherPage extends VlMapPage {
     return this._getMap('#map-with-resolution-layer-switcher');
   }
 
-  async getMapWithWfsLayerAndSwitcher() {
-    return this._getMap('#map-with-wfs-layer-and-switcher');
-  }
-
-  async getMapWithWmsLayerAndSwitcher() {
-    return this._getMap('#map-with-tiled-wms-layer-and-switcher');
-  }
-
-  async getMapWithWmtsLayerAndSwitcher() {
-    return this._getMap('#map-with-wmts-layer-and-switcher');
-  }
-
   async load() {
     await super.load(Config.baseUrl + '/demo/vl-map-layer-switcher.html');
   }
