@@ -9,7 +9,7 @@ class VlMapModifyAction extends VlMapAction {
 
   async movePointByCoordinates(from, to) {
     const map = await this.getMap();
-    await map.movePointByCoordinates(from, to );
+    await map.movePointByCoordinates(from, to);
   }
 }
 
