@@ -17,7 +17,9 @@ class VlMapSelectActionPage extends VlMapPage {
     const layers = await map.getLayers();
     assert.isNotEmpty(layers);
     const layer = layers[0];
-    await layer.clickPointFeatureOnMap(id, map);
+    await map.scrollIntoView();
+    const coordinateForFeature = await layer.getCoordinateForFeature(id);
+    await map.clickOnCoordinates(coordinateForFeature);
     return this._waitForFeatureToBeSelected(id);
   }
 
@@ -40,10 +42,6 @@ class VlMapSelectActionPage extends VlMapPage {
 
   async _getSelectAction(selector) {
     return new VlMapSelectAction(this.driver, selector);
-  }
-
-  async _getLayer(LayerClass, selector) {
-    return new LayerClass(this.driver, selector);
   }
 }
 

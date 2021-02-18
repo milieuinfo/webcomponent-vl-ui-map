@@ -11,7 +11,7 @@
 </head>
 
 <body>
-  <test-fixture id="vl-map-features-fixture">
+  <test-fixture id="vl-map-features-layer-fixture">
     <template>
       <vl-map>
         <vl-map-features-layer
@@ -42,8 +42,9 @@
     import {OlStyle, OlStyleFill} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
 
     suite('vl-map-vector-layer', () => {
+      const tags = ['vl-map-features-layer', 'vl-map-wfs-layer'];
+    
       setup((done) => {
-        const tags = ['vl-map-features-layer', 'vl-map-wfs-layer'];
         Promise.all(tags.map((tag) => customElements.whenDefined(tag))).then(() => done());
       });
 
@@ -54,9 +55,8 @@
       };
 
       test('de stijl kan op de layer gezet worden met een VlMapLayerStyle object', (done) => {
-        const ids = ['vl-map-features', 'vl-map-wfs-layer'];
-        ids.forEach((id, index) => {
-          const map = fixture(`${id}-fixture`);
+        tags.forEach((tag, index) => {
+          const map = fixture(`${tag}-fixture`);
           map.ready.then(() => {
             const layer = getLayer(map);
             layer.style = map.querySelector('vl-map-layer-style');
@@ -64,7 +64,7 @@
             assert.equal(style.getFill().getColor(), 'rgba(255,0,0,1)');
             assert.equal(style.getStroke().getColor(), 'rgba(2, 85, 204, 1)');
 
-            if (ids.length == index+1) {
+            if (tags.length == index+1) {
               done();
             }
           });
@@ -72,16 +72,15 @@
       });
 
       test('de stijl kan op de layer gezet worden met een OpenLayers stijl object', (done) => {
-        const ids = ['vl-map-features', 'vl-map-wfs-layer'];
-        ids.forEach((id, index) => {
-          const map = fixture(`${id}-fixture`);
+        tags.forEach((tag, index) => {
+          const map = fixture(`${tag}-fixture`);
           map.ready.then(() => {
             const layer = getLayer(map);
             const color = map.querySelector('vl-map-layer-style').getAttribute('data-vl-color');
             layer.style = new OlStyle({fill: new OlStyleFill({color: color})});
             assert.equal(layer.style.getFill().getColor(), color);
 
-            if (ids.length == index+1) {
+            if (tags.length == index+1) {
               done();
             }
           });
@@ -89,9 +88,8 @@
       });
 
       test('de stijl kan op de layer verwijderd worden met null', (done) => {
-        const ids = ['vl-map-features', 'vl-map-wfs-layer'];
-        ids.forEach((id, index) => {
-          const map = fixture(`${id}-fixture`);
+        tags.forEach((tag, index) => {
+          const map = fixture(`${tag}-fixture`);
           map.ready.then(() => {
             const layer = getLayer(map);
             const color = map.querySelector('vl-map-layer-style').getAttribute('data-vl-color');
@@ -99,7 +97,7 @@
             layer.style = null;
             assert.isNull(layer.style);
 
-            if (ids.length == index+1) {
+            if (tags.length == index+1) {
               done();
             }
           });

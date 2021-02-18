@@ -1,12 +1,13 @@
 const {VlElement} = require('vl-ui-core').Test;
 const {By} = require('vl-ui-core').Test.Setup;
 const VlMapBaseLayer = require('./vl-map-baselayer');
-const VlMapFeaturesLayer = require('./vl-map-features-layer');
-const VlMapWmtsLayer = require('./vl-map-wmts-layer');
-const VlMapImageWmsLayer = require('./vl-map-image-wms-layer');
-const VlMapTiledWmsLayer = require('./vl-map-tiled-wms-layer');
-const VlMapWfsLayer = require('./vl-map-wfs-layer');
 const VlMapSearch = require('./vl-map-search');
+const VlMapLayers = require('./vl-map-layers');
+const VlMapWfsLayer = require('./vl-map-wfs-layer');
+const VlMapTiledWmsLayer = require('./vl-map-tiled-wms-layer');
+const VlMapImageWmsLayer = require('./vl-map-image-wms-layer');
+const VlMapWmtsLayer = require('./vl-map-wmts-layer');
+const VlMapFeaturesLayer = require('./vl-map-features-layer');
 const VlMapOverviewMap = require('./vl-map-overview-map');
 const VlMapLayerSwitcher = require('./vl-map-layer-switcher');
 const VlMapSideSheet = require('./vl-map-side-sheet');
@@ -23,39 +24,27 @@ class VlMap extends VlElement {
   }
 
   async getLayers() {
-    const featuresLayers = await this.getFeaturesLayers();
-    const wmtsLayers = await this.getWmtsLayers();
-    const imageWmsLayers = await this.getImageWmsLayers();
-    const tiledWmsLayers = await this.getTiledWmsLayers();
-    const wfsLayers = await this.getWfsLayers();
-    return featuresLayers.concat(wmtsLayers).concat(imageWmsLayers).concat(tiledWmsLayers).concat(wfsLayers);
-  }
-
-  async getWmtsLayers() {
-    return this._getLayersOfType(VlMapWmtsLayer);
-  }
-
-  async getImageWmsLayers() {
-    return this._getLayersOfType(VlMapImageWmsLayer);
-  }
-
-  async getTiledWmsLayers() {
-    return this._getLayersOfType(VlMapTiledWmsLayer);
-  }
-
-  async getWfsLayers() {
-    return this._getLayersOfType(VlMapWfsLayer);
+    return VlMapLayers.getLayers(this);
   }
 
   async getFeaturesLayers() {
-    return this._getLayersOfType(VlMapFeaturesLayer);
+    return VlMapLayers.getLayersOfType(this, VlMapFeaturesLayer);
   }
 
-  async _getLayersOfType(LayerClass) {
-    const layerElements = await this.findElements(
-        By.css(`:scope > ${LayerClass.TAG}`));
-    return Promise.all(
-        layerElements.map((element) => new LayerClass(this.driver, element)));
+  async getWfsLayers() {
+    return VlMapLayers.getLayersOfType(this, VlMapWfsLayer);
+  }
+
+  async getTiledWmsLayers() {
+    return VlMapLayers.getLayersOfType(this, VlMapTiledWmsLayer);
+  }
+
+  async getImageWmsLayers() {
+    return VlMapLayers.getLayersOfType(this, VlMapImageWmsLayer);
+  }
+
+  async getWmtsLayers() {
+    return VlMapLayers.getLayersOfType(this, VlMapWmtsLayer);
   }
 
   async isEscapeKeyDisabled() {

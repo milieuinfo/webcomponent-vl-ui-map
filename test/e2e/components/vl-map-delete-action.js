@@ -1,19 +1,27 @@
 const VlMapAction = require('./vl-map-action');
-const VlMapLayer = require('./vl-map-layer');
+const VlMapLayers = require('./vl-map-layers');
 
 class VlMapDeleteAction extends VlMapAction {
   async getLayer() {
-    return new VlMapLayer(this.driver, await this.driver.executeScript('return arguments[0].parentElement', this));
+    return await VlMapLayers.asLayer(this.driver, await this.parent());
   }
 
   async removeFeature(id) {
     const layer = await this.getLayer();
     const map = await this.getMap();
-    await layer.clickPointFeatureOnMap(id, map);
+    await map.scrollIntoView();
+    const coordinateForFeature = await layer.getCoordinateForFeature(id);
+    const numberOfFeaturesBefore = await layer.getNumberOfFeatures();
+    await map.clickOnCoordinates(coordinateForFeature);
+    await this.driver.wait(async () => {
+      const numberOfFeatures = await layer.getNumberOfFeatures();
+      return numberOfFeatures == numberOfFeaturesBefore - 1;
+    });
   }
 
   async removeAllInRectangle(coordinatesTopLeft, coordinatesBottomRight) {
     const map = await this.getMap();
+    await map.scrollIntoView();
     await map.dragRectangle(coordinatesTopLeft, coordinatesBottomRight);
   }
 }

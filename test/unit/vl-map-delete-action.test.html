@@ -15,8 +15,7 @@
     <template>
       <vl-map>
         <vl-map-features-layer>
-          <vl-map-delete-action>
-          </vl-map-delete-action>
+          <vl-map-delete-action></vl-map-delete-action>
         </vl-map-features-layer>
       </vl-map>
     </template>
@@ -27,7 +26,7 @@
       <vl-map>
         <vl-map-features-layer>
           <vl-map-delete-action>
-			<vl-map-layer-style data-vl-text-color="#000" data-vl-color="#FFE615" data-vl-border-color="#FFE615"></vl-map-layer-style>
+			      <vl-map-layer-style data-vl-text-color="#000" data-vl-color="#FFE615" data-vl-border-color="#FFE615"></vl-map-layer-style>
           </vl-map-delete-action>
         </vl-map-features-layer>
       </vl-map>
@@ -38,20 +37,14 @@
     import {VlMapDeleteAction} from '../../src/vl-map-delete-action.js';
 
     suite('vl-map-delete-action', () => {
-      const sandbox = sinon.createSandbox();
-    
       setup((done) => {
         customElements.whenDefined('vl-map-delete-action').then(() => done());
       });
-    
-      teardown(() => {
-        sandbox.restore();
-      });
-    
+
       test('een delete actie is een map actie', () => {
         assert.isTrue(VlMapDeleteAction.isVlMapAction());
       });
-    
+
       test('controle van de delete actie configuratie', (done) => {
         const map = fixture('vl-map-delete-action-fixture');
         const layer = map.querySelector('vl-map-features-layer').layer;
@@ -59,7 +52,7 @@
         map.ready.then(() => {
           const action = map.map.actions[0];
           assert.deepEqual(action.layer, layer);
-          assert.equal(action.style.getFill().getColor(), 'rgba(217, 83, 79, 0.6)');
+          assert.equal(action.style.getFill().getColor(), 'rgba(241, 174, 174, 0.26)');
           done();
         });
       });
