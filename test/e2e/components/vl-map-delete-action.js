@@ -9,11 +9,14 @@ class VlMapDeleteAction extends VlMapAction {
   async removeFeature(id) {
     const layer = await this.getLayer();
     const map = await this.getMap();
-    await layer.clickPointFeatureOnMap(id, map);
+    await map.scrollIntoView();
+    const coordinateForFeature = await layer.getCoordinateForFeature(id);
+    await map.clickOnCoordinates(coordinateForFeature);
   }
 
   async removeAllInRectangle(coordinatesTopLeft, coordinatesBottomRight) {
     const map = await this.getMap();
+    await map.scrollIntoView();
     await map.dragRectangle(coordinatesTopLeft, coordinatesBottomRight);
   }
 }

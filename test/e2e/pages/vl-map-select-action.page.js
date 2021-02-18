@@ -17,7 +17,9 @@ class VlMapSelectActionPage extends VlMapPage {
     const layers = await map.getLayers();
     assert.isNotEmpty(layers);
     const layer = layers[0];
-    await layer.clickPointFeatureOnMap(id, map);
+    await map.scrollIntoView();
+    const coordinateForFeature = await layer.getCoordinateForFeature(id);
+    await map.clickOnCoordinates(coordinateForFeature);
     return this._waitForFeatureToBeSelected(id);
   }
 
