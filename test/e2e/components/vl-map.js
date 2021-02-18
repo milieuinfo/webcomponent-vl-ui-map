@@ -163,19 +163,19 @@ class VlMap extends VlElement {
 
     const actions = await this.driver.actions();
 
-    actions.move({
+    await actions.move({
       origin: this,
       x: fromPixels.x,
       y: fromPixels.y,
     }).press().perform();
 
-    actions.move({
+    await actions.move({
       origin: this,
       x: toPixels.x,
       y: toPixels.y,
     }).release().perform();
 
-    actions.pause(100).click().perform();
+    await actions.click().perform();
   }
 
   async getScale() {
