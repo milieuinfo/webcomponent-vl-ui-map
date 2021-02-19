@@ -43,10 +43,10 @@ describe('vl-map-search', async () => {
 
   it('als gebruiker zie ik dat de kaart gezoomd is nadat ik de zoekfunctionaliteit gebruik waarbij die pas achteraf gekoppeld werd met de kaart', async () => {
     const map = await vlMapPage.getBindMap();
-    const search = await vlMapPage.getBindMapSearch();
     await assert.eventually.isTrue(map.hasZoom(2));
-
     await vlMapPage.clickBindMapButton();
+
+    const search = await vlMapPage.getBindMapSearch();
     await search.open();
     await search.zoomTo('Tems');
 

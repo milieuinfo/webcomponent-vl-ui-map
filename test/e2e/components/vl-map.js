@@ -123,10 +123,59 @@ class VlMap extends VlElement {
     }, 2000).then(() => true).catch(() => false);
   }
 
+  /**
+   * Geef de pixels voor een coördinaat op de kaart.
+   * Relatief t.o.v. de hoogte en breedte van diezelfde kaart.
+   *
+   * @param {Number[]} coordinates - coördinaat op de kaart
+   * @return {Promise<{x: number, y: number}>}
+   * @private
+   * @see {@link https://openlayers.org/en/latest/apidoc/module-ol_Map-Map.html#getPixelFromCoordinate}
+   * @see {@link https://www.selenium.dev/selenium/docs/api/javascript/module/selenium-webdriver/lib/webdriver_exports_WebElement.html#getRect}
+   */
+  async _getPixelsFromCoordinate(coordinates = [0, 0]) {
+    const pixels = await this.driver.executeScript(`return arguments[0].map.getPixelFromCoordinate(${JSON.stringify(coordinates)})`, this);
+    const rect = await this.getRect();
+    return {
+      x: Math.round(pixels[0] - (rect.width / 2)),
+      y: Math.round(pixels[1] - (rect.height / 2)),
+    };
+  }
+
   async clickOnCoordinates(coordinates) {
     const pixel = await this.driver.executeScript(`return arguments[0].map.getPixelFromCoordinate(${JSON.stringify(coordinates)})`, this);
     const movePoint = await this._moveToPointOnMap(pixel);
     await this.driver.actions().move(movePoint).click().perform();
+  }
+
+  /**
+   * Beweeg een punt o.b.v zijn coördinaat naar een andere plaats op de kaart.
+   *
+   * @param {Number[]} from - coördinaat om vanuit te bewegen
+   * @param {Number[]} to - coördinaat om naar te bewegen
+   * @return {Promise<void>}
+   */
+  async movePointByCoordinates(from = [0, 0], to = [0, 0]) {
+    const fromPixels = await this._getPixelsFromCoordinate(from);
+    const toPixels = await this._getPixelsFromCoordinate(to);
+
+    await this.clickOnCoordinates(from);
+
+    const actions = await this.driver.actions();
+
+    await actions.move({
+      origin: this,
+      x: fromPixels.x,
+      y: fromPixels.y,
+    }).press().perform();
+
+    await actions.move({
+      origin: this,
+      x: toPixels.x,
+      y: toPixels.y,
+    }).release().perform();
+
+    await actions.click().perform();
   }
 
   async getScale() {
@@ -150,6 +199,7 @@ class VlMap extends VlElement {
         await this.driver.wait(this.driver.executeScript('return arguments[0].ready', this), 1000);
         return true;
       } catch (error) {
+        console.log(error);
         return false;
       }
     });

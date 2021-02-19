@@ -1,4 +1,4 @@
-import {define, awaitScript} from '/node_modules/vl-ui-core/dist/vl-core.js';
+import {awaitScript, define} from '/node_modules/vl-ui-core/dist/vl-core.js';
 
 import {VlMap} from '/src/vl-map.js';
 import {VlMapOverviewMap} from '/src/vl-map-overview-map.js';
@@ -27,6 +27,7 @@ import {VlMapSideSheet} from '/src/vl-map-side-sheet.js';
 import {VlMapLayerSwitcher} from '/src/vl-map-layer-switcher.js';
 import {VlMapSideSheetMenu} from '/src/vl-map-side-sheet-menu.js';
 import {VlMapSideSheetMenuItem} from '/src/vl-map-side-sheet-menu-item.js';
+import {VlMapModifyAction} from '/src/vl-map-modify-action.js';
 
 Promise.all([
   awaitScript('vl-map-proj4', '/node_modules/proj4/dist/proj4.js'),
@@ -56,6 +57,7 @@ Promise.all([
   define('vl-map-layer-switcher', VlMapLayerSwitcher);
   define('vl-map-side-sheet-menu', VlMapSideSheetMenu);
   define('vl-map-side-sheet-menu-item', VlMapSideSheetMenuItem);
+  define('vl-map-modify-action', VlMapModifyAction);
 });
 
 export {
@@ -86,4 +88,5 @@ export {
   VlMapLayerSwitcher,
   VlMapSideSheetMenu,
   VlMapSideSheetMenuItem,
+  VlMapModifyAction,
 };
