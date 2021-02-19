@@ -59,8 +59,10 @@ class VlMapSearch extends VlElement {
 
   async _getSelect() {
     const search = await this._getSearch();
-    const select = await search.findElement(By.css('select[is="vl-select"]'));
-    return new VlSelect(this.driver, select);
+    const element = await search.findElement(By.css('select[is="vl-select"]'));
+    const select = await new VlSelect(this.driver, element);
+    await this.driver.wait(() => select.isSearchable());
+    return select;
   }
 
   async _waitForValues() {
