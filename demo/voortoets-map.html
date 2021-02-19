@@ -50,6 +50,7 @@
                 <vl-map-draw-line-action id="draw-line-action"></vl-map-draw-line-action>
                 <vl-map-draw-polygon-action id="draw-polygon-action"></vl-map-draw-polygon-action>
                 <vl-map-delete-action id="delete-action"></vl-map-delete-action>
+                <vl-map-modify-action id="modify-action"></vl-map-modify-action>
             </vl-map-features-layer>
             <vl-map-features-layer id="rapportering-layer" data-vl-name="Reikwijdte effect"
                                    data-vl-features='{"type": "FeatureCollection","name": "effect","crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::31370" } },"features": [{ "type": "Feature", "properties": { "waarde": "200", "eenheid": "m" }, "geometry": { "type": "MultiPolygon", "coordinates": [ [ [ [ 149255.0, 199908.0 ], [ 149252.537668119039154, 199876.71310699195601 ], [ 149245.211303259042324, 199846.196601125004236 ], [ 149233.201304837682983, 199817.201900052081328 ], [ 149216.803398874995764, 199790.442949541495182 ], [ 149196.421356237318832, 199766.578643762681168 ], [ 149172.557050458504818, 199746.196601125004236 ], [ 149145.798099947918672, 199729.798695162317017 ], [ 149116.803398874995764, 199717.788696740957676 ], [ 149086.28689300804399, 199710.462331880960846 ], [ 149055.0, 199708.0 ], [ 149023.71310699195601, 199710.462331880960846 ], [ 148993.196601125004236, 199717.788696740957676 ], [ 148964.201900052081328, 199729.798695162317017 ], [ 148937.442949541495182, 199746.196601125004236 ], [ 148913.578643762681168, 199766.578643762681168 ], [ 148893.196601125004236, 199790.442949541495182 ], [ 148876.798695162317017, 199817.201900052081328 ], [ 148864.788696740957676, 199846.196601125004236 ], [ 148857.462331880960846, 199876.71310699195601 ], [ 148855.0, 199908.0 ], [ 148857.462331880960846, 199939.28689300804399 ], [ 148864.788696740957676, 199969.803398874995764 ], [ 148876.798695162317017, 199998.798099947918672 ], [ 148893.196601125004236, 200025.557050458504818 ], [ 148913.578643762681168, 200049.421356237318832 ], [ 148937.442949541495182, 200069.803398874995764 ], [ 148964.201900052081328, 200086.201304837682983 ], [ 148993.196601125004236, 200098.211303259042324 ], [ 149023.71310699195601, 200105.537668119039154 ], [ 149055.0, 200108.0 ], [ 149086.28689300804399, 200105.537668119039154 ], [ 149116.803398874995764, 200098.211303259042324 ], [ 149145.798099947918672, 200086.201304837682983 ], [ 149172.557050458504818, 200069.803398874995764 ], [ 149196.421356237318832, 200049.421356237318832 ], [ 149216.803398874995764, 200025.557050458504818 ], [ 149233.201304837682983, 199998.798099947918672 ], [ 149245.211303259042324, 199969.803398874995764 ], [ 149252.537668119039154, 199939.28689300804399 ], [ 149255.0, 199908.0 ] ] ] ] } }]}'>
@@ -149,10 +150,15 @@
                   '{"type": "FeatureCollection",  "features": [{"type": "Feature", "geometry": ' +
                   '{"type": "Point","coordinates": [149055.0,199908.0]}}]}');
               }
-            
+
               function activeerFeaturesVerwijderenProjectLaag() {
             	  const deleteAction = document.querySelector('#projectgebied-layer').querySelector("vl-map-delete-action");
             	  deleteAction.activate();
+              }
+
+              function activeerFeaturesAanpassenProjectLaag() {
+                const modifyAction = document.querySelector('#projectgebied-layer').querySelector("vl-map-modify-action");
+                modifyAction.activate();
               }
 
               function zoomToLayer() {
@@ -172,6 +178,8 @@
 
             <button id="map-delete-feature" is="vl-button" type="button" onclick="activeerFeaturesVerwijderenProjectLaag()">Verwijder features van projectlaag
             </button>
+
+            <button id="map-modify-feature" is="vl-button" type="button" onclick="activeerFeaturesAanpassenProjectLaag()">Pas features van de projectlaag aan</button>
 
             <button id="map-projectgebied-teken-punt" is="vl-button" type="button"
                     onclick="document.querySelector('#draw-point-action').activate()">Projectgebied als
