@@ -14,6 +14,10 @@ class VlMapFeaturesLayer extends VlMapLayer {
     return JSON.parse(feature);
   }
 
+  async getNumberOfFeatures() {
+    return (await this.getFeatures()).length;
+  }
+
   async getCoordinateOfInteriorPointOfFeature(id) {
     return await this.driver.executeScript(`return arguments[0].layer.getSource().getFeatureById(${id}).getGeometry().getInteriorPoint().getFirstCoordinate();`, this);
   }
