@@ -36,12 +36,11 @@ describe('vl-map-layer-switcher', async () => {
 
     const names = ['Kaartlaag 1', 'Kaartlaag 2', 'Kaartlaag 3', 'WMTS kaartlaag', 'WMS kaartlaag', 'WFS kaartlaag'];
     for (let index = 0; index < names.length; index++) {
-      const checkbox = await layerSwitcher.getCheckboxForLayer(names[index]);
       const layer = layers[index];
       await assert.eventually.isTrue(layer.isVisible());
-      await checkbox.click();
+      await checkboxes[index].click();
       await assert.eventually.isFalse(layer.isVisible());
-      await checkbox.click();
+      await checkboxes[index].click();
       await assert.eventually.isTrue(layer.isVisible());
     }
   });
