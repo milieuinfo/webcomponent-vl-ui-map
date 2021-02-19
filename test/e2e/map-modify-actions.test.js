@@ -31,7 +31,7 @@ describe('vl-map-modify-action', async () => {
     const modifiedGeometry = (await featuresLayer.getFeature(1)).geometry;
     assert.include(modifiedGeometry, {type: 'Point'});
     assert.notDeepEqual(modifiedGeometry, geometry1);
-    assert.deepEqual(await featuresLayer.getFeature(2), feature2);
+    await assert.eventually.deepEqual(await featuresLayer.getFeature(2), feature2);
   });
 
   it('als gebruiker kan ik een lijn aanpassen op een kaart', async () => {

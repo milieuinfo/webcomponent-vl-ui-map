@@ -7,7 +7,8 @@ class VlMapAction extends VlElement {
   }
 
   async getMap() {
-    const map = await new VlMap(this.driver, await this.driver.executeScript('return arguments[0]._mapElement', this));
+    const element = await this.driver.executeScript('return arguments[0]._mapElement', this);
+    const map = await new VlMap(this.driver, element);
     await map.isReady();
     await map.scrollIntoView();
     return map;

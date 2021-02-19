@@ -199,6 +199,7 @@ class VlMap extends VlElement {
         await this.driver.wait(this.driver.executeScript('return arguments[0].ready', this), 1000);
         return true;
       } catch (error) {
+        console.log(error);
         return false;
       }
     });
