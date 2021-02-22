@@ -47,13 +47,13 @@ export class VlMapDeleteAction extends VlMapLayerAction {
    *                            - {Function} reject callback zonder argument waarbij de highlight verwijderd wordt
    */
   onDelete(callback) {
-    this.__onDeleteCallback = callback;
+    this.__callback = callback;
   }
 
   get _callback() {
     return (features, resolve, reject) => {
-      if (this.__onDeleteCallback) {
-        return this.__onDeleteCallback(features, resolve, reject);
+      if (this.__callback) {
+        return this.__callback(features, resolve, reject);
       } else {
         features.forEach((feature) => resolve(feature));
       }
