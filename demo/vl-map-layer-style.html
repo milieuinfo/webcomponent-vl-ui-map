@@ -17,7 +17,7 @@
   <vl-demo data-vl-title="Kaart met kaartlaag met feature en de standaard stijl">
     <vl-map id="map-standard">
       <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
-      <vl-map-layer data-vl-name="laag" data-vl-features='
+      <vl-map-features-layer data-vl-name="laag" data-vl-features='
         {
           "type": "FeatureCollection",
           "features": [{
@@ -35,14 +35,14 @@
           }]
         }'>
         <vl-map-layer-style id="map-standard-style"></vl-map-layer-style>
-      </vl-map-layer>
+      </vl-map-features-layer>
     </vl-map>
   </vl-demo>
 
   <vl-demo data-vl-title="Kaart met kaartlaag met feature met label">
     <vl-map id="map-label">
       <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
-      <vl-map-layer data-vl-name="laag" data-vl-features='
+      <vl-map-features-layer data-vl-name="laag" data-vl-features='
         {
           "type": "FeatureCollection",
           "features": [{
@@ -61,14 +61,14 @@
           }]
         }'>
         <vl-map-layer-style id="map-label-style" data-vl-text-feature-attribute-name="label"></vl-map-layer-style>
-      </vl-map-layer>
+      </vl-map-features-layer>
     </vl-map>
   </vl-demo>
 
   <vl-demo data-vl-title="Kaart met kaartlaag met feature en een aangepaste stijl met label">
     <vl-map id="map-adjusted">
       <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
-      <vl-map-layer data-vl-name="laag" data-vl-features='
+      <vl-map-features-layer data-vl-name="laag" data-vl-features='
         {
           "type": "FeatureCollection",
           "features": [{
@@ -99,14 +99,14 @@
                             data-vl-text-offset-y="-10"
                             data-vl-text-size="13px">
         </vl-map-layer-style>
-      </vl-map-layer>
+      </vl-map-features-layer>
     </vl-map>
   </vl-demo>
   
   <vl-demo data-vl-title="Kaart met kaartlaag met meerdere stijlen">
     <vl-map id="map-multiple-styles">
       <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
-      <vl-map-layer data-vl-name="laag" data-vl-features='
+      <vl-map-features-layer data-vl-name="laag" data-vl-features='
         {
           "type": "FeatureCollection",
           "features": [{
@@ -145,7 +145,7 @@
         <script>
           document.querySelector('#map-layer-style-green').appliesTo = (feature) => feature.get('status') === 'green';
         </script>
-      </vl-map-layer>
+      </vl-map-features-layer>
     </vl-map>
   </vl-demo>
 </vl-demo-page>
