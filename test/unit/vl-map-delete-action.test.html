@@ -35,6 +35,7 @@
 
   <script type="module">
     import {VlMapDeleteAction} from '../../src/vl-map-delete-action.js';
+    import {awaitUntil} from '/node_modules/vl-ui-core/dist/vl-core.js';
 
     suite('vl-map-delete-action', () => {
       setup((done) => {
@@ -96,7 +97,7 @@
         await awaitUntil(() => deleteAction.action != null);
         const removeFeatureStub = sinon.stub();
         sinon.stub(deleteAction.layer, 'getSource').returns({
-          removeFeature: removeFeatureStub
+          removeFeature: removeFeatureStub,
         });
         const feature = {
           getStyle: () => {},

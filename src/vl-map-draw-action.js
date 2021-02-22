@@ -12,7 +12,6 @@ import {VlMapLayerAction} from '/src/vl-map-layer-action.js';
  * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map-draw-actions.html|Demo}
  */
 export class VlMapDrawAction extends VlMapLayerAction {
-
   /**
    * Zet de functie die wordt uitgevoerd na het uitvoeren van de teken actie
    *
