@@ -178,58 +178,6 @@ class VlMap extends VlElement {
     await actions.click().perform();
   }
 
-  /**
-   * Beweeg een punt o.b.v zijn coördinaat naar een andere plaats op de kaart.
-   *
-   * @param {Number[]} from - coördinaat om vanuit te bewegen
-   * @param {Number[]} to - coördinaat om naar te bewegen
-   * @return {Promise<void>}
-   */
-  async movePointByCoordinates(from = [0, 0], to = [0, 0]) {
-    const fromPixels = await this._getPixelsFromCoordinate(from);
-    const toPixels = await this._getPixelsFromCoordinate(to);
-
-    await this.clickOnCoordinates(from);
-    if (await this._isFirefox()) {
-      // TODO stefanborghys: 13/02/21 moving a point (without losing the cursor) seems impossible, i cannot get this to work
-      const actions = await this.driver.actions();
-      actions.move({
-        duration: 500,
-        origin: this,
-        x: fromPixels.x,
-        y: fromPixels.y,
-      }).press().perform();
-      actions.move({
-        duration: 500,
-        origin: this,
-        x: toPixels.x,
-        y: toPixels.y,
-      }).release().perform();
-    } else {
-      await this.driver.actions()
-          .move({
-            duration: 500,
-            origin: this,
-            x: fromPixels.x,
-            y: fromPixels.y,
-          })
-          .press()
-          .move({
-            duration: 500,
-            origin: this,
-            x: toPixels.x,
-            y: toPixels.y,
-          })
-          .release()
-          .perform();
-    }
-  }
-
-  async _isFirefox() {
-    const userAgent = await this.driver.executeScript(`return navigator.userAgent`, this);
-    return userAgent.includes('Firefox');
-  }
-
   async getScale() {
     const map = await this._getMap();
     const scale = await map.findElement(By.css('.ol-scale-line-inner'));
