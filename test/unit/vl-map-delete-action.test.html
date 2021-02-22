@@ -112,6 +112,47 @@
         assert.isTrue(removeFeatureStub.calledOnce);
         assert.deepEqual(removeFeatureStub.args[0][0], feature);
       });
+
+      test('nadat de delete actie voltooid is, kan er met de onDelete callback voor gezorgd worden dat bepaalde features verdwijnen en andere niet', async () => {
+        const map = fixture('vl-map-delete-action-fixture');
+        await map.ready;
+        const deleteAction = map.querySelector('vl-map-delete-action');
+        await awaitUntil(() => deleteAction.action != null);
+        const removeFeatureStub = sinon.stub();
+        sinon.stub(deleteAction.layer, 'getSource').returns({
+          removeFeature: removeFeatureStub,
+        });
+
+        deleteAction.onDelete((features, resolve, reject) => {
+          features.forEach((feature) => {
+            if (feature.verwijderen === 'JA') {
+              resolve(feature);
+            } else {
+              reject(feature);
+            }
+          });
+        });
+        const teVerwijderenFeature = {
+          getStyle: () => {},
+          setStyle: () => {},
+          getId: () => null,
+          verwijderen: 'JA',
+        };
+        const featureDieNietVerwijderdMagWorden = {
+          getStyle: () => {},
+          setStyle: () => {},
+          getId: () => null,
+          verwijderen: 'NEE',
+        };
+        deleteAction.action.hoverInteraction.getFeatures().push(teVerwijderenFeature);
+        deleteAction.action.hoverInteraction.getFeatures().push(featureDieNietVerwijderdMagWorden);
+
+        deleteAction.action.dragBoxInteraction.dispatchEvent('boxend');
+
+        await awaitUntil(() => deleteAction.action.hoverInteraction.getFeatures().getLength() === 0);
+        assert.isTrue(removeFeatureStub.calledOnce);
+        assert.deepEqual(removeFeatureStub.args[0][0], teVerwijderenFeature);
+      });
     });
   </script>
 </body>
