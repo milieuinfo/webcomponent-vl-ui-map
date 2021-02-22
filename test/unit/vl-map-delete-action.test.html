@@ -11,117 +11,108 @@
 </head>
 
 <body>
-<test-fixture id="vl-map-delete-action-fixture">
-  <template>
-    <vl-map>
-      <vl-map-layer>
-        <vl-map-delete-action>
-        </vl-map-delete-action>
-      </vl-map-layer>
-    </vl-map>
-  </template>
-</test-fixture>
+  <test-fixture id="vl-map-delete-action-fixture">
+    <template>
+      <vl-map>
+        <vl-map-features-layer>
+          <vl-map-delete-action></vl-map-delete-action>
+        </vl-map-features-layer>
+      </vl-map>
+    </template>
+  </test-fixture>
 
-<test-fixture id="vl-map-delete-action-fixture-custom-stijl">
-  <template>
-    <vl-map>
-      <vl-map-layer>
-        <vl-map-delete-action>
-          <vl-map-layer-style data-vl-text-color="#000" data-vl-color="#FFE615"
-                              data-vl-border-color="#FFE615"></vl-map-layer-style>
-        </vl-map-delete-action>
-      </vl-map-layer>
-    </vl-map>
-  </template>
-</test-fixture>
+  <test-fixture id="vl-map-delete-action-fixture-custom-stijl">
+    <template>
+      <vl-map>
+        <vl-map-features-layer>
+          <vl-map-delete-action>
+			      <vl-map-layer-style data-vl-text-color="#000" data-vl-color="#FFE615" data-vl-border-color="#FFE615"></vl-map-layer-style>
+          </vl-map-delete-action>
+        </vl-map-features-layer>
+      </vl-map>
+    </template>
+  </test-fixture>
 
-<script type="module">
-  import {VlMapDeleteAction} from '../../src/vl-map-delete-action.js';
-  import {awaitUntil} from '/node_modules/vl-ui-core/dist/vl-core.js';
+  <script type="module">
+    import {VlMapDeleteAction} from '../../src/vl-map-delete-action.js';
 
-  suite('vl-map-delete-action', () => {
-    const sandbox = sinon.createSandbox();
+    suite('vl-map-delete-action', () => {
+      setup((done) => {
+        customElements.whenDefined('vl-map-delete-action').then(() => done());
+      });
 
-    setup((done) => {
-      customElements.whenDefined('vl-map-delete-action').then(() => done());
-    });
+      test('een delete actie is een map actie', () => {
+        assert.isTrue(VlMapDeleteAction.isVlMapAction());
+      });
 
-    teardown(() => {
-      sandbox.restore();
-    });
+      test('controle van de delete actie configuratie', (done) => {
+        const map = fixture('vl-map-delete-action-fixture');
+        const layer = map.querySelector('vl-map-features-layer').layer;
 
-    test('een delete actie is een map actie', () => {
-      assert.isTrue(VlMapDeleteAction.isVlMapAction());
-    });
+        map.ready.then(() => {
+          const action = map.map.actions[0];
+          assert.deepEqual(action.layer, layer);
+          assert.equal(action.style.getFill().getColor(), 'rgba(241, 174, 174, 0.26)');
+          done();
+        });
+      });
 
-    test('controle van de delete actie configuratie', (done) => {
-      const map = fixture('vl-map-delete-action-fixture');
-      const layer = map.querySelector('vl-map-layer').layer;
+      test('controle van de delete actie configuratie met custom stijl', (done) => {
+        const map = fixture('vl-map-delete-action-fixture-custom-stijl');
+        const styleElement = map.querySelector('vl-map-layer-style');
+        const layer = map.querySelector('vl-map-features-layer').layer;
 
-      map.ready.then(() => {
-        const action = map.map.actions[0];
-        assert.deepEqual(action.layer, layer);
-        assert.equal(action.style.getFill().getColor(), 'rgba(217, 83, 79, 0.6)');
-        done();
+        map.ready.then(() => {
+          const action = map.map.actions[0];
+          assert.deepEqual(action.layer, layer);
+          assert.deepEqual(action.style(), styleElement.style());
+          assert.equal(action.style().getFill().getColor(), '#FFE615');
+          done();
+        });
+      });
+
+      test('nadat de delete actie voltooid is, zal de onDelete worden opgeroepen', async () => {
+        const map = fixture('vl-map-delete-action-fixture');
+        await map.ready;
+        const deleteAction = map.querySelector('vl-map-delete-action');
+        await awaitUntil(() => deleteAction.action != null);
+        let featureDeleted = false;
+        deleteAction.onDelete(() => {
+          featureDeleted = true;
+        });
+        deleteAction.action.hoverInteraction.getFeatures().push({
+          getStyle: sinon.stub(),
+          setStyle: sinon.stub(),
+        });
+        deleteAction.action.dragBoxInteraction.dispatchEvent('boxend');
+
+        await awaitUntil(() => featureDeleted === true);
+      });
+
+      test('nadat de delete actie voltooid is, zullen de features verdwijnen', async () => {
+        const map = fixture('vl-map-delete-action-fixture');
+        await map.ready;
+        const deleteAction = map.querySelector('vl-map-delete-action');
+        await awaitUntil(() => deleteAction.action != null);
+        const removeFeatureStub = sinon.stub();
+        sinon.stub(deleteAction.layer, 'getSource').returns({
+          removeFeature: removeFeatureStub
+        });
+        const feature = {
+          getStyle: () => {},
+          setStyle: () => {},
+          getId: () => null,
+        };
+        deleteAction.action.hoverInteraction.getFeatures().push(feature);
+
+        deleteAction.action.dragBoxInteraction.dispatchEvent('boxend');
+
+        await awaitUntil(() => deleteAction.action.hoverInteraction.getFeatures().getLength() === 0);
+        assert.isTrue(removeFeatureStub.calledOnce);
+        assert.deepEqual(removeFeatureStub.args[0][0], feature);
       });
     });
-
-    test('controle van de delete actie configuratie met custom stijl', (done) => {
-      const map = fixture('vl-map-delete-action-fixture-custom-stijl');
-      const styleElement = map.querySelector('vl-map-layer-style');
-      const layer = map.querySelector('vl-map-layer').layer;
-
-      map.ready.then(() => {
-        const action = map.map.actions[0];
-        assert.deepEqual(action.layer, layer);
-        assert.deepEqual(action.style(), styleElement.style());
-        assert.equal(action.style().getFill().getColor(), '#FFE615');
-        done();
-      });
-    });
-
-    test('nadat de delete actie voltooid is, zal de onDelete worden opgeroepen', async () => {
-      const map = fixture('vl-map-delete-action-fixture');
-      await map.ready;
-      const deleteAction = map.querySelector('vl-map-delete-action');
-      await awaitUntil(() => deleteAction.action != null);
-      let featureDeleted = false;
-      deleteAction.onDelete(() => {
-        featureDeleted = true;
-      });
-      deleteAction.action.hoverInteraction.getFeatures().push({
-        getStyle: sinon.stub(),
-        setStyle: sinon.stub(),
-      });
-      deleteAction.action.dragBoxInteraction.dispatchEvent('boxend');
-
-      await awaitUntil(() => featureDeleted === true);
-    });
-
-    test('nadat de delete actie voltooid is, zullen de features verdwijnen', async () => {
-      const map = fixture('vl-map-delete-action-fixture');
-      await map.ready;
-      const deleteAction = map.querySelector('vl-map-delete-action');
-      await awaitUntil(() => deleteAction.action != null);
-      const removeFeatureStub = sinon.stub();
-      sinon.stub(deleteAction.layer, 'getSource').returns({
-        removeFeature: removeFeatureStub
-      });
-      const feature = {
-        getStyle: () => {},
-        setStyle: () => {},
-        getId: () => null,
-      };
-      deleteAction.action.hoverInteraction.getFeatures().push(feature);
-
-      deleteAction.action.dragBoxInteraction.dispatchEvent('boxend');
-
-      await awaitUntil(() => deleteAction.action.hoverInteraction.getFeatures().getLength() === 0);
-      assert.isTrue(removeFeatureStub.calledOnce);
-      assert.deepEqual(removeFeatureStub.args[0][0], feature);
-    });
-  });
-</script>
+  </script>
 </body>
 
 </html>

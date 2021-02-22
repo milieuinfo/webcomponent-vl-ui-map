@@ -17,7 +17,7 @@
         <vl-demo data-vl-title="Kaart met punt aanpas actie">
             <vl-map id="map-with-modify-point-action">
                 <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
-                <vl-map-layer id="point-layer" data-vl-name="punt-laag" data-vl-features='
+                <vl-map-features-layer id="point-layer" data-vl-name="punt-laag" data-vl-features='
                     {
                         "type": "FeatureCollection",
                         "features": [{
@@ -36,17 +36,16 @@
                             }
                         }]
                     }'>
-                    <!-- Note: size improves e2e testing -->
-                    <vl-map-layer-circle-style data-vl-size="6"></vl-map-layer-circle-style>
-                    <vl-map-modify-action id="modify-point-action" data-vl-default-active></vl-map-modify-action>
-                </vl-map-layer>
+                    <vl-map-layer-circle-style></vl-map-layer-circle-style>
+                    <vl-map-modify-action data-vl-default-active></vl-map-modify-action>
+                </vl-map-features-layer>
             </vl-map>
         </vl-demo>
 
         <vl-demo data-vl-title="Kaart met lijn aanpas actie">
             <vl-map id="map-with-modify-line-action">
                 <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
-                <vl-map-layer id="line-layer" data-vl-name="lijn-laag" data-vl-features='
+                <vl-map-features-layer id="line-layer" data-vl-name="lijn-laag" data-vl-features='
                     {
                         "type": "FeatureCollection",
                         "features": [{
@@ -61,17 +60,16 @@
                             }
                         }]
                     }'>
-                    <!-- WARN: border-size has an impact on the e2e tests -->
-                    <vl-map-layer-style id="map-adjusted-style" data-vl-border-size="6"></vl-map-layer-style>
-                    <vl-map-modify-action id="modify-line-action" data-vl-default-active></vl-map-modify-action>
-                </vl-map-layer>
+                    <vl-map-layer-style></vl-map-layer-style>
+                    <vl-map-modify-action data-vl-default-active></vl-map-modify-action>
+                </vl-map-features-layer>
             </vl-map>
         </vl-demo>
 
         <vl-demo data-vl-title="Kaart met polygoon aanpas actie">
             <vl-map id="map-with-modify-polygon-action">
                 <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
-                <vl-map-layer id="polygon-layer" data-vl-name="polygoon-laag" data-vl-features='
+                <vl-map-features-layer id="polygon-layer" data-vl-name="polygoon-laag" data-vl-features='
                     {
                         "type": "FeatureCollection",
                         "features": [{
@@ -85,10 +83,9 @@
                             }
                         }]
                     }'>
-                    <!-- WARN: border-size has an impact on the e2e tests -->
-                    <vl-map-layer-style id="map-adjusted-style" data-vl-border-size="6"></vl-map-layer-style>
-                    <vl-map-modify-action id="modify-polygon-action" data-vl-default-active></vl-map-modify-action>
-                </vl-map-layer>
+                    <vl-map-layer-style></vl-map-layer-style>
+                    <vl-map-modify-action data-vl-default-active></vl-map-modify-action>
+                </vl-map-features-layer>
             </vl-map>
         </vl-demo>
 
