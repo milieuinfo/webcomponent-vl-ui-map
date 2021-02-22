@@ -39,7 +39,7 @@ export class VlMapDeleteAction extends VlMapLayerAction {
 
   /**
    * Zet de functie die wordt uitgevoerd na het uitvoeren van de verwijder actie.
-   * Voor elke geselecteerde feature wordt de reject callback gebruikt worden om de feature te verwijderen of de reject callback zodat de feature niet verwijderd wordt.
+   * Voor elke geselecteerde feature wordt de reject callback gebruikt om de feature te verwijderen of de reject callback zodat de feature niet verwijderd wordt.
    *
    * @param {Function} callback functie met volgende argumenten:
    *                            - {[ol.Feature]} de te verwijderen features
