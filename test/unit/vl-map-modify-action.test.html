@@ -47,10 +47,11 @@
       const modifyAction = map.querySelector('vl-map-modify-action');
       await awaitUntil(() => modifyAction.action != null);
       let featureModified = false;
-      modifyAction.onModify(() => {
+      modifyAction.onModify((feature) => {
+        assert.equal(feature, 'gewijzigdeFeature');
         featureModified = true;
       });
-      modifyAction.action.modifyInteraction.dispatchEvent({type: 'modifyend', features: ['feature']});
+      modifyAction.action.modifyInteraction.dispatchEvent({type: 'modifyend', features: ['gewijzigdeFeature']});
 
       await awaitUntil(() => featureModified === true);
     });
