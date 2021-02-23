@@ -42,10 +42,14 @@
           const drawAction = map.querySelector(`vl-map-draw-${types[index]}-action`);
           await awaitUntil(() => drawAction.action != null);
           let featureDrawn = false;
-          drawAction.onDraw(() => {
+          drawAction.onDraw((feature) => {
+            assert.equal(feature, 'getekendeFeature');
             featureDrawn = true;
           });
-          drawAction.action.drawInteraction.dispatchEvent('drawend');
+          drawAction.action.drawInteraction.dispatchEvent({
+            type: 'drawend',
+            feature: 'getekendeFeature',
+          });
           await awaitUntil(() => featureDrawn === true);
         }
       });
