@@ -35,6 +35,7 @@
 
   <script type="module">
     import {VlMapDeleteAction} from '../../src/vl-map-delete-action.js';
+    import {OlFeature} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
     import {awaitUntil} from '/node_modules/vl-ui-core/dist/vl-core.js';
 
     suite('vl-map-delete-action', () => {
@@ -81,10 +82,7 @@
         deleteAction.onDelete(() => {
           featureDeleted = true;
         });
-        deleteAction.action.hoverInteraction.getFeatures().push({
-          getStyle: sinon.stub(),
-          setStyle: sinon.stub(),
-        });
+        deleteAction.action.hoverInteraction.getFeatures().push(new OlFeature({}));
         deleteAction.action.dragBoxInteraction.dispatchEvent('boxend');
 
         await awaitUntil(() => featureDeleted === true);
@@ -99,11 +97,7 @@
         sinon.stub(deleteAction.layer, 'getSource').returns({
           removeFeature: removeFeatureStub,
         });
-        const feature = {
-          getStyle: () => {},
-          setStyle: () => {},
-          getId: () => null,
-        };
+        const feature = new OlFeature({});
         deleteAction.action.hoverInteraction.getFeatures().push(feature);
 
         deleteAction.action.dragBoxInteraction.dispatchEvent('boxend');
@@ -122,28 +116,17 @@
         sinon.stub(deleteAction.layer, 'getSource').returns({
           removeFeature: removeFeatureStub,
         });
-
+        const teVerwijderenFeature = new OlFeature({});
+        const featureDieNietVerwijderdMagWorden = new OlFeature({});
         deleteAction.onDelete((features, resolve, reject) => {
           features.forEach((feature) => {
-            if (feature.verwijderen === 'JA') {
+            if (feature === teVerwijderenFeature) {
               resolve(feature);
             } else {
               reject(feature);
             }
           });
         });
-        const teVerwijderenFeature = {
-          getStyle: () => {},
-          setStyle: () => {},
-          getId: () => null,
-          verwijderen: 'JA',
-        };
-        const featureDieNietVerwijderdMagWorden = {
-          getStyle: () => {},
-          setStyle: () => {},
-          getId: () => null,
-          verwijderen: 'NEE',
-        };
         deleteAction.action.hoverInteraction.getFeatures().push(teVerwijderenFeature);
         deleteAction.action.hoverInteraction.getFeatures().push(featureDieNietVerwijderdMagWorden);
 
