@@ -18,7 +18,7 @@
       setup((done) => {
         customElements.whenDefined('vl-map-draw-line-action').then(() => done());
       });
-    
+
       test('een lijn teken actie is een map actie', () => {
         assert.isTrue(VlMapDrawLineAction.isVlMapAction());
       });

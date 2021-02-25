@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="../../../@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../../../web-component-tester/browser.js"></script>
+
+  <script type="module" src="../../src/vl-map-all.js"></script>
+  <script src="/node_modules/sinon/pkg/sinon.js"></script>
+</head>
+
+<test-fixture id="vl-map-draw-actions-fixture">
+  <template>
+    <vl-map>
+      <vl-map>
+        <vl-map-features-layer id="line-layer">
+          <vl-map-draw-point-action id="draw-point-action"></vl-map-draw-point-action>
+          <vl-map-draw-line-action id="draw-line-action"></vl-map-draw-line-action>
+          <vl-map-draw-polygon-action id="draw-polygon-action"></vl-map-draw-polygon-action>
+        </vl-map-features-layer>
+      </vl-map>
+    </vl-map>
+  </template>
+</test-fixture>
+<body>
+  <script type="module">
+    import {awaitUntil} from '/node_modules/vl-ui-core/dist/vl-core.js';
+
+    suite('vl-map-draw-line-action', () => {
+      setup(async () => {
+        await customElements.whenDefined('vl-map-draw-point-action');
+        await customElements.whenDefined('vl-map-draw-line-action');
+        await customElements.whenDefined('vl-map-draw-polygon-action');
+      });
+
+      test('nadat de tekenactie voltooid is, zal de callback worden opgeroepen', async () => {
+        const map = fixture('vl-map-draw-actions-fixture');
+        await map.ready;
+        const types = ['point', 'line', 'polygon'];
+        for (let index = 0; index < types.length; index++) {
+          const drawAction = map.querySelector(`vl-map-draw-${types[index]}-action`);
+          await awaitUntil(() => drawAction.action != null);
+          let featureDrawn = false;
+          drawAction.onDraw((feature) => {
+            assert.equal(feature, 'getekendeFeature');
+            featureDrawn = true;
+          });
+          drawAction.action.drawInteraction.dispatchEvent({
+            type: 'drawend',
+            feature: 'getekendeFeature',
+          });
+          await awaitUntil(() => featureDrawn === true);
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>
