@@ -1,5 +1,6 @@
 import {vlElement} from 'vl-ui-core';
 import 'vl-ui-form-message';
+import 'vl-ui-checkbox';
 
 /**
  * VlMapLayerSwitcher
@@ -57,7 +58,6 @@ export class VlMapLayerSwitcher extends vlElement(HTMLElement) {
   get _layerInputs() {
     return this._slot.assignedElements().filter((input) => input.hasAttribute('data-vl-layer'));
   }
-
 
   get _mapElement() {
     return this.closest('vl-map');
