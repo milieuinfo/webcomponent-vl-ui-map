@@ -35,6 +35,8 @@
 
   <script type="module">
     import {VlMapDeleteAction} from '../../src/vl-map-delete-action.js';
+    import {OlFeature} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
+    import {awaitUntil} from '/node_modules/vl-ui-core/dist/vl-core.js';
 
     suite('vl-map-delete-action', () => {
       setup((done) => {
@@ -69,6 +71,70 @@
           assert.equal(action.style().getFill().getColor(), '#FFE615');
           done();
         });
+      });
+
+      test('nadat de delete actie voltooid is, zal de onDelete worden opgeroepen', async () => {
+        const map = fixture('vl-map-delete-action-fixture');
+        await map.ready;
+        const deleteAction = map.querySelector('vl-map-delete-action');
+        await awaitUntil(() => deleteAction.action != null);
+        let featureDeleted = false;
+        deleteAction.onDelete(() => {
+          featureDeleted = true;
+        });
+        deleteAction.action.hoverInteraction.getFeatures().push(new OlFeature({}));
+        deleteAction.action.dragBoxInteraction.dispatchEvent('boxend');
+
+        await awaitUntil(() => featureDeleted === true);
+      });
+
+      test('nadat de delete actie voltooid is, zullen de features verdwijnen', async () => {
+        const map = fixture('vl-map-delete-action-fixture');
+        await map.ready;
+        const deleteAction = map.querySelector('vl-map-delete-action');
+        await awaitUntil(() => deleteAction.action != null);
+        const removeFeatureStub = sinon.stub();
+        sinon.stub(deleteAction.layer, 'getSource').returns({
+          removeFeature: removeFeatureStub,
+        });
+        const feature = new OlFeature({});
+        deleteAction.action.hoverInteraction.getFeatures().push(feature);
+
+        deleteAction.action.dragBoxInteraction.dispatchEvent('boxend');
+
+        await awaitUntil(() => deleteAction.action.hoverInteraction.getFeatures().getLength() === 0);
+        assert.isTrue(removeFeatureStub.calledOnce);
+        assert.deepEqual(removeFeatureStub.args[0][0], feature);
+      });
+
+      test('nadat de delete actie voltooid is, kan er met de onDelete callback voor gezorgd worden dat bepaalde features verdwijnen en andere niet', async () => {
+        const map = fixture('vl-map-delete-action-fixture');
+        await map.ready;
+        const deleteAction = map.querySelector('vl-map-delete-action');
+        await awaitUntil(() => deleteAction.action != null);
+        const removeFeatureStub = sinon.stub();
+        sinon.stub(deleteAction.layer, 'getSource').returns({
+          removeFeature: removeFeatureStub,
+        });
+        const teVerwijderenFeature = new OlFeature({});
+        const featureDieNietVerwijderdMagWorden = new OlFeature({});
+        deleteAction.onDelete((features, resolve, reject) => {
+          features.forEach((feature) => {
+            if (feature === teVerwijderenFeature) {
+              resolve(feature);
+            } else {
+              reject(feature);
+            }
+          });
+        });
+        deleteAction.action.hoverInteraction.getFeatures().push(teVerwijderenFeature);
+        deleteAction.action.hoverInteraction.getFeatures().push(featureDieNietVerwijderdMagWorden);
+
+        deleteAction.action.dragBoxInteraction.dispatchEvent('boxend');
+
+        await awaitUntil(() => deleteAction.action.hoverInteraction.getFeatures().getLength() === 0);
+        assert.isTrue(removeFeatureStub.calledOnce);
+        assert.deepEqual(removeFeatureStub.args[0][0], teVerwijderenFeature);
       });
     });
   </script>

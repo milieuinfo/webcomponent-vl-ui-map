@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="../../../@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../../../web-component-tester/browser.js"></script>
+
+  <script type="module" src="../../src/vl-map-all.js"></script>
+  <script src="/node_modules/sinon/pkg/sinon.js"></script>
+</head>
+
+<body>
+<test-fixture id="vl-map-modify-action-fixture">
+  <template>
+    <vl-map>
+      <vl-map-features-layer>
+        <vl-map-modify-action>
+        </vl-map-modify-action>
+      </vl-map-features-layer>
+    </vl-map>
+  </template>
+</test-fixture>
+
+<script type="module">
+  import {VlMapModifyAction} from '../../src/vl-map-modify-action.js';
+  import {awaitUntil} from '/node_modules/vl-ui-core/dist/vl-core.js';
+
+  suite('vl-map-modify-action', () => {
+    const sandbox = sinon.createSandbox();
+
+    setup((done) => {
+      customElements.whenDefined('vl-map-modify-action').then(() => done());
+    });
+
+    teardown(() => {
+      sandbox.restore();
+    });
+
+    test('een modify actie is een map actie', () => {
+      assert.isTrue(VlMapModifyAction.isVlMapAction());
+    });
+
+    test('nadat de modify actie voltooid is, zal de onModify worden opgeroepen', async () => {
+      const map = fixture('vl-map-modify-action-fixture');
+      await map.ready;
+      const modifyAction = map.querySelector('vl-map-modify-action');
+      await awaitUntil(() => modifyAction.action != null);
+      let featureModified = false;
+      modifyAction.onModify((feature) => {
+        assert.equal(feature, 'gewijzigdeFeature');
+        featureModified = true;
+      });
+      modifyAction.action.modifyInteraction.dispatchEvent({type: 'modifyend', features: ['gewijzigdeFeature']});
+
+      await awaitUntil(() => featureModified === true);
+    });
+  });
+</script>
+</body>
+
+</html>

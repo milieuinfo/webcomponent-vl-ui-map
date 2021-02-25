@@ -37,10 +37,33 @@ export class VlMapDeleteAction extends VlMapLayerAction {
     }
   }
 
+  /**
+   * Zet de functie die wordt uitgevoerd na het uitvoeren van de verwijder actie.
+   * Voor elke geselecteerde feature wordt de reject callback gebruikt om de feature te verwijderen of de reject callback zodat de feature niet verwijderd wordt.
+   *
+   * @param {Function} callback functie met volgende argumenten:
+   *                            - {[ol.Feature]} de te verwijderen features
+   *                            - {Function} resolve callback met ol.Feature als argument die verwijderd wordt
+   *                            - {Function} reject callback zonder argument waarbij de highlight verwijderd wordt
+   */
+  onDelete(callback) {
+    this.__callback = callback;
+  }
+
+  get _callback() {
+    return (features, resolve, reject) => {
+      if (this.__callback) {
+        return this.__callback(features, resolve, reject);
+      } else {
+        features.forEach((feature) => resolve(feature));
+      }
+    };
+  }
+
   _createAction(layer) {
     const options = {
       style: this._style,
     };
-    return new VlDeleteAction(layer, null, options);
+    return new VlDeleteAction(layer, this._callback, options);
   }
 }
