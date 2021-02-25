@@ -142,6 +142,7 @@
                                data-vl-name="GRB Wegenkaart">
             </vl-map-wmts-layer>
         </vl-map>
+        <div id="map-action-callback-text"></div>
         <div>
             <script type="application/javascript">
               /* eslint-disable */ // foutieve lint: functies zijn wel gebruikt hieronder
@@ -168,6 +169,35 @@
               function zoomToBoundingBox() {
                 document.querySelector('#projectgebied-map').zoomTo(
                   [148055.0, 198908.0, 150055.0, 200908.0]);
+              }
+
+              function activateCallbacks() {
+                  const setTextOfCallbackTextDiv = (text) => {
+                      document.querySelector('#map-action-callback-text').innerText = text;
+                  };
+                  document.querySelector('#draw-point-action').onDraw((feature) => {
+                      console.log(feature);
+                      setTextOfCallbackTextDiv('Punt getekend: ' + feature.getGeometry().getCoordinates());
+                  });
+                  document.querySelector('#draw-line-action').onDraw((feature) => {
+                      console.log(feature);
+                      setTextOfCallbackTextDiv('Lijn getekend: ' + feature.getGeometry().getCoordinates());
+                  });
+                  document.querySelector('#draw-polygon-action').onDraw((feature) => {
+                      console.log(feature);
+                      setTextOfCallbackTextDiv('Polygoon getekend: ' + feature.getGeometry().getCoordinates());
+                  });
+                  document.querySelector('#delete-action').onDelete((features, resolve) => {
+                      console.log(features);
+                      features.forEach((feature) => {
+                          resolve(feature);
+                      });
+                      setTextOfCallbackTextDiv('Features verwijderd: ' + features.length);
+                  });
+                  document.querySelector('#modify-action').onModify((feature) => {
+                      console.log(feature);
+                      setTextOfCallbackTextDiv('Feature aangepast: ' + feature.getGeometry().getCoordinates());
+                  });
               }
 
               /* eslint-enable */
@@ -205,6 +235,10 @@
                 Haal projectgebieden op
             </button>
             <!-- TODO: lijkt niet te werken voor getekende features: https://github.com/milieuinfo/webcomponent-vl-ui-map/issues/201 -->
+
+            <button id="map-button-activate-callbacks" is="vl-button" type="button" onclick="activateCallbacks()">
+                Activeer callbacks op draw, modify en delete
+            </button>
 
         </div>
     </vl-demo>
