@@ -66,25 +66,6 @@
         });
       });
 
-      test('wanneer de gebruiker zoekt zullen bij geopunt de suggesties opgehaald worden', () => {
-        const value = 'straat';
-        const response = new Promise((resolve, reject) => {
-          resolve(new Response(JSON.stringify({}), {status: 200}));
-        });
-        const fetchStub = sandbox.stub(window, 'fetch');
-        fetchStub.withArgs('https://loc.geopunt.be/v4/Suggestion?q=' + value).returns(response);
-        const element = fixture('vl-map-with-search-fixture');
-        return customElements.whenDefined('vl-map').then( async () => {
-          const selectElement = element.shadowRoot.querySelector('vl-map-search').shadowRoot.querySelector('select');
-          selectElement.dispatchEvent(new CustomEvent('search', {
-            detail: {
-              value: value,
-            },
-          }));
-          await awaitUntil(() => fetchStub.called);
-        });
-      });
-
       test('wanneer de gebruiker een Lambert-coördinaat zoekt, zullen bij geopunt de locaties opgehaald worden', () => {
         const lambertCoordinaat = LambertCoordinaat.of('104719.27, 192387.25');
         const value = lambertCoordinaat.toString();

@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="../../../@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../../../web-component-tester/browser.js"></script>
+
+  <script type="module" src="../../src/vl-map-all.js"></script>
+  <script src="/node_modules/sinon/pkg/sinon.js"></script>
+</head>
+
+<body>
+  <test-fixture id="vl-select-address-fixture">
+    <template>
+      <select is="vl-select-address"></select>
+    </template>
+  </test-fixture>
+
+  <script type="module">
+    import {awaitUntil} from '/node_modules/vl-ui-core/dist/vl-core.js';
+    import {LambertCoordinaat} from '../../src/vl-map-search';
+
+    suite('vl-select-address', () => {
+      const sandbox = sinon.createSandbox();
+
+      setup((done) => {
+        customElements.whenDefined('vl-select-address').then(() => done());
+      });
+
+      teardown(() => {
+        sandbox.restore();
+      });
+    
+      test('wanneer de gebruiker zoekt zullen bij geopunt de suggesties opgehaald worden', async () => {
+        const value = 'straat';
+        const response = new Promise((resolve, reject) => {
+          resolve(new Response(JSON.stringify({}), {status: 200}));
+        });
+        const fetchStub = sandbox.stub(window, 'fetch');
+        fetchStub.withArgs('https://loc.geopunt.be/v4/Suggestion?q=' + value).returns(response);
+        const element = fixture('vl-select-address-fixture');
+        element.dispatchEvent(new CustomEvent('search', {
+          detail: {
+            value: value,
+          },
+        }));
+        await awaitUntil(() => fetchStub.called);
+      });
+    });
+  </script>
+</body>
+
+</html>

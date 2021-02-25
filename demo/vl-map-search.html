@@ -14,6 +14,7 @@
   <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-demo/dist/style.css" />
   <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-form-message/dist/style.css" />
   <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-button/dist/style.css" />
+  <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-select/dist/style.css" />
 
   <style>
     vl-map-search {
@@ -25,6 +26,11 @@
 <body is="vl-body">
   <vl-demo-page data-vl-webcomponent="vl-map-search">
     <vl-demo data-vl-title="Kaart met adres zoek functionaliteit">
+      <select is="vl-select-address"></select>
+      <vl-map-search></vl-map-search>
+    </vl-demo>
+
+    <!-- <vl-demo data-vl-title="Kaart met adres zoek functionaliteit">
       <vl-map id="map-with-search">
         <vl-map-search></vl-map-search>
         <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
@@ -66,7 +72,7 @@
             });
           });
         </script>
-    </vl-demo>
+    </vl-demo> -->
   </vl-demo-page>
 </body>
 
