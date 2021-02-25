@@ -4,7 +4,7 @@ const VlMapSearchPage = require('./pages/vl-map-search.page');
 describe('vl-map-search', async () => {
   let vlMapPage;
 
-  beforeEach(() => {
+  before(() => {
     vlMapPage = new VlMapSearchPage(getDriver());
     return vlMapPage.load();
   });
@@ -29,6 +29,7 @@ describe('vl-map-search', async () => {
     await search.open();
     await search.zoomTo('Tems');
     await assert.eventually.isTrue(map.hasZoom(5));
+    await vlMapPage.load();
   });
 
   it('als gebruiker kan ik zoeken met de zoekfunctionaliteit maar als er niets gevonden werd zijn er geen opties', async () => {
@@ -52,6 +53,7 @@ describe('vl-map-search', async () => {
 
     await assert.eventually.equal(search.getSelectedValue(), 'Temse');
     await assert.eventually.isTrue(map.hasZoom(5));
+    await vlMapPage.load();
   });
 
   it('als gebruiker kan ik zoeken op Lambert-coördinaat en zal de kaart zoomen', async () => {
@@ -63,6 +65,7 @@ describe('vl-map-search', async () => {
     await search.zoomTo('104719.27, 192387.25');
 
     await assert.eventually.isTrue(map.hasZoom(10));
+    await vlMapPage.load();
   });
 
   it('als gebruiker kan ik zoeken op Lambert-coördinaat, een voorgestelde locatie kiezen en zal de kaart zoomen', async () => {
@@ -75,5 +78,6 @@ describe('vl-map-search', async () => {
     await search.selectByIndex(1);
 
     await assert.eventually.isTrue(map.hasZoom(14));
+    await vlMapPage.load();
   });
 });
