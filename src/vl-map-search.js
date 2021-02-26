@@ -53,7 +53,7 @@ class VlMapSearch extends vlElement(HTMLElement) {
   }
 
   _zoomTo(boundingBox) {
-    this._map.zoomTo(boundingBox, 10);
+    this._map.zoomTo(boundingBox, 14);
   }
 
   _configure() {
