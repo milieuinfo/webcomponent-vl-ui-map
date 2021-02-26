@@ -1,8 +1,8 @@
 import {vlElement} from '/node_modules/vl-ui-core/dist/vl-core.js';
 import '/node_modules/vl-ui-search/dist/vl-search.js';
+import '/src/vl-select-location.js';
 import {OlOverlay} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
 import LambertCoordinaat from '/src/lambert-coordinaat.js';
-import '/src/vl-select-address.js';
 
 /**
  * VlMapSearch
@@ -28,10 +28,11 @@ class VlMapSearch extends vlElement(HTMLElement) {
         }
       </style>
       <vl-search id="search" data-vl-inline>
-        <select is="vl-select-address" data-vl-block slot="input"></select>
+        <select is="vl-select-location" slot="input"></select>
       </vl-search>
     `);
     this._configure();
+    this._addSelectChangeListener();
   }
 
   get _selectElement() {
@@ -48,39 +49,11 @@ class VlMapSearch extends vlElement(HTMLElement) {
    * @param {Function} callback
    */
   onSelect(callback) {
-    // TODO
     this._onSelect = callback;
   }
 
-  _zoomToLambertCoordinaat(lambertCoordinaat) {
-    this._map.zoomTo({
-      type: 'Point',
-      coordinates: [lambertCoordinaat.x, lambertCoordinaat.y],
-    }, 10);
-  }
-
-  _zoomToLocation(location) {
-    this._map.zoomTo([
-      location.BoundingBox.LowerLeft.X_Lambert72,
-      location.BoundingBox.LowerLeft.Y_Lambert72,
-      location.BoundingBox.UpperRight.X_Lambert72,
-      location.BoundingBox.UpperRight.Y_Lambert72,
-    ], 14);
-  }
-
-  _zoomToLocationResult(data) {
-    if (data && data.LocationResult) {
-      if (this._onSelect) {
-        this._onSelect(data);
-      } else if (this._map) {
-        this._map.zoomTo([
-          data.LocationResult[0].BoundingBox.LowerLeft.X_Lambert72,
-          data.LocationResult[0].BoundingBox.LowerLeft.Y_Lambert72,
-          data.LocationResult[0].BoundingBox.UpperRight.X_Lambert72,
-          data.LocationResult[0].BoundingBox.UpperRight.Y_Lambert72,
-        ]);
-      }
-    }
+  _zoomTo(boundingBox) {
+    this._map.zoomTo(boundingBox, 10);
   }
 
   _configure() {
@@ -91,6 +64,16 @@ class VlMapSearch extends vlElement(HTMLElement) {
           className: 'vl-map-search__overlaycontainer',
           element: this,
         }));
+      }
+    });
+  }
+
+  _addSelectChangeListener() {
+    this._selectElement.addEventListener('change', (e) => {
+      if (this._onSelect) {
+        this._onSelect(e.target.value);
+      } else if (e.target.location) {
+        e.target.location.then((location) => this._zoomTo(location));
       }
     });
   }

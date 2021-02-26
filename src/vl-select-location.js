@@ -3,9 +3,9 @@ import {VlSelect} from '/node_modules/vl-ui-select/dist/vl-select.js';
 import LambertCoordinaat from '/src/lambert-coordinaat.js';
 
 /**
- * VlSelectAddress
+ * VlSelectLocation
  * @class
- * @classdesc Component om een adres te selecteren.
+ * @classdesc Component om een locatie te zoeken en selecteren.
  *
  * @extends VlSelect
  *
@@ -18,61 +18,51 @@ import LambertCoordinaat from '/src/lambert-coordinaat.js';
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
  * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map-search.html|Demo}
  */
-class VlSelectAddress extends VlSelect {
+class VlSelectLocation extends VlSelect {
   static get _observedAttributes() {
     return ['placeholder', 'search-placeholder', 'search-empty-text', 'search-no-results-text'];
   }
 
   constructor() {
     super();
+    this.setAttribute('data-vl-select', '');
     this._addSearchEventListener();
     this._addChoiceEventListener();
     this._addPlaceholder();
     this._changeTranslations();
   }
 
-  connectedCallback() {
-    this.dress();
-  }
-
-  get url() {
-    return 'https://loc.geopunt.be/v4';
-  }
-
-  get searchUrl() {
-    return this.url + '/Suggestion?q=';
-  }
-
-  get locationUrl() {
-    return this.url + '/Location?q=';
-  }
-
-  get locationXyUrl() {
-    return this.url + '/Location?c=5&xy=';
-  }
-
+  /**
+   * Geeft de bounding box op basis van de geselecteerde locatie.
+   *
+   * @return {Promise}
+   */
   get location() {
-    if (this.value) {
-      if (LambertCoordinaat.isLambertCoordinaat(this.value)) {
-        return {
-          type: 'Point',
-          coordinates: [this.value.x, this.value.y],
-        };
-      } else if (this.value.BoundingBox) {
-        return [
-          this.value.BoundingBox.LowerLeft.X_Lambert72,
-          this.value.BoundingBox.LowerLeft.Y_Lambert72,
-          this.value.BoundingBox.UpperRight.X_Lambert72,
-          this.value.BoundingBox.UpperRight.Y_Lambert72,
-        ];
-      } else if (this.value.LocationResult) {
-        let value;
-        this._searchLocationByValue(value).then((data) => {
-          value = [
-            this.value.LocationResult[0].BoundingBox.LowerLeft.X_Lambert72,
-            this.value.LocationResult[0].BoundingBox.LowerLeft.Y_Lambert72,
-            this.value.LocationResult[0].BoundingBox.UpperRight.X_Lambert72,
-            this.value.LocationResult[0].BoundingBox.UpperRight.Y_Lambert72,
+    const value = this._choices?.getValue()?.value;
+    if (value) {
+      if (value.BoundingBox) {
+        return Promise.resolve([
+          value.BoundingBox.LowerLeft.X_Lambert72,
+          value.BoundingBox.LowerLeft.Y_Lambert72,
+          value.BoundingBox.UpperRight.X_Lambert72,
+          value.BoundingBox.UpperRight.Y_Lambert72,
+        ]);
+      } else if (LambertCoordinaat.isLambertCoordinaat(value)) {
+        return Promise.resolve([
+          value.x - 1,
+          value.y - 1,
+          value.x + 1,
+          value.y + 1,
+        ]);
+      } else {
+        return fetch(this._locationUrl + encodeURIComponent(value)).then((response) => {
+          return response.json();
+        }).then((location) => {
+          return [
+            location.LocationResult[0].BoundingBox.LowerLeft.X_Lambert72,
+            location.LocationResult[0].BoundingBox.LowerLeft.Y_Lambert72,
+            location.LocationResult[0].BoundingBox.UpperRight.X_Lambert72,
+            location.LocationResult[0].BoundingBox.UpperRight.Y_Lambert72,
           ];
         });
       }
@@ -93,6 +83,22 @@ class VlSelectAddress extends VlSelect {
 
   set searchNoResultsText(value) {
     this._changeTranslation('select.no_more_options', value);
+  }
+
+  get _url() {
+    return 'https://loc.geopunt.be/v4';
+  }
+
+  get _searchUrl() {
+    return this._url + '/Suggestion?q=';
+  }
+
+  get _locationUrl() {
+    return this._url + '/Location?q=';
+  }
+
+  get _locationXyUrl() {
+    return this._url + '/Location?c=5&xy=';
   }
 
   get _placeholderElement() {
@@ -130,7 +136,7 @@ class VlSelectAddress extends VlSelect {
   }
 
   _searchChoicesByValue(searchValue) {
-    fetch(this.searchUrl + encodeURIComponent(searchValue)).then((response) => {
+    fetch(this._searchUrl + encodeURIComponent(searchValue)).then((response) => {
       return response.json();
     }).then((data) => {
       this.choices = this._mapSuggestionResultToChoices(data);
@@ -151,7 +157,7 @@ class VlSelectAddress extends VlSelect {
   }
 
   _searchChoicesByLambertCoordinaat(lambertCoordinaat) {
-    fetch(this.locationXyUrl + lambertCoordinaat.x + ',' + lambertCoordinaat.y).then((response) => {
+    fetch(this._locationXyUrl + lambertCoordinaat.x + ',' + lambertCoordinaat.y).then((response) => {
       return response.json();
     }).then((data) => {
       this.choices = [this._mapLambertCoordinaatToChoice(lambertCoordinaat)].concat(this._mapLocationResultToChoices(data));
@@ -182,12 +188,6 @@ class VlSelectAddress extends VlSelect {
     this.addEventListener('choice', () => this.dispatchEvent(new Event('change')));
   }
 
-  _searchLocationByValue(searchValue) {
-    return fetch(this.locationUrl + encodeURIComponent(searchValue)).then((response) => {
-      return response.json();
-    });
-  }
-
   _addPlaceholder() {
     this.insertAdjacentHTML('afterbegin', `<option placeholder></option>`);
   }
@@ -202,7 +202,7 @@ class VlSelectAddress extends VlSelect {
 
 export {
   LambertCoordinaat,
-  VlSelectAddress,
+  VlSelectLocation,
 };
 
-define('vl-select-address', VlSelectAddress, {extends: 'select'});
+define('vl-select-location', VlSelectLocation, {extends: 'select'});

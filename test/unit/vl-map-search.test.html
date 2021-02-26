@@ -49,148 +49,65 @@
         sandbox.restore();
       });
 
-      test('bevat een search element met correct geconfigureerd select element als input slot in', (done) => {
-        const element = fixture('vl-map-search-fixture');
+      test('bevat een search element met correct geconfigureerd select element als input slot', (done) => {
+        const map = fixture('vl-map-search-fixture');
         customElements.whenDefined('vl-search').then(() => {
-          const searchElement = element.shadowRoot.querySelector('vl-search');
+          const searchElement = map.shadowRoot.querySelector('vl-search');
           should.exist(searchElement);
           assert.isDefined(searchElement.getAttribute('data-vl-inline'));
 
           const selectElement = searchElement.querySelector('select');
           should.exist(selectElement);
-          assert.equal(selectElement.getAttribute('is'), 'vl-select');
-          assert.isDefined(selectElement.getAttribute('data-vl-select'));
-          assert.isDefined(selectElement.getAttribute('data-vl-select-deletable'));
-          assert.equal(selectElement.getAttribute('data-vl-select-search-empty-text'), 'Geen adres gevonden');
+          assert.equal(selectElement.getAttribute('is'), 'vl-select-location');
           done();
         });
       });
 
-      test('wanneer de gebruiker een suggestie selecteert zal bij Geopunt de locatie opgehaald worden', () => {
-        const location = {
-          LocationResult: [{
-            BoundingBox: {
-              LowerLeft: {
-                X_Lambert72: 0,
-                Y_Lambert72: 1,
-              },
-              UpperRight: {
-                X_Lambert72: 0,
-                Y_Lambert72: 1,
-              },
-            },
-          }],
-        };
-        const value = 'straat';
-        const response = new Promise((resolve, reject) => {
-          resolve(new Response(JSON.stringify(location), {status: 200}));
-        });
-        const fetchStub = sandbox.stub(window, 'fetch');
-        fetchStub.withArgs('https://loc.geopunt.be/v4/Location?q=' + value).returns(response);
-        const map = fixture('vl-map-with-search-fixture');
-        return customElements.whenDefined('vl-map').then( async () => {
-          sandbox.spy(map, 'zoomTo');
-          const selectElement = map.shadowRoot.querySelector('vl-map-search').shadowRoot.querySelector('select');
-          selectElement.dispatchEvent(new CustomEvent('choice', {
-            detail: {
-              choice: {
-                value: value,
-              },
-            },
-            bubbles: false,
-            composed: false,
-          }));
-
-          await awaitUntil(() => map.zoomTo.calledWith([location.LocationResult[0].BoundingBox.LowerLeft.X_Lambert72, location.LocationResult[0].BoundingBox.LowerLeft.Y_Lambert72, location.LocationResult[0].BoundingBox.UpperRight.X_Lambert72, location.LocationResult[0].BoundingBox.UpperRight.Y_Lambert72]));
-        });
-      });
-
-      test('wanneer de gebruiker een Lambert-coördinaat selecteert, zal niets opgehaald worden', () => {
-        const fetchSpy = sandbox.spy(window, 'fetch');
-
-        const map = fixture('vl-map-with-search-fixture');
-        return customElements.whenDefined('vl-map').then( async () => {
-          sandbox.spy(map, 'zoomTo');
-          const selectElement = map.shadowRoot.querySelector('vl-map-search').shadowRoot.querySelector('select');
-          selectElement.dispatchEvent(new CustomEvent('choice', {
-            detail: {
-              choice: {
-                value: LambertCoordinaat.of('104719.27, 192387.25'),
-              },
-            },
-            bubbles: false,
-            composed: false,
-          }));
-
-          await awaitUntil(() => fetchSpy.notCalled);
-        });
-      });
-
-      test('wanneer de gebruiker een locatie selecteert zal niets opgehaald worden', () => {
-        const location = {
-          BoundingBox: {
-            LowerLeft: {
-              X_Lambert72: 0,
-              Y_Lambert72: 1,
-            },
-            UpperRight: {
-              X_Lambert72: 0,
-              Y_Lambert72: 1,
-            },
-          },
-        };
-
-        const fetchSpy = sandbox.spy(window, 'fetch');
-
-        const map = fixture('vl-map-with-search-fixture');
-        return customElements.whenDefined('vl-map').then( async () => {
-          sandbox.spy(map, 'zoomTo');
-          const selectElement = map.shadowRoot.querySelector('vl-map-search').shadowRoot.querySelector('select');
-          selectElement.dispatchEvent(new CustomEvent('choice', {
-            detail: {
-              choice: {
-                value: location,
-              },
-            },
-            bubbles: false,
-            composed: false,
-          }));
-
-          await awaitUntil(() => fetchSpy.notCalled);
-        });
-      });
-
       test('indien vl-map-search element binnen een vl-map element zit, zal dit element toegevoegd worden aan de shadow dom', (done) => {
-        const element = fixture('vl-map-with-search-fixture');
-        should.not.exist(element.shadowRoot.querySelector('vl-map-search'));
+        const map = fixture('vl-map-with-search-fixture');
+        should.not.exist(map.shadowRoot.querySelector('vl-map-search'));
         customElements.whenDefined('vl-map').then(() => {
-          should.exist(element.shadowRoot.querySelector('vl-map-search'));
+          should.exist(map.shadowRoot.querySelector('vl-map-search'));
           done();
         });
       });
 
       test('indien vl-map-search element niet binnen een vl-map element zit, kan de koppeling nadien manueel gebeuren', () => {
-        const element = fixture('standalone-vl-map-search-fixture');
+        const map = fixture('standalone-vl-map-search-fixture');
         return customElements.whenDefined('vl-map').then(() => {
           return customElements.whenDefined('vl-map-search').then(() => {
-            const mapElement = element[0];
-            const searchElement = element[1];
+            const mapElement = map[0];
+            const searchElement = map[1];
             searchElement.bindMap(mapElement);
             assert.equal(searchElement._map, mapElement);
           });
         });
       });
 
-      test('on select callback wordt aangeroepen', (done) => {
-        const response = new Promise((resolve, reject) => {
-          resolve(new Response(JSON.stringify({LocationResult: [1, 2, 3, 4]}), {status: 200}));
-        });
-        const stub = sandbox.stub(window, 'fetch');
-        stub.returns(response);
-        const element = fixture('vl-map-with-search-fixture');
+      test('wanneer een locatie geselecteerd wordt zal de map zoomen naar deze locatie', async () => {
+        const value = 'Antwerpen';
+        const choices = [{
+          value: value,
+          label: value,
+        }];
+        const map = fixture('vl-map-with-search-fixture');
+        sandbox.spy(map, 'zoomTo');
+        await customElements.whenDefined('vl-map-search');
+        const searchElement = map.shadowRoot.querySelector('vl-map-search');
+        const selectElement = searchElement._selectElement;
+        await selectElement.ready();
+        selectElement.choices = choices;
+        selectElement.value = choices[0].value;
+        searchElement._selectElement.dispatchEvent(new Event('change'));
+        await awaitUntil(() => map.zoomTo.called);
+      });
+
+      test('wanneer een locatie geselecteerd wordt zal uitsluitend de on select callback aangeroepen worden indien deze bestaat', (done) => {
+        const map = fixture('vl-map-with-search-fixture');
         customElements.whenDefined('vl-map-search').then(() => {
-          element.shadowRoot.querySelector('vl-map-search').onSelect(() => done());
-          element.shadowRoot.querySelector('vl-map-search')._selectElement.dispatchEvent(new CustomEvent('choice', {detail: {choice: {value: 'test'}}}));
+          const searchElement = map.shadowRoot.querySelector('vl-map-search');
+          searchElement.onSelect(() => done());
+          searchElement._selectElement.dispatchEvent(new Event('change'));
         });
       });
     });
