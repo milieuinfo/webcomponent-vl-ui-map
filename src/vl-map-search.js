@@ -32,7 +32,6 @@ class VlMapSearch extends vlElement(HTMLElement) {
       </vl-search>
     `);
     this._configure();
-    this._addChoiceEventListener();
   }
 
   get _selectElement() {
@@ -49,26 +48,8 @@ class VlMapSearch extends vlElement(HTMLElement) {
    * @param {Function} callback
    */
   onSelect(callback) {
+    // TODO
     this._onSelect = callback;
-  }
-
-  _addChoiceEventListener() {
-    if (!this.__choiceEventListenerRegistered) {
-      this.__choiceEventListenerRegistered = true;
-      this.__choiceEventListener = this._selectElement.addEventListener('choice', (event) => {
-        if (event && event.detail && event.detail.choice) {
-          const value = event.detail.choice.value;
-
-          if (LambertCoordinaat.isLambertCoordinaat(value)) {
-            this._zoomToLambertCoordinaat(value);
-          } else if (value instanceof Object) {
-            this._zoomToLocation(value);
-          } else {
-            this._searchLocationByValue(value).then((data) => this._zoomToLocationResult(data));
-          }
-        }
-      });
-    }
   }
 
   _zoomToLambertCoordinaat(lambertCoordinaat) {
@@ -100,12 +81,6 @@ class VlMapSearch extends vlElement(HTMLElement) {
         ]);
       }
     }
-  }
-
-  _searchLocationByValue(searchValue) {
-    return fetch(this.locationUrl + encodeURIComponent(searchValue)).then((response) => {
-      return response.json();
-    });
   }
 
   _configure() {

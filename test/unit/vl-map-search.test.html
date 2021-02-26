@@ -66,32 +66,7 @@
         });
       });
 
-      test('wanneer de gebruiker een Lambert-coördinaat zoekt, zullen bij geopunt de locaties opgehaald worden', () => {
-        const lambertCoordinaat = LambertCoordinaat.of('104719.27, 192387.25');
-        const value = lambertCoordinaat.toString();
-
-        const response = new Promise((resolve, reject) => {
-          resolve(new Response(JSON.stringify({}), {status: 200}));
-        });
-
-        const fetchStub = sandbox.stub(window, 'fetch');
-        fetchStub.withArgs('https://loc.geopunt.be/v4/Location?c=5&xy=' + lambertCoordinaat.x + ',' + lambertCoordinaat.y ).returns(response);
-
-        const element = fixture('vl-map-with-search-fixture');
-        return customElements.whenDefined('vl-map').then( async () => {
-          const selectElement = element.shadowRoot.querySelector('vl-map-search').shadowRoot.querySelector('select');
-
-          selectElement.dispatchEvent(new CustomEvent('search', {
-            detail: {
-              value: value,
-            },
-          }));
-
-          await awaitUntil(() => fetchStub.called);
-        });
-      });
-
-      test('wanneer de gebruiker een suggestie selecteert zal bij geopunt de locatie opgehaald worden', () => {
+      test('wanneer de gebruiker een suggestie selecteert zal bij Geopunt de locatie opgehaald worden', () => {
         const location = {
           LocationResult: [{
             BoundingBox: {
@@ -151,7 +126,7 @@
         });
       });
 
-      test('wanneer de gebruiker een Locatie selecteert zal niets opgehaald worden', () => {
+      test('wanneer de gebruiker een locatie selecteert zal niets opgehaald worden', () => {
         const location = {
           BoundingBox: {
             LowerLeft: {
@@ -218,45 +193,7 @@
           element.shadowRoot.querySelector('vl-map-search')._selectElement.dispatchEvent(new CustomEvent('choice', {detail: {choice: {value: 'test'}}}));
         });
       });
-
-      test('er zijn default placeholders voor het zoek adres select element', () => {
-        const element = fixture('vl-map-search-fixture');
-        assert.equal(element._placeholderElement.innerText, 'Lokaliseer adres');
-        assert.equal(element.getTranslation('select.search_placeholder_value'), 'Zoeken op adres of coördinaat');
-        assert.equal(element._selectElement.getAttribute('data-vl-select-search-empty-text'), 'Geen adres gevonden');
-        assert.equal(element.getTranslation('select.no_more_options'), 'Geen adres gevonden');
-      });
-
-      test('de default placeholders van het zoek adres select element kunnen gewijzigd worden', () => {
-        const element = fixture('vl-map-search-fixture');
-        let text1 = 'Nieuwe tekst 1';
-        let text2 = 'Nieuwe tekst 2';
-        let text3 = 'Nieuwe tekst 3';
-        let text4 = 'Nieuwe tekst 4';
-        element.setAttribute('data-vl-placeholder', text1);
-        element.setAttribute('data-vl-search-placeholder', text2);
-        element.setAttribute('data-vl-search-empty-text', text3);
-        element.setAttribute('data-vl-search-no-results-text', text4);
-        assert.equal(element._placeholderElement.innerText, text1);
-        assert.equal(element.getTranslation('select.search_placeholder_value'), text2);
-        assert.equal(element._selectElement.getAttribute('data-vl-select-search-empty-text'), text3);
-        assert.equal(element.getTranslation('select.no_more_options'), text4);
-
-        text1 = 'Splinternieuwe tekst 1';
-        text2 = 'Splinternieuwe tekst 2';
-        text3 = 'Splinternieuwe tekst 3';
-        text4 = 'Splinternieuwe tekst 4';
-        element.placeholder = text1;
-        element.searchPlaceholder = text2;
-        element.searchEmptyText = text3;
-        element.searchNoResultsText = text4;
-        assert.equal(element._placeholderElement.innerText, text1);
-        assert.equal(element.getTranslation('select.search_placeholder_value'), text2);
-        assert.equal(element._selectElement.getAttribute('data-vl-select-search-empty-text'), text3);
-        assert.equal(element.getTranslation('select.no_more_options'), text4);
-      });
     });
-
   </script>
 </body>
 

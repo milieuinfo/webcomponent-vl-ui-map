@@ -26,6 +26,7 @@ class VlSelectAddress extends VlSelect {
   constructor() {
     super();
     this._addSearchEventListener();
+    this._addChoiceEventListener();
     this._addPlaceholder();
     this._changeTranslations();
   }
@@ -50,6 +51,34 @@ class VlSelectAddress extends VlSelect {
     return this.url + '/Location?c=5&xy=';
   }
 
+  get location() {
+    if (this.value) {
+      if (LambertCoordinaat.isLambertCoordinaat(this.value)) {
+        return {
+          type: 'Point',
+          coordinates: [this.value.x, this.value.y],
+        };
+      } else if (this.value.BoundingBox) {
+        return [
+          this.value.BoundingBox.LowerLeft.X_Lambert72,
+          this.value.BoundingBox.LowerLeft.Y_Lambert72,
+          this.value.BoundingBox.UpperRight.X_Lambert72,
+          this.value.BoundingBox.UpperRight.Y_Lambert72,
+        ];
+      } else if (this.value.LocationResult) {
+        let value;
+        this._searchLocationByValue(value).then((data) => {
+          value = [
+            this.value.LocationResult[0].BoundingBox.LowerLeft.X_Lambert72,
+            this.value.LocationResult[0].BoundingBox.LowerLeft.Y_Lambert72,
+            this.value.LocationResult[0].BoundingBox.UpperRight.X_Lambert72,
+            this.value.LocationResult[0].BoundingBox.UpperRight.Y_Lambert72,
+          ];
+        });
+      }
+    }
+  }
+
   set placeholder(value) {
     this._placeholderElement.innerText = value;
   }
@@ -70,15 +99,6 @@ class VlSelectAddress extends VlSelect {
     return this.querySelector('option[placeholder]');
   }
 
-  /**
-   * Bepaal callback die uitgevoerd wordt bij selectie van een locatie via de map search.
-   *
-   * @param {Function} callback
-   */
-  onSelect(callback) {
-    this._onSelect = callback;
-  }
-
   _placeholderChangedCallback(oldValue, newValue) {
     this.placeholder = newValue;
   }
@@ -96,24 +116,17 @@ class VlSelectAddress extends VlSelect {
   }
 
   _addSearchEventListener() {
-    if (!this.__searchEventListenerRegistered) {
-      this.__searchEventListenerRegistered = true;
-      this.addEventListener('search', (event) => {
-        if (event && event.detail && event.detail.value) {
-          const lambertCoordinaat = LambertCoordinaat.of(event.detail.value);
+    this.addEventListener('search', (event) => {
+      if (event && event.detail && event.detail.value) {
+        const lambertCoordinaat = LambertCoordinaat.of(event.detail.value);
 
-          if (LambertCoordinaat.isLambertCoordinaat(lambertCoordinaat)) {
-            this._searchChoicesByLambertCoordinaat(lambertCoordinaat);
-          } else {
-            this._searchChoicesByValue(event.detail.value);
-          }
+        if (LambertCoordinaat.isLambertCoordinaat(lambertCoordinaat)) {
+          this._searchChoicesByLambertCoordinaat(lambertCoordinaat);
+        } else {
+          this._searchChoicesByValue(event.detail.value);
         }
-      });
-    }
-  }
-
-  _addPlaceholder() {
-    this.insertAdjacentHTML('afterbegin', `<option placeholder></option>`);
+      }
+    });
   }
 
   _searchChoicesByValue(searchValue) {
@@ -165,6 +178,20 @@ class VlSelectAddress extends VlSelect {
     }
   }
 
+  _addChoiceEventListener() {
+    this.addEventListener('choice', () => this.dispatchEvent(new Event('change')));
+  }
+
+  _searchLocationByValue(searchValue) {
+    return fetch(this.locationUrl + encodeURIComponent(searchValue)).then((response) => {
+      return response.json();
+    });
+  }
+
+  _addPlaceholder() {
+    this.insertAdjacentHTML('afterbegin', `<option placeholder></option>`);
+  }
+
   _changeTranslations() {
     this.placeholder = 'Lokaliseer adres';
     this.searchPlaceholder = 'Zoeken op adres of coördinaat';
@@ -177,6 +204,5 @@ export {
   LambertCoordinaat,
   VlSelectAddress,
 };
-
 
 define('vl-select-address', VlSelectAddress, {extends: 'select'});
