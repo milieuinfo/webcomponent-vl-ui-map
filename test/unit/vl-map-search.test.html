@@ -35,7 +35,6 @@
 
   <script type="module">
     import {awaitUntil} from '/node_modules/vl-ui-core/dist/vl-core.js';
-    import {LambertCoordinaat} from '../../src/vl-map-search';
 
     suite('vl-map-search', () => {
       const sandbox = sinon.createSandbox();
@@ -108,6 +107,26 @@
           const searchElement = map.shadowRoot.querySelector('vl-map-search');
           searchElement.onSelect(() => done());
           searchElement._selectElement.dispatchEvent(new Event('change'));
+        });
+      });
+
+      test('zal de select placeholders doorgeven', (done) => {
+        const search = fixture('vl-map-search-fixture');
+        const select = search._selectElement;
+        const attributes = ['placeholder', 'search-placeholder', 'search-empty-text', 'search-no-results-text'];
+    
+        attributes.forEach((item, index) => {
+          const attribute = `data-vl-${item}`;
+          assert.isFalse(select.hasAttribute(attribute));
+          const value = `text-${index}`;
+          search.setAttribute(attribute, value);
+          assert.equal(select.getAttribute(attribute), value);
+          search.removeAttribute(attribute);
+          assert.isFalse(select.hasAttribute(attribute));
+
+          if (attributes.length == index+1) {
+            done();
+          }
         });
       });
     });
