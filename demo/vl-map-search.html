@@ -14,6 +14,7 @@
   <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-demo/dist/style.css" />
   <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-form-message/dist/style.css" />
   <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-button/dist/style.css" />
+  <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-select/dist/style.css" />
 
   <style>
     vl-map-search {
@@ -57,12 +58,7 @@
             customElements.whenDefined('vl-map'),
             customElements.whenDefined('vl-map-search')]).then(() => {
             document.querySelector('#vl-map-search-select-callback').onSelect((data) => {
-              document.querySelector('#vl-map-select-callback').zoomTo([
-                data.LocationResult[0].BoundingBox.LowerLeft.X_Lambert72,
-                data.LocationResult[0].BoundingBox.LowerLeft.Y_Lambert72,
-                data.LocationResult[0].BoundingBox.UpperRight.X_Lambert72,
-                data.LocationResult[0].BoundingBox.UpperRight.Y_Lambert72,
-              ]);
+              document.querySelector('#vl-map-select-callback').zoomTo(data);
             });
           });
         </script>

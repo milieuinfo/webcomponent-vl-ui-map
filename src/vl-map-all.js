@@ -26,6 +26,7 @@ import {VlMapLayerSwitcher} from '/src/vl-map-layer-switcher.js';
 import {VlMapSideSheetMenu} from '/src/vl-map-side-sheet-menu.js';
 import {VlMapSideSheetMenuItem} from '/src/vl-map-side-sheet-menu-item.js';
 import {VlMapModifyAction} from '/src/vl-map-modify-action.js';
+import {VlSelectLocation} from '/src/vl-select-location.js';
 
 export {
   VlMap,
@@ -56,4 +57,5 @@ export {
   VlMapSideSheetMenu,
   VlMapSideSheetMenuItem,
   VlMapModifyAction,
+  VlSelectLocation,
 };
