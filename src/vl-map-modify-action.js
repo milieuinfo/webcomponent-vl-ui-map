@@ -1,3 +1,4 @@
+import {define} from '/node_modules/vl-ui-core/dist/vl-core.js';
 import {VlMapLayerAction} from '/src/vl-map-layer-action.js';
 import {VlModifyAction} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
 
@@ -31,3 +32,5 @@ export class VlMapModifyAction extends VlMapLayerAction {
     return new VlModifyAction(layer, this._callback, options);
   }
 }
+
+define('vl-map-modify-action', VlMapModifyAction);

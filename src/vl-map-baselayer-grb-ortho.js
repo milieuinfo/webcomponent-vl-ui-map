@@ -1,3 +1,4 @@
+import {define} from '/node_modules/vl-ui-core/dist/vl-core.js';
 import {VlMapBaseLayer} from '/src/vl-map-baselayer.js';
 
 /**
@@ -19,3 +20,5 @@ export class VlMapBaseLayerGRBOrtho extends VlMapBaseLayer {
     this.setAttribute('title', 'GRB ortho laag');
   }
 }
+
+define('vl-map-baselayer-grb-ortho', VlMapBaseLayerGRBOrtho);
