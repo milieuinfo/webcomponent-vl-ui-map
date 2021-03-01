@@ -28,6 +28,7 @@ import {VlMapLayerSwitcher} from '/node_modules/vl-ui-map/dist/vl-map-layer-swit
 import {VlMapSideSheetMenu} from '/node_modules/vl-ui-map/dist/vl-map-side-sheet-menu.js';
 import {VlMapSideSheetMenuItem} from '/node_modules/vl-ui-map/dist/vl-map-side-sheet-menu-item.js';
 import {VlMapModifyAction} from '/node_modules/vl-ui-map/dist/vl-map-modify-action.js';
+import {VlSelectLocation} from '/node_modules/vl-ui-map/dist/vl-select-location.js';
 
 Promise.all([
   awaitScript('vl-map-proj4', '/node_modules/proj4/dist/proj4.js'),
@@ -89,4 +90,5 @@ export {
   VlMapSideSheetMenu,
   VlMapSideSheetMenuItem,
   VlMapModifyAction,
+  VlSelectLocation,
 };
