@@ -4,6 +4,7 @@ import {
   OlLayerGroup,
   OlProjection,
   VlCustomMap,
+  proj4,
 } from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
 
 /**
