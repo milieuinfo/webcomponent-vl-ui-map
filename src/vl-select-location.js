@@ -185,7 +185,7 @@ class VlSelectLocation extends VlSelect {
   }
 
   _addChoiceEventListener() {
-    this.addEventListener('choice', () => this.dispatchEvent(new Event('change')));
+    this.addEventListener('choice', () => setTimeout(() => this.dispatchEvent(new Event('change'))));
   }
 
   _addPlaceholder() {
