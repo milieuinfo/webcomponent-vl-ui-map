@@ -101,12 +101,27 @@
         await awaitUntil(() => map.zoomTo.called);
       });
 
-      test('wanneer een locatie geselecteerd wordt zal uitsluitend de on select callback aangeroepen worden indien deze bestaat', (done) => {
+      test('wanneer een locatie geselecteerd wordt zal uitsluitend de on select callback met de locatie bounding box aangeroepen worden indien deze bestaat', (done) => {
+        const value = 'Antwerpen';
+        const choices = [{
+          value: value,
+          label: value,
+        }];
         const map = fixture('vl-map-with-search-fixture');
         customElements.whenDefined('vl-map-search').then(() => {
           const searchElement = map.shadowRoot.querySelector('vl-map-search');
-          searchElement.onSelect(() => done());
-          searchElement._selectElement.dispatchEvent(new Event('change'));
+          const selectElement = searchElement._selectElement;
+
+          selectElement.ready().then(() => {
+            selectElement.choices = choices;
+            selectElement.value = choices[0].value;
+
+            searchElement.onSelect((data) => {
+              assert.deepEqual(data, [139508.19, 203712.17, 159050.77, 229767.3]);
+              done();
+            });
+            searchElement._selectElement.dispatchEvent(new Event('change'));
+          });
         });
       });
 

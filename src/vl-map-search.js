@@ -79,10 +79,14 @@ class VlMapSearch extends vlElement(HTMLElement) {
 
   _addSelectChangeListener() {
     this._selectElement.addEventListener('change', (e) => {
-      if (this._onSelect) {
-        this._onSelect(e.target.value);
-      } else if (e.target.location) {
-        e.target.location.then((location) => this._zoomTo(location));
+      if (e.target.location) {
+        e.target.location.then((location) => {
+          if (this._onSelect) {
+            this._onSelect(location);
+          } else {
+            this._zoomTo(location);
+          }
+        });
       }
     });
   }
