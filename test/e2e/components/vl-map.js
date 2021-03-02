@@ -15,12 +15,9 @@ const VlMapSideSheet = require('./vl-map-side-sheet');
 class VlMap extends VlElement {
   async getBaseLayers() {
     const childElements = await this.findElements(By.css(':scope > *'));
-    const tagNames = await Promise.all(
-        childElements.map((element) => element.getTagName()));
-    const baseLayerElements = childElements.filter(
-        (element, index) => tagNames[index].startsWith('vl-map-baselayer'));
-    return Promise.all(baseLayerElements.map(
-        (element) => new VlMapBaseLayer(this.driver, element)));
+    const tagNames = await Promise.all(childElements.map((element) => element.getTagName()));
+    const baseLayerElements = childElements.filter((element, index) => tagNames[index].startsWith('vl-map-baselayer'));
+    return Promise.all(baseLayerElements.map((element) => new VlMapBaseLayer(this.driver, element)));
   }
 
   async getLayers() {
@@ -74,9 +71,7 @@ class VlMap extends VlElement {
   }
 
   async getActiveBaseLayerTitle() {
-    return this.driver.executeScript(
-        `return arguments[0].map.baseLayers.find((layer) => layer.getVisible()).get('title')`,
-        this);
+    return this.driver.executeScript(`return arguments[0].map.baseLayers.find((layer) => layer.getVisible()).get('title')`, this);
   }
 
   async getSideSheet() {
@@ -112,8 +107,7 @@ class VlMap extends VlElement {
   }
 
   async getZoom() {
-    return this.driver.executeScript(
-        `return arguments[0].map.getView().getZoom()`, this);
+    return this.driver.executeScript(`return arguments[0].map.getView().getZoom()`, this);
   }
 
   async hasZoom(zoom) {
@@ -123,29 +117,9 @@ class VlMap extends VlElement {
     }, 2000).then(() => true).catch(() => false);
   }
 
-  /**
-   * Geef de pixels voor een coördinaat op de kaart.
-   * Relatief t.o.v. de hoogte en breedte van diezelfde kaart.
-   *
-   * @param {Number[]} coordinates - coördinaat op de kaart
-   * @return {Promise<{x: number, y: number}>}
-   * @private
-   * @see {@link https://openlayers.org/en/latest/apidoc/module-ol_Map-Map.html#getPixelFromCoordinate}
-   * @see {@link https://www.selenium.dev/selenium/docs/api/javascript/module/selenium-webdriver/lib/webdriver_exports_WebElement.html#getRect}
-   */
-  async _getPixelsFromCoordinate(coordinates = [0, 0]) {
-    const pixels = await this.driver.executeScript(`return arguments[0].map.getPixelFromCoordinate(${JSON.stringify(coordinates)})`, this);
-    const rect = await this.getRect();
-    return {
-      x: Math.round(pixels[0] - (rect.width / 2)),
-      y: Math.round(pixels[1] - (rect.height / 2)),
-    };
-  }
-
   async clickOnCoordinates(coordinates) {
-    const pixel = await this.driver.executeScript(`return arguments[0].map.getPixelFromCoordinate(${JSON.stringify(coordinates)})`, this);
-    const movePoint = await this._moveToPointOnMap(pixel);
-    await this.driver.actions().move(movePoint).click().perform();
+    const pixel = await this._getPixelFromCoordinate(coordinates);
+    await this.driver.actions().move(pixel).click().perform();
   }
 
   /**
@@ -156,25 +130,12 @@ class VlMap extends VlElement {
    * @return {Promise<void>}
    */
   async movePointByCoordinates(from = [0, 0], to = [0, 0]) {
-    const fromPixels = await this._getPixelsFromCoordinate(from);
-    const toPixels = await this._getPixelsFromCoordinate(to);
-
+    const fromPixel = await this._getPixelFromCoordinate(from);
+    const toPixel = await this._getPixelFromCoordinate(to);
     await this.clickOnCoordinates(from);
-
     const actions = await this.driver.actions();
-
-    await actions.move({
-      origin: this,
-      x: fromPixels.x,
-      y: fromPixels.y,
-    }).press().perform();
-
-    await actions.move({
-      origin: this,
-      x: toPixels.x,
-      y: toPixels.y,
-    }).release().perform();
-
+    await actions.move(fromPixel).press().perform();
+    await actions.move(toPixel).release().perform();
     await actions.click().perform();
   }
 
@@ -206,6 +167,17 @@ class VlMap extends VlElement {
     return true;
   }
 
+  async dragRectangle(topLeftCoordinate, bottomRightCoordinate) {
+    const pixelStart = await this._getPixelFromCoordinate(topLeftCoordinate);
+    const pixelEnd = await this._getPixelFromCoordinate(bottomRightCoordinate);
+    return this.driver.actions()
+        .move(pixelStart)
+        .press()
+        .move(pixelEnd)
+        .release()
+        .perform();
+  }
+
   async _getMap() {
     return this.shadowRoot;
   }
@@ -218,27 +190,25 @@ class VlMap extends VlElement {
     return this.shadowRoot.findElement(By.css('.ol-full-screen'));
   }
 
-  async _moveToPointOnMap(pixel) {
+  /**
+   * Geef de pixels voor een coördinaat op de kaart.
+   * Relatief t.o.v. de hoogte en breedte van diezelfde kaart.
+   *
+   * @param {Number[]} coordinates - coördinaat op de kaart
+   * @return {Promise<{x: number, y: number}>}
+   * @private
+   * @see {@link https://openlayers.org/en/latest/apidoc/module-ol_Map-Map.html#getPixelFromCoordinate}
+   * @see {@link https://www.selenium.dev/selenium/docs/api/javascript/module/selenium-webdriver/lib/webdriver_exports_WebElement.html#getRect}
+   */
+  async _getPixelFromCoordinate(coordinates = [0, 0]) {
     const rect = await this.getRect();
+    const pixel = await this.driver.executeScript(`return arguments[0].map.getPixelFromCoordinate(${JSON.stringify(coordinates)})`, this);
     return {
       origin: this,
-      x: Math.round(pixel[0] - (rect.width / 2)),
-      y: Math.round(pixel[1] - (rect.height / 2)),
+      x: Math.round(pixel[0] - (rect.width/2)),
+      y: Math.round(pixel[1] - (rect.height/2)),
       duration: 1000,
     };
-  }
-
-  async dragRectangle(topLeft, bottomRight) {
-    const pixelStart = await this.driver.executeScript(`return arguments[0].map.getPixelFromCoordinate(${JSON.stringify(topLeft)})`, this);
-    const pixelEnd = await this.driver.executeScript(`return arguments[0].map.getPixelFromCoordinate(${JSON.stringify(bottomRight)})`, this);
-    const moveStart = await this._moveToPointOnMap(pixelStart);
-    const moveEnd = await this._moveToPointOnMap(pixelEnd);
-    return this.driver.actions()
-        .move(moveStart)
-        .press()
-        .move(moveEnd)
-        .release()
-        .perform();
   }
 }
 

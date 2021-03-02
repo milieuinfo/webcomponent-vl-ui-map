@@ -45,7 +45,10 @@ class VlMapFeaturesLayer extends VlMapLayer {
       return coordinates;
     } else {
       if (type == 'LineString') {
-        return coordinates[0];
+        return [
+          coordinates[0][0] + (coordinates[1][0] - coordinates[0][0]) / 2,
+          coordinates[0][1] + (coordinates[1][1] - coordinates[0][1]) / 2,
+        ];
       } else {
         const interiorCoordinate = await this.getCoordinateOfInteriorPointOfFeature(id);
         return interiorCoordinate;
