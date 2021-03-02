@@ -1,3 +1,4 @@
+import {define} from '/node_modules/vl-ui-core/dist/vl-core.js';
 import {VlSideSheet} from '/node_modules/vl-ui-side-sheet/dist/vl-side-sheet.js';
 
 /**
@@ -47,3 +48,5 @@ export class VlMapSideSheet extends VlSideSheet {
     this.setAttribute('data-vl-absolute', '');
   }
 }
+
+define('vl-map-side-sheet', VlMapSideSheet);

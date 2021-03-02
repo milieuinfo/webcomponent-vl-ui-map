@@ -1,4 +1,4 @@
-import {vlElement} from '/node_modules/vl-ui-core/dist/vl-core.js';
+import {vlElement, define} from '/node_modules/vl-ui-core/dist/vl-core.js';
 import '/node_modules/vl-ui-search/dist/vl-search.js';
 import '/src/vl-select-location.js';
 import {OlOverlay} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
@@ -120,3 +120,5 @@ export {
   LambertCoordinaat,
   VlMapSearch,
 };
+
+define('vl-map-search', VlMapSearch);

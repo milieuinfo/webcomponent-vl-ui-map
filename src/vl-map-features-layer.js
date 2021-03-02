@@ -1,3 +1,4 @@
+import {define} from '/node_modules/vl-ui-core/dist/vl-core.js';
 import {VlMapVectorLayer} from '/src/vl-map-vector-layer.js';
 import {
   OlVectorSource,
@@ -229,3 +230,5 @@ export class VlMapFeaturesLayer extends VlMapVectorLayer {
     return this._geoJSON.readFeatures(value);
   }
 }
+
+define('vl-map-features-layer', VlMapFeaturesLayer);
