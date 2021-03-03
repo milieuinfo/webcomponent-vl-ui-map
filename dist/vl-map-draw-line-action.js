@@ -1,3 +1,4 @@
+import {define} from '/node_modules/vl-ui-core/dist/vl-core.js';
 import {VlMapDrawAction} from '/node_modules/vl-ui-map/dist/vl-map-draw-action.js';
 import {VlDrawLineAction} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
 
@@ -17,3 +18,5 @@ export class VlMapDrawLineAction extends VlMapDrawAction {
     return new VlDrawLineAction(layer, this._callback);
   }
 }
+
+define('vl-map-draw-line-action', VlMapDrawLineAction);

@@ -1,3 +1,4 @@
+import {define} from 'vl-ui-core';
 import {VlMapWmsLayer} from '../dist/vl-map-wms-layer.src.js';
 import {
   OlImageLayer,
@@ -20,4 +21,6 @@ export class VlMapImageWmsLayer extends VlMapWmsLayer {
     super(OlImageLayer, OlImageWMSSource);
   }
 }
+
+define('vl-map-image-wms-layer', VlMapImageWmsLayer);
 

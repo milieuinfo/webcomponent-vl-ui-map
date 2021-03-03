@@ -1,3 +1,4 @@
+import {define} from 'vl-ui-core';
 import {VlMapLayer} from '../dist/vl-map-layer.src.js';
 import {OlWMTSSource, OlWMTSTileGrid, OlTileLayer, OlExtent} from 'vl-mapactions/dist/vl-mapactions.js';
 /**
@@ -89,4 +90,6 @@ export class VlMapWmtsLayer extends VlMapLayer {
     return {matrixIds, resolutions};
   }
 }
+
+define('vl-map-wmts-layer', VlMapWmtsLayer);
 

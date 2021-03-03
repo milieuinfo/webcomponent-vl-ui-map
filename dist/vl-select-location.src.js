@@ -12,7 +12,7 @@ import LambertCoordinaat from '../src/lambert-coordinaat.js';
  * @property {string} [data-vl-placeholder=Lokaliseer adres] - Attribuut bepaalt de placeholder van het zoek adres select element.
  * @property {string} [data-vl-search-placeholder=Zoeken op adres of coördinaat] - Attribuut bepaalt de placeholder van het zoek adres input element.
  * @property {string} [data-vl-search-empty-text=Geen adres gevonden] - Attribuut bepaalt de tekst wanneer er geen zoekresultaten zijn.
- * @property {string} [data-vl-search-no-results-text=Geen adres resultaat] - Attribuut bepaalt de tekst wanneer er geen zoekresultaten meer zijn.
+ * @property {string} [data-vl-search-no-results-text=Geen adres gevonden] - Attribuut bepaalt de tekst wanneer er geen zoekresultaten meer zijn.
  *
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
@@ -185,7 +185,7 @@ class VlSelectLocation extends VlSelect {
   }
 
   _addChoiceEventListener() {
-    this.addEventListener('choice', () => this.dispatchEvent(new Event('change')));
+    this.addEventListener('choice', () => setTimeout(() => this.dispatchEvent(new Event('change'))));
   }
 
   _addPlaceholder() {

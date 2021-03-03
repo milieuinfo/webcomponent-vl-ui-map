@@ -1,7 +1,7 @@
+import {define} from '/node_modules/vl-ui-core/dist/vl-core.js';
 import {VlMapLayerAction} from '/node_modules/vl-ui-map/dist/vl-map-layer-action.js';
 import {VlDeleteAction} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
 import {VlMapLayerStyle} from '/node_modules/vl-ui-map/dist/vl-map-layer-style.js';
-
 
 /**
  * VlMapDeleteAction
@@ -67,3 +67,5 @@ export class VlMapDeleteAction extends VlMapLayerAction {
     return new VlDeleteAction(layer, this._callback, options);
   }
 }
+
+define('vl-map-delete-action', VlMapDeleteAction);

@@ -1,4 +1,4 @@
-import {vlElement} from 'vl-ui-core';
+import {vlElement, define} from 'vl-ui-core';
 import {VlMap} from '../dist/vl-map.src.js';
 
 /**
@@ -78,4 +78,6 @@ export class VlMapAction extends vlElement(HTMLElement) {
     }
   }
 }
+
+define('vl-map-action', VlMapAction);
 

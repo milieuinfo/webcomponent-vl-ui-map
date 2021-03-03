@@ -1,4 +1,4 @@
-import {vlElement} from 'vl-ui-core';
+import {vlElement, define} from 'vl-ui-core';
 import {OlWMTSSource, OlWMTSTileGrid, OlVectorSource, OlVectorLayer, OlTileLayer, OlGeoJSON, OlStyle, OlStyleStroke, OlStyleFill, OlExtent, OlLoadingstrategy} from 'vl-mapactions/dist/vl-mapactions.js';
 
 /**
@@ -149,4 +149,6 @@ export class VlMapBaseLayer extends vlElement(HTMLElement) {
     }
   }
 }
+
+define('vl-map-baselayer', VlMapBaseLayer);
 

@@ -1,3 +1,4 @@
+import {define} from '/node_modules/vl-ui-core/dist/vl-core.js';
 import {VlMapBaseLayer} from '/node_modules/vl-ui-map/dist/vl-map-baselayer.js';
 
 /**
@@ -19,3 +20,5 @@ export class VlMapBaseLayerGRBGray extends VlMapBaseLayer {
     this.setAttribute('title', 'GRB basis laag grijs');
   }
 }
+
+define('vl-map-baselayer-grb-gray', VlMapBaseLayerGRBGray);

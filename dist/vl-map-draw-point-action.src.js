@@ -1,3 +1,4 @@
+import {define} from 'vl-ui-core';
 import {VlMapDrawAction} from '../dist/vl-map-draw-action.src.js';
 import {VlDrawAction, OlGeometryType} from 'vl-mapactions/dist/vl-mapactions.js';
 
@@ -17,4 +18,6 @@ export class VlMapDrawPointAction extends VlMapDrawAction {
     return new VlDrawAction(layer, OlGeometryType.POINT, this._callback);
   }
 }
+
+define('vl-map-draw-point-action', VlMapDrawPointAction);
 

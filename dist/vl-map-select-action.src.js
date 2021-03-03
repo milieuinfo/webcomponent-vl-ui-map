@@ -1,3 +1,4 @@
+import {define} from 'vl-ui-core';
 import {VlMapLayerAction} from '../dist/vl-map-layer-action.src.js';
 import {VlMapLayerStyle} from '../dist/vl-map-layer-style.src.js';
 import {VlSelectAction} from 'vl-mapactions/dist/vl-mapactions.js';
@@ -78,4 +79,6 @@ export class VlMapSelectAction extends VlMapLayerAction {
     return new VlSelectAction(layer, this._callback, options);
   }
 }
+
+define('vl-map-select-action', VlMapSelectAction);
 

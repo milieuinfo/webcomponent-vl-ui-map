@@ -1,3 +1,4 @@
+import {define} from 'vl-ui-core';
 import {VlMapWmsLayer} from '../dist/vl-map-wms-layer.src.js';
 import {
   OlTileWMSSource,
@@ -20,4 +21,6 @@ export class VlMapTiledWmsLayer extends VlMapWmsLayer {
     super(OlTileLayer, OlTileWMSSource);
   }
 }
+
+define('vl-map-tiled-wms-layer', VlMapTiledWmsLayer);
 

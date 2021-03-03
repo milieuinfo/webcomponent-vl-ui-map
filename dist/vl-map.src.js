@@ -1,9 +1,10 @@
-import {vlElement} from 'vl-ui-core';
+import {vlElement, define} from 'vl-ui-core';
 import {
   OlFullScreenControl,
   OlLayerGroup,
   OlProjection,
   VlCustomMap,
+  proj4,
 } from 'vl-mapactions/dist/vl-mapactions.js';
 
 /**
@@ -18,8 +19,7 @@ import {
  *     visualiseren.
  * @property {boolean} data-vl-disable-escape-key - Attribuut wordt gebruikt om ervoor te zorgen dat de escape toets niet gebruikt kan worden.
  * @property {boolean} data-vl-disable-rotation - Attribuut wordt gebruikt om ervoor te zorgen dat het niet mogelijk is om de kaart te draaien.
- * @property {boolean} data-vl-disable-mouse-wheel-zoom - Attribuut wordt gebruikt om ervoor te zorgen dat het niet mogelijk is om de kaart in te
- *     zoomen met het muiswiel.
+ * @property {boolean} data-vl-disable-mouse-wheel-zoom - Attribuut wordt gebruikt om ervoor te zorgen dat het niet mogelijk is om de kaart in te zoomen met het muiswiel.
  *
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
@@ -275,4 +275,6 @@ export class VlMap extends vlElement(HTMLElement) {
     }
   }
 }
+
+define('vl-map', VlMap);
 

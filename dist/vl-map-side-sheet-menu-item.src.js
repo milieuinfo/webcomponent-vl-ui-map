@@ -1,4 +1,4 @@
-import {vlElement} from 'vl-ui-core';
+import {vlElement, define} from 'vl-ui-core';
 
 /**
  * VlMapSideSheetMenuItem
@@ -67,4 +67,6 @@ export class VlMapSideSheetMenuItem extends vlElement(HTMLElement) {
     }
   }
 }
+
+define('vl-map-side-sheet-menu-item', VlMapSideSheetMenuItem);
 

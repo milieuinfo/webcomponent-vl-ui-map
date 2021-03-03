@@ -1,4 +1,4 @@
-import {vlElement} from '/node_modules/vl-ui-core/dist/vl-core.js';
+import {vlElement, define} from '/node_modules/vl-ui-core/dist/vl-core.js';
 import {
   OlStyle,
   OlStyleFill,
@@ -230,3 +230,5 @@ export class VlMapLayerStyle extends vlElement(HTMLElement) {
     }
   }
 }
+
+define('vl-map-layer-style', VlMapLayerStyle);

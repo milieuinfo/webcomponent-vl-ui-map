@@ -1,3 +1,4 @@
+import {define} from 'vl-ui-core';
 import {VlSideSheet} from 'vl-ui-side-sheet';
 
 /**
@@ -47,4 +48,6 @@ export class VlMapSideSheet extends VlSideSheet {
     this.setAttribute('data-vl-absolute', '');
   }
 }
+
+define('vl-map-side-sheet', VlMapSideSheet);
 

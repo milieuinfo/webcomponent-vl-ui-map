@@ -1,4 +1,4 @@
-import {vlElement} from '/node_modules/vl-ui-core/dist/vl-core.js';
+import {vlElement, define} from '/node_modules/vl-ui-core/dist/vl-core.js';
 
 /**
  * VlMapOverviewMap
@@ -32,3 +32,5 @@ export class VlMapOverviewMap extends vlElement(HTMLElement) {
     })();
   }
 }
+
+define('vl-map-overview-map', VlMapOverviewMap);

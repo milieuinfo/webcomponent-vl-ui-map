@@ -1,4 +1,4 @@
-import {vlElement} from 'vl-ui-core';
+import {vlElement, define} from 'vl-ui-core';
 import {
   OlStyle,
   OlStyleFill,
@@ -230,4 +230,6 @@ export class VlMapLayerStyle extends vlElement(HTMLElement) {
     }
   }
 }
+
+define('vl-map-layer-style', VlMapLayerStyle);
 

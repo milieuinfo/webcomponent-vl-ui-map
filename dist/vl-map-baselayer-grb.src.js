@@ -1,3 +1,4 @@
+import {define} from 'vl-ui-core';
 import {VlMapBaseLayer} from '../dist/vl-map-baselayer.src.js';
 
 /**
@@ -19,4 +20,6 @@ export class VlMapBaseLayerGRB extends VlMapBaseLayer {
     this.setAttribute('title', 'GRB basis laag');
   }
 }
+
+define('vl-map-baselayer-grb', VlMapBaseLayerGRB);
 

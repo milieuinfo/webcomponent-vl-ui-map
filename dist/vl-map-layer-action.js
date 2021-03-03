@@ -1,3 +1,4 @@
+import {define} from '/node_modules/vl-ui-core/dist/vl-core.js';
 import {VlMapAction} from '/node_modules/vl-ui-map/dist/vl-map-action.js';
 
 /**
@@ -64,3 +65,5 @@ export class VlMapLayerAction extends VlMapAction {
     });
   }
 }
+
+define('vl-map-layer-action', VlMapLayerAction);

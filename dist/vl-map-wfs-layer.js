@@ -1,3 +1,4 @@
+import {define} from '/node_modules/vl-ui-core/dist/vl-core.js';
 import {VlMapVectorLayer} from '/node_modules/vl-ui-map/dist/vl-map-vector-layer.js';
 import {
   OlVectorSource,
@@ -79,3 +80,5 @@ export class VlMapWfsLayer extends VlMapVectorLayer {
     return '2.0.0';
   }
 }
+
+define('vl-map-wfs-layer', VlMapWfsLayer);

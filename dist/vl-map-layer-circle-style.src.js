@@ -1,3 +1,4 @@
+import {define} from 'vl-ui-core';
 import {VlMapLayerStyle} from '../dist/vl-map-layer-style.src.js';
 import {
   OlStyle,
@@ -128,4 +129,6 @@ export class VlMapLayerCircleStyle extends VlMapLayerStyle {
     };
   }
 }
+
+define('vl-map-layer-circle-style', VlMapLayerCircleStyle);
 

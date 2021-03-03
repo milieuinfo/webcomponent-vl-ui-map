@@ -1,4 +1,4 @@
-import {vlElement} from 'vl-ui-core';
+import {vlElement, define} from 'vl-ui-core';
 import 'vl-ui-form-message';
 import 'vl-ui-checkbox';
 
@@ -124,4 +124,6 @@ export class VlMapLayerSwitcher extends vlElement(HTMLElement) {
     }
   }
 }
+
+define('vl-map-layer-switcher', VlMapLayerSwitcher);
 
