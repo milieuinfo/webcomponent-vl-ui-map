@@ -1,5 +1,6 @@
 const {VlElement} = require('vl-ui-core').Test;
 const VlMap = require('./vl-map');
+const VlMapLayers = require('./vl-map-layers');
 
 class VlMapAction extends VlElement {
   async isActive() {
@@ -12,6 +13,10 @@ class VlMapAction extends VlElement {
     await map.isReady();
     await map.scrollIntoView();
     return map;
+  }
+
+  async getLayer() {
+    return await VlMapLayers.asLayer(this.driver, await this.parent());
   }
 }
 

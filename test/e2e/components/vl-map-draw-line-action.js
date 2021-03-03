@@ -1,13 +1,15 @@
-const VlMapAction = require('./vl-map-action');
+const VlMapDrawAction = require('./vl-map-draw-action');
 
-class VlMapDrawLineAction extends VlMapAction {
+class VlMapDrawLineAction extends VlMapDrawAction {
   async draw(c1 = {x: 10, y: 10}, c2 = {x: 20, y: 20}) {
-    const map = await this.getMap();
-    await map.driver.actions()
-        .move({origin: map, x: c1.x, y: c1.y})
-        .click()
-        .move({origin: map, x: c2.x, y: c2.y})
-        .doubleClick().perform();
+    await super.draw(async () => {
+      const map = await this.getMap();
+      await map.driver.actions()
+          .move({origin: map, x: c1.x, y: c1.y})
+          .click()
+          .move({origin: map, x: c2.x, y: c2.y})
+          .doubleClick().perform();
+    });
   }
 }
 
