@@ -1,11 +1,13 @@
-import {vlElement, define} from 'vl-ui-core';
+import {define, vlElement} from 'vl-ui-core';
 import {
   OlFullScreenControl,
   OlLayerGroup,
   OlProjection,
-  VlCustomMap,
   proj4,
+  VlCustomMap,
 } from 'vl-mapactions/dist/vl-mapactions.js';
+import {register} from 'ol/proj/proj4.js';
+import View from 'ol/View.js';
 
 /**
  * VlMap
@@ -26,6 +28,10 @@ import {
  * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map.html|Demo}
  */
 export class VlMap extends vlElement(HTMLElement) {
+  static get _observedAttributes() {
+    return ['extent'];
+  }
+
   /**
    * Geeft de event naam die gebruikt wordt wanneer een nieuwe actie toegevoegd wordt aan de kaart
    *
@@ -49,8 +55,21 @@ export class VlMap extends vlElement(HTMLElement) {
         <slot></slot>
       </div>
     `);
-
+    this.__extent = [9928, 66928, 272072, 329072];
     this.__prepareReadyPromises();
+  }
+
+  _extentChangedCallback(oldValue, newValue) {
+    if (newValue) {
+      this.__extent = JSON.parse(newValue);
+      if (this.map) {
+        this.map.setView(new View({
+          center: this.map.getView().getCenter(),
+          extent: this.__extent,
+          zoom: this.map.getView().getZoom(),
+        }));
+      }
+    }
   }
 
   /**
@@ -131,13 +150,13 @@ export class VlMap extends vlElement(HTMLElement) {
   get _projection() {
     return new OlProjection({
       code: 'EPSG:31370',
-      extent: this._extent,
+      extent: [9928, 66928, 272072, 329072],
       getPointResolution: (r) => r,
     });
   }
 
   get _extent() {
-    return [9928, 66928, 272072, 329072];
+    return this.__extent;
   }
 
   connectedCallback() {
@@ -154,6 +173,10 @@ export class VlMap extends vlElement(HTMLElement) {
         overlayGroup: this.__createLayerGroup('Lagen', []),
       },
       projection: this._projection,
+      view: {
+        projection: this._projection,
+        extent: this._extent,
+      },
       target: this._mapElement,
       controls: this._controls,
     });
@@ -264,7 +287,9 @@ export class VlMap extends vlElement(HTMLElement) {
   }
 
   __initializeCoordinateSystem() {
-    proj4.defs('EPSG:31370', '+proj=lcc +lat_1=51.16666723333333 +lat_2=49.8333339 +lat_0=90 +lon_0=4.367486666666666 +x_0=150000.013 +y_0=5400088.438 +ellps=intl +towgs84=-106.869,52.2978,-103.724,0.3366,-0.457,1.8422,-1.2747 +units=m +no_defs');
+    proj4.defs('EPSG:31370', '+proj=lcc +lat_1=51.16666723333333 +lat_2=49.8333339 +lat_0=90 +lon_0=4.367486666666666 +x_0=150000.013 +y_0=5400088.438 +ellps=intl +towgs84=106.869,-52.2978,103.724,-0.33657,0.456955,-1.84218,1 +units=m +no_defs');
+
+    register(proj4);
   }
 
   static __callOnceOnLoad(callback) {
