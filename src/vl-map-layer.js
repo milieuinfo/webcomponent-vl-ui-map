@@ -84,7 +84,7 @@ export class VlMapLayer extends vlElement(HTMLElement) {
   }
 
   get mapElement() {
-    if (this.parentNode  && this.parentNode.map) {
+    if (this.parentNode && this.parentNode.map) {
       return this.parentNode;
     } else {
       return null;
