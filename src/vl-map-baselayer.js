@@ -8,7 +8,7 @@ import {
   OlTileLayer,
   OlVectorLayer,
   OlVectorSource,
-  OlWMTSSource
+  OlWMTSSource,
 } from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
 
 import {optionsFromCapabilities} from '/node_modules/ol/source/WMTS.js';
