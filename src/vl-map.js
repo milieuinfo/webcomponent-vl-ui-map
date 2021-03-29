@@ -3,11 +3,11 @@ import {
   OlFullScreenControl,
   OlLayerGroup,
   OlProjection,
+  OlView,
   proj4,
   VlCustomMap,
 } from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
 import {register} from '/node_modules/ol/proj/proj4.js';
-import View from '/node_modules/ol/View.js';
 
 /**
  * VlMap
@@ -62,7 +62,7 @@ export class VlMap extends vlElement(HTMLElement) {
     if (newValue) {
       this.__extent = JSON.parse(newValue);
       if (this.map) {
-        this.map.setView(new View({
+        this.map.setView(new OlView({
           center: this.map.getView().getCenter(),
           extent: this.__extent,
           zoom: this.map.getView().getZoom(),
