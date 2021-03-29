@@ -12,6 +12,8 @@ import {vlElement} from '/node_modules/vl-ui-core/dist/vl-core.js';
  *
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
+ * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map-wms-layer.html|Demo}
+ * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map-wmts-layer.html|Demo}
  */
 export class VlMapLayer extends vlElement(HTMLElement) {
   constructor() {
@@ -19,10 +21,10 @@ export class VlMapLayer extends vlElement(HTMLElement) {
     VlMapLayer._counter = 0;
     this.__counter = ++VlMapLayer._counter;
     this.__ready = false;
-    this.__setIsLayerMarkerAttribute();
   }
 
   async connectedCallback() {
+    this.__setIsLayerMarkerAttribute();
     if (this.mapElement) {
       await this.mapElement.ready;
       this.mapElement.addLayer(this._layer);

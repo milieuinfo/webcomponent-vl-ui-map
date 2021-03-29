@@ -11,6 +11,8 @@ import {OlVectorLayer} from 'vl-mapactions/dist/vl-mapactions.js';
  *
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
+ * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map-features-layer.html|Demo}
+ * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map-wfs-layer.html|Demo}
  */
 export class VlMapVectorLayer extends VlMapLayer {
   constructor() {

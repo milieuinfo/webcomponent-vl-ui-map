@@ -21,10 +21,10 @@ export class VlMapLayer extends vlElement(HTMLElement) {
     VlMapLayer._counter = 0;
     this.__counter = ++VlMapLayer._counter;
     this.__ready = false;
-    this.__setIsLayerMarkerAttribute();
   }
 
   async connectedCallback() {
+    this.__setIsLayerMarkerAttribute();
     if (this.mapElement) {
       await this.mapElement.ready;
       this.mapElement.addLayer(this._layer);
