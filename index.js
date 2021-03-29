@@ -1,5 +1,20 @@
 module.exports = {
   Test: {
     VlMap: require('./test/e2e/components/vl-map'),
+    VlMapAction: require('./test/e2e/components/vl-map-action'),
+    VlMapBaseLayer: require('./test/e2e/components/vl-map-baselayer'),
+    VlMapDeleteAction: require('./test/e2e/components/vl-map-delete-action'),
+    VlMapDrawLineAction: require('./test/e2e/components/vl-map-draw-line-action'),
+    VlMapDrawPointAction: require('./test/e2e/components/vl-map-draw-point-action'),
+    VlMapDrawPolygonAction: require('./test/e2e/components/vl-map-draw-polygon-action'),
+    VlMapFeaturesLayer: require('./test/e2e/components/vl-map-features-layer'),
+    VlMapImageWmsLayer: require('./test/e2e/components/vl-map-image-wms-layer'),
+    VlMapLayerCircleStyle: require('./test/e2e/components/vl-map-layer-circle-style'),
+    VlMapLayerSwitcher: require('./test/e2e/components/vl-map-layer-switcher'),
+    VlMapModifyAction: require('./test/e2e/components/vl-map-modify-action'),
+    VlMapOverviewMap: require('./test/e2e/components/vl-map-overview-map'),
+    VlMapSearch: require('./test/e2e/components/vl-map-search'),
+    VlMapSelectAction: require('./test/e2e/components/vl-map-select-action'),
+    VlMapSideSheet: require('./test/e2e/components/vl-map-side-sheet'),
   },
 };
