@@ -7,6 +7,7 @@
   <script src="../../../web-component-tester/browser.js"></script>
 
   <script type="module" src="../../src/vl-map-all.js"></script>
+  <script src="/node_modules/sinon/pkg/sinon.js"></script>
 </head>
 
 <body>
@@ -132,12 +133,8 @@
 
   <script>
     suite('vl-map-layer', () => {
+      const sandbox = sinon.createSandbox();
       const tags = ['vl-map-features-layer', 'vl-map-image-wms-layer', 'vl-map-tiled-wms-layer', 'vl-map-wfs-layer', 'vl-map-wmts-layer'];
-    
-      setup((done) => {
-        Promise.all(tags.map((tag) => customElements.whenDefined(tag))).then(() => done());
-      });
-
       const LAYER_SELECTOR = '[data-vl-is-layer]';
 
       const getLayer = (map) => {
@@ -151,6 +148,14 @@
       const range = (minInclusive, maxExclusive) => {
         return Array.from({length: maxExclusive - minInclusive}, (x, i) => i + minInclusive);
       };
+
+      setup((done) => {
+        Promise.all(tags.map((tag) => customElements.whenDefined(tag))).then(() => done());
+      });
+
+      teardown(() => {
+        sandbox.restore();
+      });
 
       test('kan een attribuut, titel, opvragen van de kaartlaag op basis van zijn sleutel', (done) => {
         tags.forEach((tag, index) => {
@@ -234,6 +239,27 @@
             assert.equal(layer.get('title'), layerElement.getAttribute('name'));
             assert.equal(layer.getMinResolution(), layerElement.getAttribute('min-resolution'));
             assert.equal(layer.getMaxResolution(), layerElement.getAttribute('max-resolution'));
+
+            if (tags.length == index+1) {
+              done();
+            }
+          });
+        });
+      });
+
+      test('wanneer het hidden attribuut wijzigt zal de kaartlaag zichtbaarheid aangepast worden en de map opnieuw gerenderd worden', (done) => {
+        tags.forEach((tag, index) => {
+          const map = fixture(`${tag}-fixture`);
+          sandbox.spy(map, 'rerender');
+          map.ready.then(() => {
+            const layerElement = getLayer(map);
+            assert.isTrue(layerElement.layer.getVisible());
+            layerElement.setAttribute('data-vl-hidden', '');
+            assert.isFAlse(layerElement.layer.getVisible());
+            layerElement.removeAttribute('data-vl-hidden', '');
+            assert.isTrue(layerElement.layer.getVisible());
+            assert(map.rerender.called);
+            sandbox.restore();
 
             if (tags.length == index+1) {
               done();
