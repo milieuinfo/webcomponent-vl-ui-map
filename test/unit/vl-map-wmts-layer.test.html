@@ -25,6 +25,14 @@
     </template>
   </test-fixture>
 
+  <test-fixture id="vl-map-wmts-layer-hidden-fixture">
+    <template>
+      <vl-map>
+        <vl-map-wmts-layer data-vl-hidden></vl-map-wmts-layer>
+      </vl-map>
+    </template>
+  </test-fixture>
+
   <test-fixture id="vl-map-fixture">
     <template>
       <vl-map></vl-map>
@@ -78,6 +86,20 @@
         setTimeout(() => {
           assert.isDefined(layer.source);
           assert.isDefined(layer.layer);
+        });
+      });
+
+      test('de kaartlaag kan bij creatie op hidden gezet worden', (done) => {
+        const mapVisible = fixture('vl-map-wmts-layer-fixture');
+        const mapHidden = fixture('vl-map-wmts-layer-hidden-fixture');
+        mapVisible.ready.then(() => {
+          mapHidden.ready.then(() => {
+            const layerVisible = getLayer(mapVisible);
+            const layerHidden = getLayer(mapHidden);
+            assert.isTrue(layerVisible.layer.getVisible());
+            assert.isFalse(layerHidden.layer.getVisible());
+            done();
+          });
         });
       });
     });

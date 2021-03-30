@@ -48,6 +48,7 @@ export class VlMapWmtsLayer extends VlMapLayer {
       source: this._source,
       minResolution: this._minResolution,
       maxResolution: this._maxResolution,
+      visible: this._visible,
     });
     layer.set('id', VlMapLayer._counter);
     return layer;

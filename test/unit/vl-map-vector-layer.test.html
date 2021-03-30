@@ -38,6 +38,22 @@
     </template>
   </test-fixture>
 
+  <test-fixture id="vl-map-features-layer-hidden-fixture">
+    <template>
+      <vl-map>
+        <vl-map-features-layerdata-vl-hidden></vl-map-features-layer>
+      </vl-map>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="vl-map-wfs-layer-hidden-fixture">
+    <template>
+      <vl-map>
+        <vl-map-wfs-layer data-vl-hidden></vl-map-wfs-layer>
+      </vl-map>
+    </template>
+  </test-fixture>
+
   <script type="module">
     import {OlStyle, OlStyleFill} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
 
@@ -100,6 +116,25 @@
             if (tags.length == index+1) {
               done();
             }
+          });
+        });
+      });
+
+      test('de kaartlaag kan bij creatie op hidden gezet worden', (done) => {
+        tags.forEach((tag, index) => {
+          const mapVisible = fixture(`${tag}-fixture`);
+          const mapHidden = fixture(`${tag}-hidden-fixture`);
+          mapVisible.ready.then(() => {
+            mapHidden.ready.then(() => {
+              const layerVisible = getLayer(mapVisible);
+              const layerHidden = getLayer(mapHidden);
+              assert.isTrue(layerVisible.layer.getVisible());
+              assert.isFalse(layerHidden.layer.getVisible());
+
+              if (tags.length == index+1) {
+                done();
+              }
+            });
           });
         });
       });

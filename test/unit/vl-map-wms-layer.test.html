@@ -17,6 +17,22 @@
     </template>
   </test-fixture>
 
+  <test-fixture id="vl-map-wms-layer-fixture">
+    <template>
+      <vl-map>
+        <vl-map-wms-layer></vl-map-wms-layer>
+      </vl-map>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="vl-map-wms-layer-hidden-fixture">
+    <template>
+      <vl-map>
+        <vl-map-wms-layer data-vl-hidden></vl-map-wms-layer>
+      </vl-map>
+    </template>
+  </test-fixture>
+
   <script type="module">
     suite('vl-map-wms-layer', () => {
       test('de kaartlaag zal pas angemaakt worden na constructie zodat op moment van constructie nog niet al de attributen gekend moeten zijn', (done) => {
@@ -42,6 +58,20 @@
             if (types.length == index+1) {
               done();
             }
+          });
+        });
+      });
+
+      test('de kaartlaag kan bij creatie op hidden gezet worden', (done) => {
+        const mapVisible = fixture('vl-map-wms-layer-fixture');
+        const mapHidden = fixture('vl-map-wms-layer-hidden-fixture');
+        mapVisible.ready.then(() => {
+          mapHidden.ready.then(() => {
+            const layerVisible = getLayer(mapVisible);
+            const layerHidden = getLayer(mapHidden);
+            assert.isTrue(layerVisible.layer.getVisible());
+            assert.isFalse(layerHidden.layer.getVisible());
+            done();
           });
         });
       });
