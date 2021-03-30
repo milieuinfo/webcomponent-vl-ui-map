@@ -65,6 +65,7 @@ export class VlMapWmsLayer extends VlMapLayer {
       opacity: this._opacity,
       minResolution: this._minResolution,
       maxResolution: this._maxResolution,
+      visible: this._visible,
     };
   }
 

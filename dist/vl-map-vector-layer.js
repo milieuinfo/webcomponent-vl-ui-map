@@ -64,6 +64,7 @@ export class VlMapVectorLayer extends VlMapLayer {
       updateWhileInteracting: true,
       minResolution: this._minResolution,
       maxResolution: this._maxResolution,
+      visible: this._visible,
     });
     layer.set('id', VlMapLayer._counter);
     return layer;

@@ -109,6 +109,10 @@ export class VlMapLayer extends vlElement(HTMLElement) {
     return this.getAttribute('max-resolution') || Infinity;
   }
 
+  get _visible() {
+    return this.getAttribute('hidden') == undefined;
+  }
+
   /**
    * Geeft de waarde op basis van een sleutel.
    *
