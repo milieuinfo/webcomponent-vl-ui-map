@@ -41,6 +41,9 @@
     suite('vl-map-delete-action', () => {
       setup(async () => {
         await customElements.whenDefined('vl-map-delete-action');
+        await customElements.whenDefined('vl-map-features-layer');
+        await customElements.whenDefined('vl-map-layer-style');
+        await customElements.whenDefined('vl-map');
       });
 
       test('een delete actie is een map actie', () => {
@@ -59,18 +62,18 @@
         });
       });
 
-      test('controle van de delete actie configuratie met custom stijl', (done) => {
+      test('controle van de delete actie configuratie met custom stijl', async () => {
         const map = fixture('vl-map-delete-action-fixture-custom-stijl');
         const styleElement = map.querySelector('vl-map-layer-style');
         const layer = map.querySelector('vl-map-features-layer').layer;
 
-        map.ready.then(() => {
-          const action = map.map.actions[0];
-          assert.deepEqual(action.layer, layer);
-          assert.deepEqual(action.style(), styleElement.style());
-          assert.equal(action.style().getFill().getColor(), '#FFE615');
-          done();
+        await map.ready;
+        assert.deepEqual(map.map.actions[0].layer, layer);
+        await awaitUntil(() => {
+          const deleteAction = map.map.actions[0];
+          return deleteAction && deleteAction.style && (typeof deleteAction.style === 'function') && deleteAction.style().getFill().getColor() === '#FFE615';
         });
+        assert.deepEqual(map.map.actions[0].style(), styleElement.style());
       });
 
       test('nadat de delete actie voltooid is, zal de onDelete worden opgeroepen', async () => {

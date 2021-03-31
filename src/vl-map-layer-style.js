@@ -226,9 +226,7 @@ export class VlMapLayerStyle extends vlElement(HTMLElement) {
 
   _setStyleOnParent() {
     if (this.parentElement) {
-      debugger;
       customElements.whenDefined(this.parentElement.tagName.toLowerCase()).then(() => {
-   	    debugger;
         this.parentElement.style = this;
       });
     }

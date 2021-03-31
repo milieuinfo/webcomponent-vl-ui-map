@@ -38,7 +38,7 @@
       setup((done) => {
         Promise.all([
           customElements.whenDefined('vl-map-features-layer'),
-          customElements.whenDefined('vl-map-layer-circle-style')
+          customElements.whenDefined('vl-map-layer-circle-style'),
         ]).then(() => done());
       });
 
