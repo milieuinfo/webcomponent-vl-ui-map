@@ -17,24 +17,48 @@
     </template>
   </test-fixture>
 
-  <test-fixture id="vl-map-wms-layer-fixture">
+  <test-fixture id="vl-map-wms-layers-fixture">
     <template>
       <vl-map>
-        <vl-map-wms-layer></vl-map-wms-layer>
+        <vl-map-image-wms-layer 
+          data-vl-url="http://dummy/wms"
+          data-vl-layers="layer1,layer2">
+        </vl-map-image-wms-layer>
+        
+        <vl-map-tiled-wms-layer 
+          data-vl-url="http://dummy/wms"
+          data-vl-layers="layer1,layer2">
+        </vl-map-tiled-wms-layer>
       </vl-map>
     </template>
   </test-fixture>
 
-  <test-fixture id="vl-map-wms-layer-hidden-fixture">
+  <test-fixture id="vl-map-wms-layers-hidden-fixture">
     <template>
       <vl-map>
-        <vl-map-wms-layer data-vl-hidden></vl-map-wms-layer>
+        <vl-map-image-wms-layer 
+          data-vl-url="http://dummy/wms" 
+          data-vl-layers="layer1,layer2" 
+          data-vl-hidden>
+        </vl-map-image-wms-layer>
+
+        <vl-map-tiled-wms-layer 
+          data-vl-url="http://dummy/wms" 
+          data-vl-layers="layer1,layer2" 
+          data-vl-hidden>
+        </vl-map-tiled-wms-layer>
       </vl-map>
     </template>
   </test-fixture>
 
   <script type="module">
     suite('vl-map-wms-layer', () => {
+      const LAYER_SELECTOR = '[data-vl-is-layer]';
+
+      const getLayers = (map) => {
+        return map.querySelectorAll(LAYER_SELECTOR);
+      };
+    
       test('de kaartlaag zal pas angemaakt worden na constructie zodat op moment van constructie nog niet al de attributen gekend moeten zijn', (done) => {
         const types = ['image', 'tiled'];
         types.forEach((type, index) => {
@@ -63,14 +87,12 @@
       });
 
       test('de kaartlaag kan bij creatie op hidden gezet worden', (done) => {
-        const mapVisible = fixture('vl-map-wms-layer-fixture');
-        const mapHidden = fixture('vl-map-wms-layer-hidden-fixture');
+        const mapVisible = fixture('vl-map-wms-layers-fixture');
+        const mapHidden = fixture('vl-map-wms-layers-hidden-fixture');
         mapVisible.ready.then(() => {
           mapHidden.ready.then(() => {
-            const layerVisible = getLayer(mapVisible);
-            const layerHidden = getLayer(mapHidden);
-            assert.isTrue(layerVisible.layer.getVisible());
-            assert.isFalse(layerHidden.layer.getVisible());
+            getLayers(mapVisible).forEach((element) => assert.isTrue(element.layer.getVisible()));
+            getLayers(mapHidden).forEach((element) => assert.isFalse(element.layer.getVisible()));
             done();
           });
         });

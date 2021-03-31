@@ -250,14 +250,15 @@
       test('wanneer het hidden attribuut wijzigt zal de kaartlaag zichtbaarheid aangepast worden en de map opnieuw gerenderd worden', (done) => {
         tags.forEach((tag, index) => {
           const map = fixture(`${tag}-fixture`);
-          sandbox.spy(map, 'rerender');
           map.ready.then(() => {
+            sandbox.spy(map, 'rerender');
             const layerElement = getLayer(map);
             assert.isTrue(layerElement.layer.getVisible());
             layerElement.setAttribute('data-vl-hidden', '');
-            assert.isFAlse(layerElement.layer.getVisible());
+            assert.isFalse(layerElement.layer.getVisible());
             layerElement.removeAttribute('data-vl-hidden', '');
             assert.isTrue(layerElement.layer.getVisible());
+            console.log(map.rerender.called);
             assert(map.rerender.called);
             sandbox.restore();
 
