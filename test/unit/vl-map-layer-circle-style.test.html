@@ -32,10 +32,14 @@
 <script type="module">
     import {OlFeature, OlPoint, OlStyle, OlStyleCircle, OlStyleFill, OlStyleStroke} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
     import {OpenLayersUtil} from './ol-util.js';
-
+    import {awaitUntil} from '/node_modules/vl-ui-core/dist/vl-core.js';
+    
     suite('vl-map-layer-circle-style', () => {
       setup((done) => {
-        customElements.whenDefined('vl-map-layer-circle-style').then(() => done());
+        Promise.all([
+          customElements.whenDefined('vl-map-features-layer'),
+          customElements.whenDefined('vl-map-layer-circle-style')
+        ]).then(() => done());
       });
 
       test('de style wordt goed geconfigureerd met default properties', () => {
@@ -83,11 +87,11 @@
         assert.isTrue(imageStyle instanceof OlStyleCircle);
       });
 
-      test('de style wordt gezet bij het parent element', () => {
+      test('de style wordt gezet bij het parent element', async () => {
         const map = fixture('vl-map-layer-circle-style-fixture');
         const layerElement = map.querySelector('vl-map-features-layer');
         const styleElement = map.querySelector('vl-map-layer-circle-style');
-
+        await awaitUntil(() => layerElement._styles.length > 0);
         assert.deepEqual(layerElement.style('feature')[0], styleElement.style('feature'));
       });
 

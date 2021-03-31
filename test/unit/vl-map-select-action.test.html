@@ -42,17 +42,15 @@
         assert.isTrue(VlMapSelectAction.isVlMapAction());
       });
 
-      test('controle van de selecteer actie configuratie', (done) => {
+      test('controle van de selecteer actie configuratie', async () => {
         const map = fixture('vl-map-select-action-fixture');
         const styleElement = map.querySelector('vl-map-layer-circle-style');
         const layer = map.querySelector('vl-map-features-layer').layer;
 
-        map.ready.then(() => {
-          const action = map.map.actions[0];
-          assert.deepEqual(action.layer, layer);
-          assert.deepEqual(action.style(), styleElement.style());
-          done();
-        });
+        await map.ready;
+        const action = map.map.actions[0];
+        assert.deepEqual(action.layer, layer);
+        assert.deepEqual(action.style(), styleElement.style());
       });
 
       test('er kunnen features op de kaart gemarkeerd worden', (done) => {

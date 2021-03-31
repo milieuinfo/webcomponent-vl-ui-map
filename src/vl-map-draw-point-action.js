@@ -16,24 +16,25 @@ import {VlDrawAction, OlGeometryType, VlCompositeVectorLayer} from '/node_module
 export class VlMapDrawPointAction extends VlMapDrawAction {
   _createAction(layer) {
     const options = {};
-    if (this.dataset.vlSnapping !== undefined) {
-      const wfsLayers = Array.from(this.querySelectorAll('vl-map-wfs-layer')).map((layer) => layer._layer);
-      if (wfsLayers.length == 0) {
-        options.snapping = true;
-      } else {
-        const snappingLayer = new VlCompositeVectorLayer(wfsLayers, {title: 'Snapping Layer'});
-        customElements.whenDefined('vl-map-wfs-layer').then(() => {
-          const snappingLayerStyle = Array.from(this.querySelectorAll('vl-map-wfs-layer'))[0].style;
-          snappingLayer.setStyle(snappingLayerStyle);
-        })
-        options.snapping = {
-          layer: snappingLayer,
-          pixelTolerance: this.dataset.vlSnappingPixelTolerance || 10,
-          node: false,
-          vertex: false,
-        };
-      }
-    }
+	if (this.dataset.vlSnapping !== undefined) {
+	  const wfsLayers = Array.from(this.querySelectorAll('vl-map-wfs-layer')).map((layer) => layer._layer);
+	  if (wfsLayers.length == 0) {
+	    options.snapping = true;
+	  } else {
+	    const snappingLayer = new VlCompositeVectorLayer(wfsLayers, {title: 'Snapping Layer'});
+	    const firstVectorLayer = Array.from(this.querySelectorAll('vl-map-wfs-layer'))[0];
+	    snappingLayer.setStyle(firstVectorLayer.style);
+	    firstVectorLayer.addEventListener('style-changed', (event) => {
+    	  snappingLayer.setStyle(event.target.style);
+	    });
+	    options.snapping = {
+	      layer: snappingLayer,
+	      pixelTolerance: this.dataset.vlSnappingPixelTolerance || 10,
+	      node: false,
+	      vertex: false,
+	    };
+	  }
+	}
     return new VlDrawAction(layer, OlGeometryType.POINT, this._callback, options);
   }
 }

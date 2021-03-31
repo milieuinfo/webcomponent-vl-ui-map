@@ -71,8 +71,7 @@
         expect(drawActionOptions.snapping.layer.getSource() instanceof VlCompositeVectorSource).to.equal(true);
         expect(drawActionOptions.snapping.layer.getSource().sources[0]).to.equal(fixtureMetSnapping.querySelector('#stromendwater')._layer.getSource());
         expect(drawActionOptions.snapping.layer.getSource().sources[1]).to.equal(fixtureMetSnapping.querySelector('#stilstaandwater')._layer.getSource());
-        debugger;
-        expect(drawActionOptions.snapping.layer.getStyle()[0].getFill()).to.equal(null);
+        await awaitUntil(() => drawActionOptions.snapping.layer.getStyle() == fixtureMetSnapping.querySelector('#stromendwater').style);
       });
 
     });

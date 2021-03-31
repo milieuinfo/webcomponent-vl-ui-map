@@ -39,8 +39,8 @@
     import {awaitUntil} from '/node_modules/vl-ui-core/dist/vl-core.js';
 
     suite('vl-map-delete-action', () => {
-      setup((done) => {
-        customElements.whenDefined('vl-map-delete-action').then(() => done());
+      setup(async () => {
+        await customElements.whenDefined('vl-map-delete-action');
       });
 
       test('een delete actie is een map actie', () => {

@@ -103,6 +103,17 @@
           });
         });
       });
+
+      test('er wordt een event gegooid als de stijl verandert', (done) => {
+        const map = fixture('vl-map-wfs-layer-fixture');
+        map.ready.then(() => {
+          const layer = getLayer(map);
+          layer.addEventListener('style-changed', (event) => {
+            done();
+	      });
+          layer.style = new OlStyle({});
+        });
+      });
     });
   </script>
 </body>
