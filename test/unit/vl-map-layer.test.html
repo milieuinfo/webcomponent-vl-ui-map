@@ -255,10 +255,9 @@
             const layerElement = getLayer(map);
             assert.isTrue(layerElement.layer.getVisible());
             layerElement.setAttribute('data-vl-hidden', '');
-            assert.isFalse(layerElement.layer.getVisible());
+            assert.isFAlse(layerElement.layer.getVisible());
             layerElement.removeAttribute('data-vl-hidden', '');
             assert.isTrue(layerElement.layer.getVisible());
-            console.log(map.rerender.called);
             assert(map.rerender.called);
             sandbox.restore();
 

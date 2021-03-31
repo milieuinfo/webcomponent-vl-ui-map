@@ -29,12 +29,13 @@
     <template>
       <vl-map>
         <vl-map-wmts-layer 
-        data-vl-url="https://tile.informatievlaanderen.be/ws/raadpleegdiensten/wmts" 
-        data-vl-layer="grb_sel" 
-        data-vl-name="GRB Wegenkaart" 
-        data-vl-min-resolution="2" 
-        data-vl-max-resolution="4"
-        data-vl-hidden></vl-map-wmts-layer>
+          data-vl-url="https://tile.informatievlaanderen.be/ws/raadpleegdiensten/wmts" 
+          data-vl-layer="grb_sel" 
+          data-vl-name="GRB Wegenkaart" 
+          data-vl-min-resolution="2" 
+          data-vl-max-resolution="4"
+          data-vl-hidden>
+        </vl-map-wmts-layer>
       </vl-map>
     </template>
   </test-fixture>
@@ -56,6 +57,10 @@
     
       setup((done) => {
         customElements.whenDefined('vl-map-wmts-layer').then(() => done());
+      });
+
+      teardown(() => {
+        sandbox.restore();
       });
 
       test('de wmts source wordt correct geconfigureerd', async () => {
@@ -84,7 +89,7 @@
         assert.deepEqual(tileGrid.getMatrixIds(), [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
       });
 
-      test('de kaartlaag zal pas angemaakt worden na constructie zodat op moment van constructie nog niet al de attributen gekend moeten zijn', () => {
+      test('de kaartlaag zal pas angemaakt worden na constructie zodat op moment van constructie nog niet al de attributen gekend moeten zijn', (done) => {
         const map = fixture('vl-map-fixture');
         const layer = document.createElement('vl-map-wmts-layer');
         layer.setAttribute('data-vl-url', 'https://tile.informatievlaanderen.be/ws/raadpleegdiensten/wmts');
@@ -98,6 +103,7 @@
         setTimeout(() => {
           assert.isDefined(layer.source);
           assert.isDefined(layer.layer);
+          done();
         });
       });
 
@@ -113,6 +119,15 @@
             done();
           });
         });
+      });
+
+      test('na het laden van de source wordt rerender opgeroepen', async () => {
+        const mapHidden = fixture('vl-map-wmts-layer-hidden-fixture');
+        await mapHidden.ready;
+        const layerHidden = mapHidden.querySelector('vl-map-wmts-layer');
+        sandbox.spy(layerHidden, 'rerender');
+        layerHidden.source.dispatchEvent('tileloadend');
+        assert.isTrue(layerHidden.rerender.called);
       });
     });
   </script>
