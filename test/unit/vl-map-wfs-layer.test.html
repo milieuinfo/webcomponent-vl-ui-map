@@ -108,7 +108,7 @@
         );
       });
 
-      test('de kaartlaag zal pas angemaakt worden na constructie zodat op moment van constructie nog niet al de attributen gekend moeten zijn', () => {
+      test('de kaartlaag zal pas angemaakt worden na constructie zodat op moment van constructie nog niet al de attributen gekend moeten zijn', (done) => {
         const map = fixture('vl-map-fixture');
         const layer = document.createElement('vl-map-wfs-layer');
         layer.setAttribute('data-vl-name', 'foobar');
@@ -120,6 +120,7 @@
         setTimeout(() => {
           assert.isDefined(layer.source);
           assert.isDefined(layer.layer);
+          done();
         });
       });
 
