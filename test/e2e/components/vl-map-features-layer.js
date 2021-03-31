@@ -5,6 +5,10 @@ class VlMapFeaturesLayer extends VlMapLayer {
     return this.driver.executeScript(`return arguments[0].features;`, this);
   }
 
+  async getFeatureCoordinates() {
+    return this.driver.executeScript(`return arguments[0].features.map(f => f.getGeometry().getCoordinates());`, this);
+  }
+
   async getNumberOfFeatures() {
     return this.driver.executeScript(`return arguments[0].layer.getSource().getFeatures().length;`, this);
   }

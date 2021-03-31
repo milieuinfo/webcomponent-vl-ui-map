@@ -65,4 +65,30 @@ describe('vl-map-draw-action', async () => {
     features = await layer.getFeatures();
     assert.lengthOf(features, 2);
   });
+
+  it('als gebruiker kan ik punten tekenen op een kaart', async () => {
+    const map = await vlMapPage.getMapWithDrawPointSnapAction();
+    await map.scrollIntoView();
+    const action = await vlMapPage.getDrawPointSnapAction();
+    const layers = await map.getLayers();
+    assert.isNotEmpty(layers);
+    const layer = layers[0];
+
+    const search = await map.getSearch();
+    await search.open();
+    await search.zoomTo('Hellegatstraat, Puurs-Sint-Amands');
+
+    await action.drawOnCoordinate({x: 147341, y: 197991});
+    let features = await layer.getFeatureCoordinates();
+    assert.lengthOf(features, 1);
+    assert.closeTo(features[0][0], 147341, 5);
+    assert.closeTo(features[0][1], 197991, 5);
+
+    await action.drawOnCoordinate({x: 147441, y: 197991});
+    features = await layer.getFeatureCoordinates();
+    assert.lengthOf(features, 2);
+    assert.closeTo(features[1][0], 147361, 5);
+    assert.closeTo(features[1][1], 197968, 5);
+  });
 });
+
