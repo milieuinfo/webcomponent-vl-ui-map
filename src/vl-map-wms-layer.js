@@ -28,7 +28,7 @@ export class VlMapWmsLayer extends VlMapLayer {
   connectedCallback() {
     super.connectedCallback();
     this._source = this.__createSource(this.__sourceClass);
-    this._source.on(this.__loadEndEventName, this.rerender);
+    this._source.on(this.__loadEndEventName, () => this.rerender());
     this._layer = this.__createLayer(this.__layerClass);
   }
 
