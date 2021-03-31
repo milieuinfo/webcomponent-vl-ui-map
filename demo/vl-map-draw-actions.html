@@ -5,50 +5,80 @@
     <title>vl-map-draw-action voorbeeld</title>
     <script type="module" src="/node_modules/vl-ui-demo/dist/vl-demo-all.js"></script>
     <script type="module" src="/node_modules/vl-ui-body/dist/vl-body.js"></script>
-
+    <script type="module" src="/node_modules/vl-ui-button/dist/vl-button.js"></script>
     <script type="module" src="/src/vl-map-all.js"></script>
 
     <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-body/dist/style.css" />
     <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-demo/dist/style.css" />
+    <link rel="stylesheet" type="text/css" href="/node_modules/vl-ui-button/dist/style.css"/>
 </head>
 
 <body is="vl-body">
     <vl-demo-page data-vl-webcomponent="vl-map-draw-action">
-        <vl-demo data-vl-title="Kaart met punt teken actie">
-            <vl-map id="map-with-draw-point-action">
+<!--         <vl-demo data-vl-title="Kaart met punt teken actie"> -->
+<!--             <vl-map id="map-with-draw-point-action"> -->
+<!--                 <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray> -->
+<!--                 <vl-map-baselayer-grb></vl-map-baselayer-grb> -->
+<!--                 <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho> -->
+<!--                 <vl-map-features-layer id="point-layer"> -->
+<!--                     <vl-map-layer-circle-style></vl-map-layer-circle-style> -->
+<!--                     <vl-map-draw-point-action id="draw-point-action" data-vl-default-active></vl-map-draw-point-action> -->
+<!--                 </vl-map-features-layer> -->
+<!--             </vl-map> -->
+<!--         </vl-demo> -->
+
+        <vl-demo data-vl-title="Kaart met punt teken actie met snapping">
+            <vl-map id="map-with-draw-point-snap-action">
                 <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
                 <vl-map-baselayer-grb></vl-map-baselayer-grb>
                 <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
                 <vl-map-features-layer id="point-layer">
                     <vl-map-layer-circle-style></vl-map-layer-circle-style>
-                    <vl-map-draw-point-action id="draw-point-action" data-vl-default-active></vl-map-draw-point-action>
+                    <vl-map-draw-point-action id="draw-point-snap-action" data-vl-default-active data-vl-snapping data-vl-snapping-pixel-tolerance="1000">
+                         <vl-map-wfs-layer data-vl-name="Stromend waterlichamen"
+                              data-vl-url="https://geoserver.vmm.be/geoserver/vmm/wfs"
+                              data-vl-layers="owl_l"
+                              data-vl-max-resolution="4">
+                			<vl-map-layer-style data-vl-color="rgba(6, 163, 247, 0.4)"
+                                    data-vl-border-size="4"
+                                    data-vl-border-color="rgba(6, 163, 247, 1)"></vl-map-layer-style>
+            			</vl-map-wfs-layer>
+            			<vl-map-wfs-layer data-vl-name="Stilstaand waterlichamen"
+                              data-vl-url="https://gisservices.inbo.be/arcgis/services/Watervlakken/MapServer/WFSServer?service=wfs"
+                              data-vl-layers="Watervlakken"
+                              data-vl-max-resolution="4">
+                		<vl-map-layer-style data-vl-color="rgba(6, 163, 247, 0.4)"
+                                    data-vl-border-size="4"
+                                    data-vl-border-color="rgba(6, 163, 247, 1)"></vl-map-layer-style>
+            			</vl-map-wfs-layer>
+                    </vl-map-draw-point-action>
                 </vl-map-features-layer>
             </vl-map>
         </vl-demo>
 
-        <vl-demo data-vl-title="Kaart met lijn teken actie">
-            <vl-map id="map-with-draw-line-action">
-                <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
-                <vl-map-baselayer-grb></vl-map-baselayer-grb>
-                <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
-                <vl-map-features-layer id="line-layer">
-                    <vl-map-layer-style></vl-map-layer-style>
-                    <vl-map-draw-line-action id="draw-line-action" data-vl-default-active></vl-map-draw-line-action>
-                </vl-map-features-layer>
-            </vl-map>
-        </vl-demo>
+<!--         <vl-demo data-vl-title="Kaart met lijn teken actie"> -->
+<!--             <vl-map id="map-with-draw-line-action"> -->
+<!--                 <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray> -->
+<!--                 <vl-map-baselayer-grb></vl-map-baselayer-grb> -->
+<!--                 <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho> -->
+<!--                 <vl-map-features-layer id="line-layer"> -->
+<!--                     <vl-map-layer-style></vl-map-layer-style> -->
+<!--                     <vl-map-draw-line-action id="draw-line-action" data-vl-default-active></vl-map-draw-line-action> -->
+<!--                 </vl-map-features-layer> -->
+<!--             </vl-map> -->
+<!--         </vl-demo> -->
 
-        <vl-demo data-vl-title="Kaart met polygoon teken actie">
-            <vl-map id="map-with-draw-polygon-action">
-                <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
-                <vl-map-baselayer-grb></vl-map-baselayer-grb>
-                <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho>
-                <vl-map-features-layer id="polygon-layer">
-                    <vl-map-layer-style></vl-map-layer-style>
-                    <vl-map-draw-polygon-action id="draw-polygon-action" data-vl-default-active></vl-map-draw-polygon-action>
-                </vl-map-features-layer>
-            </vl-map>
-        </vl-demo>
+<!--         <vl-demo data-vl-title="Kaart met polygoon teken actie"> -->
+<!--             <vl-map id="map-with-draw-polygon-action"> -->
+<!--                 <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray> -->
+<!--                 <vl-map-baselayer-grb></vl-map-baselayer-grb> -->
+<!--                 <vl-map-baselayer-grb-ortho></vl-map-baselayer-grb-ortho> -->
+<!--                 <vl-map-features-layer id="polygon-layer"> -->
+<!--                     <vl-map-layer-style></vl-map-layer-style> -->
+<!--                     <vl-map-draw-polygon-action id="draw-polygon-action" data-vl-default-active></vl-map-draw-polygon-action> -->
+<!--                 </vl-map-features-layer> -->
+<!--             </vl-map> -->
+<!--         </vl-demo> -->
     </vl-demo-page>
 </body>
 
