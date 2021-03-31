@@ -157,115 +157,85 @@
         sandbox.restore();
       });
 
-      test('kan een attribuut, titel, opvragen van de kaartlaag op basis van zijn sleutel', (done) => {
-        tags.forEach((tag, index) => {
+      test('kan een attribuut, titel, opvragen van de kaartlaag op basis van zijn sleutel', async () => {
+        await Promise.all(tags.map(async (tag, index) => {
           const map = fixture(`${tag}-fixture`);
-          map.ready.then(() => {
-            const layer = getLayer(map);
-            assert.equal(layer.get('title'), layer.getAttribute('data-vl-name'));
-            assert.equal(layer.get('title'), layer._layer.get('title'));
-
-            if (tags.length == index+1) {
-              done();
-            }
-          });
-        });
+          await map.ready;
+          const layer = getLayer(map);
+          assert.equal(layer.get('title'), layer.getAttribute('data-vl-name'));
+          assert.equal(layer.get('title'), layer._layer.get('title'));
+        }));
       });
 
-      test('kan de zichtbaarheid van de kaartlaag opvragen en wijzigen', (done) => {
-        tags.forEach((tag, index) => {
+      test('kan de zichtbaarheid van de kaartlaag opvragen en wijzigen', async () => {
+        await Promise.all(tags.map(async (tag, index) => {
           const map = fixture(`${tag}-fixture`);
-          map.ready.then(() => {
-            const layer = getLayer(map);
+          await map.ready;
+          const layer = getLayer(map);
 
-            assert.isTrue(layer.visible);
-            assert.isTrue(layer._layer.getVisible());
+          assert.isTrue(layer.visible);
+          assert.isTrue(layer._layer.getVisible());
 
-            layer.visible = false;
-            assert.isFalse(layer.visible);
-            assert.isFalse(layer._layer.getVisible());
-
-            if (tags.length == index+1) {
-              done();
-            }
-          });
-        });
+          layer.visible = false;
+          assert.isFalse(layer.visible);
+          assert.isFalse(layer._layer.getVisible());
+        }));
       });
 
-      test(`er kan gecontroleerd worden of de kaartlaag zichtbaar is op een bepaalde resolutie (minVisibility = , maxVisibility = )`, (done) => {
-        tags.forEach((tag, index) => {
+      test(`er kan gecontroleerd worden of de kaartlaag zichtbaar is op een bepaalde resolutie (minVisibility = , maxVisibility = )`, async () => {
+        await Promise.all(tags.map(async (tag, index) => {
           const map = fixture(`${tag}-fixture`);
-          map.ready.then(() => {
-            const layer = getLayer(map);
-            const minVisibility = Number.valueOf(layer.getAttribute('data-vl-min-resolution'));
-            const maxVisibility = Number.valueOf(layer.getAttribute('data-vl-max-resolution'));
-            const visibleResolutions = range(minVisibility, maxVisibility);
-            const invisibleResolutions = range(0, minVisibility).concat(range(maxVisibility, maxVisibility + 5));
-            invisibleResolutions.forEach((resolution) => assert.isFalse(layer.isVisibleAtResolution(resolution), `zou niet zichtbaar mogen zijn op resolutie ${resolution}`));
-            visibleResolutions.forEach((resolution) => assert.isTrue(layer.isVisibleAtResolution(resolution), `zou zichtbaar moeten zijn op resolutie ${resolution}`));
-
-            if (tags.length == index+1) {
-              done();
-            }
-          });
-        });
+          await map.ready;
+          const layer = getLayer(map);
+          const minVisibility = Number.valueOf(layer.getAttribute('data-vl-min-resolution'));
+          const maxVisibility = Number.valueOf(layer.getAttribute('data-vl-max-resolution'));
+          const visibleResolutions = range(minVisibility, maxVisibility);
+          const invisibleResolutions = range(0, minVisibility).concat(range(maxVisibility, maxVisibility + 5));
+          invisibleResolutions.forEach((resolution) => assert.isFalse(layer.isVisibleAtResolution(resolution), `zou niet zichtbaar mogen zijn op resolutie ${resolution}`));
+          visibleResolutions.forEach((resolution) => assert.isTrue(layer.isVisibleAtResolution(resolution), `zou zichtbaar moeten zijn op resolutie ${resolution}`));
+        }));
       });
 
-      test('elke kaartlaag zal een id krijgen', (done) => {
-        tags.forEach((tag, index) => {
+      test('elke kaartlaag zal een id krijgen', async () => {
+        await Promise.all(tags.map(async (tag, index) => {
           const map = fixture(`${tag}s-fixture`);
-          map.ready.then(() => {
-            const layers = getLayers(map);
-            assert.lengthOf(layers, map.children.length);
-            layers.forEach((layer, index) => assert(layer.layer.get('id'), index + 1));
-
-            if (tags.length == index+1) {
-              done();
-            }
-          });
-        });
+          await map.ready;
+          const layers = getLayers(map);
+          assert.lengthOf(layers, map.children.length);
+          layers.forEach((layer, index) => assert(layer.layer.get('id'), index + 1));
+        }));
       });
 
-      test('de kaartlaag zal toegevoegd worden aan de map', (done) => {
-        tags.forEach((tag, index) => {
+      test('de kaartlaag zal toegevoegd worden aan de map', async () => {
+        await Promise.all(tags.map(async (tag, index) => {
           const map = fixture(`${tag}-fixture`);
-          map.ready.then(() => {
-            const layerElement = getLayer(map);
-            const layers = map.map.getOverlayLayers();
-            assert.lengthOf(layers, 1);
+          await map.ready;
+          const layerElement = getLayer(map);
+          const layers = map.map.getOverlayLayers();
+          assert.lengthOf(layers, 1);
 
-            const layer = layers[0];
-            assert.equal(layer, layerElement.layer);
-            assert.equal(layer.get('title'), layerElement.getAttribute('name'));
-            assert.equal(layer.getMinResolution(), layerElement.getAttribute('min-resolution'));
-            assert.equal(layer.getMaxResolution(), layerElement.getAttribute('max-resolution'));
-
-            if (tags.length == index+1) {
-              done();
-            }
-          });
-        });
+          const layer = layers[0];
+          assert.equal(layer, layerElement.layer);
+          assert.equal(layer.get('title'), layerElement.getAttribute('name'));
+          assert.equal(layer.getMinResolution(), layerElement.getAttribute('min-resolution'));
+          assert.equal(layer.getMaxResolution(), layerElement.getAttribute('max-resolution'));
+        }));
       });
 
-      test('wanneer het hidden attribuut wijzigt zal de kaartlaag zichtbaarheid aangepast worden en de map opnieuw gerenderd worden', (done) => {
-        tags.forEach((tag, index) => {
+      test('wanneer het hidden attribuut wijzigt zal de kaartlaag zichtbaarheid aangepast worden en de map opnieuw gerenderd worden', async () => {
+        await Promise.all(tags.map(async (tag, index) => {
           const map = fixture(`${tag}-fixture`);
-          map.ready.then(() => {
-            sandbox.spy(map, 'rerender');
-            const layerElement = getLayer(map);
-            assert.isTrue(layerElement.layer.getVisible());
-            layerElement.setAttribute('data-vl-hidden', '');
-            assert.isFalse(layerElement.layer.getVisible());
-            layerElement.removeAttribute('data-vl-hidden', '');
-            assert.isTrue(layerElement.layer.getVisible());
-            assert(map.rerender.called);
-            sandbox.restore();
-
-            if (tags.length == index+1) {
-              done();
-            }
-          });
-        });
+          await map.ready;
+          sandbox.spy(map, 'rerender');
+          const layerElement = getLayer(map);
+          assert.isTrue(layerElement.layer.getVisible());
+          layerElement.setAttribute('data-vl-hidden', '');
+          assert.isFalse(layerElement.layer.getVisible());
+          layerElement.removeAttribute('data-vl-hidden', '');
+          assert.isTrue(layerElement.layer.getVisible());
+          assert.isTrue(map.rerender.called);
+          sandbox.restore();
+        }));
       });
     });
   </script>

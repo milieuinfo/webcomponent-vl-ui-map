@@ -70,73 +70,52 @@
         return map.querySelector(LAYER_SELECTOR);
       };
 
-      test('de stijl kan op de layer gezet worden met een VlMapLayerStyle object', (done) => {
-        tags.forEach((tag, index) => {
+      test('de stijl kan op de layer gezet worden met een VlMapLayerStyle object', async () => {
+        await Promise.all(tags.map(async (tag, index) => {
           const map = fixture(`${tag}-fixture`);
-          map.ready.then(() => {
-            const layer = getLayer(map);
-            layer.style = map.querySelector('vl-map-layer-style');
-            const style = layer.style()[0];
-            assert.equal(style.getFill().getColor(), 'rgba(255,0,0,1)');
-            assert.equal(style.getStroke().getColor(), 'rgba(2, 85, 204, 1)');
-
-            if (tags.length == index+1) {
-              done();
-            }
-          });
-        });
+          await map.ready;
+          const layer = getLayer(map);
+          layer.style = map.querySelector('vl-map-layer-style');
+          const style = layer.style()[0];
+          assert.equal(style.getFill().getColor(), 'rgba(255,0,0,1)');
+          assert.equal(style.getStroke().getColor(), 'rgba(2, 85, 204, 1)');
+        }));
       });
 
-      test('de stijl kan op de layer gezet worden met een OpenLayers stijl object', (done) => {
-        tags.forEach((tag, index) => {
+      test('de stijl kan op de layer gezet worden met een OpenLayers stijl object', async () => {
+        await Promise.all(tags.map(async (tag, index) => {
           const map = fixture(`${tag}-fixture`);
-          map.ready.then(() => {
-            const layer = getLayer(map);
-            const color = map.querySelector('vl-map-layer-style').getAttribute('data-vl-color');
-            layer.style = new OlStyle({fill: new OlStyleFill({color: color})});
-            assert.equal(layer.style.getFill().getColor(), color);
-
-            if (tags.length == index+1) {
-              done();
-            }
-          });
-        });
+          await map.ready;
+          const layer = getLayer(map);
+          const color = map.querySelector('vl-map-layer-style').getAttribute('data-vl-color');
+          layer.style = new OlStyle({fill: new OlStyleFill({color: color})});
+          assert.equal(layer.style.getFill().getColor(), color);
+        }));
       });
 
-      test('de stijl kan op de layer verwijderd worden met null', (done) => {
-        tags.forEach((tag, index) => {
+      test('de stijl kan op de layer verwijderd worden met null', async () => {
+        await Promise.all(tags.map(async (tag, index) => {
           const map = fixture(`${tag}-fixture`);
-          map.ready.then(() => {
-            const layer = getLayer(map);
-            const color = map.querySelector('vl-map-layer-style').getAttribute('data-vl-color');
-            layer.style = new OlStyle({fill: new OlStyleFill({color: color})});
-            layer.style = null;
-            assert.isNull(layer.style);
-
-            if (tags.length == index+1) {
-              done();
-            }
-          });
-        });
+          await map.ready;
+          const layer = getLayer(map);
+          const color = map.querySelector('vl-map-layer-style').getAttribute('data-vl-color');
+          layer.style = new OlStyle({fill: new OlStyleFill({color: color})});
+          layer.style = null;
+          assert.isNull(layer.style);
+        }));
       });
 
-      test('de kaartlaag kan bij creatie op hidden gezet worden', (done) => {
-        tags.forEach((tag, index) => {
+      test('de kaartlaag kan bij creatie op hidden gezet worden', async () => {
+        await Promise.all(tags.map(async (tag, index) => {
           const mapVisible = fixture(`${tag}-fixture`);
           const mapHidden = fixture(`${tag}-hidden-fixture`);
-          mapVisible.ready.then(() => {
-            mapHidden.ready.then(() => {
-              const layerVisible = getLayer(mapVisible);
-              const layerHidden = getLayer(mapHidden);
-              assert.isTrue(layerVisible.layer.getVisible());
-              assert.isFalse(layerHidden.layer.getVisible());
-
-              if (tags.length == index+1) {
-                done();
-              }
-            });
-          });
-        });
+          await mapVisible.ready;
+          await mapHidden.ready;
+          const layerVisible = getLayer(mapVisible);
+          const layerHidden = getLayer(mapHidden);
+          assert.isTrue(layerVisible.layer.getVisible());
+          assert.isFalse(layerHidden.layer.getVisible());
+        }));
       });
     });
   </script>
