@@ -56,7 +56,7 @@ export class VlMapWmtsLayer extends VlMapLayer {
 
   __createSource() {
     const tileLimits = this.__grbTileLimits;
-    return new OlWMTSSource({
+    const olWMTSSource = new OlWMTSSource({
       url: this.url,
       layer: this._wmtsLayer,
       matrixSet: this.__grbMatrixSet,
@@ -70,6 +70,8 @@ export class VlMapWmtsLayer extends VlMapLayer {
       }),
       style: '',
     });
+    olWMTSSource.on('tileloadend', this.rerender);
+    return olWMTSSource;
   }
 
   get __wmtsFormat() {
