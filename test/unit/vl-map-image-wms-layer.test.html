@@ -39,12 +39,35 @@
     </template>
   </test-fixture>
 
+  <test-fixture id="vl-map-image-wms-layer-hidden-fixture">
+    <template>
+      <vl-map>
+        <vl-map-image-wms-layer
+          data-vl-url="http://dummy/wms-adjusted"
+          data-vl-layers="layer1"
+          data-vl-styles="style1,style2"
+          data-vl-version="1.1.1"
+          data-vl-opacity="0.75"
+          data-vl-min-resolution="10"
+          data-vl-max-resolution="1000"
+          data-vl-name="adjusted"
+          data-vl-hidden>
+        </vl-map-image-wms-layer>
+      </vl-map>
+    </template>
+  </test-fixture>
+
   <script>
     suite('vl-map-image-wms-layer', () => {
       const should = chai.should();
+      const sandbox = sinon.createSandbox();
 
       setup((done) => {
         customElements.whenDefined('vl-map-image-wms-layer').then(() => done());
+      });
+
+      teardown(() => {
+        sandbox.restore();
       });
 
       test('wms image layer kan toegevoegd worden aan een map met de correcte configuratie', async () => {
@@ -73,6 +96,15 @@
         assert.equal(layer.getSource().getParams().VERSION, '1.1.1');
         assert.equal(layer.getSource().getUrl(), 'http://dummy/wms-adjusted');
         assert.equal(layer.getOpacity(), 0.75);
+      });
+
+      test('na het laden van de source wordt rerender opgeroepen', async () => {
+        const mapHidden = fixture('vl-map-image-wms-layer-hidden-fixture');
+        await mapHidden.ready
+        const layerHidden = mapHidden.querySelector('vl-map-image-wms-layer');
+        sandbox.spy(layerHidden, 'rerender')
+        layerHidden.source.dispatchEvent('imageloadend')
+        assert.isTrue(layerHidden.rerender.called);
       });
     });
   </script>

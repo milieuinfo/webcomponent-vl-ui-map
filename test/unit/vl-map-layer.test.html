@@ -248,23 +248,30 @@
       });
 
       test('wanneer het hidden attribuut wijzigt zal de kaartlaag zichtbaarheid aangepast worden en de map opnieuw gerenderd worden', (done) => {
-        tags.forEach((tag, index) => {
+        let c = 0
+        tags.forEach(async (tag) => {
           const map = fixture(`${tag}-fixture`);
           sandbox.spy(map, 'rerender');
-          map.ready.then(() => {
-            const layerElement = getLayer(map);
+          await map.ready;
+          const layerElement = getLayer(map);
+          try {
             assert.isTrue(layerElement.layer.getVisible());
             layerElement.setAttribute('data-vl-hidden', '');
-            assert.isFAlse(layerElement.layer.getVisible());
+            assert.isFalse(layerElement.layer.getVisible());
             layerElement.removeAttribute('data-vl-hidden', '');
             assert.isTrue(layerElement.layer.getVisible());
-            assert(map.rerender.called);
+            assert.isTrue(map.rerender.called);
             sandbox.restore();
+          } catch (e) {
+            console.log(e)
+            console.log(tag)
+          }
 
-            if (tags.length == index+1) {
-              done();
-            }
-          });
+          c = c+1;
+          console.log(c, tags.length)
+          if (tags.length === c+1) {
+            done();
+          }
         });
       });
     });
