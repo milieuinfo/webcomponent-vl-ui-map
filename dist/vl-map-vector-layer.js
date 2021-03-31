@@ -52,6 +52,7 @@ export class VlMapVectorLayer extends VlMapLayer {
       this._styles = [];
       this._layer.setStyle(style);
     }
+    this.dispatchEvent(new CustomEvent('style-changed', {bubbles: true, composed: true, detail: {style: style}}));
   }
 
   _createLayer() {
