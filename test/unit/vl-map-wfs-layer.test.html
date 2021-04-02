@@ -7,7 +7,6 @@
     <script src="../../../web-component-tester/browser.js"></script>
 
     <script type="module" src="../../src/vl-map-all.js"></script>
-    <script src="/node_modules/sinon/pkg/sinon.js"></script>
 </head>
 
 <body>
@@ -23,7 +22,19 @@
     </template>
   </test-fixture>
   
-  <test-fixture id="vl-map-wfs-layer-fixture-with-query-params-in-url">
+  <test-fixture id="vl-map-wfs-layer-fixture-with-query-params-in-url-fixture">
+    <template>
+      <vl-map>
+        <vl-map-wfs-layer 
+          data-vl-name="foobar"
+          data-vl-url="http://dummy/wfs?foo=bar"
+          data-vl-layers="layer1,layer2">
+        </vl-map-wfs-layer>
+      </vl-map>
+    </template>
+  </test-fixture>
+  
+  <test-fixture id="vl-map-fixture">
     <template>
       <vl-map>
         <vl-map-wfs-layer 
@@ -63,7 +74,7 @@
       });
 
       test('de query params in de geconfigureerde wfs url worden gelaten as-is indien we ze niet moeten overschrijven', async () => {
-        const mapElement = fixture('vl-map-wfs-layer-fixture-with-query-params-in-url');
+        const mapElement = fixture('vl-map-wfs-layer-fixture-with-query-params-in-url-fixture');
         const layerElement = mapElement.querySelector('vl-map-wfs-layer');
         const projection = new OlProjection({
           code: 'EPSG:31370',
@@ -76,6 +87,22 @@
             layer.getSource().getUrl()([1.2, 3.4, 5.6, 7.8], 123, projection).toString(),
             'http://dummy/wfs?foo=bar&service=WFS&request=GetFeature&typename=layer1%2Clayer2&bbox=1.2%2C3.4%2C5.6%2C7.8&srsname=EPSG%3A31370&outputFormat=GML2&version=2.0.0',
         );
+      });
+
+      test('de kaartlaag zal pas angemaakt worden na constructie zodat op moment van constructie nog niet al de attributen gekend moeten zijn', (done) => {
+        const map = fixture('vl-map-fixture');
+        const layer = document.createElement('vl-map-wfs-layer');
+        layer.setAttribute('data-vl-name', 'foobar');
+        layer.setAttribute('data-vl-url', 'http://dummy/wfs');
+        layer.setAttribute('data-vl-layers', 'layer1,layer2');
+        assert.isUndefined(layer.source);
+        assert.isUndefined(layer.layer);
+        map.appendChild(layer);
+        setTimeout(() => {
+          assert.isDefined(layer.source);
+          assert.isDefined(layer.layer);
+          done();
+        });
       });
     });
   </script>

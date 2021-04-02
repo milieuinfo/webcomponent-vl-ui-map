@@ -9,6 +9,7 @@ import {vlElement} from '/node_modules/vl-ui-core/dist/vl-core.js';
  * @mixes vlElement
  *
  * @property {string} data-vl-name - Attribuut bepaalt de kaartlaag naam.
+ * @property {string} data-vl-hidden - Attribuut bepaalt of de kaartlaag zichtbaar is.
  *
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
@@ -16,15 +17,19 @@ import {vlElement} from '/node_modules/vl-ui-core/dist/vl-core.js';
  * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map-wmts-layer.html|Demo}
  */
 export class VlMapLayer extends vlElement(HTMLElement) {
+  static get _observedAttributes() {
+    return ['hidden'];
+  }
+
   constructor() {
     super();
     VlMapLayer._counter = 0;
     this.__counter = ++VlMapLayer._counter;
     this.__ready = false;
-    this.__setIsLayerMarkerAttribute();
   }
 
   async connectedCallback() {
+    this.__setIsLayerMarkerAttribute();
     if (this.mapElement) {
       await this.mapElement.ready;
       this.mapElement.addLayer(this._layer);
@@ -83,6 +88,7 @@ export class VlMapLayer extends vlElement(HTMLElement) {
    */
   set visible(value) {
     this._layer.setVisible(value);
+    this.rerender();
   }
 
   get mapElement() {
@@ -109,6 +115,10 @@ export class VlMapLayer extends vlElement(HTMLElement) {
     return this.getAttribute('max-resolution') || Infinity;
   }
 
+  get _visible() {
+    return this.getAttribute('hidden') == undefined;
+  }
+
   /**
    * Geeft de waarde op basis van een sleutel.
    *
@@ -132,6 +142,12 @@ export class VlMapLayer extends vlElement(HTMLElement) {
     const maxResolution = parseFloat(this._layer.getMaxResolution());
     const minResolution = parseFloat(this._layer.getMinResolution());
     return resolution >= minResolution && resolution < maxResolution;
+  }
+
+  _hiddenChangedCallback(oldValue, newValue) {
+    if (this._layer) {
+      this.visible = newValue == undefined;
+    }
   }
 
   __setIsLayerMarkerAttribute() {

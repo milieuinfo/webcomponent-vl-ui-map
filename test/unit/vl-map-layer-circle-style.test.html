@@ -280,6 +280,22 @@
         assert.equal(styleTextFill.getColor(), styleElement.clusterTextColor);
         assert.isTrue(styleImage instanceof OlStyleCircle);
       });
+
+      test('de style geeft null terug als er de stijl niet valid is voor een feature', () => {
+        const map = fixture('vl-map-layer-circle-style-fixture');
+        const vlMapLayerCircleStyleElement = map.querySelector('vl-map-layer-circle-style');
+        vlMapLayerCircleStyleElement.appliesTo = () => false;
+        const style = vlMapLayerCircleStyleElement.style();
+        assert.isNull(style);
+      });
+
+      test('de style geeft niet null terug als de stijl valid is', () => {
+        const map = fixture('vl-map-layer-circle-style-fixture');
+        const vlMapLayerCircleStyleElement = map.querySelector('vl-map-layer-circle-style');
+        vlMapLayerCircleStyleElement.appliesTo = () => true;
+        const style = vlMapLayerCircleStyleElement.style();
+        assert.isNotNull(style);
+      });
     });
 </script>
 </body>
