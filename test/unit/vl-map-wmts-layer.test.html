@@ -7,7 +7,6 @@
   <script src="../../../web-component-tester/browser.js"></script>
 
   <script type="module" src="../../src/vl-map-all.js"></script>
-  <script src="/node_modules/sinon/pkg/sinon.js"></script>
 </head>
 
 <body>
@@ -49,7 +48,6 @@
   <script type="module">
     import {OlWMTSSource, OlWMTSTileGrid} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
     suite('vl-map-wmts-layer', () => {
-      const sandbox = sinon.createSandbox();
       const LAYER_SELECTOR = '[data-vl-is-layer]';
 
       const getLayer = (map) => {
@@ -58,10 +56,6 @@
     
       setup((done) => {
         customElements.whenDefined('vl-map-wmts-layer').then(() => done());
-      });
-
-      teardown(() => {
-        sandbox.restore();
       });
 
       test('de wmts source wordt correct geconfigureerd', async () => {
