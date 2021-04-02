@@ -11,13 +11,9 @@ describe('vl-map-wmts-layer', async () => {
 
   it('als gebruiker kan ik de details van de wmts opvragen', async () => {
     const layer = (await (await page.getMapWithStandardLayer()).getWmtsLayers())[0];
-    const visible = await layer.isVisible();
-    assert.isTrue(visible);
-    const name = await layer.getName();
-    const url = await layer.getUrl();
-    const layerName = await layer.getLayer();
-    assert.equal(name, 'GRB Wegenkaart');
-    assert.equal(layerName, 'grb_sel');
-    assert.equal(url, 'https://tile.informatievlaanderen.be/ws/raadpleegdiensten/wmts');
+    await assert.eventually.isTrue(layer.isVisible);
+    await assert.eventually.equal(layer.getName(), 'GRB Wegenkaart');
+    await assert.eventually.equal(layer.getLaye(), 'grb_sel');
+    await assert.eventually.equal(layer.getUrl(), 'https://tile.informatievlaanderen.be/ws/raadpleegdiensten/wmts');
   });
 });
