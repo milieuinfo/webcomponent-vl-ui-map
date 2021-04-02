@@ -7,7 +7,6 @@
     <script src="../../../web-component-tester/browser.js"></script>
 
     <script type="module" src="../../src/vl-map-all.js"></script>
-    <script src="/node_modules/sinon/pkg/sinon.js"></script>
 </head>
 
 <body>
@@ -47,33 +46,15 @@
     </template>
   </test-fixture>
 
-  <test-fixture id="vl-hidden-layer-fixture">
-    <template>
-      <vl-map>
-        <vl-map-wfs-layer
-          data-vl-name="foobar"
-          data-vl-url="http://dummy/wfs?foo=bar"
-          data-vl-layers="layer1,layer2"
-          data-vl-hidden>
-        </vl-map-wfs-layer>
-      </vl-map>
-    </template>
-  </test-fixture>
-
   <script type="module">
     import {OlProjection} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
 
     suite('vl-map-wfs-layer', () => {
       const should = chai.should();
-      const sandbox = sinon.createSandbox();
 
       setup(async () => {
         await customElements.whenDefined('vl-map-wfs-layer');
         await customElements.whenDefined('vl-map-layer-circle-style');
-      });
-
-      teardown(() => {
-        sandbox.restore();
       });
 
       test('wfs layer kan toegevoegd worden aan een map met de correcte configuratie', async () => {
