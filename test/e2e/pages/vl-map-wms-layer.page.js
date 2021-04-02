@@ -1,7 +1,7 @@
-const VlMap = require('../components/vl-map');
-const {Page, Config} = require('vl-ui-core').Test;
+const {Config} = require('vl-ui-core').Test;
+const VlMapPage = require('./vl-map.page');
 
-class VlMapWmsLayerPage extends Page {
+class VlMapWmsLayerPage extends VlMapPage {
   async getMapWithTiledWmsLayer() {
     return this._getMap('#map-with-tiled-wms-layer');
   }
@@ -12,10 +12,6 @@ class VlMapWmsLayerPage extends Page {
 
   async load() {
     await super.load(Config.baseUrl + '/demo/vl-map-wms-layer.html');
-  }
-
-  async _getMap(selector) {
-    return new VlMap(this.driver, selector);
   }
 }
 
