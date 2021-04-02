@@ -18,17 +18,15 @@ import {VlMapLayer} from '../dist/vl-map-layer.src.js';
  * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map-wms-layer.html|Demo}
  */
 export class VlMapWmsLayer extends VlMapLayer {
-  constructor(layerClass, sourceClass, loadEndEventName) {
+  constructor(layerClass, sourceClass) {
     super();
     this.__layerClass = layerClass;
     this.__sourceClass = sourceClass;
-    this.__loadEndEventName = loadEndEventName;
   }
 
   connectedCallback() {
     super.connectedCallback();
     this._source = this.__createSource(this.__sourceClass);
-    this._source.on(this.__loadEndEventName, () => this.rerender());
     this._layer = this.__createLayer(this.__layerClass);
   }
 

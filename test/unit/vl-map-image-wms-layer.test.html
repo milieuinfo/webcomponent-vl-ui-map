@@ -97,15 +97,6 @@
         assert.equal(layer.getSource().getUrl(), 'http://dummy/wms-adjusted');
         assert.equal(layer.getOpacity(), 0.75);
       });
-
-      test('na het laden van de source wordt rerender opgeroepen', async () => {
-        const mapHidden = fixture('vl-map-image-wms-layer-hidden-fixture');
-        await mapHidden.ready;
-        const layerHidden = mapHidden.querySelector('vl-map-image-wms-layer');
-        sandbox.spy(layerHidden, 'rerender');
-        layerHidden.source.dispatchEvent('imageloadend');
-        assert.isTrue(layerHidden.rerender.called);
-      });
     });
   </script>
 </body>

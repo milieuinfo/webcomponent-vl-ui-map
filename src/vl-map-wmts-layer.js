@@ -70,7 +70,6 @@ export class VlMapWmtsLayer extends VlMapLayer {
       }),
       style: '',
     });
-    olWMTSSource.on('tileloadend', () => this.rerender());
     return olWMTSSource;
   }
 

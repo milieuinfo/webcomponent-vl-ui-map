@@ -49,7 +49,6 @@ export class VlMapWfsLayer extends VlMapVectorLayer {
       strategy: this.__loadingStrategy,
       url: this.__getWfsUrl.bind(this),
     });
-    olVectorSource.on('featuresloadend', () => this.rerender());
     return olVectorSource;
   }
 

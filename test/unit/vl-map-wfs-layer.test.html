@@ -123,15 +123,6 @@
           done();
         });
       });
-
-      test('na het laden van de source wordt rerender opgeroepen', async () => {
-        const mapHidden = fixture('vl-hidden-layer-fixture');
-        await mapHidden.ready;
-        const layerHidden = mapHidden.querySelector('vl-map-wfs-layer');
-        sandbox.spy(layerHidden, 'rerender');
-        layerHidden.source.dispatchEvent('featuresloadend');
-        assert.isTrue(layerHidden.rerender.called);
-      });
     });
   </script>
 </body>
