@@ -26,7 +26,7 @@ import {
  */
 export class VlMapFeaturesLayer extends VlMapVectorLayer {
   static get _observedAttributes() {
-    return ['auto-extent', 'features'];
+    return VlMapVectorLayer._observedAttributes.concat(['auto-extent', 'features']);
   }
 
   constructor() {

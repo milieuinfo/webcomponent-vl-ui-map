@@ -2,22 +2,21 @@ const {assert, getDriver} = require('vl-ui-core').Test.Setup;
 const VlWmtsLayerPage = require('./pages/vl-map-wmts-layer.page');
 
 describe('vl-map-wmts-layer', async () => {
+  let driver;
   let page;
 
   before(() => {
-    page = new VlWmtsLayerPage(getDriver());
+    driver = getDriver();
+    page = new VlWmtsLayerPage(driver);
     return page.load();
   });
 
   it('als gebruiker kan ik de details van de wmts opvragen', async () => {
-    const layer = (await (await page.getMapWithStandardLayer()).getWmtsLayers())[0];
-    const visible = await layer.isVisible();
-    assert.isTrue(visible);
-    const name = await layer.getName();
-    const url = await layer.getUrl();
-    const layerName = await layer.getLayer();
-    assert.equal(name, 'GRB Wegenkaart');
-    assert.equal(layerName, 'grb_sel');
-    assert.equal(url, 'https://tile.informatievlaanderen.be/ws/raadpleegdiensten/wmts');
+    const map = await page.getMapWithStandardLayer();
+    const layers = await map.getWmtsLayers();
+    await assert.eventually.isTrue(layers[0].isVisible());
+    await assert.eventually.equal(layers[0].getName(), 'GRB Wegenkaart');
+    await assert.eventually.equal(layers[0].getLayer(), 'grb_sel');
+    await assert.eventually.equal(layers[0].getUrl(), 'https://tile.informatievlaanderen.be/ws/raadpleegdiensten/wmts');
   });
 });

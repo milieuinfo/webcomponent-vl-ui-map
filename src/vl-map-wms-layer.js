@@ -20,8 +20,14 @@ import {VlMapLayer} from '/src/vl-map-layer.js';
 export class VlMapWmsLayer extends VlMapLayer {
   constructor(layerClass, sourceClass) {
     super();
-    this._source = this.__createSource(sourceClass);
-    this._layer = this.__createLayer(layerClass);
+    this.__layerClass = layerClass;
+    this.__sourceClass = sourceClass;
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    this._source = this.__createSource(this.__sourceClass);
+    this._layer = this.__createLayer(this.__layerClass);
   }
 
   get _url() {
@@ -59,6 +65,7 @@ export class VlMapWmsLayer extends VlMapLayer {
       opacity: this._opacity,
       minResolution: this._minResolution,
       maxResolution: this._maxResolution,
+      visible: this._visible,
     };
   }
 

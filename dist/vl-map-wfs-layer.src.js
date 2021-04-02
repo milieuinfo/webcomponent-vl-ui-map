@@ -21,8 +21,8 @@ import {
  * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map-wfs-layer.html|Demo}
  */
 export class VlMapWfsLayer extends VlMapVectorLayer {
-  constructor() {
-    super();
+  connectedCallback() {
+    super.connectedCallback();
     this._source = this.__createSource();
     this._layer = this._createLayer();
   }
@@ -44,11 +44,12 @@ export class VlMapWfsLayer extends VlMapVectorLayer {
   }
 
   __createSource() {
-    return new OlVectorSource({
+    const olVectorSource = new OlVectorSource({
       format: this.__sourceFormat,
       strategy: this.__loadingStrategy,
       url: this.__getWfsUrl.bind(this),
     });
+    return olVectorSource;
   }
 
   __getWfsUrl(extent, resolution, projection) {
