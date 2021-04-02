@@ -56,27 +56,32 @@
                 <vl-map-features-layer id="point-layer">
                     <vl-map-layer-circle-style></vl-map-layer-circle-style>
                     <vl-map-draw-point-action id="draw-point-snap-action" data-vl-default-active data-vl-snapping data-vl-snapping-pixel-tolerance="1000">
-                         <vl-map-wfs-layer data-vl-name="Stromend waterlichamen"
-                              data-vl-url="https://geoserver.vmm.be/geoserver/vmm/wfs"
-                              data-vl-layers="owl_l"
-                              data-vl-max-resolution="4">
-                			<vl-map-layer-style data-vl-color="rgba(6, 163, 247, 0.4)"
-                                    data-vl-border-size="4"
-                                    data-vl-border-color="rgba(6, 163, 247, 1)"></vl-map-layer-style>
+                         <vl-map-wfs-layer 
+                            data-vl-name="Stromend waterlichamen"
+                            data-vl-url="https://geoserver.vmm.be/geoserver/vmm/wfs"
+                            data-vl-layers="owl_l"
+                            data-vl-max-resolution="4">
+                            <vl-map-layer-style 
+                                data-vl-color="rgba(6, 163, 247, 0.4)"
+                                data-vl-border-size="4"
+                                data-vl-border-color="rgba(6, 163, 247, 1)"></vl-map-layer-style>
             			</vl-map-wfs-layer>
-            			<vl-map-wfs-layer data-vl-name="Stilstaand waterlichamen"
-                              data-vl-url="https://gisservices.inbo.be/arcgis/services/Watervlakken/MapServer/WFSServer?service=wfs"
-                              data-vl-layers="Watervlakken"
-                              data-vl-max-resolution="4">
-                		<vl-map-layer-style data-vl-color="rgba(6, 163, 247, 0.4)"
-                                    data-vl-border-size="4"
-                                    data-vl-border-color="rgba(6, 163, 247, 1)"></vl-map-layer-style>
+
+            			<vl-map-wfs-layer 
+                            data-vl-name="Stilstaand waterlichamen"
+                            data-vl-url="https://gisservices.inbo.be/arcgis/services/Watervlakken/MapServer/WFSServer?service=wfs"
+                            data-vl-layers="Watervlakken"
+                            data-vl-max-resolution="4">
+                            <vl-map-layer-style 
+                                data-vl-color="rgba(6, 163, 247, 0.4)"
+                                data-vl-border-size="4"
+                                data-vl-border-color="rgba(6, 163, 247, 1)">
+                            </vl-map-layer-style>
             			</vl-map-wfs-layer>
                     </vl-map-draw-point-action>
                 </vl-map-features-layer>
             </vl-map>
         </vl-demo>
-
     </vl-demo-page>
 </body>
 
