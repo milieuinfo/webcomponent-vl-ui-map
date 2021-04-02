@@ -7,7 +7,6 @@
   <script src="../../../web-component-tester/browser.js"></script>
 
   <script type="module" src="../../src/vl-map-all.js"></script>
-  <script src="/node_modules/sinon/pkg/sinon.js"></script>
 </head>
 
 <body>
@@ -42,14 +41,9 @@
   <script>
     suite('vl-map-image-wms-layer', () => {
       const should = chai.should();
-      const sandbox = sinon.createSandbox();
 
       setup((done) => {
         customElements.whenDefined('vl-map-image-wms-layer').then(() => done());
-      });
-
-      teardown(() => {
-        sandbox.restore();
       });
 
       test('wms image layer kan toegevoegd worden aan een map met de correcte configuratie', async () => {
