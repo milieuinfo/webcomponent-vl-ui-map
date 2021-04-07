@@ -81,6 +81,10 @@ class VlSelectLocation extends VlSelect {
     this._changeTranslation('select.no_more_options', value);
   }
 
+  set searchPlaceholder(value) {
+    this.setAttribute('data-vl-search-placeholder', value);
+  }
+
   get _url() {
     return 'https://loc.geopunt.be/v4';
   }
