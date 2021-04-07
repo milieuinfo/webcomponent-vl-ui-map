@@ -37,9 +37,7 @@ export class VlMapSelectAction extends VlMapLayerAction {
     } else {
       this._style = style;
     }
-    if (this.action) {
-      this._processAction();
-    }
+    this._processAction();
   }
 
   get _cluster() {

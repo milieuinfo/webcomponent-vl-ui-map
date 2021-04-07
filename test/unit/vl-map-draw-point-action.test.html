@@ -59,6 +59,14 @@
         assert.isTrue(VlMapDrawPointAction.isVlMapAction());
       });
     
+      test('snapping wordt goed geconfigureerd als het snapping attribuut er is maar zonder lagen', async () => {
+        const fixtureMetSnapping = fixture('vl-map-draw-point-action-snapping');
+        const drawPointMetSnappingAction = fixtureMetSnapping.querySelector('vl-map-draw-point-action');
+        await awaitUntil(() => drawPointMetSnappingAction.action != null);
+        const drawActionOptions = drawPointMetSnappingAction.action.options;
+        expect(drawActionOptions.snapping).to.equal(true);
+      });
+
       test('snapping wordt goed geconfigureerd als er lagen zijn en pixel tolerantie', async () => {
         const fixtureMetSnapping = fixture('vl-map-draw-point-action-snapping-met-wfs-layers-fixture');
         const drawPointMetSnappingOpWfsLagenAction = fixtureMetSnapping.querySelector('vl-map-draw-point-action');

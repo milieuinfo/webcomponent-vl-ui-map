@@ -51,10 +51,14 @@
 
         <vl-demo data-vl-title="Kaart met punt teken actie met snapping">
             <vl-map id="map-with-draw-point-snap-action">
+                <vl-map-side-sheet>
+                  <vl-map-layer-switcher></vl-map-layer-switcher>
+                </vl-map-side-sheet>
                 <vl-map-search></vl-map-search>
                 <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
                 <vl-map-features-layer id="point-layer">
-                    <vl-map-layer-circle-style></vl-map-layer-circle-style>
+                    <vl-map-layer-circle-style data-vl-color="rgba(34, 39, 255, 0.4)" data-vl-border-color="rgba(0, 5, 218, 1)" data-vl-border-size="1"></vl-map-layer-circle-style>
+                    <vl-map-layer-style data-vl-color="rgba(34, 39, 255, 0.4)" data-vl-border-color="rgba(0, 5, 218, 1)" data-vl-border-size="1"></vl-map-layer-style>
                     <vl-map-draw-point-action id="draw-point-snap-action" data-vl-default-active data-vl-snapping data-vl-snapping-pixel-tolerance="1000">
                          <vl-map-wfs-layer 
                             data-vl-name="Stromend waterlichamen"

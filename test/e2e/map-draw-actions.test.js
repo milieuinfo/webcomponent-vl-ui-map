@@ -66,9 +66,8 @@ describe('vl-map-draw-action', async () => {
     assert.lengthOf(features, 2);
   });
 
-  it('als gebruiker kan ik punten tekenen op een kaart', async () => {
+  it.only('als gebruiker kan ik punten tekenen op een kaart waarbij er bij het tekenen gesnapped wordt op bepaalde lagen', async () => {
     const map = await vlMapPage.getMapWithDrawPointSnapAction();
-    await map.scrollIntoView();
     const action = await vlMapPage.getDrawPointSnapAction();
     const layers = await map.getLayers();
     assert.isNotEmpty(layers);
@@ -79,16 +78,18 @@ describe('vl-map-draw-action', async () => {
     await search.zoomTo('Hellegatstraat, Puurs-Sint-Amands');
 
     await action.drawOnCoordinate({x: 147341, y: 197991});
-    let features = await layer.getFeatureCoordinates();
-    assert.lengthOf(features, 1);
-    assert.closeTo(features[0][0], 147341, 5);
-    assert.closeTo(features[0][1], 197991, 5);
+    let coordinatesOfFeatures = await layer.getFeatureCoordinates();
+    assert.lengthOf(coordinatesOfFeatures, 1);
+    // getekend punt valt samen met de coordinaten waar je wou tekenen
+    assert.closeTo(coordinatesOfFeatures[0][0], 147341, 5);
+    assert.closeTo(coordinatesOfFeatures[0][1], 197991, 5);
 
     await action.drawOnCoordinate({x: 147441, y: 197991});
-    features = await layer.getFeatureCoordinates();
-    assert.lengthOf(features, 2);
-    assert.closeTo(features[1][0], 147361, 5);
-    assert.closeTo(features[1][1], 197968, 5);
+    coordinatesOfFeatures = await layer.getFeatureCoordinates();
+    assert.lengthOf(coordinatesOfFeatures, 2);
+    // getekend punt valt niet samen met de coordinaten waar je wou tekenen
+    assert.closeTo(coordinatesOfFeatures[1][0], 147361, 5);
+    assert.closeTo(coordinatesOfFeatures[1][1], 197968, 5);
   });
 });
 

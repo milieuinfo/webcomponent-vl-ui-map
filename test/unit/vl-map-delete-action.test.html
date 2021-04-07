@@ -69,6 +69,7 @@
 
         await map.ready;
         assert.deepEqual(map.map.actions[0].layer, layer);
+
         await awaitUntil(() => {
           const deleteAction = map.map.actions[0];
           return deleteAction && deleteAction.style && (typeof deleteAction.style === 'function') && deleteAction.style().getFill().getColor() === '#FFE615';
