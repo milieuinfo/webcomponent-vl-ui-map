@@ -44,12 +44,11 @@ export class VlMapWfsLayer extends VlMapVectorLayer {
   }
 
   __createSource() {
-    const olVectorSource = new OlVectorSource({
+    return new OlVectorSource({
       format: this.__sourceFormat,
       strategy: this.__loadingStrategy,
       url: this.__getWfsUrl.bind(this),
     });
-    return olVectorSource;
   }
 
   __getWfsUrl(extent, resolution, projection) {
