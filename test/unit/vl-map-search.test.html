@@ -132,7 +132,7 @@
     
         attributes.forEach((item, index) => {
           const attribute = `data-vl-${item}`;
-          assert.isFalse(select.hasAttribute(attribute));
+          assert.equal(select.hasAttribute(attribute), attribute === 'data-vl-search-placeholder');
           const value = `text-${index}`;
           search.setAttribute(attribute, value);
           assert.equal(select.getAttribute(attribute), value);
