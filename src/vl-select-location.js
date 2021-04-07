@@ -73,10 +73,6 @@ class VlSelectLocation extends VlSelect {
     this._placeholderElement.innerText = value;
   }
 
-  set searchPlaceholder(value) {
-    this._changeTranslation('select.search_placeholder_value', value);
-  }
-
   set searchEmptyText(value) {
     this.setAttribute('data-vl-select-search-empty-text', value);
   }
@@ -107,10 +103,6 @@ class VlSelectLocation extends VlSelect {
 
   _placeholderChangedCallback(oldValue, newValue) {
     this.placeholder = newValue;
-  }
-
-  _searchPlaceholderChangedCallback(oldValue, newValue) {
-    this.searchPlaceholder = newValue;
   }
 
   _searchEmptyTextChangedCallback(oldValue, newValue) {
