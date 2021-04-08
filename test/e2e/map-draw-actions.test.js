@@ -66,7 +66,7 @@ describe('vl-map-draw-action', async () => {
     assert.lengthOf(features, 2);
   });
 
-  it.only('als gebruiker kan ik punten tekenen op een kaart waarbij er bij het tekenen gesnapped wordt op bepaalde lagen', async () => {
+  it('als gebruiker kan ik punten tekenen op een kaart waarbij er bij het tekenen gesnapped wordt op bepaalde lagen', async () => {
     const map = await vlMapPage.getMapWithDrawPointSnapAction();
     const action = await vlMapPage.getDrawPointSnapAction();
     const layers = await map.getLayers();
