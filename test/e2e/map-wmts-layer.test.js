@@ -2,10 +2,12 @@ const {assert, getDriver} = require('vl-ui-core').Test.Setup;
 const VlWmtsLayerPage = require('./pages/vl-map-wmts-layer.page');
 
 describe('vl-map-wmts-layer', async () => {
+  let driver;
   let page;
 
   before(() => {
-    page = new VlWmtsLayerPage(getDriver());
+    driver = getDriver();
+    page = new VlWmtsLayerPage(driver);
     return page.load();
   });
 
