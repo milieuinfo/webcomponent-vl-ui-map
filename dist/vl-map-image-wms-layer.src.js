@@ -18,7 +18,7 @@ import {
  */
 export class VlMapImageWmsLayer extends VlMapWmsLayer {
   constructor() {
-    super(OlImageLayer, OlImageWMSSource);
+    super(OlImageLayer, OlImageWMSSource, 'imageloadend');
   }
 }
 
