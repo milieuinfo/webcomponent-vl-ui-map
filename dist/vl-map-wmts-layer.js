@@ -14,8 +14,8 @@ import {OlWMTSSource, OlWMTSTileGrid, OlTileLayer, OlExtent} from '/node_modules
  * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map-wmts-layer.html|Demo}
  */
 export class VlMapWmtsLayer extends VlMapLayer {
-  constructor() {
-    super();
+  connectedCallback() {
+    super.connectedCallback();
     this._source = this.__createSource();
     this._layer = this._createLayer();
   }
@@ -48,6 +48,7 @@ export class VlMapWmtsLayer extends VlMapLayer {
       source: this._source,
       minResolution: this._minResolution,
       maxResolution: this._maxResolution,
+      visible: this._visible,
     });
     layer.set('id', VlMapLayer._counter);
     return layer;

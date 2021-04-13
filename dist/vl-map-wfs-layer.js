@@ -21,8 +21,8 @@ import {
  * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map-wfs-layer.html|Demo}
  */
 export class VlMapWfsLayer extends VlMapVectorLayer {
-  constructor() {
-    super();
+  connectedCallback() {
+    super.connectedCallback();
     this._source = this.__createSource();
     this._layer = this._createLayer();
   }

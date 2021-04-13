@@ -14,7 +14,7 @@ import '/node_modules/vl-ui-checkbox/dist/vl-checkbox.js';
  *
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
- * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map-overview-map.html|Demo}
+ * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map-layer-switcher.html|Demo}
  */
 export class VlMapLayerSwitcher extends vlElement(HTMLElement) {
   constructor() {
