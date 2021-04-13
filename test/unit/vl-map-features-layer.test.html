@@ -146,12 +146,9 @@
         const map = fixture('vl-map-features-layer-fixture');
         const layer = map.querySelector('vl-map-features-layer');
         await map.ready;
-        const extent = sandbox.spy();
+        should.not.exist(layer.boundingBox);
         layer.setAttribute('features', '{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[147055,197908]},"properties":null},{"type":"Feature","geometry":{"type":"Point","coordinates":[157055,207908]},"properties":null}]}');
-
-        sandbox.stub(layer.source, 'getExtent').returns(extent);
-        const boundingBox = layer.__boundingBox;
-        assert.equal(boundingBox, extent);
+        assert.deepEqual(layer.boundingBox,  [147055, 197908, 157055, 207908]);
       });
 
       test('kan een feature verkrijgen via id', async () => {
