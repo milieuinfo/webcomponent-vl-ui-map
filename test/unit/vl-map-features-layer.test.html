@@ -148,7 +148,7 @@
         await map.ready;
         should.not.exist(layer.boundingBox);
         layer.setAttribute('features', '{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[147055,197908]},"properties":null},{"type":"Feature","geometry":{"type":"Point","coordinates":[157055,207908]},"properties":null}]}');
-        assert.deepEqual(layer.boundingBox,  [147055, 197908, 157055, 207908]);
+        assert.deepEqual(layer.boundingBox, [147055, 197908, 157055, 207908]);
       });
 
       test('kan een feature verkrijgen via id', async () => {
