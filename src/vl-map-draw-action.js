@@ -9,6 +9,9 @@ import {VlCompositeVectorLayer} from '/node_modules/vl-mapactions/dist/vl-mapact
  *
  * @extends VlMapLayerAction
  *
+ * @property {string} [data-vl-snapping] - Attribuut wordt gebruikt om aan te geven dat er bij het tekenen snapping mag gebeuren, hetzij op de laag waarop getekend wordt (indien geen vl-map-wfs-layer(s) als child elementen), hetzij op de meegegeven vl-map-wfs-layers.
+ * @property {number} [data-vl-snapping-pixel-tolerance=10] - Attribuut om aan te geven binnen de hoeveel pixel van een feature er gesnapped mag worden.
+ *
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
  * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map-draw-actions.html|Demo}
@@ -27,8 +30,7 @@ export class VlMapDrawAction extends VlMapLayerAction {
 
   get __drawOptions() {
     if (this.dataset.vlSnapping !== undefined) {
-      const snappingLayers = this.__snappingLayers;
-      if (snappingLayers.length == 0) {
+      if (this.__snappingLayers.length == 0) {
         return {snapping: true};
       } else {
         return {
