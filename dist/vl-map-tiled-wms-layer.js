@@ -18,7 +18,7 @@ import {
  */
 export class VlMapTiledWmsLayer extends VlMapWmsLayer {
   constructor() {
-    super(OlTileLayer, OlTileWMSSource, 'tileloadend');
+    super(OlTileLayer, OlTileWMSSource);
   }
 }
 
