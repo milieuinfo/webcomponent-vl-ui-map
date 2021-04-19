@@ -116,7 +116,7 @@
         assert.equal(style.getText().getText(), '');
       });
 
-      test('de style geeft null terug als er de stijl niet valid is voor een feature', () => {
+      test('de style geeft null terug als de stijl niet valid is voor een feature', () => {
         types.forEach((type) => {
           const element = fixture(`vl-map-${type}-style-fixture`);
           const styleElement = element.querySelector(`vl-map-${type}-style`);
