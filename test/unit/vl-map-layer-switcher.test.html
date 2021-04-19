@@ -92,10 +92,10 @@
         assert.lengthOf(layerSwitcher._layerInputs, 1);
       });
 
-      test('een change event van een element met een layer attribuut zal de zichtbaarheid van de gekoppelde laag wijzigen', async (done) => {
+      test('een change event van een element met een layer attribuut zal de zichtbaarheid van de gekoppelde laag wijzigen', (done) => {
         const map = fixture('vl-map-layer-switcher-custom-fixture');
         const checkbox = map.querySelector('vl-map-layer-switcher vl-checkbox');
-        await map.ready.then(() => {
+        map.ready.then(() => {
           const layer = map.nonBaseLayers[0];
           assert.isTrue(layer.visible);
           checkbox.addEventListener('change', () => {
