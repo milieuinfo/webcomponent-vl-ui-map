@@ -10,7 +10,7 @@
 </head>
 
 <body>
-<test-fixture id="vl-map-layer-style-fixture">
+  <test-fixture id="vl-map-layer-style-fixture">
     <template>
       <vl-map>
         <vl-map-features-layer>
@@ -18,8 +18,9 @@
         </vl-map-features-layer>
       </vl-map>
     </template>
-</test-fixture>
-<test-fixture id="vl-map-layer-style-met-text-feature-attribute-name-fixture">
+  </test-fixture>
+
+  <test-fixture id="vl-map-layer-style-met-text-feature-attribute-name-fixture">
     <template>
       <vl-map>
         <vl-map-features-layer>
@@ -27,8 +28,9 @@
         </vl-map-features-layer>
       </vl-map>
     </template>
-</test-fixture>
-<test-fixture id="vl-map-layer-style-met-properties-fixture">
+  </test-fixture>
+
+  <test-fixture id="vl-map-layer-style-met-properties-fixture">
     <template>
       <vl-map>
         <vl-map-features-layer>
@@ -47,8 +49,9 @@
         </vl-map-features-layer>
       </vl-map>
     </template>
-</test-fixture>
-<test-fixture id="vl-map-layer-met-meerdere-stijlen">
+  </test-fixture>
+
+  <test-fixture id="vl-map-layer-met-meerdere-stijlen">
     <template>
       <vl-map>
         <vl-map-features-layer>
@@ -63,12 +66,24 @@
         </vl-map-features-layer>
       </vl-map>
     </template>
-</test-fixture>
+  </test-fixture>
+
+  <test-fixture id="vl-map-layer-circle-style-fixture">
+    <template>
+      <vl-map>
+        <vl-map-features-layer>
+          <vl-map-layer-circle-style></vl-map-layer-circle-style>
+        </vl-map-features-layer>
+      </vl-map>
+    </template>
+  </test-fixture>
 
 <script type="module">
     import {awaitUntil} from '/node_modules/vl-ui-core/dist/vl-core.js';
 
     suite('vl-map-layer-style', () => {
+      const types = ['layer', 'layer-circle'];
+
       setup((done) => {
         customElements.whenDefined('vl-map-layer-style').then(() => done());
       });
@@ -103,20 +118,24 @@
         assert.equal(style.getText().getText(), '');
       });
 
-      test('de style geeft null terug als er de stijl niet valid is voor een feature', () => {
-        const element = fixture('vl-map-layer-style-fixture');
-        const vlMapLayerStyleElement = element.querySelector('vl-map-layer-style');
-        vlMapLayerStyleElement.appliesTo = () => false;
-        const style = vlMapLayerStyleElement.style();
-        assert.isNull(style);
+      test('de style geeft null terug als de stijl niet valid is voor een feature', () => {
+        types.forEach((type) => {
+          const element = fixture(`vl-map-${type}-style-fixture`);
+          const styleElement = element.querySelector(`vl-map-${type}-style`);
+          styleElement.appliesTo = () => false;
+          const style = styleElement.style();
+          assert.isNull(style);
+        });
       });
 
       test('de style geeft niet null terug als de stijl valid is', () => {
-        const element = fixture('vl-map-layer-style-fixture');
-        const vlMapLayerStyleElement = element.querySelector('vl-map-layer-style');
-        vlMapLayerStyleElement.appliesTo = () => true;
-        const style = vlMapLayerStyleElement.style();
-        assert.isNotNull(style);
+        types.forEach((type) => {
+          const element = fixture(`vl-map-${type}-style-fixture`);
+          const styleElement = element.querySelector(`vl-map-${type}-style`);
+          styleElement.appliesTo = () => true;
+          const style = styleElement.style();
+          assert.isNotNull(style);
+        });
       });
 
       test('als er een featureAttributeName gedefinieerd is, zal de tekst stijl ook beschikbaar zijn', () => {
@@ -177,7 +196,7 @@
         assert.equal(styleOnbestaand.length, 0);
       });
     });
-</script>
+  </script>
 </body>
 
 </html>
