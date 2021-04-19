@@ -70,12 +70,7 @@ export class VlMapLayerCircleStyle extends VlMapLayerStyle {
     return this.getAttribute('cluster-color') || 'rgba(2, 85, 204, 1)';
   }
 
-  /**
-   * Geeft de stijl terug.
-   *
-   * @Return {string}
-   */
-  get style() {
+  get _styleFunction() {
     return (feature, resolution) => {
       const features = feature && feature.get ? (feature.get('features') || []) : [];
       const size = features.length || 1;

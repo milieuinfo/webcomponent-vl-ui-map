@@ -10,7 +10,7 @@
 </head>
 
 <body>
-<test-fixture id="vl-map-layer-circle-style-fixture">
+  <test-fixture id="vl-map-layer-circle-style-fixture">
     <template>
       <vl-map>
         <vl-map-features-layer>
@@ -18,8 +18,9 @@
         </vl-map-features-layer>
       </vl-map>
     </template>
-</test-fixture>
-<test-fixture id="vl-map-layer-circle-style-properties-fixture">
+  </test-fixture>
+
+  <test-fixture id="vl-map-layer-circle-style-properties-fixture">
     <template>
       <vl-map>
         <vl-map-features-layer>
@@ -27,9 +28,9 @@
         </vl-map-features-layer>
       </vl-map>
     </template>
-</test-fixture>
+  </test-fixture>
 
-<script type="module">
+  <script type="module">
     import {OlFeature, OlPoint, OlStyle, OlStyleCircle, OlStyleFill, OlStyleStroke} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
     import {OpenLayersUtil} from './ol-util.js';
 
@@ -281,7 +282,7 @@
         assert.isTrue(styleImage instanceof OlStyleCircle);
       });
     });
-</script>
+  </script>
 </body>
 
 </html>
