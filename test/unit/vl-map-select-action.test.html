@@ -16,7 +16,7 @@
       <vl-map>
         <vl-map-features-layer>
           <vl-map-select-action>
-            <vl-map-layer-circle-style></vl-map-layer-circle-style>
+            <vl-map-layer-style data-vl-text-color="#000" data-vl-color="#FFE615" data-vl-border-color="#FFE615"></vl-map-layer-style>
           </vl-map-select-action>
         </vl-map-features-layer>
       </vl-map>
@@ -26,6 +26,7 @@
   <script type="module">
     import {OlFeature, OlPoint} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
     import {VlMapSelectAction} from '../../src/vl-map-select-action.js';
+    import {awaitUntil} from '/node_modules/vl-ui-core/dist/vl-core.js';
 
     suite('vl-map-select-action', () => {
       const sandbox = sinon.createSandbox();
@@ -42,17 +43,19 @@
         assert.isTrue(VlMapSelectAction.isVlMapAction());
       });
 
-      test('controle van de selecteer actie configuratie', (done) => {
+      test('controle van de selecteer actie configuratie', async () => {
         const map = fixture('vl-map-select-action-fixture');
-        const styleElement = map.querySelector('vl-map-layer-circle-style');
+        const styleElement = map.querySelector('vl-map-layer-style');
         const layer = map.querySelector('vl-map-features-layer').layer;
 
-        map.ready.then(() => {
-          const action = map.map.actions[0];
-          assert.deepEqual(action.layer, layer);
-          assert.deepEqual(action.style(), styleElement.style());
-          done();
+        await map.ready;
+        const action = map.map.actions[0];
+        assert.deepEqual(action.layer, layer);
+        await awaitUntil(() => {
+          const selectAction = map.map.actions[0];
+          return selectAction && selectAction.style && (typeof selectAction.style === 'function') && selectAction.style().getFill().getColor() === '#FFE615';
         });
+        assert.deepEqual(map.map.actions[0].style(), styleElement.style());
       });
 
       test('er kunnen features op de kaart gemarkeerd worden', (done) => {

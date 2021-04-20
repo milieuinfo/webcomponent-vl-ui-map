@@ -8,6 +8,13 @@ class VlMapDrawPointAction extends VlMapDrawAction {
       await actions.move({origin: map, x: x, y: y}).click().perform();
     });
   }
+
+  async drawOnCoordinate({x = 10, y= 10} = {x: 10, y: 10}) {
+    await super.draw(async () => {
+      const map = await this.getMap();
+      await map.clickOnCoordinates([x, y]);
+    });
+  }
 }
 
 module.exports = VlMapDrawPointAction;

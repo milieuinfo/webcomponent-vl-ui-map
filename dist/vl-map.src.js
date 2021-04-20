@@ -106,7 +106,7 @@ export class VlMap extends vlElement(HTMLElement) {
    * @return {Object[]}
    */
   get nonBaseLayers() {
-    return [...this.querySelectorAll('[data-vl-is-layer]')];
+    return [...this.querySelectorAll(':scope > [data-vl-is-layer]')];
   }
 
   get disableEscapeKey() {

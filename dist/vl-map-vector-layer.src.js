@@ -14,7 +14,18 @@ import {OlVectorLayer} from 'vl-mapactions/dist/vl-mapactions.js';
  * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map-features-layer.html|Demo}
  * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map-wfs-layer.html|Demo}
  */
+/**
+ * VlMapVectorLayer style changed event
+ * @event VlMapVectorLayer#styleChanged
+ * @property {VlMapLayerStyle|object} style - De nieuwe stijl.
+ */
 export class VlMapVectorLayer extends VlMapLayer {
+  static get EVENTS() {
+    return {
+      styleChanged: 'style-changed',
+    };
+  }
+
   constructor() {
     super();
     this._styles = [];
@@ -54,6 +65,7 @@ export class VlMapVectorLayer extends VlMapLayer {
       this._styles = [];
       this._layer.setStyle(style);
     }
+    this.dispatchEvent(new CustomEvent(VlMapVectorLayer.EVENTS.styleChanged, {bubbles: true, composed: true, detail: {style: style}}));
   }
 
   _createLayer() {

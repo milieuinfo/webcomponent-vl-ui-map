@@ -78,7 +78,9 @@
     </template>
   </test-fixture>
 
-  <script type="module">
+<script type="module">
+    import {awaitUntil} from '/node_modules/vl-ui-core/dist/vl-core.js';
+
     suite('vl-map-layer-style', () => {
       const types = ['layer', 'layer-circle'];
 
@@ -179,10 +181,10 @@
         assert.equal(style.getText().getText(), 'label2');
       });
 
-      test('de correcte stijl kan opgevraagd worden bij een laag met meerdere stijlen', () => {
+      test('de correcte stijl kan opgevraagd worden bij een laag met meerdere stijlen', async () => {
         const element = fixture('vl-map-layer-met-meerdere-stijlen');
         const vlMapLayerElement = element.querySelector('vl-map-features-layer');
-
+        await awaitUntil(() => vlMapLayerElement._styles.length > 0);
         const styleRed = vlMapLayerElement.style({get: () => 'red'});
         const styleGreen = vlMapLayerElement.style({get: () => 'green'});
         const styleOnbestaand = vlMapLayerElement.style({get: () => 'orange'});

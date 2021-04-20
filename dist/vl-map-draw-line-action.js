@@ -15,7 +15,7 @@ import {VlDrawLineAction} from '/node_modules/vl-mapactions/dist/vl-mapactions.j
  */
 export class VlMapDrawLineAction extends VlMapDrawAction {
   _createAction(layer) {
-    return new VlDrawLineAction(layer, this._callback);
+    return new VlDrawLineAction(layer, this._callback, this.__drawOptions);
   }
 }
 

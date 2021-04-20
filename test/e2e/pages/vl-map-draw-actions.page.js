@@ -9,6 +9,10 @@ class VlMapDrawActionsPage extends VlMapPage {
     return this._getMap('#map-with-draw-point-action');
   }
 
+  async getMapWithDrawPointSnapAction() {
+    return this._getMap('#map-with-draw-point-snap-action');
+  }
+
   async getMapWithDrawLineAction() {
     return this._getMap('#map-with-draw-line-action');
   }
@@ -19,6 +23,10 @@ class VlMapDrawActionsPage extends VlMapPage {
 
   async getDrawPointAction() {
     return new VlMapDrawPointAction(this.driver, '#draw-point-action');
+  }
+
+  async getDrawPointSnapAction() {
+    return new VlMapDrawPointAction(this.driver, '#draw-point-snap-action');
   }
 
   async getDrawLineAction() {

@@ -15,7 +15,7 @@ import {VlDrawPolygonAction} from '/node_modules/vl-mapactions/dist/vl-mapaction
  */
 export class VlMapDrawPolygonAction extends VlMapDrawAction {
   _createAction(layer) {
-    return new VlDrawPolygonAction(layer, this._callback);
+    return new VlDrawPolygonAction(layer, this._callback, this.__drawOptions);
   }
 }
 

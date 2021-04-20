@@ -40,6 +40,23 @@
     </template>
   </test-fixture>
 
+  <test-fixture id="vl-map-layer-switcher-layer-non-direct-child-fixture">
+    <template>
+      <vl-map>
+        <vl-map-side-sheet>
+          <vl-map-layer-switcher></vl-map-layer-switcher>
+        </vl-map-side-sheet>
+        <vl-map-features-layer id="point-layer" data-vl-name="layer-1">
+          <vl-map-draw-point-action id="draw-point-snap-action" data-vl-default-active data-vl-snapping data-vl-snapping-pixel-tolerance="1000">
+            <vl-map-wfs-layer id="stromendwater" data-vl-name="Stromend waterlichamen" data-vl-url="https://geoserver.vmm.be/geoserver/vmm/wfs" data-vl-layers="owl_l" data-vl-max-resolution="4">
+     		  <vl-map-layer-style data-vl-color="rgba(6, 163, 247, 0.4)" data-vl-border-size="4" data-vl-border-color="rgba(6, 163, 247, 1)"></vl-map-layer-style>
+            </vl-map-wfs-layer>
+          </vl-map-draw-point-action>
+        </vl-map-features-layer>
+      </vl-map>
+    </template>
+  </test-fixture>
+
   <script>
     suite('vl-map-layer-switcher', () => {
       setup((done) => {
@@ -50,25 +67,29 @@
         });
       });
 
-      test('wanneer er geen layer input child elementen aanwezig zijn, zullen deze automatisch gegenereerd worden', (done) => {
+      test('wanneer er geen layer input child elementen aanwezig zijn, zullen deze automatisch gegenereerd worden', async () => {
         const map = fixture('vl-map-layer-switcher-fixture');
         const layerSwitcher = map.querySelector('vl-map-layer-switcher');
-        map.ready.then(() => {
-          const layers = map.nonBaseLayers;
-          assert.lengthOf(layerSwitcher._layerInputs, 3);
-          layers.forEach((layer, index) => assert.equal(layerSwitcher._layerInputs[index].getAttribute('data-vl-label'), layer.getAttribute('data-vl-name')));
-          layers.forEach((layer, index) => assert.equal(layerSwitcher._layerInputs[index].getAttribute('data-vl-layer'), layer.getAttribute('data-vl-name')));
-          done();
-        });
+        await map.ready;
+        const layers = map.nonBaseLayers;
+        assert.lengthOf(layerSwitcher._layerInputs, 3);
+        layers.forEach((layer, index) => assert.equal(layerSwitcher._layerInputs[index].getAttribute('data-vl-label'), layer.getAttribute('data-vl-name')));
+        layers.forEach((layer, index) => assert.equal(layerSwitcher._layerInputs[index].getAttribute('data-vl-layer'), layer.getAttribute('data-vl-name')));
       });
 
-      test('wanneer er layer input child elementen aanwezig zijn, zullen er geen extra input elementen gegenereerd worden', (done) => {
+      test('non-direct child elementen van de vl-map worden niet meegenomen in de default layer switcher', async () => {
+        const map = fixture('vl-map-layer-switcher-layer-non-direct-child-fixture');
+        const layerSwitcher = map.querySelector('vl-map-layer-switcher');
+        await map.ready;
+        assert.lengthOf(layerSwitcher._layerInputs, 1);
+        assert.equal(layerSwitcher._layerInputs[0].getAttribute('data-vl-label'), 'layer-1');
+      });
+
+      test('wanneer er layer input child elementen aanwezig zijn, zullen er geen extra input elementen gegenereerd worden', async () => {
         const map = fixture('vl-map-layer-switcher-custom-fixture');
         const layerSwitcher = map.querySelector('vl-map-layer-switcher');
-        map.ready.then(() => {
-          assert.lengthOf(layerSwitcher._layerInputs, 1);
-          done();
-        });
+        await map.ready;
+        assert.lengthOf(layerSwitcher._layerInputs, 1);
       });
 
       test('een change event van een element met een layer attribuut zal de zichtbaarheid van de gekoppelde laag wijzigen', (done) => {
