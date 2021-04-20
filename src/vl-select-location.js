@@ -184,6 +184,10 @@ class VlSelectLocation extends VlSelect {
     this.insertAdjacentHTML('afterbegin', `<option placeholder></option>`);
   }
 
+  set searchPlaceholder(value) {
+    this.setAttribute('data-vl-search-placeholder', value);
+  }
+
   _changeTranslations() {
     this.placeholder = 'Lokaliseer adres';
     this.searchPlaceholder = 'Zoeken op adres of coördinaat';

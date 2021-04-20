@@ -185,33 +185,15 @@
         assert.equal(select.getTranslation('select.no_more_options'), 'Geen adres gevonden');
       });
 
-      test('de default placeholders van het zoek adres select element kunnen gewijzigd worden', () => {
+      test('de default placeholder van het zoek adres select element kan gewijzigd worden', () => {
         const select = fixture('vl-select-location-fixture');
         let text1 = 'nieuwe tekst 1';
-        let text2 = 'nieuwe tekst 2';
-        let text3 = 'nieuwe tekst 3';
-        let text4 = 'nieuwe tekst 4';
         select.setAttribute('data-vl-placeholder', text1);
-        select.setAttribute('data-vl-search-placeholder', text2);
-        select.setAttribute('data-vl-search-empty-text', text3);
-        select.setAttribute('data-vl-search-no-results-text', text4);
         assert.equal(select._placeholderElement.innerText, text1);
-        assert.equal(select.getTranslation('select.search_placeholder_value'), text2);
-        assert.equal(select.getAttribute('data-vl-select-search-empty-text'), text3);
-        assert.equal(select.getTranslation('select.no_more_options'), text4);
 
         text1 = 'splinternieuwe tekst 1';
-        text2 = 'splinternieuwe tekst 2';
-        text3 = 'splinternieuwe tekst 3';
-        text4 = 'splinternieuwe tekst 4';
         select.placeholder = text1;
-        select.searchPlaceholder = text2;
-        select.searchEmptyText = text3;
-        select.searchNoResultsText = text4;
         assert.equal(select._placeholderElement.innerText, text1);
-        assert.equal(select.getTranslation('select.search_placeholder_value'), text2);
-        assert.equal(select.getAttribute('data-vl-select-search-empty-text'), text3);
-        assert.equal(select.getTranslation('select.no_more_options'), text4);
       });
 
       test('kan de geografische locatie van het geselecteerde adres opvragen', async () => {
