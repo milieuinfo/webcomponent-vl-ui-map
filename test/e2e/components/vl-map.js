@@ -118,7 +118,7 @@ class VlMap extends VlElement {
   }
 
   async clickOnCoordinates(coordinates) {
-    const pixel = await this._getPixelFromCoordinate(coordinates);
+    const pixel = await this.getPixelFromCoordinate(coordinates);
     await this.driver.actions().move(pixel).click().perform();
   }
 
@@ -130,8 +130,8 @@ class VlMap extends VlElement {
    * @return {Promise<void>}
    */
   async movePointByCoordinates(from = [0, 0], to = [0, 0]) {
-    const fromPixel = await this._getPixelFromCoordinate(from);
-    const toPixel = await this._getPixelFromCoordinate(to);
+    const fromPixel = await this.getPixelFromCoordinate(from);
+    const toPixel = await this.getPixelFromCoordinate(to);
     await this.clickOnCoordinates(from);
     const actions = await this.driver.actions();
     await actions.move(fromPixel).press().perform();
@@ -168,8 +168,8 @@ class VlMap extends VlElement {
   }
 
   async dragRectangle(topLeftCoordinate, bottomRightCoordinate) {
-    const pixelStart = await this._getPixelFromCoordinate(topLeftCoordinate);
-    const pixelEnd = await this._getPixelFromCoordinate(bottomRightCoordinate);
+    const pixelStart = await this.getPixelFromCoordinate(topLeftCoordinate);
+    const pixelEnd = await this.getPixelFromCoordinate(bottomRightCoordinate);
     return this.driver.actions()
         .move(pixelStart)
         .press()
@@ -200,7 +200,7 @@ class VlMap extends VlElement {
    * @see {@link https://openlayers.org/en/latest/apidoc/module-ol_Map-Map.html#getPixelFromCoordinate}
    * @see {@link https://www.selenium.dev/selenium/docs/api/javascript/module/selenium-webdriver/lib/webdriver_exports_WebElement.html#getRect}
    */
-  async _getPixelFromCoordinate(coordinates = [0, 0]) {
+  async getPixelFromCoordinate(coordinates = [0, 0]) {
     const rect = await this.getRect();
     const pixel = await this.driver.executeScript(`return arguments[0].map.getPixelFromCoordinate(${JSON.stringify(coordinates)})`, this);
     return {
