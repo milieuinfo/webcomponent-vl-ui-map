@@ -11,7 +11,6 @@ import LambertCoordinaat from '/src/lambert-coordinaat.js';
  *
  * @property {string} [data-vl-placeholder=Lokaliseer adres] - Attribuut bepaalt de placeholder van het zoek adres select element.
  * @property {string} [data-vl-search-empty-text=Geen adres gevonden] - Attribuut bepaalt de tekst wanneer er geen zoekresultaten zijn.
- * @property {string} [data-vl-search-no-results-text=Geen adres gevonden] - Attribuut bepaalt de tekst wanneer er geen zoekresultaten meer zijn.
  *
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
@@ -19,7 +18,7 @@ import LambertCoordinaat from '/src/lambert-coordinaat.js';
  */
 class VlSelectLocation extends VlSelect {
   static get _observedAttributes() {
-    return ['placeholder', 'search-empty-text', 'search-no-results-text'];
+    return ['placeholder', 'search-empty-text'];
   }
 
   constructor() {
@@ -76,10 +75,6 @@ class VlSelectLocation extends VlSelect {
     this.setAttribute('data-vl-select-search-empty-text', value);
   }
 
-  set searchNoResultsText(value) {
-    this._changeTranslation('select.no_more_options', value);
-  }
-
   get _url() {
     return 'https://loc.geopunt.be/v4';
   }
@@ -106,10 +101,6 @@ class VlSelectLocation extends VlSelect {
 
   _searchEmptyTextChangedCallback(oldValue, newValue) {
     this.searchEmptyText = newValue;
-  }
-
-  _searchNoResultsTextChangedCallback(oldValue, newValue) {
-    this.searchNoResultsText = newValue;
   }
 
   _addSearchEventListener() {
@@ -186,11 +177,14 @@ class VlSelectLocation extends VlSelect {
   _changeTranslations() {
     this.placeholder = 'Lokaliseer adres';
     this.searchEmptyText = 'Geen adres gevonden';
-    this.searchNoResultsText = 'Geen adres gevonden';
   }
 
   get DEFAULT_SEARCH_PLACEHOLDER() {
     return 'Zoeken op adres of coördinaat';
+  }
+
+  get DEFAULT_NO_MORE_OPTIONS() {
+    return 'Geen adres gevonden';
   }
 }
 
