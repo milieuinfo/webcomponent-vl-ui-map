@@ -10,7 +10,6 @@ import LambertCoordinaat from '/src/lambert-coordinaat.js';
  * @extends VlSelect
  *
  * @property {string} [data-vl-placeholder=Lokaliseer adres] - Attribuut bepaalt de placeholder van het zoek adres select element.
- * @property {string} [data-vl-search-empty-text=Geen adres gevonden] - Attribuut bepaalt de tekst wanneer er geen zoekresultaten zijn.
  *
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
@@ -18,7 +17,7 @@ import LambertCoordinaat from '/src/lambert-coordinaat.js';
  */
 class VlSelectLocation extends VlSelect {
   static get _observedAttributes() {
-    return ['placeholder', 'search-empty-text'];
+    return ['placeholder'];
   }
 
   constructor() {
@@ -27,7 +26,7 @@ class VlSelectLocation extends VlSelect {
     this._addSearchEventListener();
     this._addChoiceEventListener();
     this._addPlaceholder();
-    this._changeTranslations();
+    this.placeholder = 'Lokaliseer adres';
   }
 
   /**
@@ -71,10 +70,6 @@ class VlSelectLocation extends VlSelect {
     this._placeholderElement.innerText = value;
   }
 
-  set searchEmptyText(value) {
-    this.setAttribute('data-vl-select-search-empty-text', value);
-  }
-
   get _url() {
     return 'https://loc.geopunt.be/v4';
   }
@@ -97,10 +92,6 @@ class VlSelectLocation extends VlSelect {
 
   _placeholderChangedCallback(oldValue, newValue) {
     this.placeholder = newValue;
-  }
-
-  _searchEmptyTextChangedCallback(oldValue, newValue) {
-    this.searchEmptyText = newValue;
   }
 
   _addSearchEventListener() {
@@ -174,16 +165,15 @@ class VlSelectLocation extends VlSelect {
     this.insertAdjacentHTML('afterbegin', `<option placeholder></option>`);
   }
 
-  _changeTranslations() {
-    this.placeholder = 'Lokaliseer adres';
-    this.searchEmptyText = 'Geen adres gevonden';
-  }
-
   get DEFAULT_SEARCH_PLACEHOLDER() {
     return 'Zoeken op adres of coördinaat';
   }
 
   get DEFAULT_NO_MORE_OPTIONS() {
+    return 'Geen adres gevonden';
+  }
+
+  get DEFAULT_SEARCH_NO_RESULT() {
     return 'Geen adres gevonden';
   }
 }
