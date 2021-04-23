@@ -10,7 +10,6 @@ import LambertCoordinaat from '/src/lambert-coordinaat.js';
  * @extends VlSelect
  *
  * @property {string} [data-vl-placeholder=Lokaliseer adres] - Attribuut bepaalt de placeholder van het zoek adres select element.
- * @property {string} [data-vl-search-placeholder=Zoeken op adres of coördinaat] - Attribuut bepaalt de placeholder van het zoek adres input element.
  * @property {string} [data-vl-search-empty-text=Geen adres gevonden] - Attribuut bepaalt de tekst wanneer er geen zoekresultaten zijn.
  * @property {string} [data-vl-search-no-results-text=Geen adres gevonden] - Attribuut bepaalt de tekst wanneer er geen zoekresultaten meer zijn.
  *
@@ -20,7 +19,7 @@ import LambertCoordinaat from '/src/lambert-coordinaat.js';
  */
 class VlSelectLocation extends VlSelect {
   static get _observedAttributes() {
-    return ['placeholder', 'search-placeholder', 'search-empty-text', 'search-no-results-text'];
+    return ['placeholder', 'search-empty-text', 'search-no-results-text'];
   }
 
   constructor() {
@@ -184,15 +183,14 @@ class VlSelectLocation extends VlSelect {
     this.insertAdjacentHTML('afterbegin', `<option placeholder></option>`);
   }
 
-  set searchPlaceholder(value) {
-    this.setAttribute('data-vl-search-placeholder', value);
-  }
-
   _changeTranslations() {
     this.placeholder = 'Lokaliseer adres';
-    this.searchPlaceholder = 'Zoeken op adres of coördinaat';
     this.searchEmptyText = 'Geen adres gevonden';
     this.searchNoResultsText = 'Geen adres gevonden';
+  }
+
+  get DEFAULT_SEARCH_PLACEHOLDER() {
+    return 'Zoeken op adres of coördinaat';
   }
 }
 
