@@ -10,7 +10,7 @@ import {VlMapLayer} from '/src/vl-map-layer.js';
  * @property {string} data-vl-url - Attribuut bepaalt de WMS url. Verplicht.
  * @property {string} data-vl-layers - Attribuut bepaalt de layers van de WMS. Verplicht.
  * @property {string} [data-vl-styles=] - Attribuut bepaalt de WMS stijlen.
- * @property {string} [data-vl-sld-body=] - Attribuut bepaalt de SLD stijl.
+ * @property {string} [data-vl-sld-body=] - Attribuut bepaalt de {@link http://schemas.opengis.net/sld/1.1.0/StyledLayerDescriptor.xsd|Styled Layer Descriptor} body van de WMS. Deze XML kan gebruikt worden om de WMS server side te stijlen.
  * @property {string} [data-vl-version=1.3.0] - Attribuut bepaalt de WMS versie.
  * @property {number} [data-vl-opacity=1] - Attribuut bepaalt de WMS transparantie.
  *
