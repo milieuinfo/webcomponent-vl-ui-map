@@ -277,8 +277,9 @@
       const getNoResultsText = (select) => {
         return new Promise(async (resolve, reject) => {
           await select.ready();
-          select._wrapperElement.addEventListener('click', () => {
+          select._wrapperElement.addEventListener('click', async () => {
             sendKey(select, 'P');
+            await awaitUntil(() => select._wrapperElement.querySelector('.has-no-results') != null);
             resolve(select._wrapperElement.querySelector('.has-no-results').innerText);
             sendKey(select, '');
           });
@@ -296,12 +297,11 @@
       const getNoMoreOptionsText = (select) => {
         return new Promise(async (resolve, reject) => {
           await select.ready();
-          select._wrapperElement.addEventListener('click', () => {
+          select._wrapperElement.addEventListener('click', async () => {
             sendKey(select, 'P');
             sendBackspace(select);
-            setTimeout(() => {
-              resolve(select._wrapperElement.querySelector('.has-no-choices').innerText);
-            }, 100);
+            await awaitUntil(() => select._wrapperElement.querySelector('.has-no-choices') != null);
+            resolve(select._wrapperElement.querySelector('.has-no-choices').innerText);
           });
           select.focus();
         });
