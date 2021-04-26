@@ -22,4 +22,6 @@ export class VlMapImageWmsLayer extends VlMapWmsLayer {
   }
 }
 
-define('vl-map-image-wms-layer', VlMapImageWmsLayer);
+customElements.whenDefined('vl-map-wms-style').then(() => {
+  define('vl-map-image-wms-layer', VlMapImageWmsLayer);
+});

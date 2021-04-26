@@ -22,4 +22,6 @@ export class VlMapTiledWmsLayer extends VlMapWmsLayer {
   }
 }
 
-define('vl-map-tiled-wms-layer', VlMapTiledWmsLayer);
+customElements.whenDefined('vl-map-wms-style').then(() => {
+  define('vl-map-tiled-wms-layer', VlMapTiledWmsLayer);
+});

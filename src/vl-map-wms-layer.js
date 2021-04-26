@@ -52,8 +52,8 @@ export class VlMapWmsLayer extends VlMapLayer {
 
   get _sldBody() {
     const wmsStyle = this.querySelector(':scope > vl-map-wms-style');
-    if (wmsStyle && wmsStyle.getAttribute('data-vl-sld') != null) {
-      return wmsStyle.getAttribute('data-vl-sld').replace(/>\s*/g, '>').replace(/\s*</g, '<');
+    if (wmsStyle) {
+      return wmsStyle._sldBody;
     }
   }
 
