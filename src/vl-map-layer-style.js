@@ -140,10 +140,16 @@ export class VlMapLayerStyle extends vlElement(HTMLElement) {
    * @Return {Function} Een stijl functie die zorgt voor de stijl op een {VlMapLayer}
    */
   get style() {
-    return (feature) => {
+    return (feature, resolution) => {
       if (!this.appliesTo(feature)) {
         return null;
       }
+      return this._styleFunction(feature, resolution);
+    };
+  }
+
+  get _styleFunction() {
+    return (feature, resolution) => {
       const styleConfig = {
         fill: new OlStyleFill({
           color: this.color,
@@ -226,9 +232,10 @@ export class VlMapLayerStyle extends vlElement(HTMLElement) {
 
   _setStyleOnParent() {
     if (this.parentElement) {
-      return this.parentElement.style = this;
+      customElements.whenDefined(this.parentElement.tagName.toLowerCase()).then(() => {
+        this.parentElement.style = this;
+      });
     }
   }
 }
-
 define('vl-map-layer-style', VlMapLayerStyle);

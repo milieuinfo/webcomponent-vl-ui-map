@@ -134,7 +134,7 @@ export class VlMapFeaturesLayer extends VlMapVectorLayer {
    * @param {number} maxZoom - Hoe diep er maximaal ingezoomd mag worden.
    */
   async zoomToExtent(maxZoom) {
-    this.mapElement.zoomTo(this.__boundingBox, maxZoom);
+    this.mapElement.zoomTo(this.boundingBox, maxZoom);
   }
 
   /**
@@ -194,7 +194,7 @@ export class VlMapFeaturesLayer extends VlMapVectorLayer {
     }
   }
 
-  get __boundingBox() {
+  get boundingBox() {
     if (this.source && this.source.getFeatures().length > 0) {
       return this.source.getExtent();
     }

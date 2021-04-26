@@ -15,7 +15,7 @@ import {VlDrawAction, OlGeometryType} from '/node_modules/vl-mapactions/dist/vl-
  */
 export class VlMapDrawPointAction extends VlMapDrawAction {
   _createAction(layer) {
-    return new VlDrawAction(layer, OlGeometryType.POINT, this._callback);
+    return new VlDrawAction(layer, OlGeometryType.POINT, this._callback, this.__drawOptions);
   }
 }
 

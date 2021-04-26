@@ -35,6 +35,7 @@ export class VlMapDeleteAction extends VlMapLayerAction {
     } else {
       this._style = style;
     }
+    this._processAction();
   }
 
   /**
