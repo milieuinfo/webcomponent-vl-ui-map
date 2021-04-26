@@ -10,6 +10,7 @@ import {VlMapLayer} from '/src/vl-map-layer.js';
  * @property {string} data-vl-url - Attribuut bepaalt de WMS url. Verplicht.
  * @property {string} data-vl-layers - Attribuut bepaalt de layers van de WMS. Verplicht.
  * @property {string} [data-vl-styles=] - Attribuut bepaalt de WMS stijlen.
+ * @property {string} [data-vl-sld-body=] - Attribuut bepaalt de SLD stijl.
  * @property {string} [data-vl-version=1.3.0] - Attribuut bepaalt de WMS versie.
  * @property {number} [data-vl-opacity=1] - Attribuut bepaalt de WMS transparantie.
  *
@@ -50,6 +51,14 @@ export class VlMapWmsLayer extends VlMapLayer {
     return this.getAttribute('data-vl-styles') || '';
   }
 
+  get _sldBody() {
+    return this.getAttribute('data-vl-sld-body') ? this.__sldBodyWithWhitespaceRemoved : '';
+  }
+
+  get __sldBodyWithWhitespaceRemoved() {
+    return this.getAttribute('data-vl-sld-body').replace(/>\s*/g, '>').replace(/\s*</g, '<');
+  }
+
   get _version() {
     return this.getAttribute('data-vl-version') || '1.3.0';
   }
@@ -70,7 +79,7 @@ export class VlMapWmsLayer extends VlMapLayer {
   }
 
   get _sourceConfig() {
-    return {
+    const config = {
       url: this._url,
       params: {
         'LAYERS': this._layers,
@@ -78,6 +87,11 @@ export class VlMapWmsLayer extends VlMapLayer {
         'VERSION': this._version,
       },
     };
+    const sldBody = this._sldBody;
+    if (sldBody) {
+      config.params['SLD_BODY'] = sldBody;
+    }
+    return config;
   }
 
   __createLayer(LayerClass) {

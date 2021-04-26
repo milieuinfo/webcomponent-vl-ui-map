@@ -20,12 +20,12 @@
   <test-fixture id="vl-map-wms-layers-fixture">
     <template>
       <vl-map>
-        <vl-map-image-wms-layer 
+        <vl-map-image-wms-layer
           data-vl-url="http://dummy/wms"
           data-vl-layers="layer1,layer2">
         </vl-map-image-wms-layer>
-        
-        <vl-map-tiled-wms-layer 
+
+        <vl-map-tiled-wms-layer
           data-vl-url="http://dummy/wms"
           data-vl-layers="layer1,layer2">
         </vl-map-tiled-wms-layer>
@@ -36,16 +36,68 @@
   <test-fixture id="vl-map-wms-layers-hidden-fixture">
     <template>
       <vl-map>
-        <vl-map-image-wms-layer 
-          data-vl-url="http://dummy/wms" 
-          data-vl-layers="layer1,layer2" 
+        <vl-map-image-wms-layer
+          data-vl-url="http://dummy/wms"
+          data-vl-layers="layer1,layer2"
           data-vl-hidden>
         </vl-map-image-wms-layer>
 
-        <vl-map-tiled-wms-layer 
-          data-vl-url="http://dummy/wms" 
-          data-vl-layers="layer1,layer2" 
+        <vl-map-tiled-wms-layer
+          data-vl-url="http://dummy/wms"
+          data-vl-layers="layer1,layer2"
           data-vl-hidden>
+        </vl-map-tiled-wms-layer>
+      </vl-map>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="vl-map-wms-layers-sld-fixture">
+    <template>
+      <vl-map>
+        <vl-map-image-wms-layer
+          data-vl-url="http://dummy/wms"
+          data-vl-layers="layer1,layer2"
+          data-vl-sld-body='<StyledLayerDescriptor>
+          <NamedLayer>
+            <Name>ns:laagnaam</Name>
+            <UserStyle>
+              <FeatureTypeStyle>
+                <Rule>
+                  <RasterSymbolizer>
+                    <ColorMap type="values">
+                      <ColorMapEntry color="#800080" quantity="10.0"/>
+                      <ColorMapEntry color="#FFFFFF" quantity="100.0"/>
+                      <ColorMapEntry color="#FFFFFF" quantity="1000.0"/>
+                    </ColorMap>
+                  </RasterSymbolizer>
+                </Rule>
+              </FeatureTypeStyle>
+            </UserStyle>
+          </NamedLayer>
+        </StyledLayerDescriptor>'>
+        </vl-map-image-wms-layer>
+
+        <vl-map-tiled-wms-layer
+          data-vl-url="http://dummy/wms"
+          data-vl-layers="layer1,layer2"
+          data-vl-sld-body='<StyledLayerDescriptor>
+          <NamedLayer>
+            <Name>ns:laagnaam</Name>
+            <UserStyle>
+              <FeatureTypeStyle>
+                <Rule>
+                  <RasterSymbolizer>
+                    <ColorMap type="values">
+                      <ColorMapEntry color="#800080" quantity="10.0"/>
+                      <ColorMapEntry color="#FFFFFF" quantity="100.0"/>
+                      <ColorMapEntry color="#FFFFFF" quantity="1000.0"/>
+                    </ColorMap>
+                  </RasterSymbolizer>
+                </Rule>
+              </FeatureTypeStyle>
+            </UserStyle>
+          </NamedLayer>
+        </StyledLayerDescriptor>'>
         </vl-map-tiled-wms-layer>
       </vl-map>
     </template>
@@ -58,7 +110,7 @@
       const getLayers = (map) => {
         return map.querySelectorAll(LAYER_SELECTOR);
       };
-    
+
       test('de kaartlaag zal pas angemaakt worden na constructie zodat op moment van constructie nog niet al de attributen gekend moeten zijn', (done) => {
         const types = ['image', 'tiled'];
         types.forEach((type, index) => {
@@ -79,7 +131,7 @@
             assert.isDefined(layer.source);
             assert.isDefined(layer.layer);
 
-            if (types.length == index+1) {
+            if (types.length === index + 1) {
               done();
             }
           });
@@ -95,6 +147,16 @@
             getLayers(mapHidden).forEach((element) => assert.isFalse(element.layer.getVisible()));
             done();
           });
+        });
+      });
+
+      test('de kaartlaag kan een sld body bevatten waarbij de whitespace wordt weggehaald en als param gezet', (done) => {
+        const mapSld = fixture('vl-map-wms-layers-sld-fixture');
+        mapSld.ready.then(() => {
+            getLayers(mapSld).forEach((element) => {
+              assert.equal(element.source.getParams().SLD_BODY, '<StyledLayerDescriptor><NamedLayer><Name>ns:laagnaam</Name><UserStyle><FeatureTypeStyle><Rule><RasterSymbolizer><ColorMap type="values"><ColorMapEntry color="#800080" quantity="10.0"/><ColorMapEntry color="#FFFFFF" quantity="100.0"/><ColorMapEntry color="#FFFFFF" quantity="1000.0"/></ColorMap></RasterSymbolizer></Rule></FeatureTypeStyle></UserStyle></NamedLayer></StyledLayerDescriptor>');
+            });
+            done();
         });
       });
     });
