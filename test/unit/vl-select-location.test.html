@@ -180,8 +180,8 @@
       test('er zijn default placeholders voor het zoek adres select element', async () => {
         const select = fixture('vl-select-location-fixture');
         assert.equal(select._placeholderElement.innerText, 'Lokaliseer adres');
-        assert.equal(await getPlaceholderText(select), 'Zoeken op adres of coördinaat');
-        assert.equal(await getNoResultsText(select), 'Geen adres gevonden');
+        assert.equal(select.DEFAULT_SEARCH_PLACEHOLDER, 'Zoeken op adres of coördinaat');
+        assert.equal(select.DEFAULT_SEARCH_NO_RESULT, 'Geen adres gevonden');
         assert.equal(await getNoMoreOptionsText(select), 'Geen adres gevonden');
       });
 
@@ -273,26 +273,6 @@
         select.addEventListener('change', () => done());
         select.dispatchEvent(new CustomEvent('choice'));
       });
-
-      const getNoResultsText = (select) => {
-        return new Promise(async (resolve, reject) => {
-          await select.ready();
-          select._wrapperElement.addEventListener('click', async () => {
-            sendKey(select, 'P');
-            await awaitUntil(() => select._wrapperElement.querySelector('.has-no-results') != null);
-            resolve(select._wrapperElement.querySelector('.has-no-results').innerText);
-            sendKey(select, '');
-          });
-          select.focus();
-        });
-      };
-    
-      const getPlaceholderText = (select) => {
-        return new Promise(async (resolve, reject) => {
-          await select.ready();
-          return resolve(select._wrapperElement.querySelector('input').getAttribute('placeholder'));
-        });
-      };
 
       const getNoMoreOptionsText = (select) => {
         return new Promise(async (resolve, reject) => {
