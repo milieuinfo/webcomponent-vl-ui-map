@@ -153,10 +153,10 @@
       test('de kaartlaag kan een sld body bevatten waarbij de whitespace wordt weggehaald en als param gezet', (done) => {
         const mapSld = fixture('vl-map-wms-layers-sld-fixture');
         mapSld.ready.then(() => {
-            getLayers(mapSld).forEach((element) => {
-              assert.equal(element.source.getParams().SLD_BODY, '<StyledLayerDescriptor><NamedLayer><Name>ns:laagnaam</Name><UserStyle><FeatureTypeStyle><Rule><RasterSymbolizer><ColorMap type="values"><ColorMapEntry color="#800080" quantity="10.0"/><ColorMapEntry color="#FFFFFF" quantity="100.0"/><ColorMapEntry color="#FFFFFF" quantity="1000.0"/></ColorMap></RasterSymbolizer></Rule></FeatureTypeStyle></UserStyle></NamedLayer></StyledLayerDescriptor>');
-            });
-            done();
+          getLayers(mapSld).forEach((element) => {
+            assert.equal(element.source.getParams().SLD_BODY, '<StyledLayerDescriptor><NamedLayer><Name>ns:laagnaam</Name><UserStyle><FeatureTypeStyle><Rule><RasterSymbolizer><ColorMap type="values"><ColorMapEntry color="#800080" quantity="10.0"/><ColorMapEntry color="#FFFFFF" quantity="100.0"/><ColorMapEntry color="#FFFFFF" quantity="1000.0"/></ColorMap></RasterSymbolizer></Rule></FeatureTypeStyle></UserStyle></NamedLayer></StyledLayerDescriptor>');
+          });
+          done();
         });
       });
     });
