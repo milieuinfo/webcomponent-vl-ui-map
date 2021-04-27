@@ -50,6 +50,13 @@ export class VlMapWmsLayer extends VlMapLayer {
     return this.getAttribute('data-vl-styles') || '';
   }
 
+  get _sldBody() {
+    const wmsStyle = this.querySelector(':scope > vl-map-wms-style');
+    if (wmsStyle) {
+      return wmsStyle._sldBody;
+    }
+  }
+
   get _version() {
     return this.getAttribute('data-vl-version') || '1.3.0';
   }
@@ -76,6 +83,7 @@ export class VlMapWmsLayer extends VlMapLayer {
         'LAYERS': this._layers,
         'STYLES': this._styles,
         'VERSION': this._version,
+        'SLD_BODY': this._sldBody,
       },
     };
   }

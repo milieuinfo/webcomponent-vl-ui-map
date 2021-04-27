@@ -77,19 +77,15 @@ export class VlMapWmsLayer extends VlMapLayer {
   }
 
   get _sourceConfig() {
-    const config = {
+    return {
       url: this._url,
       params: {
         'LAYERS': this._layers,
         'STYLES': this._styles,
         'VERSION': this._version,
+        'SLD_BODY': this._sldBody,
       },
     };
-    const sldBody = this._sldBody;
-    if (sldBody) {
-      config.params['SLD_BODY'] = sldBody;
-    }
-    return config;
   }
 
   __createLayer(LayerClass) {

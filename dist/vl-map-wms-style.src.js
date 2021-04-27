@@ -1,4 +1,4 @@
-import {vlElement, define} from '/node_modules/vl-ui-core/dist/vl-core.js';
+import {vlElement, define} from 'vl-ui-core';
 
 /**
  * VlMapWmsStyle
@@ -20,3 +20,4 @@ export class VlMapWmsStyle extends vlElement(HTMLElement) {
 }
 
 define('vl-map-wms-style', VlMapWmsStyle);
+

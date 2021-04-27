@@ -4,6 +4,7 @@ import {
   OlImageLayer,
   OlImageWMSSource,
 } from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
+import '/src/vl-map-wms-style.js';
 
 /**
  * VlMapImageWmsLayer
