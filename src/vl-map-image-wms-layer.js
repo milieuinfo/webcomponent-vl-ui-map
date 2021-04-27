@@ -4,7 +4,6 @@ import {
   OlImageLayer,
   OlImageWMSSource,
 } from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
-import '/src/vl-map-wms-style.js';
 
 /**
  * VlMapImageWmsLayer
@@ -23,6 +22,4 @@ export class VlMapImageWmsLayer extends VlMapWmsLayer {
   }
 }
 
-customElements.whenDefined('vl-map-wms-style').then(() => {
-  define('vl-map-image-wms-layer', VlMapImageWmsLayer);
-});
+define('vl-map-image-wms-layer', VlMapImageWmsLayer);
