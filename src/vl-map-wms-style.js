@@ -15,7 +15,7 @@ import {vlElement, define} from '/node_modules/vl-ui-core/dist/vl-core.js';
  */
 export class VlMapWmsStyle extends vlElement(HTMLElement) {
   get _sldBody() {
-    return this.getAttribute('data-vl-sld').replace(/>\s*/g, '>').replace(/\s*</g, '<');
+    return this.getAttribute('data-vl-sld');
   }
 }
 
