@@ -56,9 +56,8 @@
       <vl-map>
         <vl-map-image-wms-layer
           data-vl-url="http://dummy/wms"
-          data-vl-layers="layer1,layer2">
-          <vl-map-wms-style
-              data-vl-sld='
+          data-vl-layers="layer1,layer2"
+          data-vl-sld-body='
             <StyledLayerDescriptor>
               <NamedLayer>
                 <Name>ns:laagnaam</Name>
@@ -77,14 +76,12 @@
                 </UserStyle>
               </NamedLayer>
             </StyledLayerDescriptor>'>
-          </vl-map-wms-style>
         </vl-map-image-wms-layer>
 
         <vl-map-tiled-wms-layer
           data-vl-url="http://dummy/wms"
-          data-vl-layers="layer1,layer2">
-          <vl-map-wms-style
-              data-vl-sld='
+          data-vl-layers="layer1,layer2"
+          data-vl-sld-body='
             <StyledLayerDescriptor>
               <NamedLayer>
                 <Name>ns:laagnaam</Name>
@@ -103,7 +100,6 @@
                 </UserStyle>
               </NamedLayer>
             </StyledLayerDescriptor>'>
-          </vl-map-wms-style>
         </vl-map-tiled-wms-layer>
       </vl-map>
     </template>
@@ -156,12 +152,12 @@
         });
       });
 
-      test('de kaartlaag kan een sld body bevatten die overeenkomt met het data-vl-sld attribuut van de onderliggende vl-map-wms-style', (done) => {
+      test('de kaartlaag kan een sld body bevatten die overeenkomt met het data-vl-sld-body attribuut', (done) => {
         const mapSld = fixture('vl-map-wms-layers-sld-fixture');
         mapSld.ready.then(() => {
           getLayers(mapSld).forEach((element) => {
             assert.include(element.source.getParams().SLD_BODY, 'StyledLayerDescriptor');
-            assert.equal(element.source.getParams().SLD_BODY, element.querySelector(':scope > vl-map-wms-style').getAttribute('data-vl-sld'));
+            assert.equal(element.source.getParams().SLD_BODY, element.getAttribute('data-vl-sld-body'));
           });
           done();
         });
