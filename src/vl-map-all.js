@@ -5,6 +5,7 @@ import {VlMapVectorLayer} from '/src/vl-map-vector-layer.js';
 import {VlMapFeaturesLayer} from '/src/vl-map-features-layer.js';
 import {VlMapTiledWmsLayer} from '/src/vl-map-tiled-wms-layer.js';
 import {VlMapImageWmsLayer} from '/src/vl-map-image-wms-layer.js';
+import {VlMapWmsStyle} from '/src/vl-map-wms-style.js';
 import {VlMapWfsLayer} from '/src/vl-map-wfs-layer.js';
 import {VlMapWmtsLayer} from '/src/vl-map-wmts-layer.js';
 import {VlMapBaseLayer} from '/src/vl-map-baselayer.js';
@@ -36,6 +37,7 @@ export {
   VlMapFeaturesLayer,
   VlMapImageWmsLayer,
   VlMapTiledWmsLayer,
+  VlMapWmsStyle,
   VlMapWfsLayer,
   VlMapWmtsLayer,
   VlMapBaseLayer,

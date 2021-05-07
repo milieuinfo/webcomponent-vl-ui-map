@@ -44,12 +44,13 @@
       <vl-map>
         <vl-map-baselayer-grb-gray></vl-map-baselayer-grb-gray>
         <vl-map-tiled-wms-layer
-            data-vl-name="Overstromingsgevaarkaarten"
-            data-vl-version="1.1.0"
-            data-vl-opacity="0.7"
-            data-vl-url="https://geoservice.waterinfo.be/wms"
-            data-vl-layers="Overstromingsgevaarkaarten-PLUVIAAL:overstroombaar_gebied_PLU_noCC,Overstromingsgevaarkaarten-FLUVIAAL:overstroombaar_gebied_FLU_noCC"
-            data-vl-sld-body='<StyledLayerDescriptor xmlns="http://www.opengis.net/sld" xmlns:ogc="http://www.opengis.net/ogc" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0.0" xsi:schemaLocation="http://www.opengis.net/sld StyledLayerDescriptor.xsd">
+          data-vl-name="Overstromingsgevaarkaarten"
+          data-vl-version="1.1.0"
+          data-vl-opacity="0.7"
+          data-vl-url="https://geoservice.waterinfo.be/wms"
+          data-vl-layers="Overstromingsgevaarkaarten-PLUVIAAL:overstroombaar_gebied_PLU_noCC,Overstromingsgevaarkaarten-FLUVIAAL:overstroombaar_gebied_FLU_noCC">
+          <vl-map-wms-style
+              data-vl-sld='<StyledLayerDescriptor xmlns="http://www.opengis.net/sld" xmlns:ogc="http://www.opengis.net/ogc" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0.0" xsi:schemaLocation="http://www.opengis.net/sld StyledLayerDescriptor.xsd">
                 <NamedLayer>
                     <Name>Overstromingsgevaarkaarten-PLUVIAAL:overstroombaar_gebied_PLU_noCC</Name>
                     <UserStyle>
@@ -84,7 +85,7 @@
                         </FeatureTypeStyle>
                     </UserStyle>
                 </NamedLayer>
-            </StyledLayerDescriptor>'>
+            </StyledLayerDescriptor>'></vl-map-wms-style>
         </vl-map-tiled-wms-layer>
       </vl-map>
     </vl-demo>
