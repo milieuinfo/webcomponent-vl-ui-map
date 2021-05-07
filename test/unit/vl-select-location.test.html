@@ -182,7 +182,7 @@
         assert.equal(select._placeholderElement.innerText, 'Lokaliseer adres');
         assert.equal(select.DEFAULT_SEARCH_PLACEHOLDER, 'Zoeken op adres of coördinaat');
         assert.equal(select.DEFAULT_SEARCH_NO_RESULT, 'Geen adres gevonden');
-        assert.equal(await getNoMoreOptionsText(select), 'Geen adres gevonden');
+        assert.equal(select.DEFAULT_NO_MORE_OPTIONS, 'Geen adres gevonden');
       });
 
     
@@ -273,28 +273,6 @@
         select.addEventListener('change', () => done());
         select.dispatchEvent(new CustomEvent('choice'));
       });
-
-      const getNoMoreOptionsText = (select) => {
-        return new Promise(async (resolve, reject) => {
-          await select.ready();
-          select._wrapperElement.addEventListener('click', async () => {
-            sendKey(select, 'P');
-            sendBackspace(select);
-            await awaitUntil(() => select._wrapperElement.querySelector('.has-no-choices') != null);
-            resolve(select._wrapperElement.querySelector('.has-no-choices').innerText);
-          });
-          select.focus();
-        });
-      };
-
-      const sendBackspace = (select) => {
-        sendKey(select, '\b');
-      };
-    
-      const sendKey = (select, key) => {
-        select._wrapperElement.querySelector('input').value = key.charCodeAt(0) >= 32 ? key : '';
-        select._wrapperElement.querySelector('input').dispatchEvent(new KeyboardEvent('keyup', {'bubbles': true, 'keyCode': key.charCodeAt(0) || 46} ));
-      };
     });
   </script>
 </body>
