@@ -56,7 +56,7 @@ class LambertCoordinaat {
     if (!value && !(value instanceof String)) {
       return undefined;
     }
-    const REGEX = /^\s*\(?(?<x>\d{1,6}\.\d{1,2}|\d{1,6})\d*[,;]\u0020*(?<y>\d{1,6}\.\d{1,2}|\d{1,6})\d*\)?/;
+    const REGEX = /^\s*\(?(?<x>\d{1,6}\.\d{1,2}|\d{1,6})\d*[,;]\u0{2}20*(?<y>\d{1,6}\.\d{1,2}|\d{1,6})\d*\)?/;
     const resultaat = value.match(REGEX);
     if (resultaat) {
       const x = Number(resultaat.groups.x);
