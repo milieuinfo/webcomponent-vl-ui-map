@@ -1,4 +1,5 @@
 import {VlMapLayer} from '/src/vl-map-layer.js';
+import '/src/vl-map-wms-style.js';
 
 /**
  * VlMapWmsLayer
@@ -12,7 +13,6 @@ import {VlMapLayer} from '/src/vl-map-layer.js';
  * @property {string} [data-vl-styles=] - Attribuut bepaalt de WMS stijlen.
  * @property {string} [data-vl-version=1.3.0] - Attribuut bepaalt de WMS versie.
  * @property {number} [data-vl-opacity=1] - Attribuut bepaalt de WMS transparantie.
- * @property {string} [data-vl-sld-body=] - Attribuut bepaalt de {@link http://schemas.opengis.net/sld/1.1.0/StyledLayerDescriptor.xsd|Styled Layer Descriptor} body van een WMS laag. Deze XML kan gebruikt worden om de WMS server side te stijlen.
  *
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/releases/latest|Release notes}
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-map/issues|Issues}
@@ -52,7 +52,10 @@ export class VlMapWmsLayer extends VlMapLayer {
   }
 
   get _sldBody() {
-    return this.getAttribute('data-vl-sld-body');
+    const wmsStyle = this.querySelector(':scope > vl-map-wms-style');
+    if (wmsStyle) {
+      return wmsStyle._sldBody;
+    }
   }
 
   get _version() {
