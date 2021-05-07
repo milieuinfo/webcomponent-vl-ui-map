@@ -40,6 +40,7 @@
     "vl-mapactions": "^4.0.1",
     "vl-ui-checkbox": "^3.2.4",
     "vl-ui-core": "^7.1.3",
+    "vl-ui-map": "milieuinfo/webcomponent-vl-ui-map#ffe70e5618afa767d09dbd0b8321fa56efe4d90d",
     "vl-ui-form-message": "^5.0.7",
     "vl-ui-search": "^1.1.9",
     "vl-ui-select": "^4.2.1",
