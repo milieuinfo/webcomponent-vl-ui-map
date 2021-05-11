@@ -14,7 +14,7 @@ import {vlElement, define} from 'vl-ui-core';
  * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map-wms-layer.html|Demo}
  */
 export class VlMapWmsStyle extends vlElement(HTMLElement) {
-  get _sldBody() {
+  get sld() {
     return this.getAttribute('data-vl-sld');
   }
 }

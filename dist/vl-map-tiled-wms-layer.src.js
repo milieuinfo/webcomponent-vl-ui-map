@@ -4,7 +4,6 @@ import {
   OlTileWMSSource,
   OlTileLayer,
 } from 'vl-mapactions/dist/vl-mapactions.js';
-import '../dist/vl-map-wms-style.src.js';
 
 /**
  * VlMapTiledWmsLayer
@@ -23,7 +22,5 @@ export class VlMapTiledWmsLayer extends VlMapWmsLayer {
   }
 }
 
-customElements.whenDefined('vl-map-wms-style').then(() => {
-  define('vl-map-tiled-wms-layer', VlMapTiledWmsLayer);
-});
+define('vl-map-tiled-wms-layer', VlMapTiledWmsLayer);
 

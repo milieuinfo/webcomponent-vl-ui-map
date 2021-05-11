@@ -27,8 +27,10 @@ export class VlMapWmsLayer extends VlMapLayer {
 
   connectedCallback() {
     super.connectedCallback();
-    this._source = this.__createSource(this.__sourceClass);
-    this._layer = this.__createLayer(this.__layerClass);
+    customElements.whenDefined('vl-map-wms-style').then(() => {
+      this._source = this.__createSource(this.__sourceClass);
+      this._layer = this.__createLayer(this.__layerClass);
+    });
   }
 
   get _url() {
@@ -54,7 +56,7 @@ export class VlMapWmsLayer extends VlMapLayer {
   get _sldBody() {
     const wmsStyle = this.querySelector(':scope > vl-map-wms-style');
     if (wmsStyle) {
-      return wmsStyle._sldBody;
+      return wmsStyle.sld;
     }
   }
 
