@@ -180,7 +180,6 @@ export class VlMap extends vlElement(HTMLElement) {
       controls: this._controls,
     });
 
-    this._map.initializeView();
     this.__updateMapSizeOnLoad();
     this.__updateOverviewMapSizeOnLoad();
   }
