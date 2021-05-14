@@ -57,7 +57,9 @@
     </template>
   </test-fixture>
 
-  <script>
+  <script type="module">
+    import {awaitUntil} from '/node_modules/vl-ui-core/dist/vl-core.js';
+
     suite('vl-map-layer-switcher', () => {
       setup((done) => {
         customElements.whenDefined('vl-map').then(() => {
@@ -71,8 +73,9 @@
         const map = fixture('vl-map-layer-switcher-fixture');
         const layerSwitcher = map.querySelector('vl-map-layer-switcher');
         await map.ready;
-        const layers = map.nonBaseLayers;
+        await awaitUntil(() => layerSwitcher._layerInputs.length === 3);
         assert.lengthOf(layerSwitcher._layerInputs, 3);
+        const layers = map.nonBaseLayers;
         layers.forEach((layer, index) => assert.equal(layerSwitcher._layerInputs[index].getAttribute('data-vl-label'), layer.getAttribute('data-vl-name')));
         layers.forEach((layer, index) => assert.equal(layerSwitcher._layerInputs[index].getAttribute('data-vl-layer'), layer.getAttribute('data-vl-name')));
       });
@@ -81,6 +84,7 @@
         const map = fixture('vl-map-layer-switcher-layer-non-direct-child-fixture');
         const layerSwitcher = map.querySelector('vl-map-layer-switcher');
         await map.ready;
+        await awaitUntil(() => layerSwitcher._layerInputs.length === 1);
         assert.lengthOf(layerSwitcher._layerInputs, 1);
         assert.equal(layerSwitcher._layerInputs[0].getAttribute('data-vl-label'), 'layer-1');
       });
@@ -89,6 +93,7 @@
         const map = fixture('vl-map-layer-switcher-custom-fixture');
         const layerSwitcher = map.querySelector('vl-map-layer-switcher');
         await map.ready;
+        await awaitUntil(() => layerSwitcher._layerInputs.length === 1);
         assert.lengthOf(layerSwitcher._layerInputs, 1);
       });
 
@@ -96,15 +101,18 @@
         const map = fixture('vl-map-layer-switcher-custom-fixture');
         const checkbox = map.querySelector('vl-map-layer-switcher vl-checkbox');
         map.ready.then(() => {
-          const layer = map.nonBaseLayers[0];
-          assert.isTrue(layer.visible);
-          checkbox.addEventListener('change', () => {
-            setTimeout(() => {
-              assert.isFalse(layer.visible);
-              done();
+          const layers = map.nonBaseLayers;
+          Promise.all(layers.map((layer) => awaitUntil(() => layer.ready))).then(() => {
+            const layer = map.nonBaseLayers[0];
+            assert.isTrue(layer.visible);
+            checkbox.addEventListener('change', () => {
+              setTimeout(() => {
+                assert.isFalse(layer.visible);
+                done();
+              });
             });
+            map.ready.then(() => checkbox.toggle());
           });
-          map.ready.then(() => checkbox.toggle());
         });
       });
     });

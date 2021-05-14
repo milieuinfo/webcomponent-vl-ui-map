@@ -110,6 +110,8 @@
   </test-fixture>
 
   <script type="module">
+    import {awaitUntil} from '/node_modules/vl-ui-core/dist/vl-core.js';
+
     suite('vl-map-wms-layer', () => {
       const LAYER_SELECTOR = '[data-vl-is-layer]';
 
@@ -160,8 +162,10 @@
         const mapSld = fixture('vl-map-wms-layers-sld-fixture');
         mapSld.ready.then(() => {
           getLayers(mapSld).forEach((element) => {
-            assert.include(element.source.getParams().SLD_BODY, 'StyledLayerDescriptor');
-            assert.equal(element.source.getParams().SLD_BODY, element.querySelector(':scope > vl-map-wms-style').getAttribute('data-vl-sld'));
+            awaitUntil(() => element.ready).then(() => {
+              assert.include(element.source.getParams().SLD_BODY, 'StyledLayerDescriptor');
+              assert.equal(element.source.getParams().SLD_BODY, element.querySelector(':scope > vl-map-wms-style').getAttribute('data-vl-sld'));
+            });
           });
           done();
         });
