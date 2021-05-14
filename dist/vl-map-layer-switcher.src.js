@@ -1,4 +1,4 @@
-import {vlElement, define} from 'vl-ui-core';
+import {vlElement, define, awaitUntil} from 'vl-ui-core';
 import 'vl-ui-form-message';
 import 'vl-ui-checkbox';
 
@@ -44,7 +44,7 @@ export class VlMapLayerSwitcher extends vlElement(HTMLElement) {
 
   async connectedCallback() {
     await this._mapElement.ready;
-    this._processInputs();
+    await this._processInputs();
   }
 
   get _slot() {
@@ -75,12 +75,17 @@ export class VlMapLayerSwitcher extends vlElement(HTMLElement) {
     return this._template(`<vl-checkbox data-vl-label="${title}" data-vl-layer="${title}"></vl-checkbox>`);
   }
 
-  _processInputs() {
+  async _processInputs() {
     if (!this._hasLayerInputs && this._nonBaseLayers) {
+      await this._nonBaseLayersReady();
       this._nonBaseLayers.forEach((layer) => this.append(this._getInputTemplate(layer.title)));
     }
     this._addChangeListeners();
     this._addMapListener();
+  }
+
+  _nonBaseLayersReady() {
+    return Promise.all(this._nonBaseLayers.map((layer) => awaitUntil(() => layer.ready)));
   }
 
   _addChangeListeners() {

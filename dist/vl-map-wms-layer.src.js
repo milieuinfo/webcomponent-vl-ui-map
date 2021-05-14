@@ -26,10 +26,11 @@ export class VlMapWmsLayer extends VlMapLayer {
   }
 
   connectedCallback() {
-    super.connectedCallback();
+    this.__setIsLayerMarkerAttribute();
     customElements.whenDefined('vl-map-wms-style').then(() => {
       this._source = this.__createSource(this.__sourceClass);
       this._layer = this.__createLayer(this.__layerClass);
+      super.connectedCallback();
     });
   }
 
