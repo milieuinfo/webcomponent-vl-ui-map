@@ -38,9 +38,7 @@ export class VlMapFeaturesLayer extends VlMapVectorLayer {
 
   async connectedCallback() {
     await super.connectedCallback();
-    if (this.mapElement) {
-      this._autoZoomToExtent();
-    }
+    this._autoZoomToExtent();
   }
 
   /**
@@ -134,7 +132,9 @@ export class VlMapFeaturesLayer extends VlMapVectorLayer {
    * @param {number} maxZoom - Hoe diep er maximaal ingezoomd mag worden.
    */
   async zoomToExtent(maxZoom) {
-    this.mapElement.zoomTo(this.boundingBox, maxZoom);
+    if (this.mapElement && this.boundingBox) {
+      this.mapElement.zoomTo(this.boundingBox, maxZoom);
+    }
   }
 
   /**

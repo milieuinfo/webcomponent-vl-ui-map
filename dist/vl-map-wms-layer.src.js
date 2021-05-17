@@ -1,4 +1,5 @@
 import {VlMapLayer} from '../dist/vl-map-layer.src.js';
+import '../dist/vl-map-wms-style.src.js';
 
 /**
  * VlMapWmsLayer
@@ -25,9 +26,11 @@ export class VlMapWmsLayer extends VlMapLayer {
   }
 
   connectedCallback() {
-    super.connectedCallback();
-    this._source = this.__createSource(this.__sourceClass);
-    this._layer = this.__createLayer(this.__layerClass);
+    customElements.whenDefined('vl-map-wms-style').then(() => {
+      this._source = this.__createSource(this.__sourceClass);
+      this._layer = this.__createLayer(this.__layerClass);
+      super.connectedCallback();
+    });
   }
 
   get _url() {
@@ -48,6 +51,13 @@ export class VlMapWmsLayer extends VlMapLayer {
 
   get _styles() {
     return this.getAttribute('data-vl-styles') || '';
+  }
+
+  get _sldBody() {
+    const wmsStyle = this.querySelector(':scope > vl-map-wms-style');
+    if (wmsStyle) {
+      return wmsStyle.sld;
+    }
   }
 
   get _version() {
@@ -76,6 +86,7 @@ export class VlMapWmsLayer extends VlMapLayer {
         'LAYERS': this._layers,
         'STYLES': this._styles,
         'VERSION': this._version,
+        'SLD_BODY': this._sldBody,
       },
     };
   }

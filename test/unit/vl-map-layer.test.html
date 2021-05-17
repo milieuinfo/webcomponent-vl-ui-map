@@ -76,10 +76,10 @@
     <template>
       <vl-map>
         <vl-map-wmts-layer
-          data-vl-url="https://tile.informatievlaanderen.be/ws/raadpleegdiensten/wmts" 
-          data-vl-layer="grb_sel" 
-          data-vl-name="GRB Wegenkaart" 
-          data-vl-min-resolution="2" 
+          data-vl-url="https://tile.informatievlaanderen.be/ws/raadpleegdiensten/wmts"
+          data-vl-layer="grb_sel"
+          data-vl-name="GRB Wegenkaart"
+          data-vl-min-resolution="2"
           data-vl-max-resolution="4">
         </vl-map-wmts-layer>
       </vl-map>
@@ -116,8 +116,8 @@
   <test-fixture id="vl-map-wfs-layers-fixture">
     <template>
       <vl-map>
-        <vl-map-wfs-layer></vl-map-wfs-layer>
-        <vl-map-wfs-layer></vl-map-wfs-layer>
+        <vl-map-wfs-layer data-vl-url="http://dummy/wms-adjusted" data-vl-layers="layer1"></vl-map-wfs-layer>
+        <vl-map-wfs-layer data-vl-url="http://dummy/wms-adjusted" data-vl-layers="layer1"></vl-map-wfs-layer>
       </vl-map>
     </template>
   </test-fixture>
@@ -131,11 +131,13 @@
     </template>
   </test-fixture>
 
-  <script>
+  <script type="module">
+    import {awaitUntil} from '/node_modules/vl-ui-core/dist/vl-core.js';
+
     suite('vl-map-layer', () => {
       const sandbox = sinon.createSandbox();
       const tags = ['vl-map-features-layer', 'vl-map-image-wms-layer', 'vl-map-tiled-wms-layer', 'vl-map-wfs-layer', 'vl-map-wmts-layer'];
-      const LAYER_SELECTOR = '[data-vl-is-layer]';
+      const LAYER_SELECTOR = `[data-vl-is-layer], ${tags.join(', ')}`;
 
       const getLayer = (map) => {
         return map.querySelector(LAYER_SELECTOR);
@@ -162,6 +164,7 @@
           const map = fixture(`${tag}-fixture`);
           await map.ready;
           const layer = getLayer(map);
+          await awaitUntil(() => layer.ready);
           assert.equal(layer.get('title'), layer.getAttribute('data-vl-name'));
           assert.equal(layer.get('title'), layer._layer.get('title'));
         }));
@@ -172,6 +175,7 @@
           const map = fixture(`${tag}-fixture`);
           await map.ready;
           const layer = getLayer(map);
+          await awaitUntil(() => layer.ready);
 
           assert.isTrue(layer.visible);
           assert.isTrue(layer._layer.getVisible());
@@ -200,7 +204,8 @@
         await Promise.all(tags.map(async (tag, index) => {
           const map = fixture(`${tag}s-fixture`);
           await map.ready;
-          const layers = getLayers(map);
+          const layers = [...getLayers(map)];
+          await Promise.all(layers.map((layer) => awaitUntil(() => layer.ready)));
           assert.lengthOf(layers, map.children.length);
           layers.forEach((layer, index) => assert(layer.layer.get('id'), index + 1));
         }));
@@ -210,6 +215,7 @@
         await Promise.all(tags.map(async (tag, index) => {
           const map = fixture(`${tag}-fixture`);
           await map.ready;
+          await Promise.all([...getLayers(map)].map((layer) => awaitUntil(() => layer.ready)));
           const layerElement = getLayer(map);
           const layers = map.map.getOverlayLayers();
           assert.lengthOf(layers, 1);
@@ -226,6 +232,7 @@
         await Promise.all(tags.map(async (tag, index) => {
           const map = fixture(`${tag}-fixture`);
           await map.ready;
+          await Promise.all([...getLayers(map)].map((layer) => awaitUntil(() => layer.ready)));
           sandbox.spy(map, 'rerender');
           const layerElement = getLayer(map);
           assert.isTrue(layerElement.layer.getVisible());

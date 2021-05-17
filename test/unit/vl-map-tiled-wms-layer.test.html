@@ -38,7 +38,9 @@
     </template>
   </test-fixture>
 
-  <script>
+  <script type="module">
+    import {awaitUntil} from '/node_modules/vl-ui-core/dist/vl-core.js';
+
     suite('vl-map-tiled-wms-layer', () => {
       const should = chai.should();
 
@@ -51,6 +53,7 @@
         const layerElement = mapElement.querySelector('vl-map-tiled-wms-layer');
 
         await mapElement.ready;
+        await awaitUntil(() => layerElement.ready);
         should.exist(layerElement.layer);
         const layer = layerElement.layer;
         assert.equal(layer.getSource().getParams().LAYERS, 'layer1,layer2');
@@ -65,6 +68,7 @@
         const layerElement = mapElement.querySelector('vl-map-tiled-wms-layer');
 
         await mapElement.ready;
+        await awaitUntil(() => layerElement.ready);
         should.exist(layerElement.layer);
         const layer = layerElement.layer;
         assert.equal(layer.getSource().getParams().LAYERS, 'layer1');

@@ -21,6 +21,12 @@ import {OlVectorLayer} from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
  * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-map-wfs-layer.html|Demo}
  */
 export class VlMapVectorLayer extends VlMapLayer {
+  static get EVENTS() {
+    return {
+      styleChanged: 'style-changed',
+    };
+  }
+
   constructor() {
     super();
     this._styles = [];
