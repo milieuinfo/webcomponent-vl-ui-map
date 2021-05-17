@@ -137,7 +137,7 @@
     suite('vl-map-layer', () => {
       const sandbox = sinon.createSandbox();
       const tags = ['vl-map-features-layer', 'vl-map-image-wms-layer', 'vl-map-tiled-wms-layer', 'vl-map-wfs-layer', 'vl-map-wmts-layer'];
-      const LAYER_SELECTOR = '[data-vl-is-layer]';
+      const LAYER_SELECTOR = `[data-vl-is-layer], ${tags.join(', ')}`;
 
       const getLayer = (map) => {
         return map.querySelector(LAYER_SELECTOR);
