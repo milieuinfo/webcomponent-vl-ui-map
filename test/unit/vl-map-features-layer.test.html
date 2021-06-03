@@ -32,6 +32,19 @@
     </template>
   </test-fixture>
 
+  <test-fixture id="vl-map-cluster-fixture">
+    <template>
+      <vl-map>
+        <vl-map-features-layer
+            data-vl-name="testlaag"
+            data-vl-cluster="true"
+            data-vl-cluster-distance="20"
+            data-vl-features='{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[147055,197908]},"properties":null,"id":1}]}'>
+        </vl-map-features-layer>
+      </vl-map>
+    </template>
+  </test-fixture>
+
   <test-fixture id="vl-map-auto-extent-fixture">
     <template>
       <vl-map>
@@ -213,6 +226,47 @@
         layer.addFeature('{"type":"Feature","geometry":{"type":"Point","coordinates":[148055,197908]},"properties":null,"id":2}');
         assert.lengthOf(layer.layer.getSource().getFeatures(), 2);
       });
+
+      test('kan programmatorisch feature toevoegen aan layer met cluster', async () => {
+        const map = fixture('vl-map-cluster-fixture');
+        const layer = map.querySelector('vl-map-features-layer');
+        await map.ready;
+        assert.lengthOf(layer.source.getFeatures(), 0);
+        assert.lengthOf(layer.source.getSource().getFeatures(), 1);
+        layer.addFeature('{"type":"Feature","geometry":{"type":"Point","coordinates":[148055,197908]},"properties":null,"id":2}');
+        assert.lengthOf(layer.source.getFeatures(), 0);
+        assert.lengthOf(layer.source.getSource().getFeatures(), 2);
+        should.exist(layer.getFeature(1));
+        should.exist(layer.getFeature(2));
+      });
+
+      test('kan programmatorisch features wijzigen in layer met cluster', async () => {
+        const map = fixture('vl-map-cluster-fixture');
+        const layer = map.querySelector('vl-map-features-layer');
+        await map.ready;
+        assert.lengthOf(layer.source.getFeatures(), 0);
+        assert.lengthOf(layer.source.getSource().getFeatures(), 1);
+        layer.features = {
+          'type': 'FeatureCollection',
+          'features': [{
+            'type': 'Feature',
+            'geometry': {'type': 'Point', 'coordinates': [148055, 197908]},
+            'properties': null,
+            'id': 2,
+          }, {
+            'type': 'Feature',
+            'geometry': {'type': 'Point', 'coordinates': [148055, 197908]},
+            'properties': null,
+            'id': 3,
+          }],
+        };
+        assert.lengthOf(layer.source.getFeatures(), 0);
+        assert.lengthOf(layer.source.getSource().getFeatures(), 2);
+        should.not.exist(layer.getFeature(1));
+        should.exist(layer.getFeature(2));
+        should.exist(layer.getFeature(3));
+      });
+
 
       test('kan programmatorisch feature collection toevoegen', async () => {
         const map = fixture('vl-map-fixture');
