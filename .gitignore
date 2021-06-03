@@ -311,4 +311,3 @@ typings/
 test/single/example/dist/
 test/multiple/example/dist/
 test/*.xml
-/.idea/
