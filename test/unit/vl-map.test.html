@@ -78,6 +78,29 @@
       assert.deepEqual(element._map.getView().getCenter(), [140860.69299028325, 190532.7165957574]);
     });
 
+    test('de extent is gewijzigd', (done) => {
+      const element = fixture('vl-map-fixture');
+      element.setAttribute('data-vl-extent', '[-73122.443418, -23915.714632, 347445.354629, 297624.297341]');
+      setTimeout(() => {
+        const extent = element._extent;
+        assert.lengthOf(extent, 4);
+        assert.equal(extent[0], -73122.443418);
+        assert.equal(extent[1], -23915.714632);
+        assert.equal(extent[2], 347445.354629);
+        assert.equal(extent[3], 297624.297341);
+        element.removeAttribute('data-vl-extent');
+        setTimeout(() => {
+          const extent2 = element._extent;
+          assert.lengthOf(extent2, 4);
+          assert.equal(extent2[0], 9928);
+          assert.equal(extent2[1], 66928);
+          assert.equal(extent2[2], 272072);
+          assert.equal(extent2[3], 329072);
+          done();
+        });
+      });
+    });
+
     test('kan een lagen groep aanmaken', () => {
       const element = fixture('vl-map-fixture');
       const title = 'title';

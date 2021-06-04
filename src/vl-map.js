@@ -6,6 +6,7 @@ import {
   OlView,
   proj4,
   VlCustomMap,
+  OlExtent,
 } from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
 import {register} from '/node_modules/ol/proj/proj4.js';
 
@@ -54,17 +55,26 @@ export class VlMap extends vlElement(HTMLElement) {
         <slot></slot>
       </div>
     `);
-    this.__extent = [9928, 66928, 272072, 329072];
+    this.__viewExtent = [9928, 66928, 272072, 329072];
     this.__prepareReadyPromises();
   }
 
   _extentChangedCallback(oldValue, newValue) {
     if (newValue) {
-      this.__extent = JSON.parse(newValue);
+      this.__viewExtent = JSON.parse(newValue);
       if (this.map) {
         this.map.setView(new OlView({
-          center: this.map.getView().getCenter(),
-          extent: this.__extent,
+          center: OlExtent.getCenter(this.__viewExtent),
+          extent: this.__viewExtent,
+          zoom: this.map.getView().getZoom(),
+        }));
+      }
+    } else {
+      this.__viewExtent = [9928, 66928, 272072, 329072];
+      if (this.map) {
+        this.map.setView(new OlView({
+          center: OlExtent.getCenter(this.__viewExtent),
+          extent: this.__viewExtent,
           zoom: this.map.getView().getZoom(),
         }));
       }
@@ -149,13 +159,15 @@ export class VlMap extends vlElement(HTMLElement) {
   get _projection() {
     return new OlProjection({
       code: 'EPSG:31370',
+      // TODO: moet eigenlijk dit zijn
+      // extent: [17736.0314, 23697.0977, 297289.9391, 245375.4223]
       extent: [9928, 66928, 272072, 329072],
       getPointResolution: (r) => r,
     });
   }
 
   get _extent() {
-    return this.__extent;
+    return this.__viewExtent;
   }
 
   connectedCallback() {
