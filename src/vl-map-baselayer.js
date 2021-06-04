@@ -9,9 +9,10 @@ import {
   OlVectorLayer,
   OlVectorSource,
   OlWMTSSource,
-  OlExtent,
-  OlWMTSTileGrid,
 } from '/node_modules/vl-mapactions/dist/vl-mapactions.js';
+
+import {optionsFromCapabilities} from '/node_modules/ol/source/WMTS.js';
+import WMTSCapabilities from '/node_modules/ol/format/WMTSCapabilities.js';
 
 /**
  * VlMapBaseLayer
@@ -83,8 +84,8 @@ export class VlMapBaseLayer extends vlElement(HTMLElement) {
     }
   }
 
-  _WMTSSource() {
-    this._wmtsSource = this._wmtsSource || this._createWMTSSource();
+  async _WMTSSource() {
+    this._wmtsSource = this._wmtsSource || await this._createWMTSSource();
     return this._wmtsSource;
   }
 
@@ -95,35 +96,29 @@ export class VlMapBaseLayer extends vlElement(HTMLElement) {
 
   async _configureMap() {
     if (this._map) {
-      this._map.addBaseLayerAndOverlayMapLayer(this._createBaseLayer(), this._createBaseLayer());
+      this._map.addBaseLayerAndOverlayMapLayer(await this._createBaseLayer(), await this._createBaseLayer());
       // nodig anders is map initially blanc
       this._map.render();
     }
   }
 
-  _createWMTSSource() {
-    const size = OlExtent.getWidth(this._projection.getExtent()) / 256;
-    const resolutions = new Array(16);
-    const matrixIds = new Array(16);
-    for (let z = 0; z < 16; ++z) {
-      resolutions[z] = size / Math.pow(2, z);
-      matrixIds[z] = z;
-    }
+  async _createWMTSSource() {
+    const params = {
+      'request': 'getcapabilities',
+      'service': 'wmts',
+      'version': '1.0.0',
+    };
 
-    return new OlWMTSSource({
-      url: this.url,
+    const urlConstruct = new URL(this.url);
+    urlConstruct.search = new URLSearchParams(params);
+
+    const response = await fetch(urlConstruct.href).then((response) => response.text());
+    const parser = new WMTSCapabilities();
+    const val = optionsFromCapabilities(parser.read(response), {
       layer: this.layer,
       matrixSet: 'BPL72VL',
-      format: 'image/png',
-      projection: this._projection,
-      tileGrid: new OlWMTSTileGrid({
-        extent: this._projection.getExtent(),
-        origin: OlExtent.getTopLeft(this._projection.getExtent()),
-        resolutions: resolutions,
-        matrixIds: matrixIds,
-      }),
-      style: '',
     });
+    return new OlWMTSSource(val);
   }
 
   _createVectorSource() {
@@ -139,13 +134,13 @@ export class VlMapBaseLayer extends vlElement(HTMLElement) {
     });
   }
 
-  _createBaseLayer() {
+  async _createBaseLayer() {
     switch (this.type) {
       case 'wmts':
         return new OlTileLayer({
           title: this.title,
           type: 'base',
-          source: this._WMTSSource(),
+          source: await this._WMTSSource(),
         });
       case 'wfs':
         return new OlVectorLayer({
