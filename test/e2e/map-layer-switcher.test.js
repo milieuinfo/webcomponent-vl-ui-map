@@ -1,5 +1,4 @@
-
-const {assert, getDriver} = require('vl-ui-core').Test.Setup;
+const { assert, getDriver } = require('vl-ui-core').Test.Setup;
 const VlMapLayerSwitcherPage = require('./pages/vl-map-layer-switcher.page');
 
 describe('vl-map-layer-switcher', async () => {
@@ -31,7 +30,11 @@ describe('vl-map-layer-switcher', async () => {
     let values;
     do {
       await map.zoomIn();
-      values = await Promise.all(checkboxes.map(async (checkbox) => await checkbox.isDisabled()));
+      values = await Promise.all(
+        checkboxes.map(async (checkbox) => {
+          return await checkbox.isDisabled();
+        }),
+      );
     } while (values.some(Boolean));
 
     const names = ['Kaartlaag 1', 'Kaartlaag 2', 'Kaartlaag 3', 'WMTS kaartlaag', 'WMS kaartlaag', 'WFS kaartlaag'];
@@ -79,4 +82,3 @@ describe('vl-map-layer-switcher', async () => {
     await assert.eventually.isTrue(checkbox.isDisabled());
   });
 });
-
