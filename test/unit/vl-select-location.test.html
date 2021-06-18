@@ -112,7 +112,7 @@
         },
       };
 
-      const choicesAreLoaded = (element) => [...element._choices.choiceList.children][0].innerText != 'Lokaliseer adres';
+      const choicesAreLoaded = (element) => [...element._choices.choiceList.children][0].innerText != 'Zoeken op kaart';
 
       setup((done) => {
         customElements.whenDefined('vl-select-location').then(() => done());
@@ -179,7 +179,7 @@
 
       test('er zijn default placeholders voor het zoek adres select element', async () => {
         const select = fixture('vl-select-location-fixture');
-        assert.equal(select._placeholderElement.innerText, 'Lokaliseer adres');
+        assert.equal(select._placeholderElement.innerText, 'Zoeken op kaart');
         assert.equal(select.DEFAULT_SEARCH_PLACEHOLDER, 'Zoeken op adres of coördinaat');
         assert.equal(select.DEFAULT_SEARCH_NO_RESULT, 'Geen adres gevonden');
         assert.equal(select.DEFAULT_NO_MORE_OPTIONS, 'Geen adres gevonden');
