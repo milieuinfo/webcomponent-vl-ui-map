@@ -26,7 +26,7 @@ class VlSelectLocation extends VlSelect {
     this._addSearchEventListener();
     this._addChoiceEventListener();
     this._addPlaceholder();
-    this.placeholder = 'Lokaliseer adres';
+    this.placeholder = 'Zoeken op kaart';
   }
 
   /**
