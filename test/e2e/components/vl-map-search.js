@@ -76,6 +76,8 @@ class VlMapSearch extends VlElement {
           if (counter == 5) {
             return true;
           }
+          await new Promise((resolve) => setTimeout(resolve, 1000));
+          return false;
         } else {
           return values.filter((value) => value != null).length > 0;
         }
