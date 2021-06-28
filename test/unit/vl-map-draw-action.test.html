@@ -34,7 +34,7 @@
         await customElements.whenDefined('vl-map-draw-polygon-action');
       });
 
-      test('nadat de tekenactie voltooid is, zal de callback worden opgeroepen', async () => {
+      test('nadat de tekenactie voltooid is, zal de callback worden opgeroepen met de feature als eerste argument en een reject callback als tweede argument', async () => {
         const map = fixture('vl-map-draw-actions-fixture');
         await map.ready;
         const types = ['point', 'line', 'polygon'];
@@ -42,8 +42,9 @@
           const drawAction = map.querySelector(`vl-map-draw-${types[index]}-action`);
           await awaitUntil(() => drawAction.action != null);
           let featureDrawn = false;
-          drawAction.onDraw((feature) => {
+          drawAction.onDraw((feature, rejectCallback) => {
             assert.equal(feature, 'getekendeFeature');
+            assert.isDefined(rejectCallback);
             featureDrawn = true;
           });
           drawAction.action.drawInteraction.dispatchEvent({
