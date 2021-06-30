@@ -44,7 +44,7 @@
           let featureDrawn = false;
           drawAction.onDraw((feature, rejectCallback) => {
             assert.equal(feature, 'getekendeFeature');
-            assert.isDefined(rejectCallback);
+            assert.isFunction(rejectCallback);
             featureDrawn = true;
           });
           drawAction.action.drawInteraction.dispatchEvent({
