@@ -47,7 +47,7 @@ export class VlMapAction extends vlElement(HTMLElement) {
   }
 
   get _callback() {
-    return (args) => this.__callback ? this.__callback(args) : null;
+    return (...args) => this.__callback ? this.__callback(...args) : null;
   }
 
   /**
